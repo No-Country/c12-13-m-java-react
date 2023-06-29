@@ -3,19 +3,20 @@ import Link from "next/link";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import {GET_COUNTRIES} from "@/graphql/queries";
+import { useQuery } from '@apollo/client';
 
 export default function Home() {
-  const [data, setData] = useState<any>(null);
+  const [dataAJAX, setData] = useState<any>(null);
+  const { loading, error, data } = useQuery(GET_COUNTRIES);
 
   useEffect(() => {
-    axios
-      .get("https://rickandmortyapi.com/api/character")
-      .then((response) => {
-        setData(response.data);
-      });
+    axios.get("https://rickandmortyapi.com/api/character").then((response) => {
+      setData(response.data);
+    });
   }, []);
 
-console.log(data);
+  console.log(data);
 
   return (
     <Main>
@@ -29,16 +30,23 @@ console.log(data);
           <Link href="/">Home</Link>
           <Link href="/about">About</Link>
           <Link href="/help">Help</Link>
-          <h1 className="text-2xl text-red-700 mt-6">Test REST</h1>
+          <h1 className="mt-6 text-2xl text-red-700">Test REST</h1>
           <div className="grid grid-cols-3">
-            
-            {data?.results.map((item: any) => (
+            {dataAJAX?.results.map((item: any) => (
               <div key={item.id}>
                 <Image src={item.image} alt="Rick" width={200} height={200} />
                 <p>{item.name}</p>
               </div>
             ))}
-        </div>
+          </div>
+          <h1 className="mt-6 text-2xl text-red-700">Test GraphQL</h1>
+          <div className="grid grid-cols-3">
+            {data?.countries.map((item: any) => (
+              <div key={item.code}>
+                <p>{item.name}</p>
+              </div>
+            ))}
+           </div> 
         </div>
       </section>
     </Main>
