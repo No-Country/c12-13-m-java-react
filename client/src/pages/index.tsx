@@ -3,13 +3,13 @@ import Link from "next/link";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {GET_COUNTRIES} from "@/graphql/queries";
-import { useQuery } from '@apollo/client';
+import { GET_COUNTRIES } from "@/graphql/queries";
+import { useQuery } from "@apollo/client";
 
 export default function Home() {
   const [dataAJAX, setData] = useState<any>(null);
   const { loading, error, data } = useQuery(GET_COUNTRIES);
-
+//hola
   useEffect(() => {
     axios.get("https://rickandmortyapi.com/api/character").then((response) => {
       setData(response.data);
@@ -46,7 +46,7 @@ export default function Home() {
                 <p>{item.name}</p>
               </div>
             ))}
-           </div> 
+          </div>
         </div>
       </section>
     </Main>
