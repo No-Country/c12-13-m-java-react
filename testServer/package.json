@@ -1,0 +1,15 @@
+{
+  "name": "testserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "json-graphql-server db.js --port 3002"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-graphql-server": "^2.3.2"
+  }
+}
