@@ -21,19 +21,19 @@
       "role": "member"
     }
   ],
-  "boards": [
+  "rooms": [
     {
-      "id": "named-id",
-      "name": "Board 1",
-      "description": "Board 1 description",
+      "id": "thomas-espacio",
+      "name": "thomas-espacio",
+      "description": "Room 1 description",
       "coverImage": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
       "lastModified": "2018-01-01T00:00:00.000Z",
       "createdAt": "2018-01-01T00:00:00.000Z"
     },
     {
       "id": "named-id",
-      "name": "Board 1",
-      "description": "Board 1 description",
+      "name": "Room 1",
+      "description": "Room 1 description",
       "coverImage": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
       "lastModified": "2018-01-01T00:00:00.000Z",
       "createdAt": "2018-01-01T00:00:00.000Z"
