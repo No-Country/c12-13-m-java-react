@@ -18,7 +18,7 @@ export default function TasksList({ index }: TasksListProps) {
     setTasks(
       index === 0
         ? currentRoom?.tasks
-        : currentRoom?.tasks.filter((task) => task.status == index)
+        : currentRoom?.tasks?.filter((task) => task.status == index)
     );
     console.log("index", index, tasks);
   }, [index, currentRoom]);
