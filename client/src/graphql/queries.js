@@ -32,6 +32,7 @@ export const GET_ON_SPACE_ENTER = gql`
   }
 `;
 
+//agregar "spaceOwner" a la query
 export const GET_ON_ROOM_ENTER = gql`
   query GetOnRoomEnter($id: ID!) {
     OnRoomEnter(id: $id) {

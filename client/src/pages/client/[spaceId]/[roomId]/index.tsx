@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Main, Image } from "@/components";
+import { Main, Image, LayoutSpaces } from "@/components";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import {
   SpaceProps,
@@ -13,19 +13,19 @@ import { useEffect, useState } from "react";
 export default function CurrentRoom() {
   const router = useRouter();
   const { roomId } = router.query;
-  const {
-    currentRoom
-  } = useAppSelector((state) => state.client.spaces);
+  const { currentRoom } = useAppSelector((state) => state.client.spaces);
 
   const [index, setIndex] = useState(0);
-const [tasks, setTasks] = useState<TasksProps[]>([]);
+  const [tasks, setTasks] = useState<TasksProps[]>([]);
 
-
-
-useEffect(() => {
-    setTasks(index === 0 ? currentRoom?.tasks : currentRoom?.tasks.filter(task => task.status == index));
+  useEffect(() => {
+    setTasks(
+      index === 0
+        ? currentRoom?.tasks
+        : currentRoom?.tasks.filter((task) => task.status == index)
+    );
     console.log("index", index, tasks);
-}, [index, currentRoom]);
+  }, [index, currentRoom]);
 
   const dispatch = useAppDispatch();
 
@@ -35,8 +35,9 @@ useEffect(() => {
   }, [roomId]);
 
   return (
+    <LayoutSpaces>
     <Main>
-      <section className="h-screen bg-gray-100 px-[136px] py-[60px] ">
+      <section className="h-screen bg-gray-100 px-[60px] py-[60px] ">
         <h1 className="text-2xl font-medium">Tus tareas</h1>
         <div className="mt-6 flex gap-5 rounded-2xl bg-white p-5">
           <button
@@ -65,19 +66,27 @@ useEffect(() => {
           </button>
         </div>
         <div className="mt-7 grid grid-cols-3 gap-4">
-        {Array.isArray(tasks) && tasks.map((item: TasksProps) => (
-            <div
-              key={item.id}
-              className="flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-4"
-            >
-              <div>
-              <p className="font-semibold" >{item.status === 1 ? "To-do" : item.status === 2 ? "En progreso" : "Completado"}</p>
-                <p>{item.title}</p>
+          {Array.isArray(tasks) &&
+            tasks.map((item: TasksProps) => (
+              <div
+                key={item.id}
+                className="flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-4"
+              >
+                <div>
+                  <p className="font-semibold">
+                    {item.status == 1
+                      ? "To-do"
+                      : item.status == 2
+                      ? "En progreso"
+                      : "Completado"}
+                  </p>
+                  <p>{item.title}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </section>
     </Main>
+    </LayoutSpaces>
   );
 }

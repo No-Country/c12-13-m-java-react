@@ -18,6 +18,22 @@ const initialState = {
   currentTask: {} as TasksProps,
 };
 
+export const getCurrentSpace = createAsyncThunk(
+  "spaces/getCurrentSpace",
+  async (spaceId: string, { dispatch, getState }) => {
+    try {
+      const { data } = await client.query({
+        query: GET_ON_SPACE_ENTER,
+        variables: { id: spaceId },
+      });
+      console.log("data sp enter", data.OnSpaceEnter);
+      return data.OnSpaceEnter;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 export const getRooms = createAsyncThunk(
   "spaces/getSpaces",
   async (spaceId: string, { dispatch, getState }) => {
@@ -72,6 +88,7 @@ const postsSlice = createSlice({
       .addCase(getRooms.fulfilled, (state, action) => {
         console.log("data rooms", action.payload);
         state.rooms = action?.payload?.rooms as RoomsProps[] | [];
+        state.currentSpace = action?.payload as SpaceProps;
       })
       .addCase(getRooms.rejected, (state) => {
         state.rooms = initialState.rooms;
@@ -85,7 +102,17 @@ const postsSlice = createSlice({
       })
       .addCase(getCurrentRoom.rejected, (state) => {
         state.currentRoom = initialState.currentRoom;
-      });
+      })
+      .addCase(getCurrentSpace.pending, (state) => {
+        state.currentSpace = initialState.currentSpace;
+      })
+      .addCase(getCurrentSpace.fulfilled, (state, action) => {
+        console.log("data rooms", action.payload);
+        state.currentSpace = action?.payload as SpaceProps;
+      })
+      .addCase(getCurrentSpace.rejected, (state) => {
+        state.currentSpace = initialState.currentSpace;
+      })
   },
 });
 
