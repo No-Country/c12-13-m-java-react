@@ -45,7 +45,7 @@ const postsSlice = createSlice({
         console.log("Pending setSession");
       })
       .addCase(setSession.fulfilled, (state, action) => {
-        state.session.current = action.payload.AfterLogin;
+        state.session.current = action?.payload?.AfterLogin as SessionProps;
         console.log("Fulfilled setSession", action.payload);
       })
       .addCase(setSession.rejected, (state, action) => {
