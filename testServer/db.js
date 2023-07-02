@@ -1,4 +1,6 @@
 const afterLogin = require('./afterLogin');
+const onSpaceEnter = require('./onSpaceEnter');
+const onRoomEnter = require('./onRoomEnter');
 
 module.exports = {
     posts: [
@@ -20,5 +22,7 @@ module.exports = {
         date: new Date('2017-08-17')
       }
     ],
-    afterLogin: [afterLogin]
+    afterLogin: afterLogin,
+    onSpaceEnter: onSpaceEnter,
+    onRoomEnter: onRoomEnter
   };

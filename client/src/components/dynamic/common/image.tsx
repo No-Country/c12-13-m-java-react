@@ -3,12 +3,13 @@ import ImageNext from "next/image";
 type ImageProps = {
   src: string;
   alt: string;
-  width: number;
-  height: number;
-  className?: string;
+  width: number | string;
+  height: number | string;
   layout?: "fixed" | "intrinsic" | "responsive" | "fill" | undefined;
   objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down" | undefined;
   containerClassName?: string;
+  aspectRatio?: string;
+  rounded?: string;
 };
 
 export default function Image({
@@ -16,21 +17,20 @@ export default function Image({
   alt,
   width,
   height,
-  className,
   layout,
-  objectFit,
   containerClassName,
+  aspectRatio,
+  rounded,
 }: ImageProps) {
   return (
-    <div className={`image-container ${containerClassName}`}>
+    <div
+      className={`relative ${width} ${height} ${aspectRatio} ${containerClassName} `}
+    >
       <ImageNext
         src={src}
         alt={alt}
-        width={width}
-        height={height}
-        className={className}
+        className={`object-cover ${rounded}`}
         layout={layout}
-        objectFit={objectFit}
       />
     </div>
   );

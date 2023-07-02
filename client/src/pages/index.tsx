@@ -3,12 +3,12 @@ import Link from "next/link";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {GET_COUNTRIES} from "@/graphql/queries";
+import {GET_AFTER_LOGIN} from "@/graphql/queries";
 import { useQuery } from '@apollo/client';
 
 export default function Home() {
   const [dataAJAX, setData] = useState<any>(null);
-  const { loading, error, data } = useQuery(GET_COUNTRIES);
+  const { loading, error, data } = useQuery(GET_AFTER_LOGIN);
 
   useEffect(() => {
     axios.get("https://rickandmortyapi.com/api/character").then((response) => {
@@ -40,13 +40,13 @@ export default function Home() {
             ))}
           </div>
           <h1 className="mt-6 text-2xl text-red-700">Test GraphQL</h1>
-          <div className="grid grid-cols-3">
+          {/* <div className="grid grid-cols-3">
             {data?.countries.map((item: any) => (
               <div key={item.code}>
                 <p>{item.name}</p>
               </div>
             ))}
-           </div> 
+           </div>  */}
         </div>
       </section>
     </Main>
