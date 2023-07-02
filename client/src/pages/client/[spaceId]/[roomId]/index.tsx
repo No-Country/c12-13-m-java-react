@@ -1,4 +1,4 @@
-import { Main, LayoutSpaces, TasksList } from "@/components";
+import { Main, LayoutSpaces, TasksList, ModalTrigger } from "@/components";
 import { useState } from "react";
 
 export default function CurrentRoom() {
@@ -10,9 +10,9 @@ export default function CurrentRoom() {
       <Main>
         <section className="h-screen bg-gray-100 px-[60px] py-[60px] ">
           <h1 className="text-2xl font-medium">Tus tareas</h1>
-          <button className="rounded-3xl bg-blue-500 px-4 py-2 text-white">
-            Crear tarea
-          </button>
+          <ModalTrigger triggerText="Crear una tarea">
+            <div>Form crear una tarea</div>
+          </ModalTrigger>
           <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />
           <TasksList index={index} />
         </section>

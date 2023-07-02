@@ -16,3 +16,8 @@ export { default as RoomItem } from "./static/proyect/rooms/roomItem";
 
 export { default as TasksList } from "./static/proyect/tasks/tasksList";
 export { default as TaskItem } from "./static/proyect/tasks/taskItem";
+
+export { default as ModalBase } from "./static/modal/modalBase";
+export { default as ModalTrigger } from "./static/modal/modalTrigger";
+export { default as ConfirmationModal } from "./static/modal/confirmationModal";
+

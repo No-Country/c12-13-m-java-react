@@ -1,8 +1,8 @@
-import { Main, Image, LayoutSpaces } from "@/components";
+import { Main, Image, LayoutSpaces, ConfirmationModal } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
 
-export default function Home() {
+export default function SpaceSettings() {
   const { currentSpace } = useAppSelector((state) => state.client.spaces);
 
   return (
@@ -16,12 +16,20 @@ export default function Home() {
               {currentSpace.name} | {currentSpace.description}
             </p>
             <div>
-              <button className="rounded-3xl bg-blue-500 px-4 py-2 text-white">
-                Editar
-              </button>
-              <button className="rounded-3xl bg-red-800 px-4 py-2 text-white">
-                Eliminar
-              </button>
+              <ConfirmationModal
+                triggerText="Editar"
+                confirmText=""
+                confirmParagraph=""
+                trueAction={() => console.log("editar espacio")}
+                mustConfirm={false}
+              />
+              <ConfirmationModal
+                triggerText="Eliminar"
+                confirmText="Eliminar espacio"
+                confirmParagraph="¿Estas seguro que quieres eliminar este espacio? Esta accion no se puede deshacer."
+                trueAction={() => console.log("eliminar espacio")}
+                triggerColor="bg-red-800"
+              />
             </div>
           </div>
           <h2 className="mt-5 text-xl font-medium">Miembros</h2>
@@ -43,12 +51,23 @@ export default function Home() {
                       {member.firstName + " " + member.lastName}
                     </p>
                   </div>
-                  <button className="rounded-3xl bg-blue-500 px-4 py-2 text-white">
-                    Editar
-                  </button>
-                  <button className="rounded-3xl bg-red-800 px-4 py-2 text-white">
-                    Eliminar
-                  </button>
+                  <div>
+                    <ConfirmationModal
+                      triggerText="Editar"
+                      confirmText="Editar miembro"
+                      confirmParagraph="Estas seguro que quieres editar a este miembro?"
+                      triggerColor="bg-blue-500"
+                      trueAction={() => console.log("Se edita el miembro")}
+                      mustConfirm={false}
+                    />
+                    <ConfirmationModal
+                      triggerText="Eliminar"
+                      confirmText="Eliminar miembro"
+                      confirmParagraph="Estas seguro que quieres eliminar a este miembro?"
+                      triggerColor="bg-red-800"
+                      trueAction={() => console.log("Se elimina el miembro")}
+                    />
+                  </div>
                 </div>
               ))}
           </div>

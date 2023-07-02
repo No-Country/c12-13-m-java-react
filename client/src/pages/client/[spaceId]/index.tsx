@@ -6,6 +6,7 @@ import {
   LayoutSpaces,
   RoomsList,
   MembersList,
+  ModalTrigger,
 } from "@/components";
 
 export default function Space() {
@@ -17,6 +18,11 @@ export default function Space() {
         <section className="flex h-screen flex-col gap-5 bg-gray-100 px-[60px] py-[60px] ">
           <Hero currentSpace={currentSpace} />
           <h1 className="text-2xl font-medium">Tus rooms</h1>
+          <ModalTrigger
+        triggerText="Crear una room"
+        >
+          <div>Form crear una room</div>
+        </ModalTrigger>
           <RoomsList />
         </section>
       </Main>
@@ -41,9 +47,11 @@ function Hero({ currentSpace }: HeroProps) {
         rounded="rounded-[20px]"
       />
       <div className="flex w-full flex-row-reverse items-center justify-between">
-        <button className="rounded-3xl bg-blue-500 px-4 py-2 text-white">
-          Invitar miembros
-        </button>
+      <ModalTrigger
+        triggerText="Invitar a un amigo"
+        >
+          <div>Form Invitar un mieembro</div>
+        </ModalTrigger>
         <div className="">
           <h1 className="text-2xl font-medium">{currentSpace?.name}</h1>
           <p className=" text-gray-900">{currentSpace?.description}</p>
