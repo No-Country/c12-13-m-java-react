@@ -6,9 +6,9 @@ export default function Header() {
 
   const childrenTrigger = (
     <>
-      <p className="text-black">Hola, {session?.current.firstName}</p>
+      <p className="text-black">Hola, {session?.current?.firstName}</p>
       <Image
-        src={session?.current.profileImage}
+        src={session?.current?.profileImage}
         alt="ProfileImage"
         layout="fill"
         width="w-[40px]"
