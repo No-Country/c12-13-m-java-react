@@ -16,13 +16,15 @@ export const setSession = createAsyncThunk(
   "auth/setSession",
   async (userId: string, { dispatch, getState }) => {
     try {
+      console.log("setSession", userId);
       const { data } = await client.query({
         query: GET_AFTER_LOGIN,
         variables: { id: userId },
+        fetchPolicy: "network-only",
       });
       console.log("data", data);
-      dispatch(setSpaces(data.AfterLogin.spaces));
-      return data;
+      dispatch(setSpaces(data.User.spaces));
+      return data.User;
     } catch (err) {
       console.log(err);
     }
@@ -45,7 +47,7 @@ const postsSlice = createSlice({
         console.log("Pending setSession");
       })
       .addCase(setSession.fulfilled, (state, action) => {
-        state.session.current = action?.payload?.AfterLogin as SessionProps;
+        state.session.current = action?.payload as SessionProps;
         console.log("Fulfilled setSession", action.payload);
       })
       .addCase(setSession.rejected, (state, action) => {

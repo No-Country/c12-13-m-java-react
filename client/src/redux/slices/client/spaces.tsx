@@ -25,9 +25,10 @@ export const getCurrentSpace = createAsyncThunk(
       const { data } = await client.query({
         query: GET_ON_SPACE_ENTER,
         variables: { id: spaceId },
+        fetchPolicy: "network-only",
       });
-      console.log("data sp enter", data.OnSpaceEnter);
-      return data.OnSpaceEnter;
+      console.log("data sp enter", data.Space);
+      return data.Space;
     } catch (err) {
       console.log(err);
     }
@@ -35,15 +36,16 @@ export const getCurrentSpace = createAsyncThunk(
 );
 
 export const getRooms = createAsyncThunk(
-  "spaces/getSpaces",
+  "spaces/getRooms",
   async (spaceId: string, { dispatch, getState }) => {
     try {
       const { data } = await client.query({
         query: GET_ON_SPACE_ENTER,
         variables: { id: spaceId },
+        fetchPolicy: "network-only",
       });
-      console.log("data sp enter", data.OnSpaceEnter);
-      return data.OnSpaceEnter;
+      console.log("data sp enter", data.Space);
+      return data.Space;
     } catch (err) {
       console.log(err);
     }
@@ -58,9 +60,10 @@ export const getCurrentRoom = createAsyncThunk(
       const { data } = await client.query({
         query: GET_ON_ROOM_ENTER,
         variables: { id: roomId },
+        fetchPolicy: "network-only",
       });
-      console.log("data rm enter", data.OnRoomEnter);
-      return data.OnRoomEnter;
+      console.log("data rm enter", data.Room);
+      return data.Room;
     } catch (err) {
       console.log(err);
     }
@@ -112,7 +115,7 @@ const postsSlice = createSlice({
       })
       .addCase(getCurrentSpace.rejected, (state) => {
         state.currentSpace = initialState.currentSpace;
-      })
+      });
   },
 });
 

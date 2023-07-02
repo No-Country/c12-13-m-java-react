@@ -26,10 +26,12 @@ const HOC: React.FC<Props> = ({ children }) => {
   const verifySession = async (data: AuthProps) => {
     //deberiamos hacer una peticion al servidor para verificar la sesion en la base de datos
     if (data.isLogged && userId) {
+      console.log("Se verifico la sesion", userId);
       dispatch(setAuth(data));
       await dispatch(setSession(userId as string));
     } else {
       alert("No se pudo verificar la sesión");
+      console.log("No se pudo verificar la sesión", data.isLogged, userId);
     }
   };
 

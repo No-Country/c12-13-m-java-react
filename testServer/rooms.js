@@ -1,6 +1,7 @@
-const onRoomEnter = [
+const rooms = [
     {
-        "id": "thomas-espacio",
+        "id": "room-1",
+        "fromSpace": "1",
         "name": "thomas-espacio",
         "description": "Room 1 description",
         "coverImage": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
@@ -69,9 +70,10 @@ const onRoomEnter = [
         ]
       },
       {
-        "id": "named-id",
-        "name": "Room 1",
-        "description": "Room 1 description",
+        "id": "room-2",
+        "fromSpace": "1",
+        "name": "thomas-espacio2",
+        "description": "Room 2 description",
         "coverImage": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
         "lastModified": "2018-01-01T00:00:00.000Z",
         "createdAt": "2018-01-01T00:00:00.000Z",
@@ -137,8 +139,10 @@ const onRoomEnter = [
           }
         ]
       }
-];
+  ];
 
-module.exports = onRoomEnter;
+  
+
+module.exports = rooms;
 
   
