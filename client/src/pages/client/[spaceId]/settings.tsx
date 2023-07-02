@@ -1,18 +1,9 @@
 import { Main, Image, LayoutSpaces } from "@/components";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { useQuery } from "@apollo/client";
-import { GET_AFTER_LOGIN } from "@/graphql/queries";
-import { useRouter } from "next/router";
-import { SpaceProps, MembersProps } from "@/utils/types/client/spaces";
+import { useAppSelector } from "@/redux/hooks";
+import { MembersProps } from "@/utils/types/client/spaces";
 
 export default function Home() {
-  const userId = 1234567890;
-  const router = useRouter();
-  const { spaces, currentSpace } = useAppSelector(
-    (state) => state.client.spaces
-  );
-
-  console.log("spaces", spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces);
 
   return (
     <LayoutSpaces>
