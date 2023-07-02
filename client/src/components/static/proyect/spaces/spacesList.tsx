@@ -14,7 +14,7 @@ export default function SpacesList() {
 
   return (
     <div className="mt-7 grid grid-cols-3 gap-4">
-      {spaces.map((item: SpaceProps) => (
+      {Array.isArray(spaces) && spaces.map((item: SpaceProps) => (
         <SpaceItem
           key={item.id}
           item={item}

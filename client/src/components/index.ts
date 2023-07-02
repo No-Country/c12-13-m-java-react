@@ -17,7 +17,10 @@ export { default as RoomItem } from "./static/proyect/rooms/roomItem";
 export { default as TasksList } from "./static/proyect/tasks/tasksList";
 export { default as TaskItem } from "./static/proyect/tasks/taskItem";
 
-export { default as ModalBase } from "./static/modal/modalBase";
-export { default as ModalTrigger } from "./static/modal/modalTrigger";
-export { default as ConfirmationModal } from "./static/modal/confirmationModal";
+export { default as ModalBase } from "./dynamic/modal/modalBase";
+export { default as ModalTrigger } from "./dynamic/modal/modalTrigger";
+export { default as ConfirmationModal } from "./dynamic/modal/confirmationModal";
+export { default as ModalBoxForPopover } from "./dynamic/modal/modalBoxForPopover";
+export { default as Popover } from "./dynamic/modal/popover";
 
+export { default as VerticalNav } from "./dynamic/common/verticalNav";

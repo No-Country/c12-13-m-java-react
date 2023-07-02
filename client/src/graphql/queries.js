@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_AFTER_LOGIN = gql`
-  query GetAfterLogin($id: ID!) {
-    AfterLogin(id: $id) {
+  query GetUser($id: ID!) {
+    User(id: $id) {
       id
       firstName
       lastName
@@ -17,8 +17,8 @@ export const GET_AFTER_LOGIN = gql`
 `;
 
 export const GET_ON_SPACE_ENTER = gql`
-  query GetOnSpaceEnter($id: ID!) {
-    OnSpaceEnter(id: $id) {
+  query GetSpace($id: ID!) {
+    Space(id: $id) {
       id
       accessCode
       name
@@ -34,8 +34,8 @@ export const GET_ON_SPACE_ENTER = gql`
 
 //agregar "spaceOwner" a la query
 export const GET_ON_ROOM_ENTER = gql`
-  query GetOnRoomEnter($id: ID!) {
-    OnRoomEnter(id: $id) {
+  query GetRoom($id: ID!) {
+    Room(id: $id) {
       name
       id
       description
