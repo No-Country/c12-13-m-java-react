@@ -1,4 +1,10 @@
-import { Main, Image, LayoutSpaces, ConfirmationModal } from "@/components";
+import {
+  Main,
+  Image,
+  LayoutSpaces,
+  ConfirmationModal,
+  ModalTrigger,
+} from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
 
@@ -16,13 +22,9 @@ export default function SpaceSettings() {
               {currentSpace.name} | {currentSpace.description}
             </p>
             <div>
-              <ConfirmationModal
-                triggerText="Editar"
-                confirmText=""
-                confirmParagraph=""
-                trueAction={() => console.log("editar espacio")}
-                mustConfirm={false}
-              />
+              <ModalTrigger triggerText="Editar">
+                <div>Form editar espacio</div>
+              </ModalTrigger>
               <ConfirmationModal
                 triggerText="Eliminar"
                 confirmText="Eliminar espacio"
@@ -52,14 +54,9 @@ export default function SpaceSettings() {
                     </p>
                   </div>
                   <div>
-                    <ConfirmationModal
-                      triggerText="Editar"
-                      confirmText="Editar miembro"
-                      confirmParagraph="Estas seguro que quieres editar a este miembro?"
-                      triggerColor="bg-blue-500"
-                      trueAction={() => console.log("Se edita el miembro")}
-                      mustConfirm={false}
-                    />
+                    <ModalTrigger triggerText="Editar">
+                      <div>Form editar miembro</div>
+                    </ModalTrigger>
                     <ConfirmationModal
                       triggerText="Eliminar"
                       confirmText="Eliminar miembro"
