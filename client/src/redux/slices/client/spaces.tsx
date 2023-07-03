@@ -86,7 +86,7 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getRooms.pending, (state) => {
-        state.rooms = initialState.rooms;
+      //  state.rooms = initialState.rooms;
       })
       .addCase(getRooms.fulfilled, (state, action) => {
         console.log("data rooms", action.payload);
@@ -97,7 +97,7 @@ const postsSlice = createSlice({
         state.rooms = initialState.rooms;
       })
       .addCase(getCurrentRoom.pending, (state) => {
-        state.currentRoom = initialState.currentRoom;
+       // state.currentRoom = initialState.currentRoom;
       })
       .addCase(getCurrentRoom.fulfilled, (state, action) => {
         console.log("data rooms", action.payload);
@@ -107,7 +107,7 @@ const postsSlice = createSlice({
         state.currentRoom = initialState.currentRoom;
       })
       .addCase(getCurrentSpace.pending, (state) => {
-        state.currentSpace = initialState.currentSpace;
+       // state.currentSpace = initialState.currentSpace;
       })
       .addCase(getCurrentSpace.fulfilled, (state, action) => {
         console.log("data rooms", action.payload);
