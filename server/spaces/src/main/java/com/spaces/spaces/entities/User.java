@@ -1,41 +1,56 @@
 package com.spaces.spaces.entities;
 
-import java.util.Date;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+@Document(collection = "user")
 public class User {
-    private int id;
+
+    @Id
+    private String id;
     private String firstName;
     private String lastName;
-    private String username;
+    private String userName;
     private String profileImage;
     private String email;
     private String registerMethod;
     private String password;
+    
+    @CreatedDate
     private Date lastModified;
+    @CreatedDate
     private Date createdAt;
     private Boolean isSuperAdmin;
     private Boolean softDelete;
     private Boolean coverImage;
-    private Space spaces;
+    private List <Space> spaces = new ArrayList<>();
 
 
 
     
-    public User(String firstName, String lastName, String username, String email, String password) {
+    public User(String firstName, String lastName, String userName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.userName = userName;
         this.email = email;
         this.password = password;
+    
     }
 
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -55,12 +70,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getProfileImage() {
@@ -108,7 +123,7 @@ public class User {
     }
 
     public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = createdAt = new Date();
     }
 
     public Boolean getIsSuperAdmin() {
@@ -135,11 +150,11 @@ public class User {
         this.coverImage = coverImage;
     }
 
-    public Space getSpace() {
+    public List<Space> getSpaces() {
         return spaces;
     }
 
-    public void setSpace(Space spaces) {
+    public void setSpace(List<Space> spaces) {
         this.spaces = spaces;
     }
 

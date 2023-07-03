@@ -1,29 +1,45 @@
 package com.spaces.spaces.entities;
 
+//import java.util.ArrayList;
+import java.util.Date;
+//import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection= "space")
 public class Space {
-    private int id;
+    @Id
+    private String id;
     private String name;
     private String description;
     private String coverImage;
-    private User members ;
-    private Boolean lastModified;
-    private Boolean createdAt;
+    //private List<User> users = new ArrayList<>();
+    @CreatedDate
+    private Date lastModified;
+    @CreatedDate
+    private Date createdAt;
 
 
+    public Space (){
 
-    public Space(String name) {
+    }
+
+    public Space(String name, String description) {
         this.name = name;
+        this.description= description;
     }
 
 
 
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -51,21 +67,29 @@ public class Space {
         this.coverImage = coverImage;
     }
 
-    public Boolean getLastModified() {
+    public Date getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Boolean lastModified) {
+    public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
 
-    public Boolean getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Boolean createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    /*public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }*/
 
 
 }
