@@ -16,7 +16,7 @@ export default function Querier({ children }: Props) {
     if (
       spaceId &&
       (router.pathname === "/client/[spaceId]" ||
-        router.pathname === "/client/[spaceId]/settings")
+        router.pathname === "/client/[spaceId]/settings" || router.pathname === "/client/[spaceId]/members" || router.pathname === "/client/[spaceId]/files")
     ) {
       dispatch(getCurrentSpace(spaceId as string));
       dispatch(getRooms(spaceId as string));

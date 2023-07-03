@@ -28,6 +28,7 @@ export const GET_ON_SPACE_ENTER = gql`
       createdAt
       members
       rooms
+      files
     }
   }
 `;

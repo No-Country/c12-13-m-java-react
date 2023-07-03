@@ -8,22 +8,39 @@ export default function Sidebar() {
     (state) => state?.client?.spaces
   );
 
+  const { session } = useAppSelector((state) => state?.authSession);
+
   const navData = [
     {
       name: "Espacios",
       path: "/client",
       linkPath: "/client",
+      visible: true,
     },
     {
       name: "Rooms",
       path: "/client/[spaceId]",
       linkPath: "/client/" + currentSpace?.id,
+      visible: true,
     },
     {
       name: "Configuracion",
       path: "/client/[spaceId]/settings",
       linkPath: "/client/" + currentSpace?.id + "/settings",
+      visible: session.current.isSuperAdmin,
     },
+    {
+      name: "Miembros",
+      path: "/client/[spaceId]/members",
+      linkPath: "/client/" + currentSpace?.id + "/members",
+      visible: true,
+    },
+    {
+      name: "Archivos del espacio",
+      path: "/client/[spaceId]/files",
+      linkPath: "/client/" + currentSpace?.id + "/files",
+      visible: true,
+    }
   ];
 
   return (

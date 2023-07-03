@@ -8,6 +8,7 @@ export type SpaceProps = {
   lastModified: string;
   members: MembersProps[];
   rooms: RoomsProps[];
+  files: FilesProps[];
 };
 
 export type MembersProps = {
@@ -63,4 +64,5 @@ export type FilesProps = {
   lastModified: string;
   createdAt: string;
   owner: MembersProps;
+  asignedRoom: RoomsProps;
 };
