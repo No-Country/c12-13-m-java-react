@@ -18,6 +18,7 @@
       "name": "Space 1",
       "description": "Space 1 description",
       "coverImage": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+      "fileCount": 52,
       "members": [
         {
           "id": "1234567890",
@@ -34,6 +35,11 @@
       ],
       "lastModified": "2018-01-01T00:00:00.000Z",
       "createdAt": "2018-01-01T00:00:00.000Z"
+    }
+  ],
+  "AsignedTasks": [
+    {
+      
     }
   ]
 }

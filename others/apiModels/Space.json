@@ -39,5 +39,22 @@
       "lastModified": "2018-01-01T00:00:00.000Z",
       "createdAt": "2018-01-01T00:00:00.000Z"
     }
+  ],
+  "files": [
+    {
+      "id": "1234567890",
+      "name": "File 1",
+      "description": "File 1 description",
+      "type": "image",
+      "src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+      "lastModified": "2018-01-01T00:00:00.000Z",
+      "createdAt": "2018-01-01T00:00:00.000Z",
+      "owner": {
+        "id": "1234567890",
+        "firstName": "John",
+        "lastName": "Smith",
+        "profileImage": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+      }
+    }
   ]
 }

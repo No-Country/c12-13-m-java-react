@@ -53,3 +53,14 @@ export type TagsProps = {
   name: string;
   color: string;
 };
+
+export type FilesProps = {
+  id: string;
+  name: string;
+  description: string;
+  type: "image" | "video" | "audio" | "document";
+  src: string;
+  lastModified: string;
+  createdAt: string;
+  owner: MembersProps;
+};
