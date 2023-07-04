@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/router";
+import { ReactSVG } from "react-svg";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -36,51 +37,93 @@ export default function Sidebar() {
       visible: true,
     },
     {
-      name: "Archivos del espacio",
+      name: "Archivos",
       path: "/client/[spaceId]/files",
       linkPath: "/client/" + currentSpace?.id + "/files",
       visible: true,
-    }
+    },
   ];
 
   return (
-    <aside className="flex h-screen w-full flex-col gap-6  bg-white px-9 py-9">
-      <div className="flex flex-col items-center gap-2">
-        {navData.map((item, index) => (
-          <div
-            onClick={() => router.push(item.linkPath)}
-            key={index}
-            className={`flex items-center gap-2 ${
-              router.pathname === item.path ? "bg-blue-500 text-white" : ""
-            }`}
-          >
-            <p className="text-gray-900">{item.name}</p>
-          </div>
-        ))}
+    <aside className="sidebar">
+      <div className="sidebarInner">
+        <div className="flex flex-col items-start justify-start gap-8">
+          <VerticalMenu
+            title="GENERAL"
+            data={navData.slice(0, 1)}
+            hasLogo={false}
+            isRooms={false}
+          />
+          <VerticalMenu
+            title={currentSpace?.name?.toUpperCase()}
+            data={navData.slice(1, 5)}
+            hasLogo={false}
+            isRooms={false}
+          />
+          <VerticalMenu
+            title="ROOMS"
+            data={currentSpace?.rooms}
+            hasLogo={false}
+            isRooms={true}
+          />
+        </div>
       </div>
-      <hr className="w-full border-gray-300" />
-      <div className="flex flex-col items-center gap-2">
-        <h3
-          className="font-semibold text-blue-900"
-          onClick={() => router.push("/client/" + currentSpace?.id)}
-        >
-          De {currentSpace?.name}{" "}
-        </h3>
-        {Array.isArray(rooms) &&
-          rooms.map((item, index) => (
+    </aside>
+  );
+}
+
+type VerticalMenuProps = {
+  data: any;
+  hasLogo: boolean;
+  title: string;
+  isRooms?: boolean;
+};
+
+function VerticalMenu({ data, hasLogo, title, isRooms }: VerticalMenuProps) {
+  const router = useRouter();
+  const { currentSpace } = useAppSelector((state) => state?.client?.spaces);
+
+  const handleClick = (item: any) => {
+    if (isRooms) {
+      router.push("/client/" + currentSpace?.id + "/" + item.id);
+    } else {
+      router.push(item.linkPath);
+    }
+  };
+
+  const colorChangeCondition = (item: any) => {
+    if (isRooms) {
+      return router.asPath === "/client/" + currentSpace?.id + "/" + item.id;
+    } else {
+      return router.pathname === item.path;
+    }
+  };
+
+
+
+  return (
+    <>
+      <div className="flex flex-col items-start gap-4">
+        <p className="smalltext font-medium text-[#7B7C7D]">{title}</p>
+        {Array.isArray(data) &&
+          data.map((item: any, index: any) => (
             <div
-              onClick={() =>
-                router.push(/client/ + currentSpace?.id + "/" + item.id)
-              }
+              onClick={() => handleClick(item)}
               key={index}
-              className={`flex items-center gap-2 ${
-                lastPath === item.id ? "bg-blue-500 text-white" : ""
-              }`}
+              className="flex items-start gap-2"
             >
-              <p className="text-gray-900">{item.name}</p>
+              <ReactSVG
+                src={!hasLogo ? "/icon/default.svg" : item.icon}
+                className={`w-6 h-6 fill-current ${colorChangeCondition(item) ? 'text-blue-700' : 'text-black'}`}
+              />
+              <p
+                   className={`${colorChangeCondition(item) ? 'text-blue-700' : 'text-black'}`}
+              >
+                {item.name}
+              </p>
             </div>
           ))}
       </div>
-    </aside>
+    </>
   );
 }

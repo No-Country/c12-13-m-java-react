@@ -7,6 +7,9 @@ import {
   MembersSpaceList,
   SpaceInfoCard,
   FilesList,
+  HeroSpaceArea,
+  Hr,
+  ListTopArea,
 } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
@@ -16,19 +19,24 @@ export default function SpaceSettings() {
 
   return (
     <LayoutSpaces>
-      <Main>
-        <section className="h-screen bg-gray-100 px-[60px] py-[60px] ">
-          <h1 className="text-2xl font-medium">Archivos del espacio</h1>
-          <SpaceInfoCard space={currentSpace} adminZone={false} />
-          <h2 className="mt-5 text-xl font-medium">Archivos</h2>
-          <ModalTrigger
+      <HeroSpaceArea
+        current={currentSpace}
+        type="room"
+        controls={true}
         triggerText="Subir un archivo"
-        >
-          <div>Form Subir un archivo</div>
-        </ModalTrigger>
-          <FilesList files={currentSpace.files} />
-        </section>
-      </Main>
+      >
+        <div>Form Subir un archivo</div>
+      </HeroSpaceArea>
+      <Hr hasPadding={false} />
+      <section className=" flex flex-col gap-6">
+        <ListTopArea
+          title="Archivos"
+          description="Administra los archivos de tu espacio"
+          buttonText="Invitar a un amigo"
+          controls={false}
+        />
+        <FilesList files={currentSpace.files} />
+      </section>
     </LayoutSpaces>
   );
 }

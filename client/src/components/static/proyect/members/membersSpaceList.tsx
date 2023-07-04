@@ -4,6 +4,7 @@ import {
   LayoutSpaces,
   ConfirmationModal,
   ModalTrigger,
+  MemberPicture,
 } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
@@ -18,23 +19,20 @@ export default function MembersSpaceList({
   adminZone,
 }: MembersListProps) {
   return (
-    <div className="mt-2 flex flex-col gap-4">
+    <div className="  gap-5 grid grid-cols-3">
       {Array.isArray(members) &&
         members.map((member: MembersProps) => (
-          <div className="flex w-full items-center justify-between gap-2 rounded-2xl bg-white p-5">
-            <div className="flex w-full items-center justify-start gap-2">
-              <Image
-                src={member.profileImage}
-                alt="avatar"
-                width="w-[40px]"
-                height="w-[40px]"
-                rounded="rounded-full"
-                aspectRatio="aspect-[1/1]"
-                layout="fill"
-              />
-              <p className="text-center">
+          <div className="flex w-full items-center justify-between gap-3 rounded-3xl bg-white p-5">
+            <div className="flex w-full items-center justify-start gap-3">
+              <MemberPicture member={member} size="large" hasMargin={false} />
+              <div className="flex flex-col ">
+              <p className="subtitulo">
                 {member.firstName + " " + member.lastName}
               </p>
+              <p className="smalltext">
+                {member.role === "admin" ? "Administrador" : "Miembro"}
+              </p>
+            </div>
             </div>
             <div>
               {adminZone && (

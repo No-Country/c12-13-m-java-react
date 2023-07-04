@@ -113,7 +113,7 @@ $line-height-titulos: 130%;
   .subtitulo {
     color: $texto-color;
     line-height: $line-height-titulos;
-    font-size: 22px;
+    font-size: 20px;
     @apply font-normal;
   }
 
@@ -144,7 +144,7 @@ $line-height-titulos: 130%;
   }
 
   .header {
-  //  @apply px-8 py-8 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
+    //  @apply px-8 py-8 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
     @apply fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center bg-white;
   }
 }
@@ -162,6 +162,22 @@ $line-height-titulos: 130%;
   .footerInner {
     @apply flex w-screen items-center justify-between bg-white;
     @extend .footer-padding;
+  }
+}
+
+@layer base {
+  .sidebar-padding {
+    @extend .seccion1-x;
+    @apply border-r border-[$gris-bordes-1] py-8;
+  }
+
+  .sidebar {
+    @apply relative;
+  }
+
+  .sidebarInner {
+    @apply sticky top-[105px] flex  h-[calc(100vh-105px)] flex-col items-start justify-start bg-white;
+    @extend .sidebar-padding;
   }
 }
 
@@ -189,10 +205,8 @@ $line-height-titulos: 130%;
 
 @layer base {
   .main {
-    @apply  bg-[#F6F8FA]  pt-[105px] flex justify-center w-screen items-center flex-col;
+    @apply flex  w-screen flex-col items-center justify-center bg-[#F6F8FA] pt-[105px];
   }
-
-
 
   .primaryButton {
     @apply rounded-3xl border-none bg-[#1D4ED8] px-8 py-4 font-semibold text-white;

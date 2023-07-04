@@ -33,7 +33,7 @@ export default function SpaceItem({
           <p className="subtitulo">{item.name}</p>
           <p className="smalltext">{item.description}</p>
         </div>
-        <MembersList members={item.members} />
+        <MembersList members={item.members} size="small" pictureHasMargin={true} />
       </div>
     </div>
   );

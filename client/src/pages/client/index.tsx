@@ -1,10 +1,17 @@
-import { Main, SpacesList, ModalTrigger, Image, Hr } from "@/components";
+import {
+  Main,
+  SpacesList,
+  ModalTrigger,
+  Image,
+  Hr,
+  ListTopArea,
+} from "@/components";
 
 export default function HomeClient() {
   return (
     <Main className="gap-[40px] ">
       <Hero />
-      <Hr />
+      <Hr hasPadding={true} />
       <Spaces />
     </Main>
   );
@@ -43,16 +50,13 @@ function Hero() {
 
 function Spaces() {
   return (
-    <section className="seccion1-x flex gap-6 flex-col pb-12">
-      <div className="relative flex w-full items-center justify-between gap-10">
-        <div className="flex flex-col items-start justify-center ">
-          <h2 className="titulo-3">Mis espacios</h2>
-          <p className="bodyText ">Organiza tus proyectos</p>
-        </div>
-        <ModalTrigger triggerText="Crear nuevo espacio">
-          <div>Form crear un espacio</div>
-        </ModalTrigger>
-      </div>
+    <section className="seccion1-x flex flex-col gap-6 pb-12">
+      <ListTopArea
+        title="Mis espacios"
+        description="Organiza tus proyectos"
+        buttonText="Crear nuevo espacio"
+        triggerContent={<div>Form crear un espacio</div>}
+      />
       <SpacesList />
     </section>
   );

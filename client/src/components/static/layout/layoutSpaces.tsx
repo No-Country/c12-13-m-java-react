@@ -10,9 +10,11 @@ const LayoutSpaces: React.FC<Props> = ({ children }) => {
     <>
       <Main>
         <ModalChat />
-        <div className="grid grid-cols-[20%,80%] w-full">
+        <div className="grid w-full grid-cols-[20%,80%]">
           <Sidebar />
+          <div className="flex flex-col gap-[40px] seccion1-x py-[50px]">
           {children}
+          </div>
         </div>
       </Main>
     </>
@@ -25,7 +27,7 @@ function ModalChat() {
   return (
     <div className="flex flex-col">
       <button
-        className="fixed bottom-[40px] right-[40px] bg-blue-600 p-6 text-center"
+        className="fixed bottom-[40px] right-[40px] bg-blue-700 text-white rounded-full bodyText font-semibold p-6 text-center"
         onClick={() => setChatVisibility(!chatVisibility)}
       >
         Chat
