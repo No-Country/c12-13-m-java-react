@@ -14,7 +14,7 @@ export default function Space() {
 
   return (
     <LayoutSpaces>
-      <Main>
+      
         <section className="flex h-screen flex-col gap-5 bg-gray-100 px-[60px] py-[60px] ">
           <Hero currentSpace={currentSpace} />
           <h1 className="text-2xl font-medium">Tus rooms</h1>
@@ -25,7 +25,7 @@ export default function Space() {
         </ModalTrigger>
           <RoomsList />
         </section>
-      </Main>
+    
     </LayoutSpaces>
   );
 }

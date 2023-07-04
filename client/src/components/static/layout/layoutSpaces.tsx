@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components";
+import { Sidebar, Main } from "@/components";
 import { ReactNode, useState } from "react";
 
 type Props = {
@@ -8,12 +8,13 @@ type Props = {
 const LayoutSpaces: React.FC<Props> = ({ children }) => {
   return (
     <>
-      <ModalChat />
-      <div className="grid grid-cols-[20%,80%]">
-        <Sidebar />
-
-        {children}
-      </div>
+      <Main>
+        <ModalChat />
+        <div className="grid grid-cols-[20%,80%] w-full">
+          <Sidebar />
+          {children}
+        </div>
+      </Main>
     </>
   );
 };

@@ -15,7 +15,7 @@ export default function ModalTrigger({
   return (
     <div>
       <button
-        className="rounded-md bg-blue-500 px-4 py-2 text-white"
+        className="terceryButton whitespace-nowrap"
         onClick={() => setIsOpen(true)}
       >
         {triggerText}

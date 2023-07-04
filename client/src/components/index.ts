@@ -3,6 +3,7 @@ export { default as HOC } from "./containers/auth/hoc";
 export { default as Header } from "./static/layout/header";
 export { default as Footer } from "./static/layout/footer";
 export { default as Image } from "./dynamic/common/image";
+export { default as Hr } from "./dynamic/common/hr";
 export { default as Querier } from "./containers/querier";
 export { default as Sidebar } from "./static/layout/sidebar";
 export { default as LayoutSpaces } from "./static/layout/layoutSpaces";

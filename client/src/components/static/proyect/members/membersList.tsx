@@ -7,7 +7,7 @@ type MembersListProps = {
 
 export default function MembersList({ members }: MembersListProps) {
   return (
-    <div className="mt-2 flex gap-1">
+    <div className="mt-2 flex ml-[15px] ">
       {Array.isArray(members) && members.map((member: MembersProps) => (
         <Image
           key={member.id}
@@ -18,6 +18,7 @@ export default function MembersList({ members }: MembersListProps) {
           height="w-[30px]"
           aspectRatio="aspect-[1/1]"
           rounded="rounded-[20px]"
+          containerClassName="ml-[-15px]"
         />
       ))}
     </div>

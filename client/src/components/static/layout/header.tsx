@@ -1,12 +1,12 @@
 import { useAppSelector } from "@/redux/hooks";
 import { Image, Popover, VerticalNav } from "@/components";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const { session } = useAppSelector((state) => state.authSession);
 
   const childrenTrigger = (
     <>
-      <p className="text-black">Hola, {session?.current?.firstName}</p>
       <Image
         src={session?.current?.profileImage}
         alt="ProfileImage"
@@ -16,6 +16,9 @@ export default function Header() {
         aspectRatio="aspect-[1/1]"
         rounded="rounded-[20px]"
       />
+      <p className="bodyText font-medium text-black">
+        {session?.current?.firstName + " " + session?.current?.lastName}
+      </p>
     </>
   );
 
@@ -39,11 +42,31 @@ export default function Header() {
   ];
 
   return (
-    <header className="flex h-[80px] w-full items-center justify-between bg-white  px-9 ">
-      <h1 className="text-2xl font-bold text-black">Spaces App</h1>
-      <Popover childrenTrigger={childrenTrigger}>
-        <VerticalNav items={itemsNav} />
-      </Popover>
+    <header className="header">
+      <div className="headerInner ">
+        <Logo />
+        <Popover childrenTrigger={childrenTrigger}>
+          <VerticalNav items={itemsNav} />
+        </Popover>
+      </div>
     </header>
+  );
+}
+
+function Logo() {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.authSession);
+
+  return (
+    <Image
+      onClick={() => router.push(auth.isLogged ? "/client" : "/")}
+      src="/icon/logo.svg"
+      alt="Logo"
+      layout="fill"
+      width="w-[98px]"
+      height="w-[30px]"
+      aspectRatio="aspect-[98/30]"
+      containerClassName="cursor-pointer"
+    />
   );
 }
