@@ -135,7 +135,7 @@ $line-height-titulos: 130%;
 @layer base {
   .header-padding {
     @extend .seccion1-x;
-    @apply border-b  border-[$gris-bordes-1] py-8;
+    @apply  py-7;
   }
 
   .headerInner {
@@ -145,7 +145,7 @@ $line-height-titulos: 130%;
 
   .header {
     //  @apply px-8 py-8 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
-    @apply fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center bg-white;
+    @apply fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center bg-white border-b  border-[$gris-bordes-1];
   }
 }
 
@@ -176,7 +176,7 @@ $line-height-titulos: 130%;
   }
 
   .sidebarInner {
-    @apply sticky top-[105px] flex  h-[calc(100vh-105px)] flex-col items-start justify-start bg-white;
+    @apply sticky top-[97px] flex  h-[calc(100vh-97px)] flex-col items-start justify-start bg-white;
     @extend .sidebar-padding;
   }
 }
@@ -205,11 +205,11 @@ $line-height-titulos: 130%;
 
 @layer base {
   .main {
-    @apply flex  w-screen flex-col items-center justify-center bg-[#F6F8FA] pt-[105px];
+    @apply flex  w-screen flex-col items-center justify-center bg-[#F6F8FA] pt-[97px];
   }
 
   .primaryButton {
-    @apply rounded-3xl border-none bg-[#1D4ED8] px-8 py-4 font-semibold text-white;
+    @apply rounded-3xl border-none bg-[#1D4ED8] px-8 py-4 leading-[100%] font-semibold text-white;
   }
 
   .terceryButton {

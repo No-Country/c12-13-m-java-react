@@ -2,7 +2,11 @@ import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
 
-export default function Sidebar() {
+type SidebarProps = {
+  type: "client" | "account";
+};
+
+export default function Sidebar({ type }: SidebarProps) {
   const router = useRouter();
   const lastPath = router.asPath.split("/").pop();
   const { currentSpace, rooms } = useAppSelector(
@@ -11,7 +15,7 @@ export default function Sidebar() {
 
   const { session } = useAppSelector((state) => state?.authSession);
 
-  const navData = [
+  const spaceNavData = [
     {
       name: "Espacios",
       path: "/client",
@@ -44,28 +48,59 @@ export default function Sidebar() {
     },
   ];
 
+  const accountNavData = [
+    {
+      name: "Personal",
+      path: "/client/account",
+      linkPath: "/client/account",
+      visible: true,
+    },
+    {
+      name: "Seguridad",
+      path: "/client/account/security",
+      linkPath: "/client/account/security",
+      visible: true,
+    },
+    {
+      name: "Pagos",
+      path: "/client/account/payments",
+      linkPath: "/client/account/payments",
+      visible: true,
+    },
+    {
+      name: "Sesiones",
+      path: "/client/account/sessions",
+      linkPath: "/client/account/sessions",
+      visible: true,
+    },
+  ];
+
   return (
     <aside className="sidebar">
       <div className="sidebarInner">
         <div className="flex flex-col items-start justify-start gap-8">
           <VerticalMenu
-            title="GENERAL"
-            data={navData.slice(0, 1)}
+            title={type === "client" ? "GENERAL" : "CUENTA"}
+            data={type === "client" ? spaceNavData.slice(0, 1) : accountNavData}
             hasLogo={false}
             isRooms={false}
           />
-          <VerticalMenu
-            title={currentSpace?.name?.toUpperCase()}
-            data={navData.slice(1, 5)}
-            hasLogo={false}
-            isRooms={false}
-          />
-          <VerticalMenu
-            title="ROOMS"
-            data={currentSpace?.rooms}
-            hasLogo={false}
-            isRooms={true}
-          />
+          {type === "client" && (
+            <>
+              <VerticalMenu
+                title={currentSpace?.name?.toUpperCase()}
+                data={spaceNavData.slice(1, 5)}
+                hasLogo={false}
+                isRooms={false}
+              />
+              <VerticalMenu
+                title="ROOMS"
+                data={currentSpace?.rooms}
+                hasLogo={false}
+                isRooms={true}
+              />
+            </>
+          )}
         </div>
       </div>
     </aside>
@@ -99,8 +134,6 @@ function VerticalMenu({ data, hasLogo, title, isRooms }: VerticalMenuProps) {
     }
   };
 
-
-
   return (
     <>
       <div className="flex flex-col items-start gap-4">
@@ -114,10 +147,14 @@ function VerticalMenu({ data, hasLogo, title, isRooms }: VerticalMenuProps) {
             >
               <ReactSVG
                 src={!hasLogo ? "/icon/default.svg" : item.icon}
-                className={`w-6 h-6 fill-current ${colorChangeCondition(item) ? 'text-blue-700' : 'text-black'}`}
+                className={`h-6 w-6 fill-current ${
+                  colorChangeCondition(item) ? "text-blue-700" : "text-black"
+                }`}
               />
               <p
-                   className={`${colorChangeCondition(item) ? 'text-blue-700' : 'text-black'}`}
+                className={`${
+                  colorChangeCondition(item) ? "text-blue-700" : "text-black"
+                }`}
               >
                 {item.name}
               </p>

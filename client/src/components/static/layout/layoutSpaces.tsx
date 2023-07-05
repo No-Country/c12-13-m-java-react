@@ -3,17 +3,19 @@ import { ReactNode, useState } from "react";
 
 type Props = {
   children: ReactNode;
+  type: "client" | "account";
 };
 
-const LayoutSpaces: React.FC<Props> = ({ children }) => {
+const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
   return (
     <>
       <Main>
-        <ModalChat />
+        {type === "client" && <ModalChat />}
+
         <div className="grid w-full grid-cols-[20%,80%]">
-          <Sidebar />
-          <div className="flex flex-col gap-[40px] seccion1-x py-[50px]">
-          {children}
+          <Sidebar type={type} />
+          <div className="seccion1-x flex flex-col gap-[40px] py-[50px]">
+            {children}
           </div>
         </div>
       </Main>
@@ -27,7 +29,7 @@ function ModalChat() {
   return (
     <div className="flex flex-col">
       <button
-        className="fixed bottom-[40px] right-[40px] bg-blue-700 text-white rounded-full bodyText font-semibold p-6 text-center"
+        className="bodyText fixed bottom-[40px] right-[40px] rounded-full bg-blue-700 p-6 text-center font-semibold text-white"
         onClick={() => setChatVisibility(!chatVisibility)}
       >
         Chat

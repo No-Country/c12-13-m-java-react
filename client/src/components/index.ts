@@ -30,4 +30,11 @@ export { default as ModalBoxForPopover } from "./dynamic/modal/modalBoxForPopove
 export { default as Popover } from "./dynamic/modal/popover";
 
 export { default as VerticalNav } from "./dynamic/common/verticalNav";
+export { default as Input } from "./dynamic/common/input";
+export { default as GoogleButton } from "./dynamic/common/googleButton"
+
 export { default as ListTopArea } from "./dynamic/layout/listTopArea";
+export { default as AuthLayout } from "./static/layout/authLayout";
+
+
+export { default as HelpHero } from "./static/masters/helpHero";

@@ -28,6 +28,7 @@ function Hero() {
             width="w-[99px]"
             height="h-[120px]"
             layout="fill"
+            aspectRatio="aspect-[99/120] "
           />
           <div className=" flex flex-col ">
             <h1 className="titulo-1">
