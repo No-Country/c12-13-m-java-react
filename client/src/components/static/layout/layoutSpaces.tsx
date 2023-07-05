@@ -14,7 +14,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
 
         <div className="grid w-full grid-cols-[20%,80%]">
           <Sidebar type={type} />
-          <div className="seccion1-x flex flex-col gap-[40px] py-[50px]">
+          <div className="seccion1-x flex flex-col gap-[30px] py-[50px]">
             {children}
           </div>
         </div>

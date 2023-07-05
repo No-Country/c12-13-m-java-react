@@ -212,6 +212,10 @@ $line-height-titulos: 130%;
     @apply rounded-3xl border-none bg-[#1D4ED8] px-8 py-4 leading-[100%] font-semibold text-white;
   }
 
+  .secondaryButton {
+    @apply rounded-3xl  bg-blue-200 px-8 py-4 leading-[100%] font-semibold text-[#1D4ED8];
+  }
+
   .terceryButton {
     @apply font-semibold text-[#1D4ED8];
   }

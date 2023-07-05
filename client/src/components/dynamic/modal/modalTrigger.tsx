@@ -22,7 +22,7 @@ export default function ModalTrigger({
       >
         {triggerText}
       </button>
-      <ModalBase isOpen={isOpen} close={() => setIsOpen(false)} position="bottom-right">
+      <ModalBase isOpen={isOpen} close={() => setIsOpen(false)} position="center-center">
         {children}
       </ModalBase>
     </div>

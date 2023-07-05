@@ -8,25 +8,31 @@ import {
 } from "@/components";
 import { useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
+import Head from "next/head";
 export default function CurrentRoom() {
   const [index, setIndex] = useState(0);
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
   const { currentRoom } = useAppSelector((state) => state.client.spaces);
 
   return (
-    <LayoutSpaces>
-      <HeroSpaceArea
-        current={currentRoom}
-        type="room"
-        triggerText="Crear una tarea"
-      >
-        <div>Crear una tarea</div>
-      </HeroSpaceArea>
-      <section className="flex flex-col gap-5">
-        <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />
-        <TasksList index={index} />
-      </section>
-    </LayoutSpaces>
+    <>
+      <Head>
+        <title>Room | Spaces</title>
+      </Head>
+      <LayoutSpaces type="client">
+        <HeroSpaceArea
+          current={currentRoom}
+          type="room"
+          triggerText="Crear una tarea"
+        >
+          <div>Crear una tarea</div>
+        </HeroSpaceArea>
+        <section className="flex flex-col gap-5">
+          <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />
+          <TasksList index={index} />
+        </section>
+      </LayoutSpaces>
+    </>
   );
 }
 

@@ -12,11 +12,16 @@ import {
   Hr,
   ListTopArea,
 } from "@/components";
+import Head from "next/head";
 
 export default function Members() {
   const { currentSpace } = useAppSelector((state) => state.client.spaces);
   return (
-    <LayoutSpaces>
+    <>
+         <Head>
+        <title>Miembros del espacio | Spaces</title>
+      </Head>
+    <LayoutSpaces type="client" >
       <HeroSpaceArea
         current={currentSpace}
         type="space"
@@ -34,5 +39,6 @@ export default function Members() {
         <MembersSpaceList members={currentSpace.members} adminZone={false} />
       </section>
     </LayoutSpaces>
+    </>
   );
 }

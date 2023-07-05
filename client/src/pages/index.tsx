@@ -1,6 +1,7 @@
 import { Main, Image } from "@/components";
 import ImageNext from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 
 const items = [
   {
@@ -45,6 +46,10 @@ const employees = [
 
 export default function Home() {
   return (
+    <>
+    <Head>
+      <title>Inicio | Spaces</title>
+    </Head>
     <Main>
       <section className="relative flex h-[55vh] w-full flex-col items-start  justify-center px-[136px]">
         <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full">
@@ -101,6 +106,7 @@ export default function Home() {
         </div>
       </section>
     </Main>
+    </>
   );
 }
 
