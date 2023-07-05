@@ -27,6 +27,7 @@ export type RoomsProps = {
   createdAt: string;
   lastModified: string;
   tasks: TasksProps[];
+  members: MembersProps[];//Ignorar
 };
 
 export type TasksProps = {

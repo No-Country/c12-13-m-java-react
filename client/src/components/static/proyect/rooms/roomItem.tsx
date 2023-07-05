@@ -10,8 +10,10 @@ export default function RoomItem({ item, handleClick }: RoomItemProps) {
   return (
     <div
       key={item.id}
-      className="flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-4"
-      onClick={() => handleClick(item.id)}
+      className="flex  cursor-pointer flex-col h-max overflow-hidden rounded-2xl  bg-white"
+      onClick={() => {
+        handleClick(item.id);
+      }}
     >
       <Image
         src={item.coverImage}
@@ -19,11 +21,13 @@ export default function RoomItem({ item, handleClick }: RoomItemProps) {
         layout="fill"
         width="w-[100%]"
         height="w-[100%]"
-        aspectRatio="aspect-[4/3]"
-        rounded="rounded-[20px]"
+        aspectRatio="aspect-[59/32]"
       />
-      <div>
-        <p>{item.name}</p>
+      <div className="flex flex-col items-start justify-start gap-3 p-5 ">
+        <div>
+          <p className="subtitulo">{item.name}</p>
+          <p className="smalltext  ">{item.description}</p>
+        </div>
       </div>
     </div>
   );

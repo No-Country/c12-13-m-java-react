@@ -5,7 +5,7 @@ import {
   ConfirmationModal,
   ModalTrigger,
   MembersSpaceList,
-  SpaceInfoCard
+  SpaceInfoCard,
 } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
@@ -15,15 +15,15 @@ export default function SpaceSettings() {
 
   return (
     <LayoutSpaces>
-      <Main>
-        <section className="h-screen bg-gray-100 px-[60px] py-[60px] ">
+
+        <section className="">
           <h1 className="text-2xl font-medium">Configuracion del espacio</h1>
           <h2 className="mt-5 text-xl font-medium">Info del espacio</h2>
           <SpaceInfoCard space={currentSpace} adminZone={true} />
           <h2 className="mt-5 text-xl font-medium">Miembros</h2>
           <MembersSpaceList members={currentSpace.members} adminZone={true} />
         </section>
-      </Main>
+
     </LayoutSpaces>
   );
 }

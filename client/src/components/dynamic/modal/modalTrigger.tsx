@@ -4,18 +4,20 @@ import { ModalBase } from "@/components";
 type ModalTriggerProps = {
   children: React.ReactNode;
   triggerText: string;
+  buttonType?: "primaryButton" | "secondaryButton" | "terceryButton";
 };
 
 export default function ModalTrigger({
   children,
   triggerText,
+  buttonType,
 }: ModalTriggerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div>
       <button
-        className="rounded-md bg-blue-500 px-4 py-2 text-white"
+        className={`${buttonType} whitespace-nowrap`}
         onClick={() => setIsOpen(true)}
       >
         {triggerText}

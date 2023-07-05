@@ -65,8 +65,13 @@ const HOC: React.FC<Props> = ({ children }) => {
         router.push("/");
       }
     }
+    else if (router.pathname.startsWith("/auth")) {
+      if(auth?.isLogged){
+        router.push("/client")
+      }
+    }
   };
-  
+
   const delayedSystemStart = useMemo(
     () => debounce(() => systemHoc(), 500),
     [

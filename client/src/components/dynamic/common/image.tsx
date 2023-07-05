@@ -10,6 +10,7 @@ type ImageProps = {
   containerClassName?: string;
   aspectRatio?: string;
   rounded?: string;
+  onClick?: () => void;
 };
 
 export default function Image({
@@ -21,10 +22,12 @@ export default function Image({
   containerClassName,
   aspectRatio,
   rounded,
+  onClick,
 }: ImageProps) {
   return (
     <div
       className={`relative ${width} ${height} ${aspectRatio} ${containerClassName} `}
+      onClick={onClick}
     >
       <ImageNext
         src={src}
