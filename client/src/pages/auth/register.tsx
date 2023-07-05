@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
 import Head from "next/head";
+import userRegister from "@/hooks/useRegister";
 
 export default function Home() {
   const router = useRouter();
@@ -16,6 +17,18 @@ export default function Home() {
   const onClick = () => {
     setStep(2);
   };
+
+  const {
+    error,
+    handleFirstName,
+    handleLastName,
+    handleUserName,
+    handleConfirmPassword,
+    handleEmail,
+    handlePassword,
+
+  } = userRegister()
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
