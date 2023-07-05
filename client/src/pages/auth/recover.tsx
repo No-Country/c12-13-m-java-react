@@ -2,6 +2,7 @@ import { AuthLayout } from "@/components";
 import { Input, GoogleButton } from "@/components";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Home() {
   const router = useRouter();
@@ -11,6 +12,10 @@ export default function Home() {
   };
 
   return (
+<>
+    <Head>
+    <title>Recuperar cuenta | Spaces</title>
+  </Head>
     <AuthLayout>
       <h1 className="titulo-3 mb-6 font-normal">
         Recupera tu <span className="font-semibold">cuenta</span>
@@ -28,5 +33,6 @@ export default function Home() {
         </button>
       </form>
     </AuthLayout>
+    </>
   );
 }

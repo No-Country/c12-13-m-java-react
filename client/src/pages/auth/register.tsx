@@ -3,6 +3,7 @@ import { Input, GoogleButton } from "@/components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
+import Head from "next/head";
 
 export default function Home() {
   const router = useRouter();
@@ -13,8 +14,7 @@ export default function Home() {
   const [step, setStep] = useState<number>(1);
   const [form, setForm] = useState({});
   const onClick = () => {
-
-      setStep(2);
+    setStep(2);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,11 +24,15 @@ export default function Home() {
   };
 
   return (
-    <AuthLayout>
-      <h1 className="titulo-3 mb-6 font-normal">
-        Registrate en <span className="font-semibold">Spaces</span>
-      </h1>
-      <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
+    <>
+      <Head>
+        <title>Registrarse | Spaces</title>
+      </Head>
+      <AuthLayout>
+        <h1 className="titulo-3 mb-6 font-normal">
+          Registrate en <span className="font-semibold">Spaces</span>
+        </h1>
+        <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
           {step === 1 && (
             <div id="step1" className="flex w-full flex-col gap-4">
               <Input
@@ -44,13 +48,8 @@ export default function Home() {
                 label="Apellidos"
                 placeholder="Apellidos"
                 className="w-full"
-      
               />
-              <button
-                type="button"
-                className="primaryButton"
-                onClick={onClick}
-              >
+              <button type="button" className="primaryButton" onClick={onClick}>
                 Siguiente
               </button>
             </div>
@@ -77,23 +76,21 @@ export default function Home() {
                 label="Contraseña"
                 placeholder="Contraseña"
               />
-              <button
-                type="submit"
-                className="primaryButton"
-              >
+              <button type="submit" className="primaryButton">
                 Registrarse
               </button>
             </div>
           )}
         </form>
-      <hr className="my-6 w-full" />
-      <GoogleButton />
-      <p className="mt-6 w-full text-center font-light">
-        ¿Ya tienes una cuenta?{" "}
-        <Link href="/auth" className="font-medium text-blue-700">
-          Ingresar
-        </Link>
-      </p>
-    </AuthLayout>
+        <hr className="my-6 w-full" />
+        <GoogleButton />
+        <p className="mt-6 w-full text-center font-light">
+          ¿Ya tienes una cuenta?{" "}
+          <Link href="/auth" className="font-medium text-blue-700">
+            Ingresar
+          </Link>
+        </p>
+      </AuthLayout>
+    </>
   );
 }

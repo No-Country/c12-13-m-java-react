@@ -38,3 +38,6 @@ export { default as AuthLayout } from "./static/layout/authLayout";
 
 
 export { default as HelpHero } from "./static/masters/helpHero";
+export { default as TextToInput } from "./dynamic/common/textToInput";
+
+

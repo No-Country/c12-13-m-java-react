@@ -13,12 +13,17 @@ import {
 } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
+import Head from "next/head";
 
 export default function SpaceSettings() {
   const { currentSpace } = useAppSelector((state) => state.client.spaces);
 
   return (
-    <LayoutSpaces>
+<>
+    <Head>
+    <title>Archivos del espacio | Spaces</title>
+  </Head>
+    <LayoutSpaces type="client" >
       <HeroSpaceArea
         current={currentSpace}
         type="room"
@@ -38,5 +43,6 @@ export default function SpaceSettings() {
         <FilesList files={currentSpace.files} />
       </section>
     </LayoutSpaces>
+    </>
   );
 }

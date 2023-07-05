@@ -6,14 +6,20 @@ import {
   Hr,
   ListTopArea,
 } from "@/components";
+import Head from "next/head";
 
 export default function HomeClient() {
   return (
-    <Main className="gap-[40px] ">
-      <Hero />
-      <Hr hasPadding={true} />
-      <Spaces />
-    </Main>
+    <>
+      <Head>
+        <title>Mis espacios | Spaces</title>
+      </Head>
+      <Main className="gap-[40px] ">
+        <Hero />
+        <Hr hasPadding={true} />
+        <Spaces />
+      </Main>
+    </>
   );
 }
 
