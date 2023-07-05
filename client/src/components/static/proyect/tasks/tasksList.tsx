@@ -24,7 +24,7 @@ export default function TasksList({ index }: TasksListProps) {
   }, [index, currentRoom]);
 
   return (
-    <div className="mt-7 grid grid-cols-3 gap-4">
+    <div className=" grid grid-cols-3 gap-4">
       {Array.isArray(tasks) &&
         tasks.map((item: TasksProps) => <TaskItem key={item.id} item={item} />)}
     </div>

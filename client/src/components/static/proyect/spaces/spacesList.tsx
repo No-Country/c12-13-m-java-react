@@ -13,7 +13,7 @@ export default function SpacesList() {
   };
 
   return (
-    <div className="mt-7 grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-4 gap-5">
       {Array.isArray(spaces) && spaces.map((item: SpaceProps) => (
         <SpaceItem
           key={item.id}

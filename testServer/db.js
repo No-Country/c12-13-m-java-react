@@ -27,6 +27,7 @@ const spaceFormatter = (
     rooms: !showRooms
       ? []
       : roomsToAdd.map((roomId) => rooms.find((room) => room.id === roomId)),
+    files: space.files,
   };
 
   return newSpace;

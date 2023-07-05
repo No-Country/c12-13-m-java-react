@@ -40,6 +40,10 @@ const postsSlice = createSlice({
       state.auth = action.payload;
       console.log("setAuth ok", action.payload);
     },
+    resetReducer : (state) => {
+      state.auth = initialState.auth;
+      state.session = initialState.session;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -56,6 +60,6 @@ const postsSlice = createSlice({
   },
 });
 
-export const { setAuth } = postsSlice.actions;
+export const { setAuth, resetReducer } = postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -5,59 +5,42 @@ import {
   Image,
   LayoutSpaces,
   RoomsList,
-  MembersList,
   ModalTrigger,
+  ListTopArea,
+  HeroSpaceArea,
+  Hr,
 } from "@/components";
+import Head from "next/head";
 
 export default function Space() {
   const { currentSpace } = useAppSelector((state) => state.client.spaces);
 
   return (
-    <LayoutSpaces>
-      <Main>
-        <section className="flex h-screen flex-col gap-5 bg-gray-100 px-[60px] py-[60px] ">
-          <Hero currentSpace={currentSpace} />
-          <h1 className="text-2xl font-medium">Tus rooms</h1>
-          <ModalTrigger
-        triggerText="Crear una room"
-        >
-          <div>Form crear una room</div>
-        </ModalTrigger>
-          <RoomsList />
-        </section>
-      </Main>
-    </LayoutSpaces>
-  );
-}
-
-type HeroProps = {
-  currentSpace: SpaceProps;
-};
-
-function Hero({ currentSpace }: HeroProps) {
-  return (
-    <div className="flex items-center  gap-4 rounded-2xl bg-white p-7">
-      <Image
-        src={currentSpace?.coverImage}
-        alt="SpaceCover"
-        layout="fill"
-        width="w-[80px]"
-        height="w-[80px]"
-        aspectRatio="aspect-[1/1]"
-        rounded="rounded-[20px]"
-      />
-      <div className="flex w-full flex-row-reverse items-center justify-between">
-      <ModalTrigger
-        triggerText="Invitar a un amigo"
+    <>
+      <Head>
+        <title>Espacio | Spaces</title>
+      </Head>
+      <LayoutSpaces type="client">
+        <HeroSpaceArea
+          current={currentSpace}
+          type="space"
+          triggerText="Invitar a un amigo"
         >
           <div>Form Invitar un mieembro</div>
-        </ModalTrigger>
-        <div className="">
-          <h1 className="text-2xl font-medium">{currentSpace?.name}</h1>
-          <p className=" text-gray-900">{currentSpace?.description}</p>
-          <MembersList members={currentSpace?.members} />
-        </div>
-      </div>
-    </div>
+        </HeroSpaceArea>
+        <Hr />
+        <section className=" flex flex-col gap-10 ">
+          <div className=" flex flex-col gap-6">
+            <ListTopArea
+              title="Mis rooms"
+              description="Organiza tu espacio en pequeñas salas"
+              buttonText="Crear nuevo room"
+              triggerContent={<div>Form crear un room</div>}
+            />
+            <RoomsList />
+          </div>
+        </section>
+      </LayoutSpaces>
+    </>
   );
 }

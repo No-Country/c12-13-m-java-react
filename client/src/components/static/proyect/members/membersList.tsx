@@ -1,25 +1,27 @@
-import { Image } from "@/components";
+import { Image, MemberPicture } from "@/components";
 import { MembersProps } from "@/utils/types/client/spaces";
 
 type MembersListProps = {
   members: MembersProps[];
+  size: "small" | "medium" | "large";
+  pictureHasMargin: boolean;
 };
 
-export default function MembersList({ members }: MembersListProps) {
+export default function MembersList({
+  members,
+  size,
+  pictureHasMargin = false,
+}: MembersListProps) {
   return (
-    <div className="mt-2 flex gap-1">
-      {Array.isArray(members) && members.map((member: MembersProps) => (
-        <Image
-          key={member.id}
-          src={member.profileImage}
-          alt="MemberProfile"
-          layout="fill"
-          width="w-[30px]"
-          height="w-[30px]"
-          aspectRatio="aspect-[1/1]"
-          rounded="rounded-[20px]"
-        />
-      ))}
+    <div className="ml-[15px] mt-2 flex ">
+      {Array.isArray(members) &&
+        members.map((member: MembersProps) => (
+          <MemberPicture
+            member={member}
+            size={size}
+            hasMargin={pictureHasMargin}
+          />
+        ))}
     </div>
   );
 }
