@@ -1,0 +1,17 @@
+type Query {
+    customers: [Customer]
+}
+
+type Customer {
+    id: ID!
+    names: String!
+    products: [Product]
+}
+
+type Product {
+    id: ID!
+    name: String!
+    code: String!
+    description: String
+
+}
