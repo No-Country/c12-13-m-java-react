@@ -54,6 +54,8 @@ export default function Home() {
                 label="Nombre"
                 placeholder="Nombre"
                 className="w-full"
+                error={error.firstName}
+                onChange={handleFirstName}
               />
               <Input
                 type="text"
@@ -61,6 +63,8 @@ export default function Home() {
                 label="Apellidos"
                 placeholder="Apellidos"
                 className="w-full"
+                error={error.lastName}
+                onChange={handleLastName}
               />
               <button type="button" className="primaryButton" onClick={onClick}>
                 Siguiente
@@ -75,19 +79,33 @@ export default function Home() {
                 label="Correo electrónico"
                 placeholder="Correo electrónico"
                 className="w-full"
+                error={error.email}
+                onChange={handleEmail}
               />
               <Input
                 type="text"
-                name="username"
+                name="userName"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
                 className="w-full"
+                error={error.userName}
+                onChange={handleUserName}
               />
               <Input
                 type="password"
                 name="password"
                 label="Contraseña"
                 placeholder="Contraseña"
+                error={error.password}
+                onChange={handlePassword}
+              />
+               <Input
+                type="password"
+                name="password2"
+                label="Contraseña"
+                placeholder="Contraseña"
+                onChange={handlePassword}
+                
               />
               <button type="submit" className="primaryButton">
                 Registrarse
