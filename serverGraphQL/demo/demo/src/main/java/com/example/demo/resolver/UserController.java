@@ -1,11 +1,14 @@
 package com.example.demo.resolver;
 
+import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 import java.util.List;
+import java.util.Date;
 
 @Controller
 public class UserController {
@@ -22,20 +25,48 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @SchemaMapping(typeName = "Query", value = "findUser")
+    @SchemaMapping(typeName = "Query", value = "findUserById")
     public User findOne(@Argument String id) {
-        return userRepository.findById(id).orElseThrow(null);
+        // return userRepository.findById(id).orElseThrow(null);
+        User user = userRepository.findById(id).orElseThrow(null);
+       // List<Space> spaces = user.getSpaces();
+        return user;
     }
 
     // Mutation
     @SchemaMapping(typeName = "Mutation", field = "createUser")
-    public User createUser(@Argument String firstName, @Argument String email, @Argument String lastName) {
+    public User createUser(@Argument String firstName,
+            @Argument String email,
+            @Argument String lastName,
+            @Argument String password,
+            @Argument String loginMethod,
+            @Argument String username,
+            @Argument String profileImage,
+            @Argument Boolean isSuperAdmin) {
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setEmail(email);
-        // userRepository.save(user);
-        System.out.println(user);
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("El correo electrónico ya está en uso");
+        } else {
+            user.setEmail(email);
+        }
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("El nombre de usuario ya está en uso");
+        } else {
+            user.setUsername(username);
+        }
+        user.setPassword(password);
+        user.setLoginMethod(loginMethod);
+        if (profileImage != null && !profileImage.isEmpty()) {
+            user.setProfileImage(profileImage);
+        }
+        if (isSuperAdmin != null && !isSuperAdmin) {
+            user.setIsSuperAdmin(isSuperAdmin);
+        }
+        user.setCreatedAt(new Date().toString());
+        user.setUpdatedAt(new Date().toString());
+        userRepository.save(user);
         return user;
     }
 }
