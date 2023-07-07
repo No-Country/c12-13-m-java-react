@@ -10,4 +10,52 @@ export const CREATE_USER = gql`
   }
 `;
 
+
+// mutation {
+//   createUser(
+//     firstName: "John"
+//     lastName: "Doe"
+//     email: "johndoe@example.com"
+//     password: "test"
+//     loginMethod: "google"
+//     username: "thomas"
+//   ) {
+//     id
+//     firstName
+//     lastName
+//     email
+//     password
+//     loginMethod
+//     username
+//   }
+// }
+
+// mutation {
+//   createSpace(
+//     userOwner: "64a758b3ef9f8b2f29180078"
+//     name: "test space"
+//     description: "test space"
+//     accessCode: "accesscode"
+//     coverImage: "google"
+//   ) {
+//     id
+//     name
+//     description
+//     accessCode
+//     coverImage
+//   }
+// }
+
+// mutation CreateRoom {
+//   createRoom(
+//     spaceOwnerId: "64a760c1a4b802711fc862db"
+//     name: "Sala de reuniones"
+//     description: "Sala para reuniones de equipo"
+//     coverImage: "sala.png"
+//   ) {
+//     name
+//     description
+//     coverImage
+//   }
+// }
 // Otras mutaciones GraphQL...
