@@ -29,7 +29,7 @@ public class UserController {
     public User findOne(@Argument String id) {
         // return userRepository.findById(id).orElseThrow(null);
         User user = userRepository.findById(id).orElseThrow(null);
-       // List<Space> spaces = user.getSpaces();
+        // List<Space> spaces = user.getSpaces();
         return user;
     }
 
@@ -67,6 +67,13 @@ public class UserController {
         user.setCreatedAt(new Date().toString());
         user.setUpdatedAt(new Date().toString());
         userRepository.save(user);
+        return user;
+    }
+
+    @SchemaMapping(typeName = "Mutation", field = "deleteUser")
+    public User deleteUser(@Argument String id) {
+        User user = userRepository.findById(id).orElseThrow(null);
+        userRepository.delete(user);
         return user;
     }
 }
