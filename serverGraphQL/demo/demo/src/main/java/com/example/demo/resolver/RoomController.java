@@ -80,4 +80,28 @@ public class RoomController {
         return room;
     }
 
+    @SchemaMapping(typeName = "Mutation", field = "editRoom")
+    public Room editRoom(
+            @Argument String roomId,
+            @Argument String name,
+            @Argument String description,
+            @Argument String coverImage) {
+
+        Room room = roomRepository.findById(roomId).orElseThrow(null);
+
+        if (name != null) {
+            room.setName(name);
+        }
+        if (description != null) {
+            room.setDescription(description);
+        }
+        if (coverImage != null) {
+            room.setCoverImage(coverImage);
+        }
+        
+        room.setUpdatedAt(new Date().toString());
+        roomRepository.save(room);
+        return room;
+    }
+
 }
