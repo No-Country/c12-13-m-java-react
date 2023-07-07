@@ -80,7 +80,8 @@ public class TaskController {
                 // Obtener el usuario correspondiente al userOwner
                 User user = userRepository.findById(assignedToId).orElseThrow(null);
                 // Crear el miembro
-                Member member = new Member(user, "admin");
+                System.out.println(user.getEmail());
+                Member member = new Member(user, "");
 
                 assignedTo.add(member);
             }
@@ -110,4 +111,59 @@ public class TaskController {
         roomRepository.save(room);
         return task;
     }
+
+    @SchemaMapping(typeName = "Mutation", field = "editTask")
+    public Task editTask(
+            @Argument String taskId,
+            @Argument String title,
+            @Argument String description,
+            @Argument String deadline,
+            @Argument Number status,
+            @Argument List<String> assignedToIds,
+            @Argument String roomId) {
+
+        Room room = roomRepository.findById(roomId).orElseThrow(null);
+        Task task = room.getTaskById(taskId);
+
+        if (title != null) {
+            task.setTitle(title);
+        }
+        if (description != null) {
+            task.setDescription(description);
+        }
+        if (deadline != null) {
+            task.setDeadline(deadline);
+        }
+        if (status != null) {
+            task.setStatus(status);
+        }
+        if (assignedToIds != null) {
+            List<Member> assignedTo = new ArrayList<>();
+            // Verificamos la cantidad de ids que se pasaron, si son 0, entonces se borran
+            // todos los miembros
+            if (assignedToIds.size() == 0) {
+                task.setAssignedTo(assignedTo);
+                roomRepository.save(room);
+                return task;
+            } else {
+                for (String assignedToId : assignedToIds) {
+
+                    // Obtener el usuario correspondiente al userOwner
+                    User user = userRepository.findById(assignedToId).orElseThrow(null);
+                    // Crear el miembro
+                    System.out.println(user.getEmail());
+                    Member member = new Member(user, "");
+
+                    assignedTo.add(member);
+                }
+            }
+            task.setAssignedTo(assignedTo);
+        }
+        task.setUpdatedAt(new Date().toString());
+
+        roomRepository.save(room);
+
+        return task;
+    }
+
 }

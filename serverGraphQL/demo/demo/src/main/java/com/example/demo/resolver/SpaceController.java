@@ -102,4 +102,36 @@ public class SpaceController {
         return space;
     }
 
+    @SchemaMapping(typeName = "Mutation", field = "editSpace")
+    public Space editSpace(@Argument String spaceId,
+            @Argument String name,
+            @Argument String description,
+            @Argument String accessCode,
+            @Argument String coverImage) {
+
+        // Obtenemos el espacio
+        Space space = spaceRepository.findById(spaceId).orElseThrow(null);
+
+        // Actualizamos los datos
+        if (name != null) {
+            space.setName(name);
+        }
+        if (description != null) {
+            space.setDescription(description);
+        }
+        if (accessCode != null) {
+            space.setAccessCode(accessCode);
+        }
+        if (coverImage != null) {
+            space.setCoverImage(coverImage);
+        }
+
+        space.setUpdatedAt(new Date().toString());
+
+        // Guardamos los cambios
+        spaceRepository.save(space);
+
+        return space;
+    }
+
 }

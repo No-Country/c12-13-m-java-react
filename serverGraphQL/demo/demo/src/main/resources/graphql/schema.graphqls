@@ -56,7 +56,7 @@ type Tasks {
   description: String
   status: String
   deadline: String
-  asignedTo: [Users]
+  assignedTo: [Members]
   createdAt: String
   updatedAt: String
 }
@@ -89,10 +89,10 @@ type Mutation {
   deleteUser(id: ID!): Users
 
   editUser(
+    userId: ID!
     firstName: String
     lastName: String
     email: String
-    password: String
     username: String
     profileImage: String
     coverImage: String
@@ -111,6 +111,7 @@ type Mutation {
   deleteSpace(id: ID!): Spaces
 
   editSpace(
+    spaceId: ID!
     name: String
     description: String
     accessCode: String
@@ -126,7 +127,12 @@ type Mutation {
 
   deleteRoom(id: ID!): Rooms
 
-  editRoom(name: String, description: String, coverImage: String): Rooms
+  editRoom(
+    name: String
+    description: String
+    coverImage: String
+    roomId: ID!
+  ): Rooms
 
   createTask(
     roomOwnerId: ID!
@@ -140,6 +146,8 @@ type Mutation {
   deleteTask(taskId: ID!, roomId: ID!): Tasks
 
   editTask(
+    taskId: ID!
+    roomId: ID!
     title: String
     description: String
     status: Int

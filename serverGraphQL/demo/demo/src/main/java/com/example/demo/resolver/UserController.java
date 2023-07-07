@@ -76,4 +76,67 @@ public class UserController {
         userRepository.delete(user);
         return user;
     }
+
+    @SchemaMapping(typeName = "Mutation", field = "editUser")
+    public User editUser(@Argument String userId,
+            @Argument String firstName,
+            @Argument String email,
+            @Argument String lastName,
+            @Argument String username,
+            @Argument String profileImage,
+            @Argument Boolean isSuperAdmin,
+            @Argument Boolean softDelete,
+            @Argument String coverImage) {
+        User user = userRepository.findById(userId).orElseThrow(null);
+
+        if (user == null) {
+            throw new IllegalArgumentException("El usuario no existe");
+        }
+
+        if (firstName != null && !firstName.isEmpty()) {
+            user.setFirstName(firstName);
+        }
+
+        if (lastName != null && !lastName.isEmpty()) {
+            user.setLastName(lastName);
+        }
+
+        if (email != null && !email.isEmpty()) {
+            if (userRepository.existsByEmail(email)) {
+                throw new IllegalArgumentException("El correo electrónico ya está en uso");
+            } else {
+                user.setEmail(email);
+            }
+        }
+
+        if (username != null && !username.isEmpty()) {
+            if (userRepository.existsByUsername(username)) {
+                throw new IllegalArgumentException("El nombre de usuario ya está en uso");
+            } else {
+                user.setUsername(username);
+            }
+        }
+
+        if (profileImage != null && !profileImage.isEmpty()) {
+            user.setProfileImage(profileImage);
+        }
+
+        if (coverImage != null && !coverImage.isEmpty()) {
+            user.setCoverImage(coverImage);
+        }
+
+        if (isSuperAdmin != null) {
+            user.setIsSuperAdmin(isSuperAdmin);
+        }
+
+        if (softDelete != null) {
+            user.setSoftDelete(softDelete);
+        }
+
+        user.setUpdatedAt(new Date().toString());
+        userRepository.save(user);
+        return user;
+
+    }
+
 }
