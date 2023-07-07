@@ -58,4 +58,19 @@ export const CREATE_USER = gql`
 //     coverImage
 //   }
 // }
+
+// mutation CreateTask {
+//   createTask(
+//     title: "test task"
+//     description: "test"
+//     status: 1
+//     roomOwnerId: "64a76ccf194cca7720ae82f3"
+//   ) {
+//     id
+//     title
+//     description
+//     deadline
+//     status
+//   }
+// }
 // Otras mutaciones GraphQL...

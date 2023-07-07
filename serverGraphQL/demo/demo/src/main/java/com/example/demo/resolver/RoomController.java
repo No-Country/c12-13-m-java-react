@@ -69,4 +69,15 @@ public class RoomController {
         return room;
     }
 
+    @SchemaMapping(typeName = "Mutation", field = "deleteRoom") 
+    public Room deleteRoom(@Argument String id) {
+        Room room = roomRepository.findById(id).orElseThrow(null);
+        //Borramos la referencia del room en el espacio
+        Space spaceOwner = room.getSpaceOwner();
+        spaceOwner.getRooms().remove(room);
+        spaceRepository.save(spaceOwner);
+        roomRepository.delete(room);
+        return room;
+    }
+
 }

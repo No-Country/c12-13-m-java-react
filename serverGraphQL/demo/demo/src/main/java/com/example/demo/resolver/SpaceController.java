@@ -3,7 +3,9 @@ package com.example.demo.resolver;
 import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.model.Member;
+import com.example.demo.model.Room;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.RoomRepository;
 import com.example.demo.repository.SpaceRepository;
 
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -18,10 +20,13 @@ public class SpaceController {
 
     private final UserRepository userRepository;
     private final SpaceRepository spaceRepository;
+    private final RoomRepository roomRepository;
 
-    public SpaceController(SpaceRepository spaceRepository, UserRepository userRepository) {
+    public SpaceController(SpaceRepository spaceRepository, UserRepository userRepository,
+            RoomRepository roomRepository) {
         this.spaceRepository = spaceRepository;
         this.userRepository = userRepository;
+        this.roomRepository = roomRepository;
 
     }
 
@@ -68,6 +73,32 @@ public class SpaceController {
         userRepository.save(user);
         spaceRepository.save(space);
 
+        return space;
+    }
+
+    @SchemaMapping(typeName = "Mutation", field = "deleteSpace")
+    public Space deleteSpace(@Argument String id) {
+        // Borramos el espacio y todas las rooms que tenga
+        Space space = spaceRepository.findById(id).orElseThrow(null);
+
+        // Borramos todas las rooms del espacio
+        space.getRooms().forEach(room -> {
+            roomRepository.delete(room);
+        });
+
+        // Borramos el espacio del usuario
+        space.getMembers().forEach(member -> {
+            // Obtenemos el usuario
+            User user = member.getUser();
+            // Borramos el espacio del usuario
+            user.getSpaces().remove(space);
+            // Guardamos los cambios en el usuario
+            userRepository.save(user);
+        });
+
+        // Borramos el espacio
+        System.out.println(space);
+        spaceRepository.delete(space);
         return space;
     }
 
