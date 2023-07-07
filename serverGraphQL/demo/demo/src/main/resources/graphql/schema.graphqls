@@ -1,0 +1,157 @@
+type Users {
+  id: ID
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  loginMethod: String
+  username: String
+  createdAt: String
+  updatedAt: String
+  softDelete: Boolean
+  isSuperAdmin: Boolean
+  coverImage: String
+  profileImage: String
+  spaces: [Spaces]
+}
+
+type Spaces {
+  id: ID
+  name: String
+  description: String
+  accessCode: String
+  coverImage: String
+  members: [Members]
+  rooms: [Rooms]
+  files: [Files]
+  createdAt: String
+  updatedAt: String
+}
+
+type Rooms {
+  id: ID
+  name: String
+  description: String
+  spaceOwner: Spaces
+  tasks: [Tasks]
+  coverImage: String
+  createdAt: String
+  updatedAt: String
+}
+
+type Files {
+  id: ID
+  name: String
+  description: String
+  type: String
+  src: String
+  asignedRoom: Rooms
+  createdAt: String
+  updatedAt: String
+}
+
+type Tasks {
+  id: ID
+  title: String
+  description: String
+  status: String
+  deadline: String
+  assignedTo: [Members]
+  createdAt: String
+  updatedAt: String
+}
+
+type Members {
+  user: Users
+  role: String
+}
+
+type Query {
+  findAllUsers: [Users]
+  findUserById(id: ID): Users
+  findSpaceById(id: ID): Spaces
+  findRoomById(id: ID): Rooms
+  findTaskById(taskId: ID, roomId: ID): Tasks
+}
+
+type Mutation {
+  createUser(
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    loginMethod: String!
+    username: String!
+    profileImage: String
+    isSuperAdmin: Boolean
+  ): Users
+
+  deleteUser(id: ID!): Users
+
+  editUser(
+    userId: ID!
+    firstName: String
+    lastName: String
+    email: String
+    username: String
+    profileImage: String
+    coverImage: String
+    isSuperAdmin: Boolean
+    softDelete: Boolean
+  ): Users
+
+  createSpace(
+    userOwner: ID!
+    name: String!
+    description: String!
+    accessCode: String!
+    coverImage: String!
+  ): Spaces
+
+  deleteSpace(id: ID!): Spaces
+
+  editSpace(
+    spaceId: ID!
+    name: String
+    description: String
+    accessCode: String
+    coverImage: String
+  ): Spaces
+
+  createRoom(
+    spaceOwnerId: ID!
+    name: String!
+    description: String!
+    coverImage: String!
+  ): Rooms
+
+  deleteRoom(id: ID!): Rooms
+
+  editRoom(
+    name: String
+    description: String
+    coverImage: String
+    roomId: ID!
+  ): Rooms
+
+  createTask(
+    roomOwnerId: ID!
+    title: String!
+    description: String
+    status: Int
+    deadline: String
+    assignedToIds: [ID]
+  ): Tasks
+
+  deleteTask(taskId: ID!, roomId: ID!): Tasks
+
+  editTask(
+    taskId: ID!
+    roomId: ID!
+    title: String
+    description: String
+    status: Int
+    deadline: String
+    assignedToIds: [ID]
+  ): Tasks
+}

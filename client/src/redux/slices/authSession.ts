@@ -1,46 +1,32 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import client from "@/graphql/apollo-client";
+import { GET_AFTER_LOGIN } from "@/graphql/queries";
+import { AuthProps, SessionProps } from "@/utils/types/client/authSession";
+import { setSpaces } from "@/redux/slices/client/spaces";
 const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const initialState = {
-  auth: {
-    isLogged: false,
-    loginMethod: "",
-    isSeller: false,
-    isAdmin: false,
-    tokenValid: false,
-    google: {
-      googleSessionID: "",
-    },
-    json: {
-      token: "",
-    },
-  },
+  auth: {} as AuthProps,
   session: {
-    current: {
-      firstName: "",
-      lastName: "",
-      bio: "",
-      profilePicture: "",
-      _id: "",
-      email: "",
-      userName: "",
-      backImage: "",
-    },
-  },
-  actionStatus: {
-    getUserDataLoading: false,
+    current: {} as SessionProps,
   },
 };
 
-//Actions
-export const getUserData = createAsyncThunk(
-  "auth/getUserData",
-  async (data: string, { dispatch, getState }) => {
+export const setSession = createAsyncThunk(
+  "auth/setSession",
+  async (userId: string, { dispatch, getState }) => {
     try {
-    } catch (error: any) {
-      console.log(error);
-      throw error; // Re-throw the error to propagate it to the calling code
+      console.log("setSession", userId);
+      const { data } = await client.query({
+        query: GET_AFTER_LOGIN,
+        variables: { id: userId },
+        fetchPolicy: "network-only",
+      });
+      console.log("data", data);
+      dispatch(setSpaces(data.User.spaces));
+      return data.User;
+    } catch (err) {
+      console.log(err);
     }
   }
 );
@@ -50,39 +36,30 @@ const postsSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setLoginMethod: (state, action: PayloadAction<string>) => {
-      state.auth.loginMethod = action.payload;
+    setAuth: (state, action: PayloadAction<AuthProps>) => {
+      state.auth = action.payload;
+      console.log("setAuth ok", action.payload);
     },
-    setGoogleSuccefull: (state, action: PayloadAction<string>) => {
-      state.auth.isLogged = true;
-      state.auth.tokenValid = true;
-      state.auth.google.googleSessionID = action.payload;
-    },
-
-    resetReducer: (state) => {
+    resetReducer : (state) => {
       state.auth = initialState.auth;
       state.session = initialState.session;
-      state.actionStatus = initialState.actionStatus;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserData.pending, (state) => {})
-      .addCase(getUserData.fulfilled, (state, action: any) => {
-        state.auth = { ...state.auth, ...action.payload.auth };
-        state.session.current = {
-          ...state.session.current,
-          ...action.payload.session,
-        };
+      .addCase(setSession.pending, (state, action) => {
+        console.log("Pending setSession");
       })
-      .addCase(getUserData.rejected, (state, action) => {
-        state.auth.isLogged = false;
-        state.auth.tokenValid = false;
+      .addCase(setSession.fulfilled, (state, action) => {
+        state.session.current = action?.payload as SessionProps;
+        console.log("Fulfilled setSession", action.payload);
+      })
+      .addCase(setSession.rejected, (state, action) => {
+        console.log("Rejected setSession");
       });
   },
 });
 
-export const { setLoginMethod, setGoogleSuccefull, resetReducer } =
-  postsSlice.actions;
+export const { setAuth, resetReducer } = postsSlice.actions;
 
 export default postsSlice.reducer;

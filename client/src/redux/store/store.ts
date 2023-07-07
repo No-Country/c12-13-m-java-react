@@ -6,7 +6,7 @@ import rootReducer from "../rootReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["authSession"],
+  whitelist: ["authSession", "client"],
   debug: true,
 };
 const persistMiddleware = getDefaultMiddleware({

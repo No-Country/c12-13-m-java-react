@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "json-graphql-server db.js --port 3002"
+    "start": "json-graphql-server db.js PORT=8000"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "json-graphql-server": "^2.3.2"
+    "json-graphql-server": "^2.3.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
   }
 }

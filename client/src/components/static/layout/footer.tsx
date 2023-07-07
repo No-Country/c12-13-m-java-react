@@ -1,0 +1,24 @@
+import { Image } from "@/components";
+import { useRouter } from "next/router";
+import { useAppSelector } from "@/redux/hooks";
+
+export default function Footer() {
+  const router = useRouter();
+  const { auth } = useAppSelector((state) => state.authSession);
+  return (
+    <footer className="footer  ">
+      <div className="footerInner h-[200px] ">
+      <Image
+        onClick={() => router.push(auth.isLogged ? "/client" : "/")}
+        src="/icon/logo.svg"
+        alt="Logo"
+        layout="fill"
+        width="w-[98px]"
+        height="w-[30px]"
+        aspectRatio="aspect-[98/30]"
+        containerClassName="cursor-pointer"
+      />
+      </div>
+    </footer>
+  );
+}
