@@ -1,12 +1,28 @@
 import { useState } from "react";
 import NextImage from "next/image";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { useEffect } from "react";
 
 type TextToInputProps = {
-  text: string;
+  text: any;
   title: string;
-  inputType?: "text" | "number" | "email" | "password" | "date" | "file";
-  inputTag: "input" | "textarea" | "image" | "file";
-  setResultText: (text: string) => void;
+  inputType?:
+    | "text"
+    | "number"
+    | "email"
+    | "password"
+    | "date"
+    | "file"
+    | "select";
+  inputTag: "input" | "textarea" | "image" | "file" | "select";
+  setResultText: (data: any) => void;
+  name: string;
+  selectOptions?: any;
+  setNowEditing: (data: any) => void;
 };
 
 export default function TextToInput({
@@ -15,15 +31,27 @@ export default function TextToInput({
   title,
   inputType,
   inputTag,
+  name,
+  selectOptions,
+  setNowEditing,
 }: TextToInputProps) {
   const [editing, setEditing] = useState<boolean>(false);
+
+  const [selectValue, setSelectValue] = useState<string>(text.label);
 
   const handleSave = (e: any) => {
     e.preventDefault();
     setEditing(false);
-    setResultText(e.target.data.value);
-    console.log("result", e.target.data.value);
+    console.log(name, e.target[name].value);
+    setResultText({
+      key: name,
+      text: e.target[name].value,
+    });
   };
+
+  useEffect(() => {
+   setNowEditing(editing);
+  }, [editing]);
 
   return (
     <div>
@@ -35,25 +63,45 @@ export default function TextToInput({
             {inputTag === "input" ? (
               <input
                 type="text"
-                name="data"
+                name={name}
                 className="w-full font-normal"
                 defaultValue={text}
                 required
               />
             ) : inputTag === "textarea" ? (
               <textarea
-                name="data"
+                name={name}
                 className="w-full font-normal"
                 defaultValue={text}
                 required
               />
-            ) : (
+            ) : inputTag === "file" ? (
               <input
                 type="file"
-                name="data"
+                name={name}
                 className="w-full font-normal"
                 required
               />
+            ) : (
+              <>
+                <FormControl fullWidth size="small">
+                  <Select
+                    name={name}
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    displayEmpty
+                    inputProps={{ "aria-label": "Without label" }}
+                    onChange={(e: SelectChangeEvent) => {
+                      console.log(e.target.name);
+                      setSelectValue(e.target.value);
+                    }}
+                  >
+                    {selectOptions.map((option: any) => (
+                      <MenuItem value={option.value}>{option.label}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
             )}
             <div className="mt-1 flex gap-1">
               <button
@@ -72,8 +120,8 @@ export default function TextToInput({
         <>
           <div className="flex items-start justify-start gap-2">
             {inputTag !== "image" ? (
-              <p className="bodyText mb-1 w-max font-normal text-black">
-                {text}
+              <p className="bodyText mb-1  font-normal text-black">
+                {inputTag === "select" ? text.label : text}
               </p>
             ) : (
               <div className="relative h-[200px] w-[200px] ">

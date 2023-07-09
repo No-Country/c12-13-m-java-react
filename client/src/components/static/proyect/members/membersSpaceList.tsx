@@ -24,10 +24,10 @@ export default function MembersSpaceList({
         members.map((member: MembersProps) => (
           <div className="flex w-full items-center justify-between gap-3 rounded-3xl bg-white p-5">
             <div className="flex w-full items-center justify-start gap-3">
-              <MemberPicture member={member} size="large" hasMargin={false} />
+              <MemberPicture member={member.user} size="large" hasMargin={false} />
               <div className="flex flex-col ">
               <p className="subtitulo">
-                {member.firstName + " " + member.lastName}
+                {member.user.firstName + " " + member.user.lastName}
               </p>
               <p className="smalltext">
                 {member.role === "admin" ? "Administrador" : "Miembro"}

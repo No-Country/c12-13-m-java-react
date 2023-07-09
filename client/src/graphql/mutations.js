@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserInput!) {
@@ -6,6 +6,214 @@ export const CREATE_USER = gql`
       id
       name
       email
+    }
+  }
+`;
+
+export const CREATE_SPACE = gql`
+  mutation CreateSpace(
+    $userOwner: ID!
+    $name: String!
+    $description: String!
+    $accessCode: String!
+    $coverImage: String!
+  ) {
+    createSpace(
+      userOwner: $userOwner
+      name: $name
+      description: $description
+      accessCode: $accessCode
+      coverImage: $coverImage
+    ) {
+      id
+      name
+      description
+      accessCode
+      coverImage
+      members {
+        user {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+        role
+      }
+    }
+  }
+`;
+
+export const DELETE_SPACE = gql`
+  mutation deleteSpace($id: ID!) {
+    deleteSpace(id: $id) {
+      id
+      name
+      description
+      accessCode
+      coverImage
+    }
+  }
+`;
+
+export const EDIT_SPACE = gql`
+  mutation EditSpace(
+    $spaceId: ID!
+    $name: String
+    $description: String
+    $accessCode: String
+    $coverImage: String
+  ) {
+    editSpace(
+      spaceId: $spaceId
+      name: $name
+      description: $description
+      accessCode: $accessCode
+      coverImage: $coverImage
+    ) {
+      id
+      name
+      description
+      accessCode
+      coverImage
+    }
+  }
+`;
+
+export const CREATE_ROOM = gql`
+  mutation CreateRoom(
+    $spaceOwnerId: ID!
+    $name: String!
+    $description: String!
+    $coverImage: String!
+  ) {
+    createRoom(
+      spaceOwnerId: $spaceOwnerId
+      name: $name
+      description: $description
+      coverImage: $coverImage
+    ) {
+      id
+      name
+      description
+      coverImage
+      spaceOwner {
+        id
+      }
+      tasks {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_ROOM = gql`
+  mutation deleteRoom($id: ID!) {
+    deleteRoom(id: $id) {
+      id
+      name
+      description
+      coverImage
+    }
+  }
+`;
+
+export const EDIT_ROOM = gql`
+  mutation EditRoom(
+    $roomId: ID!
+    $name: String
+    $description: String
+    $coverImage: String
+  ) {
+    editRoom(
+      roomId: $roomId
+      name: $name
+      description: $description
+      coverImage: $coverImage
+    ) {
+      id
+      name
+      description
+      coverImage
+    }
+  }
+`;
+
+export const CREATE_TASK = gql`
+  mutation CreateTask(
+    $title: String!
+    $description: String!
+    $status: Int!
+    $roomOwnerId: ID!
+    $assignedToIds: [ID!]
+  ) {
+    createTask(
+      title: $title
+      description: $description
+      status: $status
+      roomOwnerId: $roomOwnerId
+      assignedToIds: $assignedToIds
+    ) {
+      id
+      title
+      description
+      deadline
+      status
+      assignedTo {
+        user {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_TASK = gql`
+  mutation deleteTask($taskId: ID!, $roomId: ID!) {
+    deleteTask(taskId: $taskId, roomId: $roomId) {
+      id
+      title
+      description
+      deadline
+      status
+    }
+  }
+`;
+
+export const EDIT_TASK = gql`
+  mutation EditTask(
+    $taskId: ID!
+    $roomId: ID!
+    $title: String
+    $description: String
+    $status: Int
+    $deadline: String
+    $assignedToIds: [ID!]
+  ) {
+    editTask(
+      taskId: $taskId
+      roomId: $roomId
+      title: $title
+      description: $description
+      status: $status
+      deadline: $deadline
+      assignedToIds: $assignedToIds
+    ) {
+      id
+      title
+      description
+      status
+      assignedTo {
+        user {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+      }
+      deadline
     }
   }
 `;

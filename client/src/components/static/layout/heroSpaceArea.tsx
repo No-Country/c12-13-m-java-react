@@ -18,6 +18,9 @@ type HeroSpaceAreaProps = {
   controls?: boolean;
   triggerText: string;
   children?: JSX.Element;
+  secondControls?: boolean;
+  childrenSecond?: JSX.Element;
+  triggerSecondText?: string;
 };
 
 export default function HeroSpaceArea({
@@ -26,6 +29,9 @@ export default function HeroSpaceArea({
   children,
   triggerText,
   controls = true,
+  secondControls = false,
+  childrenSecond,
+  triggerSecondText = "",
 }: HeroSpaceAreaProps) {
   {
     return (
@@ -48,17 +54,31 @@ export default function HeroSpaceArea({
             </div>
           </div>
           {controls && (
-            <div className="flex w-full flex-row items-center justify-end gap-5">
-              {type === "space" && (
-                <MembersList members={current?.members} size="medium" pictureHasMargin={true} />
+            <div className="flex gap-2">
+              {secondControls && (
+                <ModalTrigger
+                  triggerText={triggerSecondText}
+                  buttonType="secondaryButton"
+                >
+                  {childrenSecond}
+                </ModalTrigger>
               )}
+              <div className="flex w-full flex-row items-center justify-end gap-5">
+                {type === "space" && (
+                  <MembersList
+                    members={current?.members}
+                    size="medium"
+                    pictureHasMargin={true}
+                  />
+                )}
 
-              <ModalTrigger
-                triggerText={triggerText}
-                buttonType="primaryButton"
-              >
-                {children}
-              </ModalTrigger>
+                <ModalTrigger
+                  triggerText={triggerText}
+                  buttonType="primaryButton"
+                >
+                  {children}
+                </ModalTrigger>
+              </div>
             </div>
           )}
         </div>

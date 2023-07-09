@@ -219,4 +219,8 @@ $line-height-titulos: 130%;
   .terceryButton {
     @apply font-semibold text-[#1D4ED8];
   }
+
+  .disabledPrimaryButton {
+    @apply rounded-3xl border-none bg-gray-500 px-8 py-4 leading-[100%] font-semibold text-white ;
+  }
 }

@@ -1,7 +1,7 @@
 import {
   Main,
   SpacesList,
-  ModalTrigger,
+  SpaceCreateForm,
   Image,
   Hr,
   ListTopArea,
@@ -62,7 +62,7 @@ function Spaces() {
         title="Mis espacios"
         description="Organiza tus proyectos"
         buttonText="Crear nuevo espacio"
-        triggerContent={<div>Form crear un espacio</div>}
+        triggerContent={<SpaceCreateForm />}
       />
       <SpacesList />
     </section>

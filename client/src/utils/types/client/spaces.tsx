@@ -1,4 +1,20 @@
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  profileImage: string;
+  email: string;
+  isSuperAdmin: boolean;
+  softDelete: boolean;
+  coverImage: string;
+  createdAt: string;
+  updatedAt: string;
+  spaces: SpaceProps[];
+};
+
 export type SpaceProps = {
+
   id: string;
   name: string;
   accessCode: string;
@@ -12,10 +28,7 @@ export type SpaceProps = {
 };
 
 export type MembersProps = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  profileImage: string;
+  user: User;
   role: string;
 };
 
@@ -27,7 +40,7 @@ export type RoomsProps = {
   createdAt: string;
   lastModified: string;
   tasks: TasksProps[];
-  members: MembersProps[];//Ignorar
+  members: MembersProps[]; //Ignorar
 };
 
 export type TasksProps = {

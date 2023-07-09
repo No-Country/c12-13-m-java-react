@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
-import { GET_AFTER_LOGIN } from "@/graphql/queries";
+import { GET_USER_BY_ID } from "@/graphql/queries";
 import { AuthProps, SessionProps } from "@/utils/types/client/authSession";
+import { User } from "@/utils/types/client/spaces";
 import { setSpaces } from "@/redux/slices/client/spaces";
 const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const initialState = {
   auth: {} as AuthProps,
   session: {
-    current: {} as SessionProps,
+    current: {} as User,
   },
 };
 
@@ -18,13 +19,13 @@ export const setSession = createAsyncThunk(
     try {
       console.log("setSession", userId);
       const { data } = await client.query({
-        query: GET_AFTER_LOGIN,
+        query: GET_USER_BY_ID,
         variables: { id: userId },
         fetchPolicy: "network-only",
       });
       console.log("data", data);
-      dispatch(setSpaces(data.User.spaces));
-      return data.User;
+      dispatch(setSpaces(data.findUserById.spaces));
+      return data.findUserById;
     } catch (err) {
       console.log(err);
     }
@@ -40,10 +41,10 @@ const postsSlice = createSlice({
       state.auth = action.payload;
       console.log("setAuth ok", action.payload);
     },
-    resetReducer : (state) => {
+    resetReducer: (state) => {
       state.auth = initialState.auth;
       state.session = initialState.session;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,7 +52,7 @@ const postsSlice = createSlice({
         console.log("Pending setSession");
       })
       .addCase(setSession.fulfilled, (state, action) => {
-        state.session.current = action?.payload as SessionProps;
+       state.session.current = action?.payload as User;
         console.log("Fulfilled setSession", action.payload);
       })
       .addCase(setSession.rejected, (state, action) => {

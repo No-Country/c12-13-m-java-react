@@ -27,6 +27,7 @@ public class UserController {
 
     @SchemaMapping(typeName = "Query", value = "findUserById")
     public User findOne(@Argument String id) {
+        System.out.println("findUserById1 + " + id);
         // return userRepository.findById(id).orElseThrow(null);
         User user = userRepository.findById(id).orElseThrow(null);
         // List<Space> spaces = user.getSpaces();
