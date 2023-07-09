@@ -1,10 +1,28 @@
 import { TasksProps } from "@/utils/types/client/spaces";
-import {MembersList} from "@/components";
+import {
+  MembersList,
+  ModalTrigger,
+  EditManager,
+  TaskEditForm,
+} from "@/components";
 type TaskItemProps = {
   item: TasksProps;
 };
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import {
+  editTask,
+  deleteTask,
+  setCurrentTask,
+} from "@/redux/slices/client/spaces";
 
 export default function TaskItem({ item }: TaskItemProps) {
+  const dispatch = useAppDispatch();
+  const { currentTask } = useAppSelector((state) => state.client.spaces);
+  const [processedData, setProcessedData] = useState<any>(currentTask);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [nowEditing, setNowEditing] = useState<boolean>(false);
   const defaultClass =
     "font-medium  smalltext font-medium rounded-full w-max px-2 py-1";
   const completedClass = "text-green-900  bg-green-200  font-medium ";
@@ -18,25 +36,76 @@ export default function TaskItem({ item }: TaskItemProps) {
       ? inProgressClass
       : completedClass;
 
+  useEffect(() => {
+    console.log("currentTask", item);
+    dispatch(setCurrentTask(item));
+  }, [editing === true]);
+
+  const handleSave = async (editedData: any) => {
+    console.log(editedData);
+    await dispatch(editTask(editedData));
+  };
+
   return (
     <div
       key={item.id}
-      className="flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-5"
+      className="relative flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-5"
     >
-      <div className="gap-2 flex flex-col" >
-        <p className={statusClass + defaultClass}>
-          {item.status == 1
-            ? "To-do"
-            : item.status == 2
-            ? "En progreso"
-            : "Completado"}
-        </p>
+      <div className="relative flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <p className={statusClass + defaultClass}>
+            {item.status == 1
+              ? "To-do"
+              : item.status == 2
+              ? "En progreso"
+              : "Completado"}
+          </p>
+          <Image
+            src="/icon/settings.svg"
+            width={20}
+            height={20}
+            alt="settings"
+            className="cursor-pointer "
+            onClick={() => setEditing(!editing)}
+          />
+        </div>
         <div>
-        <p className="subitulo font-medium">{item.title}</p>
-        <p className="smalltext font-light">{item.description}</p>
+          <p className="subitulo font-medium">{item.title}</p>
+          <p className="smalltext font-light">{item.description}</p>
         </div>
       </div>
-      <MembersList members={item.assignedTo} size="small" pictureHasMargin={true} />
+      <MembersList
+        members={item.assignedTo}
+        size="small"
+        pictureHasMargin={true}
+      />
+      {editing && (
+        <ModalTrigger
+          triggerText={""}
+          buttonType="primaryButton"
+          alwaysOpen={editing}
+          alwaysOpenCloser={() => setEditing(false)}
+        >
+          <>
+            <EditManager
+              processedData={processedData}
+              originalData={currentTask}
+              title="Editar tarea"
+              nowEditing={nowEditing}
+              deleteAction={deleteTask}
+              route={`/client`}
+              editAction={(editedData: any) => handleSave(editedData)}
+            >
+              <TaskEditForm
+                originalData={currentTask}
+                processedData={processedData}
+                setProcessedData={setProcessedData}
+                setNowEditing={(data) => setNowEditing(data)}
+              />
+            </EditManager>
+          </>
+        </ModalTrigger>
+      )}
     </div>
   );
 }

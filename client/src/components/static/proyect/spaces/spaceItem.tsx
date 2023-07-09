@@ -14,14 +14,14 @@ export default function SpaceItem({
 }: SpaceItemProps) {
   return (
     <div
-      key={item.id}
+      key={item?.id}
       className="flex  cursor-pointer flex-col h-max overflow-hidden rounded-2xl  bg-white"
       onClick={() => {
-        handleClick(item.id);
+        handleClick(item?.id);
       }}
     >
       <Image
-        src={item.coverImage}
+        src={item?.coverImage}
         alt="SpaceCover"
         layout="fill"
         width="w-[100%]"
@@ -30,10 +30,10 @@ export default function SpaceItem({
       />
       <div className="flex flex-col items-start justify-start gap-3 p-5 ">
         <div>
-          <p className="subtitulo">{item.name}</p>
-          <p className="smalltext">{item.description}</p>
+          <p className="subtitulo">{item?.name}</p>
+          <p className="smalltext">{item?.description}</p>
         </div>
-        <MembersList members={item.members} size="small" pictureHasMargin={true} />
+        <MembersList members={item?.members} size="small" pictureHasMargin={true} />
       </div>
     </div>
   );

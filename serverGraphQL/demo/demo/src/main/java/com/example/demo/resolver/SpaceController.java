@@ -42,12 +42,13 @@ public class SpaceController {
 
     // Mutation
     @SchemaMapping(typeName = "Mutation", field = "createSpace")
-    public Space createSpace(@Argument String firstName,
+    public Space createSpace(
             @Argument String name,
             @Argument String description,
             @Argument String accessCode,
             @Argument String coverImage,
             @Argument String userOwner) {
+System.out.println("createSpace");
 
         // Crear el espacio
         Space space = new Space();
@@ -82,11 +83,11 @@ public class SpaceController {
         Space space = spaceRepository.findById(id).orElseThrow(null);
 
         // Borramos todas las rooms del espacio
-        space.getRooms().forEach(room -> {
-            roomRepository.delete(room);
-        });
+        // space.getRooms().forEach(room -> {
+        //     roomRepository.delete(room);
+        // });
 
-        // Borramos el espacio del usuario
+        // // Borramos el espacio del usuario
         space.getMembers().forEach(member -> {
             // Obtenemos el usuario
             User user = member.getUser();
@@ -97,7 +98,7 @@ public class SpaceController {
         });
 
         // Borramos el espacio
-        System.out.println(space);
+        System.out.println(space.getName());
         spaceRepository.delete(space);
         return space;
     }

@@ -8,6 +8,7 @@ import {
   ModalTrigger,
   ListTopArea,
   HeroSpaceArea,
+  RoomCreateForm,
   Hr,
 } from "@/components";
 import Head from "next/head";
@@ -35,7 +36,7 @@ export default function Space() {
               title="Mis rooms"
               description="Organiza tu espacio en pequeñas salas"
               buttonText="Crear nuevo room"
-              triggerContent={<div>Form crear un room</div>}
+              triggerContent={<RoomCreateForm />}
             />
             <RoomsList />
           </div>

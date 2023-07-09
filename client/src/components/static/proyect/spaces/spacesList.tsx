@@ -16,7 +16,6 @@ export default function SpacesList() {
     <div className="grid grid-cols-4 gap-5">
       {Array.isArray(spaces) && spaces.map((item: SpaceProps) => (
         <SpaceItem
-          key={item.id}
           item={item}
           handleClick={handleClick}
           handleClickConfig={handleClick}

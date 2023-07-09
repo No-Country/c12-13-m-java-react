@@ -6,6 +6,7 @@ import Image from "next/image";
 import { alpha, styled } from "@mui/material/styles";
 type Props = {
   isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
   children: React.ReactNode;
   close: () => void;
   position: "center-center" | "bottom-right";
@@ -15,21 +16,20 @@ export default function ModalBase({
   isOpen,
   children,
   close,
+  setIsOpen,
   position,
 }: Props) {
-  const [open, setOpen] = React.useState(false);
-
   const handleCloseTrue = () => {
-    setOpen(false);
+    setIsOpen(false);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setIsOpen(false);
     close();
   };
 
   React.useEffect(() => {
-    setOpen(isOpen);
+    console.log("isOpen", isOpen);
   }, [isOpen]);
 
   //center-center es horizontal y vertical
@@ -55,12 +55,22 @@ export default function ModalBase({
   }));
 
   return (
-    <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button> */}
-      <StyledDialog
-        open={open}
+    <>
+      {isOpen && (
+        <div className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-[#00000096]">
+          <div className="relative h-max max-h-[85vh] w-max max-w-[80vw] rounded-[20px] bg-white p-[40px]">
+            <Image
+              src="/icon/cross.svg"
+              alt="close"
+              width={16}
+              height={16}
+              onClick={handleClose}
+              className="absolute right-4 top-4 cursor-pointer"
+            />
+            {children}
+          </div>
+          {/* <StyledDialog
+        open={isOpen}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -69,17 +79,12 @@ export default function ModalBase({
           position: "absolute",
         }}
       >
-        <Image
-          src="/icon/cross.svg"
-          alt="close"
-          width={16}
-          height={16}
-          onClick={handleClose}
-          className="cursor-pointer absolute top-4 right-4"
-        />
+
 
         {children}
-      </StyledDialog>
-    </div>
+      </StyledDialog> */}
+        </div>
+      )}
+    </>
   );
 }

@@ -1,8 +1,8 @@
 import { Image } from "@/components";
-import { MembersProps } from "@/utils/types/client/spaces";
+import { MembersProps, User } from "@/utils/types/client/spaces";
 
 type MembersListProps = {
-  member: MembersProps;
+  member: User;
   size: "small" | "medium" | "large";
   hasMargin: boolean;
 };
