@@ -5,6 +5,7 @@ import {
   Image,
   Hr,
   ListTopArea,
+  Loader
 } from "@/components";
 import Head from "next/head";
 
@@ -15,7 +16,9 @@ export default function HomeClient() {
         <title>Mis espacios | Spaces</title>
       </Head>
       <Main className="gap-[40px] ">
+     
         <Hero />
+        
         <Hr hasPadding={true} />
         <Spaces />
       </Main>

@@ -39,6 +39,8 @@ export default function CurrentRoom() {
           type="room"
           triggerText="Crear una tarea"
           secondControls={true}
+          secondTriggerIsAdmin={true}
+          triggerIsAdmin={false}
           triggerSecondText="Editar room"
           childrenSecond={
             <EditManager

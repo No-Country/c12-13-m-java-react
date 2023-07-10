@@ -9,7 +9,7 @@ type SidebarProps = {
 export default function Sidebar({ type }: SidebarProps) {
   const router = useRouter();
   const lastPath = router.asPath.split("/").pop();
-  const { currentSpace, rooms } = useAppSelector(
+  const { currentSpace, rooms, userIsAdminOfCurrentSpace } = useAppSelector(
     (state) => state?.client?.spaces
   );
 
@@ -32,7 +32,7 @@ export default function Sidebar({ type }: SidebarProps) {
       name: "Configuracion",
       path: "/client/[spaceId]/settings",
       linkPath: "/client/" + currentSpace?.id + "/settings",
-      visible: session.current.isSuperAdmin,
+      visible: userIsAdminOfCurrentSpace,
     },
     {
       name: "Miembros",
@@ -140,25 +140,33 @@ function VerticalMenu({ data, hasLogo, title, isRooms }: VerticalMenuProps) {
         <p className="smalltext font-medium text-[#7B7C7D]">{title}</p>
         {Array.isArray(data) &&
           data.map((item: any, index: any) => (
-            <div
-              onClick={() => handleClick(item)}
-              key={index}
-              className="flex items-start gap-2"
-            >
-              <ReactSVG
-                src={!hasLogo ? "/icon/default.svg" : item.icon}
-                className={`h-6 w-6 fill-current ${
-                  colorChangeCondition(item) ? "text-blue-700" : "text-black"
-                }`}
-              />
-              <p
-                className={`${
-                  colorChangeCondition(item) ? "text-blue-700" : "text-black"
-                }`}
-              >
-                {item.name}
-              </p>
-            </div>
+            <>
+              {(item.visible || isRooms) && (
+                <div
+                  onClick={() => handleClick(item)}
+                  key={index}
+                  className="flex items-start gap-2"
+                >
+                  <ReactSVG
+                    src={!hasLogo ? "/icon/default.svg" : item.icon}
+                    className={`h-6 w-6 fill-current ${
+                      colorChangeCondition(item)
+                        ? "text-blue-700"
+                        : "text-black"
+                    }`}
+                  />
+                  <p
+                    className={`${
+                      colorChangeCondition(item)
+                        ? "text-blue-700"
+                        : "text-black"
+                    }`}
+                  >
+                    {item.name}
+                  </p>
+                </div>
+              )}
+            </>
           ))}
       </div>
     </>

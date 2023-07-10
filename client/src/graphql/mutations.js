@@ -183,7 +183,7 @@ export const DELETE_TASK = gql`
 `;
 
 export const EDIT_TASK = gql`
-  mutation EditTask(
+  mutation editTask(
     $taskId: ID!
     $roomId: ID!
     $title: String
@@ -214,6 +214,35 @@ export const EDIT_TASK = gql`
         }
       }
       deadline
+    }
+  }
+`;
+
+export const JOIN_SPACE = gql`
+  mutation joinSpace($spaceId: ID!, $userId: ID!) {
+    joinSpace(spaceId: $spaceId, userId: $userId) {
+      id
+      name
+      description
+      accessCode
+      coverImage
+      members {
+        user {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+        role
+      }
+    }
+  }
+`;
+
+export const LEAVE_SPACE = gql`
+  mutation leaveSpace($spaceId: ID!, $userId: ID!) {
+    leaveSpace(spaceId: $spaceId, userId: $userId) {
+      id
     }
   }
 `;

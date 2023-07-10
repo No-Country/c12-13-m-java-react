@@ -154,4 +154,8 @@ type Mutation {
     deadline: String
     assignedToIds: [ID]
   ): Tasks
+
+  joinSpace(spaceId: ID!, userId: ID!): Spaces
+
+  leaveSpace(spaceId: ID!, userId: ID!): Spaces
 }

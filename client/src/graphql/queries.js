@@ -45,6 +45,7 @@ export const GET_SPACE_BY_ID = gql`
       coverImage
       createdAt
       updatedAt
+      accessCode
       members {
         user {
           id
