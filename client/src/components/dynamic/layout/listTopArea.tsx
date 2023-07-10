@@ -27,7 +27,7 @@ export default function ListTopArea({
         <p className="bodyText ">{description}</p>
       </div>
       {
-        controls && (triggerIsAdmin === userIsAdminOfCurrentSpace) && (
+        controls && ((userIsAdminOfCurrentSpace && triggerIsAdmin) || !triggerIsAdmin ) && (
           <ModalTrigger triggerText={buttonText} buttonType="terceryButton" >{triggerContent}</ModalTrigger>
         )
       }
