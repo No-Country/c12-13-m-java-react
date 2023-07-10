@@ -173,6 +173,9 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public void removeSpace(Space space) {
+        this.spaces.remove(space);
+    }
     // ---------------------------------------------------------------------------------------------
     // Unique verification
     public boolean isUniqueEmail(String email) {

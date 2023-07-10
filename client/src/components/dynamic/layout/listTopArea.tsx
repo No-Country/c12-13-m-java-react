@@ -1,5 +1,6 @@
 import React from "react";
 import { ModalTrigger } from "@/components";
+import { useAppSelector } from "@/redux/hooks";
 
 type ListTopAreaProps = {
   title: string;
@@ -7,6 +8,7 @@ type ListTopAreaProps = {
   buttonText: string;
   triggerContent?: React.ReactNode;
   controls?: boolean;
+  triggerIsAdmin?: boolean;
 };
 
 export default function ListTopArea({
@@ -15,7 +17,9 @@ export default function ListTopArea({
   buttonText,
   triggerContent,
   controls = true,
+  triggerIsAdmin = false,
 }: ListTopAreaProps) {
+  const { userIsAdminOfCurrentSpace } = useAppSelector( (state) => state.client.spaces);
   return (
     <div className="relative flex w-full items-center justify-between gap-10">
       <div className="flex flex-col items-start justify-center ">
@@ -23,7 +27,7 @@ export default function ListTopArea({
         <p className="bodyText ">{description}</p>
       </div>
       {
-        controls && (
+        controls && (triggerIsAdmin === userIsAdminOfCurrentSpace) && (
           <ModalTrigger triggerText={buttonText} buttonType="terceryButton" >{triggerContent}</ModalTrigger>
         )
       }

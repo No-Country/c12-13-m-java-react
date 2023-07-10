@@ -21,6 +21,7 @@ const HOC: React.FC<Props> = ({ children }) => {
     session: sessionQy,
   } = router.query;
   const { session, auth } = useAppSelector((state) => state.authSession);
+  const {currentSpace} = useAppSelector((state) => state.client.spaces);
   const userId = session?.current?.id || (userIdQy ?? "");
 
   const verifySession = async (data: AuthProps) => {

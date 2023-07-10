@@ -48,7 +48,7 @@ public class SpaceController {
             @Argument String accessCode,
             @Argument String coverImage,
             @Argument String userOwner) {
-System.out.println("createSpace");
+        System.out.println("createSpace");
 
         // Crear el espacio
         Space space = new Space();
@@ -84,7 +84,7 @@ System.out.println("createSpace");
 
         // Borramos todas las rooms del espacio
         // space.getRooms().forEach(room -> {
-        //     roomRepository.delete(room);
+        // roomRepository.delete(room);
         // });
 
         // // Borramos el espacio del usuario
@@ -130,6 +130,53 @@ System.out.println("createSpace");
         space.setUpdatedAt(new Date().toString());
 
         // Guardamos los cambios
+        spaceRepository.save(space);
+
+        return space;
+    }
+
+    @SchemaMapping(typeName = "Mutation", field = "joinSpace")
+    public Space joinSpace(@Argument String spaceId, @Argument String userId) {
+        // Obtenemos el espacio
+        Space space = spaceRepository.findById(spaceId).orElseThrow(null);
+        // Obtenemos el usuario
+        User user = userRepository.findById(userId).orElseThrow(null);
+
+        // Si ya es miembro del espacio, no hacemos nada
+        if (space.getMembers().stream().anyMatch(member -> member.getUser().getId().equals(userId))) {
+            return space;
+        }
+
+        // Creamos el miembro
+        Member member = new Member(user, "member");
+        // Agregamos el miembro al espacio
+        space.addMember(member);
+        // Agregamos el espacio al usuario
+        user.getSpaces().add(space);
+        // Guardamos los cambios
+        spaceRepository.save(space);
+        userRepository.save(user);
+        return space;
+    }
+
+    @SchemaMapping(typeName = "Mutation", field = "leaveSpace")
+    public Space leaveSpace(@Argument String spaceId, @Argument String userId) {
+        // Obtenemos el espacio
+        System.out.println(spaceId);
+        System.out.println(userId);
+        Space space = spaceRepository.findById(spaceId).orElseThrow(null);
+        // Obtenemos el usuario
+        User user = userRepository.findById(userId).orElseThrow(null);
+
+        // Borramos el espacio del usuario
+        space.getMembers().removeIf(member -> member.getUser().getId().equals(userId));
+        user.getSpaces().removeIf(s -> s.getId().equals(spaceId));
+        // Guardamos los cambios en el usuario
+        userRepository.save(user);
+
+        // Borramos el usuario del espacio
+        space.getMembers().removeIf(member -> member.getUser().getId().equals(userId));
+        // Guardamos los cambios en el espacio
         spaceRepository.save(space);
 
         return space;

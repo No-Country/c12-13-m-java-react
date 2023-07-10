@@ -42,9 +42,13 @@ export { default as TextToInput } from "./dynamic/common/textToInput";
 export { default as EditManager } from "./static/proyect/editManager";
 export { default as SpaceEditForm } from "./static/proyect/spaces/spaceEditForm";
 export { default as SpaceCreateForm } from "./static/proyect/spaces/spaceCreateForm";
+export { default as SpaceInvite } from "./static/proyect/spaces/spaceInvite";
+
 export { default as RoomCreateForm } from "./static/proyect/rooms/roomCreateForm";
 export { default as RoomEditForm } from "./static/proyect/rooms/roomEditForm";
 export { default as TaskCreateForm } from "./static/proyect/tasks/taskCreateForm";
 export { default as TaskEditForm } from "./static/proyect/tasks/taskEditForm";
+
+export { default as Loader } from "./static/layout/loader";
 
 export { default as MultiSelect } from "./dynamic/common/multiSelect";

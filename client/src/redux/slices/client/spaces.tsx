@@ -11,6 +11,8 @@ import {
   CREATE_TASK,
   EDIT_TASK,
   DELETE_TASK,
+  JOIN_SPACE,
+  LEAVE_SPACE,
 } from "@/graphql/mutations";
 import { serverUrl } from "@/data/config";
 import axios from "axios";
@@ -32,6 +34,7 @@ const initialState = {
   rooms: [] as RoomsProps[],
   currentRoom: {} as RoomsProps,
   currentTask: {} as TasksProps,
+  userIsAdminOfCurrentSpace: false,
 };
 
 //-----------------------Thunks-----------------------//
@@ -254,7 +257,7 @@ export const deleteTask = createAsyncThunk(
         },
         fetchPolicy: "network-only",
       });
-console.log("data delete", data);
+      console.log("data delete", data);
       return data.deleteTask;
     } catch (err) {
       console.log(err);
@@ -283,6 +286,76 @@ export const editTask = createAsyncThunk(
   }
 );
 
+//-----------------------Otros-----------------------//
+export const joinSpace = createAsyncThunk(
+  "spaces/joinSpace",
+  async (input: any, { dispatch, getState }) => {
+    try {
+      const state = getState() as RootState;
+      const { data } = await client.mutate({
+        mutation: JOIN_SPACE,
+        variables: {
+          accessCode: input.accessCode,
+          userId: state.authSession.session.current.id,
+          spaceId: input.spaceId,
+        },
+        fetchPolicy: "network-only",
+      });
+      console.log("data joinSpace", data);
+      return data.joinSpace;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+export const leaveSpace = createAsyncThunk(
+  "spaces/leaveSpace",
+  async (  data, { dispatch, getState }) => {
+    try {
+      const state = getState() as RootState;
+      console.log("state", state.authSession.session.current.id);
+      console.log("state", state.client.spaces.currentSpace.id);
+      const { data } = await client.mutate({
+        mutation: LEAVE_SPACE,
+        variables: {
+          userId: state.authSession.session.current.id,
+          spaceId: state.client.spaces.currentSpace.id,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      return data.leaveSpace;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+//usamos leave
+export const expulseMember = createAsyncThunk(
+  "spaces/expulseMember",
+  async (input: any, { dispatch, getState }) => {
+    try { 
+      const state = getState() as RootState;
+      const { data } = await client.mutate({
+        mutation: LEAVE_SPACE,
+        variables: {
+          userId: input.userId,
+          spaceId: state.client.spaces.currentSpace.id,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      return data.leaveSpace;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+    
+
 //Reducers
 const postsSlice = createSlice({
   name: "auth",
@@ -295,6 +368,9 @@ const postsSlice = createSlice({
     setCurrentTask: (state, action: PayloadAction<TasksProps>) => {
       //recibimos la tarea
       state.currentTask = action.payload as TasksProps;
+    },
+    setIsAdminOfCurrentSpace: (state, action: PayloadAction<boolean>) => {
+      state.userIsAdminOfCurrentSpace = action.payload;
     },
     resetReducer: (state) => {
       state.spaces = initialState.spaces;
@@ -458,10 +534,48 @@ const postsSlice = createSlice({
         state.currentRoom.tasks = state.currentRoom.tasks.filter(
           (task) => task.id !== action.payload.id
         );
+      })
+      .addCase(deleteTask.rejected, (state) => {
+        //state.currentSpace = initialState.currentSpace;
+      })
+      .addCase(joinSpace.pending, (state) => {
+        // state.currentSpace = initialState.currentSpace;
+      })
+      .addCase(joinSpace.fulfilled, (state, action) => {
+        console.log("data joinSpace", action.payload);
+        Router.push(`/client/${action.payload.id}`);
+        toast.success("Espacio unido correctamente", toastSuccess);
+      })
+      .addCase(joinSpace.rejected, (state) => {
+        //state.currentSpace = initialState.currentSpace;
+        console.log("error joinSpace");
+      })
+      .addCase(leaveSpace.pending, (state) => {
+        // state.currentSpace = initialState.currentSpace;
+        console.log("pend leaveSpace");
+      })
+      .addCase(leaveSpace.fulfilled, (state, action) => {
+        console.log("data leaveSpace", action.payload);
+        Router.push(`/client`);
+        toast.success("Espacio abandonado correctamente", toastSuccess);
+      })
+      .addCase(leaveSpace.rejected, (state) => {
+        //state.currentSpace = initialState.currentSpace;
+      })
+      .addCase(expulseMember.pending, (state) => {
+        // state.currentSpace = initialState.currentSpace;
+        console.log("pend leaveSpace");
+      })
+      .addCase(expulseMember.fulfilled, (state, action) => {
+        console.log("data leaveSpace", action.payload);
+        toast.success("Miembro expulsado correctamente", toastSuccess);
+      })
+      .addCase(expulseMember.rejected, (state) => {
+        //state.currentSpace = initialState.currentSpace;
       });
   },
 });
 
-export const { resetReducer, setSpaces, setCurrentTask } = postsSlice.actions;
+export const { resetReducer, setSpaces, setCurrentTask, setIsAdminOfCurrentSpace } = postsSlice.actions;
 
 export default postsSlice.reducer;
