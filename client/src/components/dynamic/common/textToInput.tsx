@@ -75,7 +75,7 @@ export default function TextToInput({
                 defaultValue={text}
                 required
               />
-            ) : inputTag === "file" ? (
+            ) : inputTag === "image" ? (
               <input
                 type="file"
                 name={name}

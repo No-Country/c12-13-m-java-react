@@ -43,6 +43,14 @@ export default function SpaceEditForm({
           name="description"
           setNowEditing={(data) => setNowEditing(data)}
         />
+                <TextToInput
+          text={localOriginalData.accessCode}
+          setResultText={(data) => handleSaveField(data)}
+          inputTag="input"
+          title="Codigo de acceso"
+          name="accessCode"
+          setNowEditing={(data) => setNowEditing(data)}
+        />
         <div>
           <p className="bodyText text-blue-700">Rooms</p>
           <p className="bodyText ">Puedes editar cada room individualmente</p>

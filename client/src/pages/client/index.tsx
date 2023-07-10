@@ -65,6 +65,7 @@ function Spaces() {
         title="Mis espacios"
         description="Organiza tus proyectos"
         buttonText="Crear nuevo espacio"
+        triggerIsAdmin={false}
         triggerContent={<SpaceCreateForm />}
       />
       <SpacesList />
