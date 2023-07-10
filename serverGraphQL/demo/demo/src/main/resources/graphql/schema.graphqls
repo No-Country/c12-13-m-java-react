@@ -66,6 +66,14 @@ type Members {
   role: String
 }
 
+type Sessions {
+  id: ID
+  originalSessionId: String
+  expireAt: String
+  userId: String
+  userEmail: String
+}
+
 type Query {
   findAllUsers: [Users]
   findUserById(id: ID): Users
@@ -158,4 +166,6 @@ type Mutation {
   joinSpace(spaceId: ID!, userId: ID!): Spaces
 
   leaveSpace(spaceId: ID!, userId: ID!): Spaces
+
+  createSession(email: String!, password: String!): Sessions
 }
