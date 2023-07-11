@@ -39,7 +39,7 @@ public class DemoApplication {
                 @Override
                 public void addCorsMappings(CorsRegistry registry) {
                     registry.addMapping("/graphql") // Ruta del endpoint GraphQL
-                            .allowedOrigins("http://localhost:3000") // Origen permitido para las solicitudes CORS
+                            .allowedOrigins("http://localhost:3000", "https://nocountry-c12-13.onrender.com") // Origen permitido para las solicitudes CORS
                             .allowedMethods("POST") // Métodos HTTP permitidos
                             .allowedHeaders("*") // Encabezados permitidos
                             .allowCredentials(true); // Permitir el envío de cookies
