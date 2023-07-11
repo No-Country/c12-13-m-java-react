@@ -42,7 +42,6 @@ export default function TextToInput({
   const handleSave = (e: any) => {
     e.preventDefault();
     setEditing(false);
-    console.log(name, e.target[name].value);
     setResultText({
       key: name,
       text: e.target[name].value,
@@ -92,7 +91,7 @@ export default function TextToInput({
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
                     onChange={(e: SelectChangeEvent) => {
-                      console.log(e.target.name);
+                  
                       setSelectValue(e.target.value);
                     }}
                   >

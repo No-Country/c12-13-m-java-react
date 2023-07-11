@@ -12,7 +12,7 @@ export default function MembersList({
   size,
   pictureHasMargin = false,
 }: MembersListProps) {
-  console.log("members task", members);
+
   return (
     <div className="ml-[15px] mt-2 flex ">
       {Array.isArray(members) &&

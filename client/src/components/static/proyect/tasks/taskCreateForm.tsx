@@ -1,7 +1,8 @@
 import { Input, MultiSelect } from "@/components";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { createRoom,createTask } from "@/redux/slices/client/spaces";
+import { createTask } from "@/redux/slices/client/spaces/tasks";
+import { createRoom } from "@/redux/slices/client/spaces/rooms";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -11,10 +12,10 @@ export default function TaskCreateForm() {
   const [form, setForm] = useState<any>();
   const [selected, setSelected] = useState<any>([]);
   const { id } = useAppSelector((state) => state.authSession.session.current);
-  const { currentSpace } = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
   
 
-  console.log("id", id);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,7 +29,7 @@ export default function TaskCreateForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    console.log(form);
+  
     dispatch(createTask(form));
 
     //await dispatch(createRoom(form));

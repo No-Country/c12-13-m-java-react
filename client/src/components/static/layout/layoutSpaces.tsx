@@ -2,7 +2,7 @@ import { Sidebar, Main } from "@/components";
 import { ReactNode, useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsAdminOfCurrentSpace } from "@/redux/slices/client/spaces";
+import { setIsAdminOfCurrentSpace } from "@/redux/slices/client/spaces/spaces";
 import { debounce } from "lodash";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
   const { currentSpace, userIsAdminOfCurrentSpace } = useAppSelector(
-    (state) => state.client.spaces
+    (state) => state.client.spaces.spaces
   );
   const { id } = useAppSelector((state) => state.authSession.session.current);
   const [isAdmin, setIsAdmin] = useState<any>();

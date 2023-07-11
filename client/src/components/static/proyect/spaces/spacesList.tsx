@@ -5,7 +5,7 @@ import { SpaceItem } from "@/components";
 
 export default function SpacesList() {
   const router = useRouter();
-  const { spaces } = useAppSelector((state) => state.client.spaces);
+  const { spaces } = useAppSelector((state) => state.client.spaces.spaces);
 
   const handleClick = (spaceId: string, settings = false) => {
     const path = `/client/${spaceId}${settings ? "/settings" : ""}`;

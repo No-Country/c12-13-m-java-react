@@ -28,9 +28,7 @@ export default function ModalBase({
     close();
   };
 
-  React.useEffect(() => {
-    console.log("isOpen", isOpen);
-  }, [isOpen]);
+
 
   //center-center es horizontal y vertical
 

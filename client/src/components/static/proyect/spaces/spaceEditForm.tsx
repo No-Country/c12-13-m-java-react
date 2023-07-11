@@ -1,5 +1,5 @@
 import { TextToInput } from "@/components";
-import { editSpace } from "@/redux/slices/client/spaces";
+import { editSpace } from "@/redux/slices/client/spaces/spaces";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 

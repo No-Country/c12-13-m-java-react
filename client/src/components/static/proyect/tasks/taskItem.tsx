@@ -15,11 +15,11 @@ import {
   editTask,
   deleteTask,
   setCurrentTask,
-} from "@/redux/slices/client/spaces";
+} from "@/redux/slices/client/spaces/tasks";
 
 export default function TaskItem({ item }: TaskItemProps) {
   const dispatch = useAppDispatch();
-  const { currentTask } = useAppSelector((state) => state.client.spaces);
+  const { currentTask } = useAppSelector((state) => state.client.spaces.tasks);
   const [processedData, setProcessedData] = useState<any>(currentTask);
   const [editing, setEditing] = useState<boolean>(false);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
@@ -36,15 +36,15 @@ export default function TaskItem({ item }: TaskItemProps) {
       ? inProgressClass
       : completedClass;
 
-  useEffect(() => {
-    console.log("currentTask", item);
-    dispatch(setCurrentTask(item));
-  }, [editing === true]);
 
   const handleSave = async (editedData: any) => {
-    console.log(editedData);
     await dispatch(editTask(editedData));
   };
+
+const handleEditing = () => {
+  dispatch(setCurrentTask(item));
+  setEditing(true)
+}
 
   return (
     <div
@@ -66,7 +66,7 @@ export default function TaskItem({ item }: TaskItemProps) {
             height={20}
             alt="settings"
             className="cursor-pointer "
-            onClick={() => setEditing(!editing)}
+            onClick={handleEditing}
           />
         </div>
         <div>
