@@ -3,12 +3,14 @@ import { Input, GoogleButton } from "@/components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
-
+import { useAppDispatch } from "@/redux/hooks";
+import { login } from "@/redux/slices/authSession";
 export default function Home() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/client");
+dispatch(login({ email: e.currentTarget.email.value, password: e.currentTarget.password.value }));
   };
 
   return (

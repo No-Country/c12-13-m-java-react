@@ -80,6 +80,7 @@ type Query {
   findSpaceById(id: ID): Spaces
   findRoomById(id: ID): Rooms
   findTaskById(taskId: ID, roomId: ID): Tasks
+  verifySession(userId: ID): Boolean
 }
 
 type Mutation {
@@ -88,7 +89,7 @@ type Mutation {
     lastName: String!
     email: String!
     password: String!
-    loginMethod: String!
+    loginMethod: String
     username: String!
     profileImage: String
     isSuperAdmin: Boolean

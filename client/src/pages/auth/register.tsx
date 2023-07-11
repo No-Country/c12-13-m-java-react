@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useState } from "react";
 import Head from "next/head";
 import userRegister from "@/hooks/useRegister";
-
+import { set } from "lodash";
+import { useAppDispatch } from "@/redux/hooks";
+import { register } from "@/redux/slices/authSession";
 export default function Home() {
   const router = useRouter();
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,11 +31,21 @@ export default function Home() {
 
   } = userRegister()
 
+  const dispacth = useAppDispatch()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     console.log(form);
-    router.push("/client");
+   // router.push("/client");
+   dispacth(register(form))
   };
 
   return (
@@ -53,12 +65,14 @@ export default function Home() {
                 name="firstName"
                 label="Nombre"
                 placeholder="Nombre"
+                onChange={handleChange}
                 className="w-full"
               />
               <Input
                 type="text"
                 name="lastName"
                 label="Apellidos"
+                onChange={handleChange}
                 placeholder="Apellidos"
                 className="w-full"
               />
@@ -71,6 +85,7 @@ export default function Home() {
             <div id="step2" className="flex w-full flex-col gap-4">
               <Input
                 type="email"
+                onChange={handleChange}
                 name="email"
                 label="Correo electrónico"
                 placeholder="Correo electrónico"
@@ -81,11 +96,13 @@ export default function Home() {
                 name="username"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
+                onChange={handleChange}
                 className="w-full"
               />
               <Input
                 type="password"
                 name="password"
+                onChange={handleChange}
                 label="Contraseña"
                 placeholder="Contraseña"
               />

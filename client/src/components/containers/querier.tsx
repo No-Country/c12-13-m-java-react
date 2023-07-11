@@ -69,8 +69,8 @@ export default function Querier({ children }: Props) {
   useEffect(() => {
     setIsAdmin(
       Boolean(
-        currentSpace.members.find(
-          (member: any) => member.user.id === id && member.role === "admin"
+        currentSpace?.members?.find(
+          (member: any) => member?.user?.id === id && member?.role === "admin"
         )
       )
     );
