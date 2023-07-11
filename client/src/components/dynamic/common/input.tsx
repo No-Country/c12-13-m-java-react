@@ -11,7 +11,7 @@ type InputProps = {
   value?: string;
   prefix?: string;
   onChange?: any;
-  error?: string;
+  error?: string|null
   step?: string;
   required?: boolean;
 };
