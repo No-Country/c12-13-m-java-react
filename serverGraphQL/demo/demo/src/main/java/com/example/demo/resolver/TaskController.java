@@ -9,8 +9,11 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.SpaceRepository;
 import com.example.demo.repository.RoomRepository;
 
+import org.reactivestreams.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
@@ -21,17 +24,18 @@ import java.util.Date;
 @Controller
 public class TaskController {
 
-    private final UserRepository userRepository;
-    private final SpaceRepository spaceRepository;
-    private final RoomRepository roomRepository;
+    @Autowired
+    TaskPublisher taskPublisher;
 
-    public TaskController(SpaceRepository spaceRepository, UserRepository userRepository,
-            RoomRepository roomRepository) {
-        this.spaceRepository = spaceRepository;
-        this.userRepository = userRepository;
-        this.roomRepository = roomRepository;
-
-    }
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SpaceRepository spaceRepository;
+    @Autowired
+    private RoomRepository roomRepository;
+    // private final UserRepository userRepository;
+    // private final SpaceRepository spaceRepository;
+    // private final RoomRepository roomRepository;
 
     @SchemaMapping(typeName = "Query", value = "findTaskById")
     public Task findOne(@Argument String taskId, @Argument String roomId) {
@@ -94,7 +98,7 @@ public class TaskController {
 
         room.addTask(task);
         roomRepository.save(room);
-
+        taskPublisher.publishTask(task, room.getId(), "create");
         return task;
     }
 
@@ -163,7 +167,28 @@ public class TaskController {
 
         roomRepository.save(room);
 
+        taskPublisher.publishTask(task, room.getId(), "edit");
+
         return task;
     }
+
+    // @SubscriptionMapping
+    // public Publisher<Task> notifyTaskChange() {
+    // return taskPublisher.getPublisher();
+    // }
+    @SchemaMapping(typeName = "Subscription", field = "notifyTaskCreated")
+    public Publisher<Task> notifyTaskCreated(@Argument String roomId) {
+        return taskPublisher.getCreateTaskStream(roomId);
+    }
+    
+    @SchemaMapping(typeName = "Subscription", field = "notifyTaskChanged")
+    public Publisher<Task> notifyTaskChanged(@Argument String roomId) {
+        return taskPublisher.getEditTaskStream(roomId);
+    }
+    
+
+    // public Publisher<Task> taskChanged(String roomId) {
+    //     return taskPublisher.getModifiedTaskStream(roomId);
+    // }
 
 }
