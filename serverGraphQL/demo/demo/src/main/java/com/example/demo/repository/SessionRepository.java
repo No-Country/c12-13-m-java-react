@@ -5,5 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.example.demo.model.Session;
 
 public interface SessionRepository extends MongoRepository<Session, String> {
+    Session findByUserId(String userId);
 
 }

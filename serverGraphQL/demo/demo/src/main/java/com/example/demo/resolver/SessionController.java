@@ -8,13 +8,13 @@ import com.example.demo.model.Session;
 //modelo de sesion de spring
 //import org.springframework.session.data.mongo.MongoSession;
 
+import com.example.demo.utils.PasswordUtils;
+
 import java.util.Date;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-
-
 
 @Controller
 public class SessionController {
@@ -32,17 +32,9 @@ public class SessionController {
 
         // Obtener el usuario por email
         User user = userRepository.findByEmail(email);
-
-        if (isValidCredentials(email, password)) {
-            System.out.println("createSession");
-            Session session = new Session();
-            session.setUserId(user.getId());
-            session.setUserEmail(user.getEmail());
-            //en formato final Date expireAt
-            session.setExpireAt(Date.from(java.time.Instant.now().plusSeconds(86400)));
-            sessionRepository.save(session);
-
-            return session;
+        Boolean isPasswordMatch = PasswordUtils.isPasswordMatch(password, user.getPassword());
+        if (isPasswordMatch) {
+            return createNewSession(user);
         } else {
             // Si las credenciales no son válidas, puedes lanzar una excepción o devolver un
             // mensaje de error
@@ -50,14 +42,31 @@ public class SessionController {
         }
     }
 
-    private boolean isValidCredentials(String email, String password) {
-        // Aquí puedes implementar la lógica para verificar las credenciales del usuario
-        // Puedes acceder a tu base de datos o sistema de autenticación para realizar la
-        // verificación
-        // Devuelve true si las credenciales son válidas, o false en caso contrario
-        // Por simplicidad, este método siempre devuelve true en este ejemplo
-        return true;
+    @SchemaMapping(typeName = "Query", field = "verifySession")
+    public Boolean verifySession(@Argument String userId) {
+        Session session = sessionRepository.findByUserId(userId);
+        if (session != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
+    private Session createNewSession(User user) {
+        // Verificar si existe una sesión activa
+        Session sessionActive = sessionRepository.findByUserId(user.getId());
+        if (sessionActive != null) {
+     
+            sessionRepository.delete(sessionActive);
+        }
+
+        Session session = new Session();
+        session.setUserId(user.getId());
+        session.setUserEmail(user.getEmail());
+        session.setExpireAt(Date.from(java.time.Instant.now().plusSeconds(86400)));
+        sessionRepository.save(session);
+
+        return session;
+    }    
 }

@@ -4,8 +4,10 @@ import { ReactNode, useEffect, useMemo } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
-import { setAuth, setSession } from "@/redux/slices/authSession";
+import { setAuth, setSession, resetReducer } from "@/redux/slices/authSession";
 import { AuthClass, AuthProps } from "@/utils/types/client/authSession";
+import { VERIFY_SESSION } from "@/graphql/queries";
+import client from "@/graphql/apollo-client";
 
 type Props = {
   children: ReactNode;
@@ -21,18 +23,33 @@ const HOC: React.FC<Props> = ({ children }) => {
     session: sessionQy,
   } = router.query;
   const { session, auth } = useAppSelector((state) => state.authSession);
-  const {currentSpace} = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces);
   const userId = session?.current?.id || (userIdQy ?? "");
 
   const verifySession = async (data: AuthProps) => {
-    //deberiamos hacer una peticion al servidor para verificar la sesion en la base de datos
     if (data.isLogged && userId) {
-      console.log("Se verifico la sesion", userId);
-      dispatch(setAuth(data));
-      await dispatch(setSession(userId as string));
+      const {
+        data: verifData,
+        error,
+        loading,
+      } = await client.query({
+        query: VERIFY_SESSION,
+        variables: {
+          userId: userId,
+        },
+      });
+      console.log("verifData", verifData);
+      if (verifData.verifySession === true) {
+        console.log("Se verifico la sesion", userId);
+        dispatch(setAuth(data));
+        await dispatch(setSession(userId as string));
+      } else {
+        dispatch(resetReducer());
+        console.log("No se pudo verificar la sesión", data.isLogged, userId);
+      }
     } else {
-      alert("No se pudo verificar la sesión");
       console.log("No se pudo verificar la sesión", data.isLogged, userId);
+      alert("No se pudo verificar la sesión");
     }
   };
 
@@ -40,11 +57,13 @@ const HOC: React.FC<Props> = ({ children }) => {
     const authObj = new AuthClass(
       statusQy === "ok" ? true : false,
       loginMethodQy as string,
+      sessionQy as string,
       {
         googleSessionID:
           loginMethodQy === "google" ? (sessionQy as string) : "",
       }
     );
+    console.log("authObj",  statusQy, loginMethodQy, sessionQy);
     verifySession(authObj);
   };
 
@@ -65,10 +84,9 @@ const HOC: React.FC<Props> = ({ children }) => {
         alert("No se cumple ninguna condicion");
         router.push("/");
       }
-    }
-    else if (router.pathname.startsWith("/auth")) {
-      if(auth?.isLogged){
-        router.push("/client")
+    } else if (router.pathname.startsWith("/auth")) {
+      if (auth?.isLogged) {
+        router.push("/client");
       }
     }
   };

@@ -1,10 +1,23 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_USER = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
+  mutation CreateUser(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+    $loginMethod: String
+    $username: String!
+  ) {
+    createUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+      loginMethod: $loginMethod
+      username: $username
+    ) {
       id
-      name
       email
     }
   }
@@ -247,6 +260,14 @@ export const LEAVE_SPACE = gql`
   }
 `;
 
+export const LOG_IN = gql`
+  mutation LogIn($email: String!, $password: String!) {
+    createSession(email: $email, password: $password) {
+      id
+      userId
+    }
+  }
+`;
 
 // mutation {
 //   createUser(
