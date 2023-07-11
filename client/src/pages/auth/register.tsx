@@ -65,20 +65,21 @@ export default function Home() {
                 name="firstName"
                 label="Nombre"
                 placeholder="Nombre"
-                onChange={handleChange}
+         
                 className="w-full"
                 error={error.firstName}
-                onChange={handleFirstName}
+                onChange={(e:any) => {handleFirstName(e), handleChange(e)}}
               />
               <Input
                 type="text"
                 name="lastName"
                 label="Apellidos"
-                onChange={handleChange}
+       
                 placeholder="Apellidos"
                 className="w-full"
                 error={error.lastName}
-                onChange={handleLastName}
+                onChange={(e:any) => {handleLastName(e), handleChange(e)}}
+           
               />
               <button type="button" className="primaryButton" onClick={onClick}>
                 Siguiente
@@ -89,40 +90,34 @@ export default function Home() {
             <div id="step2" className="flex w-full flex-col gap-4">
               <Input
                 type="email"
-                onChange={handleChange}
+          
                 name="email"
                 label="Correo electrónico"
                 placeholder="Correo electrónico"
                 className="w-full"
                 error={error.email}
-                onChange={handleEmail}
+                onChange={(e:any) => {handleEmail(e), handleChange(e)}}
+              
               />
               <Input
                 type="text"
                 name="userName"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
-                onChange={handleChange}
+                onChange={(e:any) => {handleUserName(e), handleChange(e)}}
                 className="w-full"
                 error={error.userName}
-                onChange={handleUserName}
+         
               />
               <Input
                 type="password"
                 name="password"
-                onChange={handleChange}
+           
                 label="Contraseña"
                 placeholder="Contraseña"
                 error={error.password}
-                onChange={handlePassword}
-              />
-               <Input
-                type="password"
-                name="password2"
-                label="Contraseña"
-                placeholder="Contraseña"
-                onChange={handlePassword}
-                
+                onChange={(e:any) => {handlePassword(e), handleChange(e)}}
+           
               />
               <button type="submit" className="primaryButton">
                 Registrarse
