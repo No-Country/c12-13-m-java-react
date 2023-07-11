@@ -3,9 +3,18 @@ package com.example.demo.model;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.Transient;
+
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+
 
 import lombok.Builder;
 import lombok.NonNull;
@@ -24,6 +33,7 @@ public class Space {
     private String coverImage = "";
     private List<Member> members = new ArrayList<>();
     @DBRef
+    @Cascade(CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
     private List<File> files = new ArrayList<>();
     private String createdAt;

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useState } from "react";
 import Head from "next/head";
 import userRegister from "@/hooks/useRegister";
-
+import { set } from "lodash";
+import { useAppDispatch } from "@/redux/hooks";
+import { register } from "@/redux/slices/authSession";
 export default function Home() {
   const router = useRouter();
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,11 +31,21 @@ export default function Home() {
 
   } = userRegister()
 
+  const dispacth = useAppDispatch()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     console.log(form);
-    router.push("/client");
+   // router.push("/client");
+   dispacth(register(form))
   };
 
   return (
@@ -53,14 +65,21 @@ export default function Home() {
                 name="firstName"
                 label="Nombre"
                 placeholder="Nombre"
+         
                 className="w-full"
+                error={error.firstName}
+                onChange={(e:any) => {handleFirstName(e), handleChange(e)}}
               />
               <Input
                 type="text"
                 name="lastName"
                 label="Apellidos"
+       
                 placeholder="Apellidos"
                 className="w-full"
+                error={error.lastName}
+                onChange={(e:any) => {handleLastName(e), handleChange(e)}}
+           
               />
               <button type="button" className="primaryButton" onClick={onClick}>
                 Siguiente
@@ -71,23 +90,34 @@ export default function Home() {
             <div id="step2" className="flex w-full flex-col gap-4">
               <Input
                 type="email"
+          
                 name="email"
                 label="Correo electrónico"
                 placeholder="Correo electrónico"
                 className="w-full"
+                error={error.email}
+                onChange={(e:any) => {handleEmail(e), handleChange(e)}}
+              
               />
               <Input
                 type="text"
-                name="username"
+                name="userName"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
+                onChange={(e:any) => {handleUserName(e), handleChange(e)}}
                 className="w-full"
+                error={error.userName}
+         
               />
               <Input
                 type="password"
                 name="password"
+           
                 label="Contraseña"
                 placeholder="Contraseña"
+                error={error.password}
+                onChange={(e:any) => {handlePassword(e), handleChange(e)}}
+           
               />
               <button type="submit" className="primaryButton">
                 Registrarse

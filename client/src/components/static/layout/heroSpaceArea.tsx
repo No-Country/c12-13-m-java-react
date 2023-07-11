@@ -11,6 +11,7 @@ import {
   RoomsProps,
   SpaceProps,
 } from "@/utils/types/client/spaces";
+import { useAppSelector } from "@/redux/hooks";
 
 type HeroSpaceAreaProps = {
   current: SpaceProps | RoomsProps;
@@ -18,6 +19,12 @@ type HeroSpaceAreaProps = {
   controls?: boolean;
   triggerText: string;
   children?: JSX.Element;
+  secondControls?: boolean;
+  childrenSecond?: JSX.Element;
+  triggerSecondText?: string;
+  showMembers?: boolean;
+  triggerIsAdmin?: boolean;
+  secondTriggerIsAdmin?: boolean;
 };
 
 export default function HeroSpaceArea({
@@ -26,8 +33,18 @@ export default function HeroSpaceArea({
   children,
   triggerText,
   controls = true,
+  secondControls = false,
+  childrenSecond,
+  triggerSecondText = "",
+  showMembers = true,
+  triggerIsAdmin = false,
+  secondTriggerIsAdmin = false,
 }: HeroSpaceAreaProps) {
   {
+    const { userIsAdminOfCurrentSpace } = useAppSelector(
+      (state) => state.client.spaces
+    );
+
     return (
       <section className="flex flex-col gap-10  ">
         <div className="flex items-center  gap-4 ">
@@ -48,17 +65,34 @@ export default function HeroSpaceArea({
             </div>
           </div>
           {controls && (
-            <div className="flex w-full flex-row items-center justify-end gap-5">
-              {type === "space" && (
-                <MembersList members={current?.members} size="medium" pictureHasMargin={true} />
-              )}
-
-              <ModalTrigger
-                triggerText={triggerText}
-                buttonType="primaryButton"
-              >
-                {children}
-              </ModalTrigger>
+            <div className="flex gap-2">
+              {secondControls && ((secondTriggerIsAdmin && userIsAdminOfCurrentSpace) ||
+                  !secondTriggerIsAdmin) && (
+                  <ModalTrigger
+                    triggerText={triggerSecondText}
+                    buttonType="secondaryButton"
+                  >
+                    {childrenSecond}
+                  </ModalTrigger>
+                )}
+              <div className="flex w-full flex-row items-center justify-end gap-5">
+                {type === "space" && showMembers && (
+                  <MembersList
+                    members={current?.members}
+                    size="medium"
+                    pictureHasMargin={true}
+                  />
+                )}
+                {((triggerIsAdmin && userIsAdminOfCurrentSpace) ||
+                  !triggerIsAdmin) && (
+                  <ModalTrigger
+                    triggerText={triggerText}
+                    buttonType="primaryButton"
+                  >
+                    {children}
+                  </ModalTrigger>
+                )}
+              </div>
             </div>
           )}
         </div>

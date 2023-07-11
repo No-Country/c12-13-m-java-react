@@ -1,10 +1,11 @@
 import {
   Main,
   SpacesList,
-  ModalTrigger,
+  SpaceCreateForm,
   Image,
   Hr,
   ListTopArea,
+  Loader
 } from "@/components";
 import Head from "next/head";
 
@@ -15,7 +16,9 @@ export default function HomeClient() {
         <title>Mis espacios | Spaces</title>
       </Head>
       <Main className="gap-[40px] ">
+     
         <Hero />
+        
         <Hr hasPadding={true} />
         <Spaces />
       </Main>
@@ -62,7 +65,8 @@ function Spaces() {
         title="Mis espacios"
         description="Organiza tus proyectos"
         buttonText="Crear nuevo espacio"
-        triggerContent={<div>Form crear un espacio</div>}
+        triggerIsAdmin={false}
+        triggerContent={<SpaceCreateForm />}
       />
       <SpacesList />
     </section>

@@ -11,8 +11,9 @@ type InputProps = {
   value?: string;
   prefix?: string;
   onChange?: any;
-  error?: string;
+  error?: string|null
   step?: string;
+  required?: boolean;
 };
 
 export default function Input(props: InputProps) {
@@ -40,6 +41,7 @@ export default function Input(props: InputProps) {
         placeholder={props.placeholder}
         className={`${props.className} smalltext rounded-2xl px-4 py-2 ${className}`}
         style={{ borderWidth: "1px" }}
+        required={props.required}
       />
       {props.error && (
         <p className="gap-estilo4 smalltext text-red-700 ml-2 flex font-medium dark:text-red-800">

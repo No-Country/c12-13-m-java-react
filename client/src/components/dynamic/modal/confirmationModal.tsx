@@ -9,6 +9,8 @@ type ModalTriggerProps = {
   confirmParagraph: string;
   trueAction: () => void;
   mustConfirm?: boolean;
+  alwaysOpen?: boolean;
+  alwaysOpenManage?: (value: boolean) => void;
 };
 
 export default function ConfirmationModal({
@@ -18,9 +20,11 @@ export default function ConfirmationModal({
   triggerClass = "rounded-md  px-4 py-2 text-white",
   triggerColor = "bg-blue-500",
   mustConfirm = true,
+  alwaysOpen = false,
+  alwaysOpenManage = () => {},
   trueAction,
 }: ModalTriggerProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(alwaysOpen);
 
   const handleTrueAction = () => {
     trueAction();
@@ -35,6 +39,11 @@ export default function ConfirmationModal({
     }
     };
 
+const handleCloseAlwaysOpen = () => {
+    setIsOpen(false);
+    alwaysOpenManage(false);
+}
+
   return (
     <div>
       <button
@@ -43,7 +52,7 @@ export default function ConfirmationModal({
       >
         {triggerText}
       </button>
-      <ModalBase isOpen={isOpen} close={() => setIsOpen(false)} position="center-center">
+      <ModalBase isOpen={isOpen} close={() => setIsOpen(false)} position="center-center" setIsOpen={setIsOpen}> 
         <div className="flex flex-col gap-5">
           <h3 className="text-2xl font-medium">{confirmText}</h3>
           <p className="text-gray-800">{confirmParagraph}</p>

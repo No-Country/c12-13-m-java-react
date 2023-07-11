@@ -1,51 +1,126 @@
 import { gql } from "@apollo/client";
 
-export const GET_AFTER_LOGIN = gql`
+export const GET_USER_BY_ID = gql`
   query GetUser($id: ID!) {
-    User(id: $id) {
+    findUserById(id: $id) {
       id
       firstName
       lastName
-      username
-      profileImage
       email
-      isSuperAdmin
+      username
+      loginMethod
       softDelete
-      spaces
+      isSuperAdmin
+      createdAt
+      updatedAt
+      coverImage
+      profileImage
+      spaces {
+        id
+        accessCode
+        name
+        description
+        coverImage
+        updatedAt
+        createdAt
+        members {
+          role
+          user {
+            profileImage
+            firstName
+            lastName
+          }
+        }
+      }
     }
   }
 `;
 
-export const GET_ON_SPACE_ENTER = gql`
-  query GetSpace($id: ID!) {
-    Space(id: $id) {
+export const GET_SPACE_BY_ID = gql`
+  query findSpaceById($id: ID!) {
+    findSpaceById(id: $id) {
       id
-      accessCode
       name
       description
       coverImage
-      lastModified
       createdAt
-      members
-      rooms
-      files
+      updatedAt
+      accessCode
+      members {
+        user {
+          id
+          profileImage
+          firstName
+          lastName
+        }
+        role
+      }
+      rooms {
+        id
+        name
+        description
+        createdAt
+        updatedAt
+        coverImage
+      }
+      files {
+        id
+        name
+        description
+        type
+        src
+        asignedRoom {
+          name
+          id
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
 
 //agregar "spaceOwner" a la query
-export const GET_ON_ROOM_ENTER = gql`
-  query GetRoom($id: ID!) {
-    Room(id: $id) {
-      name
+export const GET_ROOM_BY_ID = gql`
+  query findRoomById($id: ID!) {
+    findRoomById(id: $id) {
       id
+      name
       description
       coverImage
-      lastModified
       createdAt
-      tasks
+      updatedAt
+      tasks {
+        id
+        title
+        description
+        deadline
+        createdAt
+        status
+        updatedAt
+        assignedTo {
+          user {
+            firstName
+            lastName
+            profileImage
+            id
+          }
+        }
+      }
+      spaceOwner {
+        id
+      }
     }
   }
 `;
+
+export const VERIFY_SESSION = gql`
+  query VerifySession {
+    verifySession(userId: "64ac9a36ba0d360b92b062e7")
+  }
+`;
+
+
+
 
 // Otras consultas GraphQL...

@@ -5,14 +5,28 @@ import {
   ModalTrigger,
   Image,
   HeroSpaceArea,
+  RoomEditForm,
+  EditManager,
+  TaskCreateForm,
 } from "@/components";
 import { useState } from "react";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Head from "next/head";
+import { deleteRoom, editRoom } from "@/redux/slices/client/spaces";
+
 export default function CurrentRoom() {
   const [index, setIndex] = useState(0);
+  const [nowEditing, setNowEditing] = useState<boolean>(false);
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
+
+  const dispatch = useAppDispatch();
   const { currentRoom } = useAppSelector((state) => state.client.spaces);
+  const [processedData, setProcessedData] = useState<any>(currentRoom);
+
+  const handleSave = async (editedData: any) => {
+    console.log(editedData);
+    await dispatch(editRoom(editedData));
+  };
 
   return (
     <>
@@ -24,8 +38,30 @@ export default function CurrentRoom() {
           current={currentRoom}
           type="room"
           triggerText="Crear una tarea"
+          secondControls={true}
+          secondTriggerIsAdmin={true}
+          triggerIsAdmin={false}
+          triggerSecondText="Editar room"
+          childrenSecond={
+            <EditManager
+              processedData={processedData}
+              originalData={currentRoom}
+              title="Editar room"
+              deleteAction={deleteRoom}
+              nowEditing={nowEditing}
+              route={`/client`}
+              editAction={(editedData: any) => handleSave(editedData)}
+            >
+              <RoomEditForm
+                originalData={currentRoom}
+                processedData={processedData}
+                setProcessedData={setProcessedData}
+                setNowEditing={setNowEditing}
+              />
+            </EditManager>
+          }
         >
-          <div>Crear una tarea</div>
+          <TaskCreateForm />
         </HeroSpaceArea>
         <section className="flex flex-col gap-5">
           <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />

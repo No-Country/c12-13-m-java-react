@@ -24,7 +24,8 @@ public class User {
     @NonNull
     private String password;
     @NonNull
-    private String loginMethod;
+    @Builder.Default
+    private String loginMethod = "local";
     @Builder.Default
     private String profileImage = "";
     @Builder.Default
@@ -171,6 +172,10 @@ public class User {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void removeSpace(Space space) {
+        this.spaces.remove(space);
     }
 
     // ---------------------------------------------------------------------------------------------

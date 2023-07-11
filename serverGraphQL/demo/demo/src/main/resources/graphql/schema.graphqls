@@ -66,12 +66,21 @@ type Members {
   role: String
 }
 
+type Sessions {
+  id: ID
+  originalSessionId: String
+  expireAt: String
+  userId: String
+  userEmail: String
+}
+
 type Query {
   findAllUsers: [Users]
   findUserById(id: ID): Users
   findSpaceById(id: ID): Spaces
   findRoomById(id: ID): Rooms
   findTaskById(taskId: ID, roomId: ID): Tasks
+  verifySession(userId: ID): Boolean
 }
 
 type Mutation {
@@ -80,7 +89,7 @@ type Mutation {
     lastName: String!
     email: String!
     password: String!
-    loginMethod: String!
+    loginMethod: String
     username: String!
     profileImage: String
     isSuperAdmin: Boolean
@@ -154,4 +163,10 @@ type Mutation {
     deadline: String
     assignedToIds: [ID]
   ): Tasks
+
+  joinSpace(spaceId: ID!, userId: ID!): Spaces
+
+  leaveSpace(spaceId: ID!, userId: ID!): Spaces
+
+  createSession(email: String!, password: String!): Sessions
 }

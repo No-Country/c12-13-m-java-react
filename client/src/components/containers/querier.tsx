@@ -1,7 +1,14 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect } from "react";
-import { getCurrentSpace, getCurrentRoom, getRooms } from "@/redux/slices/client/spaces";
+import { ReactNode, useEffect, useMemo, useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { setIsAdminOfCurrentSpace } from "@/redux/slices/client/spaces";
+import { debounce } from "lodash";
+import {
+  getCurrentSpace,
+  getCurrentRoom,
+  getRooms,
+} from "@/redux/slices/client/spaces";
 
 type Props = {
   children: ReactNode;
@@ -11,12 +18,18 @@ export default function Querier({ children }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { spaceId, roomId } = router.query;
-
+  const { id } = useAppSelector((state) => state.authSession.session.current);
+  const { currentSpace, userIsAdminOfCurrentSpace } = useAppSelector(
+    (state) => state.client.spaces
+  );
+  const [isAdmin, setIsAdmin] = useState<any>();
   useEffect(() => {
     if (
       spaceId &&
       (router.pathname === "/client/[spaceId]" ||
-        router.pathname === "/client/[spaceId]/settings" || router.pathname === "/client/[spaceId]/members" || router.pathname === "/client/[spaceId]/files")
+        router.pathname === "/client/[spaceId]/settings" ||
+        router.pathname === "/client/[spaceId]/members" ||
+        router.pathname === "/client/[spaceId]/files")
     ) {
       dispatch(getCurrentSpace(spaceId as string));
       dispatch(getRooms(spaceId as string));
@@ -29,6 +42,41 @@ export default function Querier({ children }: Props) {
       dispatch(getCurrentRoom(roomId as string));
     }
   }, [spaceId, roomId, router.pathname]);
+
+  //Check if user is admin of current space
+
+  const handleAdmin = () => {
+    if (router.pathname === "/client/[spaceId]/settings") {
+      if (!userIsAdminOfCurrentSpace) {
+        router.push(`/client/${currentSpace.id}`);
+      }
+    }
+  };
+
+  const delayedSystemStart = useMemo(
+    () => debounce(() => handleAdmin(), 1500),
+    [router.pathname, userIsAdminOfCurrentSpace]
+  );
+
+  useEffect(() => {
+    const cancelDebounce = () => {
+      delayedSystemStart.cancel();
+    };
+    delayedSystemStart();
+    return cancelDebounce;
+  }, [delayedSystemStart]);
+
+  useEffect(() => {
+    setIsAdmin(
+      Boolean(
+        currentSpace?.members?.find(
+          (member: any) => member?.user?.id === id && member?.role === "admin"
+        )
+      )
+    );
+    dispatch(setIsAdminOfCurrentSpace(isAdmin));
+    console.log("isAdmin", isAdmin);
+  }, [currentSpace]);
 
   return <div>{children}</div>;
 }

@@ -4,6 +4,8 @@ import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
+import com.example.demo.utils.PasswordUtils;
+
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ public class UserController {
 
     @SchemaMapping(typeName = "Query", value = "findUserById")
     public User findOne(@Argument String id) {
+        System.out.println("findUserById1 + " + id);
         // return userRepository.findById(id).orElseThrow(null);
         User user = userRepository.findById(id).orElseThrow(null);
         // List<Space> spaces = user.getSpaces();
@@ -56,13 +59,17 @@ public class UserController {
         } else {
             user.setUsername(username);
         }
-        user.setPassword(password);
-        user.setLoginMethod(loginMethod);
+        String encryptedPassword = PasswordUtils.encryptPassword(password);
+        user.setPassword(encryptedPassword);
+        
         if (profileImage != null && !profileImage.isEmpty()) {
             user.setProfileImage(profileImage);
         }
         if (isSuperAdmin != null && !isSuperAdmin) {
             user.setIsSuperAdmin(isSuperAdmin);
+        }
+        if(loginMethod!=null && !loginMethod.isEmpty()){
+         user.setLoginMethod(loginMethod);
         }
         user.setCreatedAt(new Date().toString());
         user.setUpdatedAt(new Date().toString());

@@ -31,13 +31,24 @@ export { default as Popover } from "./dynamic/modal/popover";
 
 export { default as VerticalNav } from "./dynamic/common/verticalNav";
 export { default as Input } from "./dynamic/common/input";
-export { default as GoogleButton } from "./dynamic/common/googleButton"
+export { default as GoogleButton } from "./dynamic/common/googleButton";
 
 export { default as ListTopArea } from "./dynamic/layout/listTopArea";
 export { default as AuthLayout } from "./static/layout/authLayout";
 
-
 export { default as HelpHero } from "./static/masters/helpHero";
 export { default as TextToInput } from "./dynamic/common/textToInput";
 
+export { default as EditManager } from "./static/proyect/editManager";
+export { default as SpaceEditForm } from "./static/proyect/spaces/spaceEditForm";
+export { default as SpaceCreateForm } from "./static/proyect/spaces/spaceCreateForm";
+export { default as SpaceInvite } from "./static/proyect/spaces/spaceInvite";
 
+export { default as RoomCreateForm } from "./static/proyect/rooms/roomCreateForm";
+export { default as RoomEditForm } from "./static/proyect/rooms/roomEditForm";
+export { default as TaskCreateForm } from "./static/proyect/tasks/taskCreateForm";
+export { default as TaskEditForm } from "./static/proyect/tasks/taskEditForm";
+
+export { default as Loader } from "./static/layout/loader";
+
+export { default as MultiSelect } from "./dynamic/common/multiSelect";

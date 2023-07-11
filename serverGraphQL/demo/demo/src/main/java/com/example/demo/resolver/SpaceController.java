@@ -42,12 +42,13 @@ public class SpaceController {
 
     // Mutation
     @SchemaMapping(typeName = "Mutation", field = "createSpace")
-    public Space createSpace(@Argument String firstName,
+    public Space createSpace(
             @Argument String name,
             @Argument String description,
             @Argument String accessCode,
             @Argument String coverImage,
             @Argument String userOwner) {
+        System.out.println("createSpace");
 
         // Crear el espacio
         Space space = new Space();
@@ -82,11 +83,11 @@ public class SpaceController {
         Space space = spaceRepository.findById(id).orElseThrow(null);
 
         // Borramos todas las rooms del espacio
-        space.getRooms().forEach(room -> {
-            roomRepository.delete(room);
-        });
+        // space.getRooms().forEach(room -> {
+        // roomRepository.delete(room);
+        // });
 
-        // Borramos el espacio del usuario
+        // // Borramos el espacio del usuario
         space.getMembers().forEach(member -> {
             // Obtenemos el usuario
             User user = member.getUser();
@@ -97,7 +98,7 @@ public class SpaceController {
         });
 
         // Borramos el espacio
-        System.out.println(space);
+        System.out.println(space.getName());
         spaceRepository.delete(space);
         return space;
     }
@@ -129,6 +130,53 @@ public class SpaceController {
         space.setUpdatedAt(new Date().toString());
 
         // Guardamos los cambios
+        spaceRepository.save(space);
+
+        return space;
+    }
+
+    @SchemaMapping(typeName = "Mutation", field = "joinSpace")
+    public Space joinSpace(@Argument String spaceId, @Argument String userId) {
+        // Obtenemos el espacio
+        Space space = spaceRepository.findById(spaceId).orElseThrow(null);
+        // Obtenemos el usuario
+        User user = userRepository.findById(userId).orElseThrow(null);
+
+        // Si ya es miembro del espacio, no hacemos nada
+        if (space.getMembers().stream().anyMatch(member -> member.getUser().getId().equals(userId))) {
+            return space;
+        }
+
+        // Creamos el miembro
+        Member member = new Member(user, "member");
+        // Agregamos el miembro al espacio
+        space.addMember(member);
+        // Agregamos el espacio al usuario
+        user.getSpaces().add(space);
+        // Guardamos los cambios
+        spaceRepository.save(space);
+        userRepository.save(user);
+        return space;
+    }
+
+    @SchemaMapping(typeName = "Mutation", field = "leaveSpace")
+    public Space leaveSpace(@Argument String spaceId, @Argument String userId) {
+        // Obtenemos el espacio
+        System.out.println(spaceId);
+        System.out.println(userId);
+        Space space = spaceRepository.findById(spaceId).orElseThrow(null);
+        // Obtenemos el usuario
+        User user = userRepository.findById(userId).orElseThrow(null);
+
+        // Borramos el espacio del usuario
+        space.getMembers().removeIf(member -> member.getUser().getId().equals(userId));
+        user.getSpaces().removeIf(s -> s.getId().equals(spaceId));
+        // Guardamos los cambios en el usuario
+        userRepository.save(user);
+
+        // Borramos el usuario del espacio
+        space.getMembers().removeIf(member -> member.getUser().getId().equals(userId));
+        // Guardamos los cambios en el espacio
         spaceRepository.save(space);
 
         return space;
