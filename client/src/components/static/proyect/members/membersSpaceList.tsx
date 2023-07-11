@@ -9,7 +9,7 @@ import {
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
 import { useEffect, useState } from "react";
-import { expulseMember } from "@/redux/slices/client/spaces";
+import { expulseMember } from "@/redux/slices/client/spaces/spaces";
 
 type MembersListProps = {
   members: MembersProps[];

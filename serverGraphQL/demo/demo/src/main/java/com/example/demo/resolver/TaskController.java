@@ -1,19 +1,17 @@
 package com.example.demo.resolver;
 
 import com.example.demo.model.Room;
-import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.model.Member;
 import com.example.demo.model.Task;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.SpaceRepository;
 import com.example.demo.repository.RoomRepository;
 
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
+
 import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
@@ -26,16 +24,10 @@ public class TaskController {
 
     @Autowired
     TaskPublisher taskPublisher;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private SpaceRepository spaceRepository;
-    @Autowired
     private RoomRepository roomRepository;
-    // private final UserRepository userRepository;
-    // private final SpaceRepository spaceRepository;
-    // private final RoomRepository roomRepository;
 
     @SchemaMapping(typeName = "Query", value = "findTaskById")
     public Task findOne(@Argument String taskId, @Argument String roomId) {
@@ -111,6 +103,7 @@ public class TaskController {
     public Task deleteTask(@Argument String taskId, @Argument String roomId) {
         Room room = roomRepository.findById(roomId).orElseThrow(null);
         Task task = room.getTaskById(taskId);
+        taskPublisher.publishTask(task, room.getId(), "delete");
         room.deleteTask(taskId);
         roomRepository.save(room);
         return task;
@@ -164,31 +157,24 @@ public class TaskController {
             task.setAssignedTo(assignedTo);
         }
         task.setUpdatedAt(new Date().toString());
-
         roomRepository.save(room);
-
         taskPublisher.publishTask(task, room.getId(), "edit");
-
         return task;
     }
 
-    // @SubscriptionMapping
-    // public Publisher<Task> notifyTaskChange() {
-    // return taskPublisher.getPublisher();
-    // }
     @SchemaMapping(typeName = "Subscription", field = "notifyTaskCreated")
     public Publisher<Task> notifyTaskCreated(@Argument String roomId) {
         return taskPublisher.getCreateTaskStream(roomId);
     }
-    
+
     @SchemaMapping(typeName = "Subscription", field = "notifyTaskChanged")
     public Publisher<Task> notifyTaskChanged(@Argument String roomId) {
         return taskPublisher.getEditTaskStream(roomId);
     }
-    
 
-    // public Publisher<Task> taskChanged(String roomId) {
-    //     return taskPublisher.getModifiedTaskStream(roomId);
-    // }
+    @SchemaMapping(typeName = "Subscription", field = "notifyTaskDeleted")
+    public Publisher<Task> notifyTaskDeleted(@Argument String roomId) {
+        return taskPublisher.getDeleteTaskStream(roomId);
+    }
 
 }

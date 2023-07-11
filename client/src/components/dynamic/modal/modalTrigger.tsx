@@ -20,9 +20,6 @@ export default function ModalTrigger({
 
   
 
-  useEffect(() => {
-    console.log("isOpen2", isOpen);
-  }, [isOpen]);
 
   const handleClose = () => {
   if (alwaysOpen) {

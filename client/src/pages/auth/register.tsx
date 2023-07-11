@@ -43,7 +43,7 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(form);
+
    // router.push("/client");
    dispacth(register(form))
   };

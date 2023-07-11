@@ -15,13 +15,13 @@ import {
 import Head from "next/head";
 import { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
-import { leaveSpace } from "@/redux/slices/client/spaces";
+import { leaveSpace } from "@/redux/slices/client/spaces/spaces";
 export default function Members() {
-  const { currentSpace } = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
   const [leaveSpaceVisibility, setLeaveSpaceVisibility] = useState(false);
 const dispatch = useAppDispatch();
   const handleTrueAction = () => {
-    console.log("Se sale del espacio");
+
     dispatch(leaveSpace());
   };
 

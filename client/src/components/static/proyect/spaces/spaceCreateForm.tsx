@@ -1,7 +1,7 @@
 import { Input } from "@/components";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { createSpace } from "@/redux/slices/client/spaces";
+import { createSpace } from "@/redux/slices/client/spaces/spaces";
 import { useRouter } from "next/router";
 
 export default function SpaceCreateForm() {
@@ -10,10 +10,10 @@ export default function SpaceCreateForm() {
   const [form, setForm] = useState<any>();
   const { id } = useAppSelector((state) => state.authSession.session.current);
   const { id: spaceId } = useAppSelector(
-    (state) => state.client.spaces.currentSpace
+    (state) => state.client.spaces.spaces.currentSpace
   );
 
-  console.log("id", id);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,7 +22,7 @@ export default function SpaceCreateForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setForm({ ...form, userOwner: id });
-    console.log(form);
+
 
     await dispatch(createSpace(form));
    // router.push(`/client/${spaceId}`);

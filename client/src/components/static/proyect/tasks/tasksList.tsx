@@ -11,7 +11,7 @@ type TasksListProps = {
 export default function TasksList({ index }: TasksListProps) {
   const router = useRouter();
 
-  const { currentRoom } = useAppSelector((state) => state.client.spaces);
+  const { currentRoom } = useAppSelector((state) => state.client.spaces.rooms);
   const [tasks, setTasks] = useState<TasksProps[]>([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function TasksList({ index }: TasksListProps) {
         ? currentRoom?.tasks
         : currentRoom?.tasks?.filter((task) => task.status == index)
     );
-    console.log("index", index, tasks);
+
   }, [index, currentRoom]);
 
   return (

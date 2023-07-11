@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 export default function RoomsList() {
   const router = useRouter();
   const { spaceId } = router.query;
-  const { rooms } = useAppSelector((state) => state.client.spaces);
+  const { rooms } = useAppSelector((state) => state.client.spaces.rooms);
 
   return (
     <div className=" grid grid-cols-3 gap-4">

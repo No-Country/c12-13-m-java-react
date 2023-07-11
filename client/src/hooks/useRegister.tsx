@@ -96,7 +96,7 @@ const userRegister = () => {
      const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{7,}$/.test(e.target.value);//.test(e.target.value);
     const passwordsMatch:boolean = (e.target.name == "password2") ? password != e.target.value : false
 
-    console.log(password, e.target.value)
+   
     
     setError({
       ...error,

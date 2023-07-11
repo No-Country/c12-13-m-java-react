@@ -10,7 +10,7 @@ export default function Logout() {
   const { auth } = useAppSelector((state) => state.authSession);
 
   const loginMethod = auth?.loginMethod;
-console.log(auth)
+
   const logOutJson = async () => {
     dispatch(resetReducer());
     // resetPersist()

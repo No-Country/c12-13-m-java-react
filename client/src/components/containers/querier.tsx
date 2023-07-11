@@ -2,14 +2,13 @@ import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { setIsAdminOfCurrentSpace } from "@/redux/slices/client/spaces";
+
 import { debounce } from "lodash";
 import {
   getCurrentSpace,
-  getCurrentRoom,
-  getRooms,
-} from "@/redux/slices/client/spaces";
-
+  setIsAdminOfCurrentSpace,
+} from "@/redux/slices/client/spaces/spaces";
+import { getCurrentRoom, getRooms } from "@/redux/slices/client/spaces/rooms";
 type Props = {
   children: ReactNode;
 };
@@ -20,7 +19,7 @@ export default function Querier({ children }: Props) {
   const { spaceId, roomId } = router.query;
   const { id } = useAppSelector((state) => state.authSession.session.current);
   const { currentSpace, userIsAdminOfCurrentSpace } = useAppSelector(
-    (state) => state.client.spaces
+    (state) => state.client.spaces.spaces
   );
   const [isAdmin, setIsAdmin] = useState<any>();
   useEffect(() => {
@@ -75,7 +74,6 @@ export default function Querier({ children }: Props) {
       )
     );
     dispatch(setIsAdminOfCurrentSpace(isAdmin));
-    console.log("isAdmin", isAdmin);
   }, [currentSpace]);
 
   return <div>{children}</div>;
