@@ -3,13 +3,18 @@ package com.example.demo.resolver.space;
 import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.model.Member;
+import com.example.demo.model.Room;
+import com.example.demo.model.Chat;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.RoomRepository;
 import com.example.demo.repository.SpaceRepository;
+import com.example.demo.repository.ChatRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 import java.util.Date;
+
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
@@ -21,6 +26,8 @@ public class SpaceMutations {
     private SpaceRepository spaceRepository;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private ChatRepository chatRepository;
 
     @SchemaMapping(typeName = "Mutation", field = "createSpace")
     public Space createSpace(
@@ -37,18 +44,35 @@ public class SpaceMutations {
         space.setCoverImage(coverImage);
         space.setCreatedAt(new Date().toString());
         space.setUpdatedAt(new Date().toString());
+
+        // Crear el espacio y guardarlo en la base de datos
         spaceRepository.save(space);
+        System.out.println("Space id: " + space.getId());
         // Obtener el usuario correspondiente al userOwner
         User user = userRepository.findById(userOwner).orElseThrow(null);
+        System.out.println("User id: " + user.getId());
         // Crear el miembro
         Member member = new Member(user, "admin");
-        // Agregar el usuario al espacio
+
+        // Crear el chat y establecer el espacio
+        System.out.println("Creando chat...");
+        Chat chat = new Chat();
+        // Guardar el chat en la base de datos
+        chatRepository.save(chat);
+        System.out.println("Chat id: " + chat.getId());
+        // Agregar el chat al espacio
+        space.setChat(chat);
+
+        // Agregar el usuario como miembro del espacio
         space.addMember(member);
+
         // Agregar el espacio al usuario
         user.getSpaces().add(space);
+
         // Guardar los cambios en el usuario y el espacio
         userRepository.save(user);
         spaceRepository.save(space);
+
         return space;
     }
 
@@ -57,10 +81,13 @@ public class SpaceMutations {
 
         Space space = spaceRepository.findById(id).orElseThrow(null);
 
-        // Borramos todas las rooms del espacio
         space.getRooms().forEach(room -> {
             roomRepository.delete(room);
         });
+
+        // borrar el chat
+        Chat chat = space.getChat();
+        chatRepository.delete(chat);
 
         // Borramos el espacio del usuario
         space.getMembers().forEach(member -> {

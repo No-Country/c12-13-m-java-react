@@ -24,6 +24,7 @@ type Spaces {
   members: [Members]
   rooms: [Rooms]
   files: [Files]
+  chat: Chat
   createdAt: String
   updatedAt: String
 }
@@ -72,6 +73,21 @@ type Sessions {
   expireAt: String
   userId: String
   userEmail: String
+}
+
+type Chat {
+  id: ID
+  messages: [Messages]
+  createdAt: String
+  updatedAt: String
+}
+
+type Messages {
+  id: ID
+  fromUser: Users
+  content: String
+  createdAt: String
+  updatedAt: String
 }
 
 type Query {
@@ -169,6 +185,8 @@ type Mutation {
   leaveSpace(spaceId: ID!, userId: ID!): Spaces
 
   createSession(email: String!, password: String!): Sessions
+
+  createMessage(userId: ID!, chatId: ID!, content: String!): Messages
 }
 
 type Subscription {
