@@ -5,12 +5,19 @@ import Link from "next/link";
 import Head from "next/head";
 import { useAppDispatch } from "@/redux/hooks";
 import { login } from "@/redux/slices/authSession";
+import useRegister from "@/hooks/useRegister";
 export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const {data,error,handleEmail,handlePassword} = useRegister()
+
+  const {email,password} = data
+
+
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-dispatch(login({ email: e.currentTarget.email.value, password: e.currentTarget.password.value }));
+dispatch(login({email,password}));
   };
 
   return (
@@ -29,12 +36,16 @@ dispatch(login({ email: e.currentTarget.email.value, password: e.currentTarget.p
             label="Correo electrónico"
             placeholder="Correo electrónico"
             className="w-full"
+            onChange={handleEmail}
+            error={error.email}
           />
           <Input
             type="password"
             name="password"
             label="Contraseña"
             placeholder="Contraseña"
+            onChange={handlePassword}
+            error={error.password}
           />
           <p className=" w-full text-center font-light">
             ¿No recuerdas tu contraseña?{" "}
