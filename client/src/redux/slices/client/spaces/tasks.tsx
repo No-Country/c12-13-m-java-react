@@ -106,19 +106,6 @@ const postsSlice = createSlice({
       })
       .addCase(editTask.pending, (state) => {})
       .addCase(editTask.fulfilled, (state, action) => {
-        // state.currentRoom.tasks = state.currentRoom.tasks.map((task) => {
-        //   if (task.id === action.payload.id) {
-        //     return {
-        //       ...task,
-        //       title: action.payload.title,
-        //       description: action.payload.description,
-        //       assignedTo: action.payload.assignedTo,
-        //       status: action.payload.status,
-        //     };
-        //   } else {
-        //     return task;
-        //   }
-        // });
         toast.success("Tarea editada correctamente", toastSuccess);
       })
       .addCase(editTask.rejected, (state) => {
@@ -129,10 +116,6 @@ const postsSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         console.log("data rooms", action.payload);
         toast.success("Tarea borrada correctamente", toastSuccess);
-        //Borramos la tarea del array de tareas de la sala
-        // state.currentRoom.tasks = state.currentRoom.tasks.filter(
-        //   (task) => task.id !== action.payload.id
-        // );
       })
       .addCase(deleteTask.rejected, (state) => {
         console.log("Error al borrar tarea");

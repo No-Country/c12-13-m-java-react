@@ -1,9 +1,6 @@
 import {
-  Main,
   LayoutSpaces,
   TasksList,
-  ModalTrigger,
-  Image,
   HeroSpaceArea,
   RoomEditForm,
   EditManager,
@@ -12,7 +9,13 @@ import {
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Head from "next/head";
-import { deleteRoom, editRoom } from "@/redux/slices/client/spaces/rooms";
+import {
+  deleteRoom,
+  editRoom,
+  addTask,
+  deleteTask,
+  editTask,
+} from "@/redux/slices/client/spaces/rooms";
 import { useSubscription } from "@apollo/client";
 import {
   NOTIFY_TASK_CHANGED,
@@ -41,10 +44,24 @@ export default function CurrentRoom() {
   });
 
   useEffect(() => {
-    console.log("datachange",datachange);
-    console.log("datacreate",datacreate);
-    console.log("datadelete",datadelete);
-  }, [datachange, datacreate, datadelete]);
+    if (datachange?.notifyTaskChanged) {
+      console.log("datachange", datachange);
+      dispatch(editTask(datachange?.notifyTaskChanged));
+    }
+  }, [datachange]);
+
+  useEffect(() => {
+    if (datacreate?.notifyTaskCreated) {
+      dispatch(addTask(datacreate?.notifyTaskCreated));
+    }
+  }, [datacreate]);
+
+  useEffect(() => {
+    console.log("deleteTask index", datadelete);
+    if (datadelete?.notifyTaskDeleted) {
+      dispatch(deleteTask(datadelete?.notifyTaskDeleted));
+    }
+  }, [datadelete]);
 
   const handleSave = async (editedData: any) => {
     console.log(editedData);
