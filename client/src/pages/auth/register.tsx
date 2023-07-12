@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
 import Head from "next/head";
-import userRegister from "@/hooks/useRegister";
+import useRegister from "@/hooks/useRegister";
 import { set } from "lodash";
 import { useAppDispatch } from "@/redux/hooks";
 import { register } from "@/redux/slices/authSession";
@@ -29,7 +29,7 @@ export default function Home() {
     handlePassword,
     isValidForm
 
-  } = userRegister()
+  } = useRegister()
 
   
 

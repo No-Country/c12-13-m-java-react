@@ -17,7 +17,7 @@ type DataRegister = {
   userName: string;
 };
 
-const userRegister = () => {
+const useRegister = () => {
   const [error, setError] = useState<Error>({
     firstName: null,
     lastName: null,
@@ -39,10 +39,10 @@ const userRegister = () => {
   const errorForm = Object.values(error).some(e => e != null)
   console.log(errorForm) 
 
-  const EmtyForm = Object.values(data).some(e => e.trim() == "")
+  const EmptyForm = Object.values(data).some(e => e.trim() == "")
 
 
-  const isValidForm = errorForm || EmtyForm
+  const isValidForm = errorForm || EmptyForm
 
 
 
@@ -125,8 +125,9 @@ const userRegister = () => {
     handleUserName,
     handleEmail,
     handlePassword,
-    isValidForm
+    isValidForm,
+    errorForm
   };
 };
 
-export default userRegister;
+export default useRegister;
