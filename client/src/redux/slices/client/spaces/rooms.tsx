@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
-import { RoomsProps } from "@/utils/types/client/spaces";
+import { RoomsProps, TasksProps } from "@/utils/types/client/spaces";
 
 const initialState = {
   rooms: [] as RoomsProps[],
@@ -116,6 +116,30 @@ const postsSlice = createSlice({
   name: "rooms",
   initialState,
   reducers: {
+    addTask: (state, action: PayloadAction<TasksProps>) => {
+      state.currentRoom.tasks.push(action.payload);
+    },
+    deleteTask: (state, action: PayloadAction<TasksProps>) => {
+      console.log("deleteTask redux", action.payload);
+      state.currentRoom.tasks = state.currentRoom.tasks.filter(
+        (task) => task.id !== action.payload.id
+      );
+    },
+    editTask: (state, action: PayloadAction<TasksProps>) => {
+      state.currentRoom.tasks = state.currentRoom.tasks.map((task) => {
+        if (task.id === action.payload.id) {
+          return {
+            ...task,
+            title: action.payload.title,
+            description: action.payload.description,
+            assignedTo: action.payload.assignedTo,
+            status: action.payload.status,
+          };
+        } else {
+          return task;
+        }
+      });
+    },
     resetReducer: (state) => {
       state.rooms = initialState.rooms;
       state.currentRoom = initialState.currentRoom;
@@ -179,6 +203,7 @@ const postsSlice = createSlice({
   },
 });
 
-export const { resetReducer } = postsSlice.actions;
+export const { resetReducer, deleteTask, addTask, editTask } =
+  postsSlice.actions;
 
 export default postsSlice.reducer;
