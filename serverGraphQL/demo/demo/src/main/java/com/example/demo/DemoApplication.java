@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
+@EnableWebSocket
 public class DemoApplication {
 
     private final MongoTemplate mongoTemplate;
