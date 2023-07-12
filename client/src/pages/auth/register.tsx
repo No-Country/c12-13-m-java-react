@@ -15,37 +15,35 @@ export default function Home() {
     router.push("/client");
   };
   const [step, setStep] = useState<number>(1);
-  const [form, setForm] = useState({});
   const onClick = () => {
     setStep(2);
   };
 
   const {
+    data,
     error,
     handleFirstName,
     handleLastName,
     handleUserName,
-    handleConfirmPassword,
     handleEmail,
     handlePassword,
+    isValidForm
 
   } = userRegister()
 
+  
+
+  
+ 
   const dispacth = useAppDispatch()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+ 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
 
    // router.push("/client");
-   dispacth(register(form))
+   dispacth(register(data))
   };
 
   return (
@@ -68,7 +66,7 @@ export default function Home() {
          
                 className="w-full"
                 error={error.firstName}
-                onChange={(e:any) => {handleFirstName(e), handleChange(e)}}
+                onChange={(e:any) => {handleFirstName(e)}}
               />
               <Input
                 type="text"
@@ -78,7 +76,7 @@ export default function Home() {
                 placeholder="Apellidos"
                 className="w-full"
                 error={error.lastName}
-                onChange={(e:any) => {handleLastName(e), handleChange(e)}}
+                onChange={(e:any) => {handleLastName(e)}}
            
               />
               <button type="button" className="primaryButton" onClick={onClick}>
@@ -96,7 +94,7 @@ export default function Home() {
                 placeholder="Correo electrónico"
                 className="w-full"
                 error={error.email}
-                onChange={(e:any) => {handleEmail(e), handleChange(e)}}
+                onChange={(e:any) => {handleEmail(e)}}
               
               />
               <Input
@@ -104,7 +102,7 @@ export default function Home() {
                 name="userName"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
-                onChange={(e:any) => {handleUserName(e), handleChange(e)}}
+                onChange={(e:any) => {handleUserName(e)}}
                 className="w-full"
                 error={error.userName}
          
@@ -116,10 +114,10 @@ export default function Home() {
                 label="Contraseña"
                 placeholder="Contraseña"
                 error={error.password}
-                onChange={(e:any) => {handlePassword(e), handleChange(e)}}
+                onChange={(e:any) => {handlePassword(e)}}
            
               />
-              <button type="submit" className="primaryButton">
+              <button  disabled={isValidForm}  type="submit" className="primaryButton">
                 Registrarse
               </button>
             </div>

@@ -13,7 +13,6 @@ type DataRegister = {
   firstName: string;
   lastName: string;
   password: string;
-  password2: string;
   email: string;
   userName: string;
 };
@@ -34,8 +33,16 @@ const userRegister = () => {
     email: "",
     userName: "",
     password: "",
-    password2: "",
   });
+
+
+  const errorForm = Object.values(error).some(e => e != null)
+  console.log(errorForm) 
+
+  const EmtyForm = Object.values(data).some(e => e.trim() == "")
+
+
+  const isValidForm = errorForm || EmtyForm
 
 
 
@@ -78,10 +85,6 @@ const userRegister = () => {
     handlePasswordError(e);
   };
 
-  const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo(e);
-    handlePasswordError(e);
-  };
 
   const handleEmailError = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isValidEmail:boolean = !/^\S+@\S+\.\S+$/.test(e.target.value);
@@ -92,17 +95,15 @@ const userRegister = () => {
   };
 
   const handlePasswordError = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { password, password2 } = data;
+    const { password, } = data;
      const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{7,}$/.test(e.target.value);//.test(e.target.value);
-    const passwordsMatch:boolean = (e.target.name == "password2") ? password != e.target.value : false
+    
 
    
     
     setError({
       ...error,
-      password: passwordsMatch
-      ? "las contraseñas no coinciden"
-        : !isValidPassword 
+      password:!isValidPassword 
         ? "la contraseñase debe tener al menos 8 caracteres"
         : null
        
@@ -123,8 +124,8 @@ const userRegister = () => {
     handleLastName,
     handleUserName,
     handleEmail,
-    handleConfirmPassword,
     handlePassword,
+    isValidForm
   };
 };
 
