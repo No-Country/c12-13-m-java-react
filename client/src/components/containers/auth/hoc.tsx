@@ -23,7 +23,7 @@ const HOC: React.FC<Props> = ({ children }) => {
     session: sessionQy,
   } = router.query;
   const { session, auth } = useAppSelector((state) => state.authSession);
-  const { currentSpace } = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
   const userId = session?.current?.id || (userIdQy ?? "");
 
   const verifySession = async (data: AuthProps) => {
@@ -38,17 +38,17 @@ const HOC: React.FC<Props> = ({ children }) => {
           userId: userId,
         },
       });
-      console.log("verifData", verifData);
+    
       if (verifData.verifySession === true) {
-        console.log("Se verifico la sesion", userId);
+      
         dispatch(setAuth(data));
         await dispatch(setSession(userId as string));
       } else {
         dispatch(resetReducer());
-        console.log("No se pudo verificar la sesión", data.isLogged, userId);
+    
       }
     } else {
-      console.log("No se pudo verificar la sesión", data.isLogged, userId);
+  
       alert("No se pudo verificar la sesión");
     }
   };
@@ -63,7 +63,7 @@ const HOC: React.FC<Props> = ({ children }) => {
           loginMethodQy === "google" ? (sessionQy as string) : "",
       }
     );
-    console.log("authObj",  statusQy, loginMethodQy, sessionQy);
+
     verifySession(authObj);
   };
 
@@ -80,7 +80,7 @@ const HOC: React.FC<Props> = ({ children }) => {
       ) {
         setAuthFn();
       } else {
-        console.log("No se cumple ninguna condicion");
+     
         alert("No se cumple ninguna condicion");
         router.push("/");
       }
@@ -122,16 +122,3 @@ const HOC: React.FC<Props> = ({ children }) => {
 };
 
 export default HOC;
-
-// const getSessionData = async () => {
-//   try {
-//     const { data } = await client.query({
-//       query: GET_AFTER_LOGIN,
-//       variables: { id: userId },
-//     });
-//     console.log("data", data);
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };

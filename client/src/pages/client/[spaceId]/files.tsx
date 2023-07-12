@@ -16,7 +16,7 @@ import { MembersProps } from "@/utils/types/client/spaces";
 import Head from "next/head";
 
 export default function SpaceSettings() {
-  const { currentSpace } = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
 
   return (
 <>

@@ -42,7 +42,7 @@ export default function HeroSpaceArea({
 }: HeroSpaceAreaProps) {
   {
     const { userIsAdminOfCurrentSpace } = useAppSelector(
-      (state) => state.client.spaces
+      (state) => state.client.spaces.spaces
     );
 
     return (

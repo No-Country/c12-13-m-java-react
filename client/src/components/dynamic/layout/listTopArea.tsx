@@ -19,7 +19,7 @@ export default function ListTopArea({
   controls = true,
   triggerIsAdmin = false,
 }: ListTopAreaProps) {
-  const { userIsAdminOfCurrentSpace } = useAppSelector( (state) => state.client.spaces);
+  const { userIsAdminOfCurrentSpace } = useAppSelector( (state) => state.client.spaces.spaces);
   return (
     <div className="relative flex w-full items-center justify-between gap-10">
       <div className="flex flex-col items-start justify-center ">

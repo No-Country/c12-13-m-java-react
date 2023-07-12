@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { deleteSpace, editSpace } from "@/redux/slices/client/spaces";
+import { deleteSpace, editSpace } from "@/redux/slices/client/spaces/spaces";
 import router from "next/router";
 import Head from "next/head";
 import {
@@ -16,7 +16,7 @@ import {
 export default function SpaceSettings() {
   const dispatch = useAppDispatch();
 
-  const { currentSpace } = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
   const { id } = useAppSelector((state) => state.authSession.session.current);
 
   const [processedData, setProcessedData] = useState<any>(currentSpace);

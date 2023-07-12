@@ -15,7 +15,7 @@ import {
 import Head from "next/head";
 
 export default function Space() {
-  const { currentSpace } = useAppSelector((state) => state.client.spaces);
+  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
 
   return (
     <>

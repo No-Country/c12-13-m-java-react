@@ -1,7 +1,7 @@
 import { Input } from "@/components";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { createRoom } from "@/redux/slices/client/spaces";
+import { createRoom } from "@/redux/slices/client/spaces/rooms";
 import { useRouter } from "next/router";
 
 export default function RoomCreateForm() {
@@ -10,7 +10,7 @@ export default function RoomCreateForm() {
   const [form, setForm] = useState<any>();
   const { id } = useAppSelector((state) => state.authSession.session.current);
 
-  console.log("id", id);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,7 +19,7 @@ export default function RoomCreateForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setForm({ ...form, userOwner: id });
-    console.log(form);
+
 
     await dispatch(createRoom(form));
     // router.push(`/client/${spaceId}`);

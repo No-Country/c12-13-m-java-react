@@ -1,5 +1,5 @@
 import { TextToInput } from "@/components";
-import { editSpace } from "@/redux/slices/client/spaces";
+import { editSpace } from "@/redux/slices/client/spaces/spaces";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -21,12 +21,12 @@ export default function TaskEditForm({
   const [localOriginalData, setLocalOriginalData] = useState<any>(originalData);
 
   const handleSaveField = (data: any) => {
-    console.log("handleSaveField", data);
+
     setLocalOriginalData({ ...localOriginalData, [data.key]: data.text });
     setProcessedData({ ...processedData, [data.key]: data.text });
   };
 
-  console.log("localOriginalData", localOriginalData);
+
 
   const selectOptions = [
     {

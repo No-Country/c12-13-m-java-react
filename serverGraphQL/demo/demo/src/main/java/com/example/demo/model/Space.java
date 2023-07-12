@@ -3,6 +3,7 @@ package com.example.demo.model;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.checkerframework.checker.units.qual.C;
 import org.hibernate.annotations.Cascade;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -36,6 +37,9 @@ public class Space {
     @Cascade(CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
     private List<File> files = new ArrayList<>();
+    @DBRef
+    @Cascade(CascadeType.ALL)
+    private Chat chat;
     private String createdAt;
     private String updatedAt;
 
@@ -135,6 +139,14 @@ public class Space {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Chat getChat() {
+        return this.chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 
     @Override

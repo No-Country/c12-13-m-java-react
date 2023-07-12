@@ -9,9 +9,11 @@ type SidebarProps = {
 export default function Sidebar({ type }: SidebarProps) {
   const router = useRouter();
   const lastPath = router.asPath.split("/").pop();
-  const { currentSpace, rooms, userIsAdminOfCurrentSpace } = useAppSelector(
-    (state) => state?.client?.spaces
+  const { currentSpace, userIsAdminOfCurrentSpace } = useAppSelector(
+    (state) => state?.client?.spaces.spaces
   );
+
+  const {rooms} = useAppSelector((state) => state?.client?.spaces?.rooms);
 
   const { session } = useAppSelector((state) => state?.authSession);
 
@@ -116,7 +118,7 @@ type VerticalMenuProps = {
 
 function VerticalMenu({ data, hasLogo, title, isRooms }: VerticalMenuProps) {
   const router = useRouter();
-  const { currentSpace } = useAppSelector((state) => state?.client?.spaces);
+  const { currentSpace } = useAppSelector((state) => state?.client?.spaces?.spaces);
 
   const handleClick = (item: any) => {
     if (isRooms) {

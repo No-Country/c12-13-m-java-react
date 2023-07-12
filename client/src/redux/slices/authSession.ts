@@ -3,7 +3,7 @@ import client from "@/graphql/apollo-client";
 import { GET_USER_BY_ID } from "@/graphql/queries";
 import { AuthProps, SessionProps } from "@/utils/types/client/authSession";
 import { User } from "@/utils/types/client/spaces";
-import { setSpaces } from "@/redux/slices/client/spaces";
+import { setSpaces } from "@/redux/slices/client/spaces/spaces";
 const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 import { VERIFY_SESSION } from "@/graphql/queries";
 import { LOG_IN, CREATE_USER } from "@/graphql/mutations";

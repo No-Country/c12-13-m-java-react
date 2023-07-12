@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import { Main } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
-import { joinSpace } from "@/redux/slices/client/spaces";
+import { joinSpace } from "@/redux/slices/client/spaces/spaces";
 
 export default function JoinSpace() {
   const router = useRouter();
