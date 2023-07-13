@@ -16,12 +16,22 @@ public class SpaceQueries {
 
     @SchemaMapping(typeName = "Query", value = "findAllSpaces")
     public List<Space> findAll() {
-        return spaceRepository.findAll();
+        try {
+            return spaceRepository.findAll();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @SchemaMapping(typeName = "Query", value = "findSpaceById")
     public Space findOne(@Argument String id) {
-        return spaceRepository.findById(id).orElseThrow(null);
+        try {
+            return spaceRepository.findById(id).orElseThrow(null);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
 }

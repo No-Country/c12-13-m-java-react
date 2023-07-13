@@ -99,12 +99,12 @@ export default function Home() {
               />
               <Input
                 type="text"
-                name="userName"
+                name="username"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
                 onChange={(e:any) => {handleUserName(e)}}
                 className="w-full"
-                error={error.userName}
+                error={error.username}
          
               />
               <Input

@@ -63,12 +63,20 @@ export const register = createAsyncThunk(
 console.log("userData", userData);
       const { data, errors } = await client.mutate({
         mutation: CREATE_USER,
-        variables: { ...userData },
+        variables: { 
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          password: userData.password,
+          username: userData.username
+        },
         fetchPolicy: "network-only",
       });
+      if(errors) console.log("Error al crear el usuario", errors);
       console.log("createSession", data);
       return data.createUser;
     } catch (err:any) {
+      console.log("Error al crear el usuario", err);
       throw new Error("Error al crear el usuario", err);
     }
   }
@@ -124,8 +132,8 @@ const postsSlice = createSlice({
         Router.push("/auth");
       })
       .addCase(register.rejected, (state, action) => {
-        console.error("Rejected register", action.payload);
-        toast.error("Verifica las credenciales", toastError);
+        console.error("Rejected register", action);
+        toast.error("Verifica los datos", toastError);
       });
   },
 });
