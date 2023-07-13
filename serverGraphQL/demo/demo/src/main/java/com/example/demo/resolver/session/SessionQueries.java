@@ -15,11 +15,16 @@ public class SessionQueries {
 
     @SchemaMapping(typeName = "Query", field = "verifySession")
     public Boolean verifySession(@Argument String userId) {
-        System.out.println("Verificando sesión..." + userId);
-        Session session = sessionRepository.findByUserId(userId);
-        if (session != null) {
-            return true;
-        } else {
+        try {
+            System.out.println("Verificando sesión..." + userId);
+            Session session = sessionRepository.findByUserId(userId);
+            if (session != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }

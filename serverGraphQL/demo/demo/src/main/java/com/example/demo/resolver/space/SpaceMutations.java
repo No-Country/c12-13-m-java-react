@@ -36,6 +36,8 @@ public class SpaceMutations {
             @Argument String accessCode,
             @Argument String coverImage,
             @Argument String userOwner) {
+                try {
+                    System.out.println("Creando espacio...");
 
         Space space = new Space();
         space.setName(name);
@@ -74,10 +76,15 @@ public class SpaceMutations {
         spaceRepository.save(space);
 
         return space;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return null;
+    }
     }
 
     @SchemaMapping(typeName = "Mutation", field = "deleteSpace")
     public Space deleteSpace(@Argument String id) {
+        try {
 
         Space space = spaceRepository.findById(id).orElseThrow(null);
 
@@ -97,6 +104,10 @@ public class SpaceMutations {
         });
         spaceRepository.delete(space);
         return space;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return null;
+    }
     }
 
     @SchemaMapping(typeName = "Mutation", field = "editSpace")
@@ -105,6 +116,7 @@ public class SpaceMutations {
             @Argument String description,
             @Argument String accessCode,
             @Argument String coverImage) {
+                try {
         Space space = spaceRepository.findById(spaceId).orElseThrow(null);
 
         if (name != null) {
@@ -123,11 +135,15 @@ public class SpaceMutations {
         space.setUpdatedAt(new Date().toString());
         spaceRepository.save(space);
         return space;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return null;
+    }
     }
 
     @SchemaMapping(typeName = "Mutation", field = "joinSpace")
     public Space joinSpace(@Argument String spaceId, @Argument String userId) {
-
+try {
         Space space = spaceRepository.findById(spaceId).orElseThrow(null);
         User user = userRepository.findById(userId).orElseThrow(null);
 
@@ -141,10 +157,15 @@ public class SpaceMutations {
         spaceRepository.save(space);
         userRepository.save(user);
         return space;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return null;
+    }
     }
 
     @SchemaMapping(typeName = "Mutation", field = "leaveSpace")
     public Space leaveSpace(@Argument String spaceId, @Argument String userId) {
+        try {
         Space space = spaceRepository.findById(spaceId).orElseThrow(null);
         User user = userRepository.findById(userId).orElseThrow(null);
 
@@ -155,6 +176,10 @@ public class SpaceMutations {
         spaceRepository.save(space);
 
         return space;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return null;
+    }
     }
 
 }
