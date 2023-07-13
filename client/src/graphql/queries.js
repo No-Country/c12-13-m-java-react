@@ -115,9 +115,9 @@ export const GET_ROOM_BY_ID = gql`
 `;
 
 export const VERIFY_SESSION = gql`
-  query VerifySession {
-    verifySession(userId: "64ac9a36ba0d360b92b062e7")
-  }
+  query VerifySession($userId: ID!) {
+    verifySession(userId: $userId) 
+}
 `;
 
 

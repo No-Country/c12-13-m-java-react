@@ -24,8 +24,10 @@ public class SessionMutations {
         User user = userRepository.findByEmail(email);
         Boolean isPasswordMatch = PasswordUtils.isPasswordMatch(password, user.getPassword());
         if (isPasswordMatch) {
+            System.out.println("Credenciales válidas");
             return createNewSession(user);
         } else {
+            System.out.println("Credenciales inválidas");
             throw new IllegalArgumentException("Credenciales inválidas");
         }
     }
