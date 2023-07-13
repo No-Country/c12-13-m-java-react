@@ -27,6 +27,7 @@ const HOC: React.FC<Props> = ({ children }) => {
   const userId = session?.current?.id || (userIdQy ?? "");
 
   const verifySession = async (data: AuthProps) => {
+    console.log("verifySession", data);
     if (data.isLogged && userId) {
       const {
         data: verifData,
@@ -44,6 +45,8 @@ const HOC: React.FC<Props> = ({ children }) => {
         dispatch(setAuth(data));
         await dispatch(setSession(userId as string));
       } else {
+        console.log("error", verifData);
+        alert("No se pudo verificar la sesión");
         dispatch(resetReducer());
     
       }
