@@ -11,12 +11,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import javax.annotation.PostConstruct;
+//importamos system
+import java.lang.System;
 
 @SpringBootApplication
 @EnableWebSocket
 public class DemoApplication {
 
     private final MongoTemplate mongoTemplate;
+
 
     @Autowired
     public DemoApplication(MongoTemplate mongoTemplate) {

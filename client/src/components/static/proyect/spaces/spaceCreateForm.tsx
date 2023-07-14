@@ -3,29 +3,51 @@ import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { createSpace } from "@/redux/slices/client/spaces/spaces";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function SpaceCreateForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState<any>();
-  const { id } = useAppSelector((state) => state.authSession.session.current);
-  const { id: spaceId } = useAppSelector(
-    (state) => state.client.spaces.spaces.currentSpace
-  );
-
+  //const [form, setForm] = useState<any>();
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    //   setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setForm({ ...form, userOwner: id });
+    const coverImage = e.target.image.files[0];
+    const name = e.target.name.value;
+    const description = e.target.description.value;
+    //  const coverImage = e.target.coverImage.value;
+    const accessCode = e.target.accessCode.value;
+    const form = {
+      //  image,
+      name,
+      description,
+      coverImage,
+      accessCode,
 
+      filename: coverImage.name,
+    };
+console.log(form);
+    // try {
+    // const res = await axios.post("http://localhost:8080/rest/createSpace", form, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
 
-    await dispatch(createSpace(form));
-   // router.push(`/client/${spaceId}`);
+    // console.log("res", res);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    // console.log(form);
+
+     await dispatch(createSpace(form));
+    // router.push(`/client/${spaceId}`);
   };
 
   return (
@@ -55,6 +77,11 @@ export default function SpaceCreateForm() {
           onChange={handleChange}
           placeholder="Cover Image"
           required
+        />
+        <input
+          className="flex-grow rounded-full  py-2 text-sm font-normal text-violet-800 outline-none placeholder:text-violet-800"
+          type="file"
+          name="image"
         />
         <Input
           label="Código de acceso"
