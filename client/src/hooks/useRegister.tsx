@@ -5,7 +5,7 @@ type Error = {
   lastName: string | null;
   password: string | null;
   email: string | null;
-  userName: string | null;
+  username: string | null;
   nickName: string | null;
 };
 
@@ -14,7 +14,7 @@ type DataRegister = {
   lastName: string;
   password: string;
   email: string;
-  userName: string;
+  username: string;
 };
 
 const useRegister = () => {
@@ -23,7 +23,7 @@ const useRegister = () => {
     lastName: null,
     password: null,
     email: null,
-    userName: null,
+    username: null,
     nickName: null,
   });
 
@@ -31,7 +31,7 @@ const useRegister = () => {
     firstName: "",
     lastName: "",
     email: "",
-    userName: "",
+    username: "",
     password: "",
   });
 

@@ -63,12 +63,20 @@ export const register = createAsyncThunk(
 console.log("userData", userData);
       const { data, errors } = await client.mutate({
         mutation: CREATE_USER,
-        variables: { ...userData },
+        variables: { 
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          password: userData.password,
+          username: userData.username
+        },
         fetchPolicy: "network-only",
       });
+      if(errors) console.log("Error al crear el usuario", errors);
       console.log("createSession", data);
       return data.createUser;
     } catch (err:any) {
+      console.log("Error al crear el usuario", err);
       throw new Error("Error al crear el usuario", err);
     }
   }
@@ -99,7 +107,7 @@ const postsSlice = createSlice({
         console.log("Fulfilled setSession", action.payload);
       })
       .addCase(setSession.rejected, (state, action) => {
-        console.log("Rejected setSession");
+        console.error("Rejected setSession", action.payload);
       })
       .addCase(login.pending, (state, action) => {
         console.log("Pending login");
@@ -112,7 +120,7 @@ const postsSlice = createSlice({
         toast("Bienvenido a Spaces");
       })
       .addCase(login.rejected, (state, action) => {
-        console.log("Rejected login");
+        console.error("Rejected login", action.payload);
         toast.error("Verifica las credenciales", toastError);
       })
       .addCase(register.pending, (state, action) => {
@@ -124,8 +132,8 @@ const postsSlice = createSlice({
         Router.push("/auth");
       })
       .addCase(register.rejected, (state, action) => {
-        console.log("Rejected register");
-        toast.error("Verifica las credenciales", toastError);
+        console.error("Rejected register", action);
+        toast.error("Verifica los datos", toastError);
       });
   },
 });

@@ -18,9 +18,14 @@ public class TasksQueries {
 
     @SchemaMapping(typeName = "Query", value = "findTaskById")
     public Task findOne(@Argument String taskId, @Argument String roomId) {
+        try {
         Room room = roomRepository.findById(roomId).orElseThrow(null);
         Task task = room.getTaskById(taskId);
         return task;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return null;
+    }
     }
 
 }

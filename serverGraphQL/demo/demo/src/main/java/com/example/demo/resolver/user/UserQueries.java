@@ -16,15 +16,26 @@ public class UserQueries {
 
     @SchemaMapping(typeName = "Query", value = "findAllUsers")
     public List<User> findAll() {
-        System.out.println("findAllUsers1");
-        return userRepository.findAll();
+        try {
+            System.out.println("findAllUsers1");
+            return userRepository.findAll();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @SchemaMapping(typeName = "Query", value = "findUserById")
     public User findOne(@Argument String id) {
-        System.out.println("findUserById1 + " + id);
-        User user = userRepository.findById(id).orElseThrow(null);
-        return user;
+        try {
+            System.out.println("findUserById1 + " + id);
+            User user = userRepository.findById(id).orElseThrow(null);
+            return user;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
 }
