@@ -14,10 +14,12 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function SpaceSettings() {
   const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
-
+const router = useRouter()
+console.log(router)
   return (
 <>
     <Head>

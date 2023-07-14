@@ -14,6 +14,7 @@ import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
 import { SpaceProps } from "@/utils/types/client/spaces";
+import axios from "axios";
 
 const initialState = {
   spaces: [] as SpaceProps[],
@@ -43,19 +44,26 @@ export const createSpace = createAsyncThunk(
   async (input: any, { dispatch, getState }) => {
     try {
       const state = getState() as RootState;
-      const { data } = await client.mutate({
-        mutation: CREATE_SPACE,
-        variables: {
-          userOwner: state.authSession.session.current.id,
-          name: input.name,
-          description: input.description,
-          accessCode: input.accessCode,
-          coverImage: input.coverImage,
-        },
-        fetchPolicy: "network-only",
-      });
+      input.userOwner = state.authSession.session.current.id;
+      // const { data } = await client.mutate({
+      //   mutation: CREATE_SPACE,
+      //   variables: {
+      //     userOwner: state.authSession.session.current.id,
+      //     name: input.name,
+      //     description: input.description,
+      //     accessCode: input.accessCode,
+      //     coverImage: input.coverImage,
+      //   },
+      //   fetchPolicy: "network-only",
+      // });
 
-      return data.createSpace;
+      const res = await axios.post("http://localhost:8080/rest/createSpace", input, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+      return res.data
     } catch (err) {
       console.log(err);
     }
@@ -199,7 +207,7 @@ const postsSlice = createSlice({
       .addCase(createSpace.pending, (state) => {})
       .addCase(createSpace.fulfilled, (state, action) => {
         state.currentSpace = action?.payload as SpaceProps;
-        Router.push(`/client/${action.payload.id}`);
+        Router.push(`/client/${action.payload}`);
         toast.success("Espacio creado correctamente", toastSuccess);
       })
       .addCase(createSpace.rejected, (state) => {

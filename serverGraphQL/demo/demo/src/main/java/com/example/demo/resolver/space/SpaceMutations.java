@@ -1,5 +1,6 @@
 package com.example.demo.resolver.space;
 
+import com.example.demo.utils.ImageUploader;
 import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.model.Member;
@@ -28,6 +29,8 @@ public class SpaceMutations {
     private RoomRepository roomRepository;
     @Autowired
     private ChatRepository chatRepository;
+    @Autowired
+    private ImageUploader imageUploader;
 
     @SchemaMapping(typeName = "Mutation", field = "createSpace")
     public Space createSpace(
@@ -43,7 +46,8 @@ public class SpaceMutations {
         space.setName(name);
         space.setDescription(description);
         space.setAccessCode(accessCode);
-        space.setCoverImage(coverImage);
+       // String imageUrl = "imageUploader.uploadImage(coverImage, "space");"
+        space.setCoverImage("imageUrl");
         space.setCreatedAt(new Date().toString());
         space.setUpdatedAt(new Date().toString());
 
