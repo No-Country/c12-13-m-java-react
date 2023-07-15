@@ -47,65 +47,70 @@ const employees = [
 export default function Home() {
   return (
     <>
-    <Head>
-      <title>Inicio | Spaces</title>
-    </Head>
-    <Main>
-      <section className="relative flex h-[55vh] w-full flex-col items-start  justify-center px-[136px]">
-        <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full">
-          <ImageNext
-            src="/image/hero-home.png"
-            alt="hero-home"
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
-        <h1 className="titulo-1 z-[1] text-white ">
-          Organiza mejor, disfruta mas con aquellos que amas.
-        </h1>
-        <p className="bodyText z-[1] text-white">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultrices
-          nulla sed luctus volutpat.
-        </p>
-        <button className="primaryButton z-[1] mt-4 ">
-          <Link href={"/auth/register"}>Regístrate ahora, es gratis</Link>
-        </button>
-      </section>
-      <section className="relative flex w-full flex-col gap-8 bg-white px-[136px] py-[80px] ">
-        <div>
-          <p className="bodyText font-normal text-blue-700">
-            Conozcámonos mejor
-          </p>
-          <h1 className="titulo-1">
-            Simplificamos la vida de miles de personas al rededor del mundo 🗺️🪐
-          </h1>
-          <p className="bodyText mt-1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id
-            dapibus nisi, sit amet aliquam massa. Nunc eu feugiat massa. Nunc
-            magna risus, tempor sed sem quis, eleifend pulvinar eros.
-          </p>
-        </div>
-        <div className=" flex flex-row justify-between gap-10">
-          {items.map((item, index) => {
-            return <ItemFeature data={item} />;
-          })}
-        </div>
-      </section>
-      <section className="relative flex w-full flex-col items-center justify-center gap-10   px-[136px] py-[80px] ">
-        <div className="flex flex-col items-center justify-center">
-          <p className="bodyText font-normal text-blue-700">Quienes somos</p>
-          <h1 className="titulo-1">Conoce a nuestro equipo.</h1>
-          <p className="bodyText mt-1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-        </div>
-        <div className="flex items-start justify-center gap-10">
-          {employees.map((item, index) => (
-            <Employees data={item} />
-          ))}
-        </div>
-      </section>
-    </Main>
+      <Head>
+        <title>Inicio | Spaces</title>
+      </Head>
+      <Main>
+        <section className="relative flex h-[55vh] w-full flex-col items-center   justify-center ">
+          <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full ">
+            <ImageNext
+              src="/image/hero-home.png"
+              alt="hero-home"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <div className="seccion2-x z-10 ">
+            <div className="z-[10] ">
+              <h1 className="titulo-1 z-[1] text-white ">
+                Organiza mejor, disfruta mas con aquellos que amas.
+              </h1>
+              <p className="bodyText z-[1] text-white">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
+                ultrices nulla sed luctus volutpat.
+              </p>
+              <button className="primaryButton z-[1] mt-4 ">
+                <Link href={"/auth/register"}>Regístrate ahora, es gratis</Link>
+              </button>
+            </div>
+          </div>
+        </section>
+        <section className="relative flex w-full flex-col gap-8 bg-white  seccion2-x py-[80px] ">
+          <div>
+            <p className="bodyText font-normal text-blue-700">
+              Conozcámonos mejor
+            </p>
+            <h1 className="titulo-1">
+              Simplificamos la vida de miles de personas al rededor del mundo
+              🗺️🪐
+            </h1>
+            <p className="bodyText mt-1">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              id dapibus nisi, sit amet aliquam massa. Nunc eu feugiat massa.
+              Nunc magna risus, tempor sed sem quis, eleifend pulvinar eros.
+            </p>
+          </div>
+          <div className=" flex flex-row justify-between gap-10">
+            {items.map((item, index) => {
+              return <ItemFeature data={item} />;
+            })}
+          </div>
+        </section>
+        <section className="relative flex w-full flex-col items-center justify-center gap-10 seccion2-x py-[80px] ">
+          <div className="flex flex-col items-center justify-center">
+            <p className="bodyText font-normal text-blue-700">Quienes somos</p>
+            <h1 className="titulo-1">Conoce a nuestro equipo.</h1>
+            <p className="bodyText mt-1">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+          </div>
+          <div className="flex items-start justify-center gap-10">
+            {employees.map((item, index) => (
+              <Employees data={item} />
+            ))}
+          </div>
+        </section>
+      </Main>
     </>
   );
 }

@@ -7,6 +7,7 @@ import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
 import { RoomsProps, TasksProps } from "@/utils/types/client/spaces";
+import axios from "axios";
 
 const initialState = {
   rooms: [] as RoomsProps[],
@@ -26,6 +27,7 @@ export const getRooms = createAsyncThunk(
       return data.findSpaceById;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -44,6 +46,7 @@ export const getCurrentRoom = createAsyncThunk(
       return data.findRoomById;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -53,20 +56,30 @@ export const createRoom = createAsyncThunk(
   async (input: any, { dispatch, getState }) => {
     try {
       const state = getState() as RootState;
-      const { data } = await client.mutate({
-        mutation: CREATE_ROOM,
-        variables: {
-          spaceOwnerId: state.client.spaces.spaces.currentSpace.id,
-          name: input.name,
-          description: input.description,
-          coverImage: input.coverImage,
+      input.spaceOwnerId = state.client.spaces.spaces.currentSpace.id;
+      // const { data } = await client.mutate({
+      //   mutation: CREATE_ROOM,
+      //   variables: {
+      //     spaceOwnerId: state.client.spaces.spaces.currentSpace.id,
+      //     name: input.name,
+      //     description: input.description,
+      //     coverImage: input.coverImage,
+      //   },
+      //   fetchPolicy: "network-only",
+      // });
+
+      const res = await axios.post("http://localhost:8080/rest/rooms/create", input, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        fetchPolicy: "network-only",
       });
 
-      return { data: data.createRoom, state: state.client.spaces };
+      console.log("res", res);
+
+      return { data: res.data, state: state.client.spaces };
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -87,6 +100,7 @@ export const editRoom = createAsyncThunk(
       return data.editRoom;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -107,6 +121,7 @@ export const deleteRoom = createAsyncThunk(
       return { data: data.deleteRoom, state: state.client.spaces };
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -167,7 +182,7 @@ const postsSlice = createSlice({
       .addCase(createRoom.pending, (state) => {})
       .addCase(createRoom.fulfilled, (state, action) => {
         Router.push(
-          `/client/${action?.payload?.state?.spaces?.currentSpace?.id}/${action?.payload?.data?.id}`
+          `/client/${action?.payload?.state?.spaces?.currentSpace?.id}/${action?.payload?.data}`
         );
         toast.success("Sala creada correctamente", toastSuccess);
       })

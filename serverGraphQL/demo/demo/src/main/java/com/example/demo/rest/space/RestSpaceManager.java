@@ -30,7 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-@RequestMapping("/rest") // Ruta base para todas las rutas del controlador
+@RequestMapping("/rest/spaces") // Ruta base para todas las rutas del controlador
 @CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" }) // Origen permitido para las solicitudes CORS
 public class RestSpaceManager {
 
@@ -43,7 +43,7 @@ public class RestSpaceManager {
     @Autowired
     private ImageUploader imageUploader;
 
-    @PostMapping("/createSpace") // Ruta GET
+    @PostMapping("/create") // Ruta GET
     public ResponseEntity<String> createSpace(@RequestParam("name") String name,
             @RequestParam("description") String description,
             @RequestParam("accessCode") String accessCode,

@@ -32,8 +32,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-@RequestMapping("/rest") // Ruta base para todas las rutas del controlador
-@CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" }) // Origen permitido para las solicitudes CORS
+@RequestMapping("/rest/rooms") // Ruta base para todas las rutas del controlador
+@CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" }) 
 public class RestRoomManager {
 
     @Autowired
@@ -47,32 +47,30 @@ public class RestRoomManager {
     @Autowired
     private RoomRepository roomRepository;
 
-    @PostMapping("/createRoom") // Ruta GET
+    @PostMapping("/create") // Ruta GET
     public ResponseEntity<String> createRoom(@RequestParam("name") String name,
             @RequestParam("description") String description,
-            @RequestParam("accessCode") String accessCode,
             @RequestParam("coverImage") MultipartFile coverImage,
             @RequestParam("spaceOwnerId") String spaceOwnerId,
-            @RequestParam("filename") String filename
-            ) {
+            @RequestParam("filename") String filename) {
         // obtenemos el body
         try {
-                    Room room = new Room();
-        room.setName(name);
-        room.setDescription(description);
-        String imageUrl = imageUploader.uploadImage(coverImage.getBytes(), filename);
-        room.setCoverImage(imageUrl);
-        room.setCreatedAt(new Date().toString());
-        room.setUpdatedAt(new Date().toString());
-        roomRepository.save(room);
-        Space spaceOwner = spaceRepository.findById(spaceOwnerId).orElseThrow(null);
-        spaceOwner.getRooms().add(room);
-        room.setSpaceOwner(spaceOwner);
-        spaceRepository.save(spaceOwner);
-        roomRepository.save(room);
-  
-            String id = room.getId();
+            Room room = new Room();
+            room.setName(name);
+            room.setDescription(description);
+            String imageUrl = imageUploader.uploadImage(coverImage.getBytes(), filename);
+            room.setCoverImage(imageUrl);
+            room.setCreatedAt(new Date().toString());
+            room.setUpdatedAt(new Date().toString());
+            roomRepository.save(room);
+            Space spaceOwner = spaceRepository.findById(spaceOwnerId).orElseThrow(null);
+            spaceOwner.getRooms().add(room);
+            room.setSpaceOwner(spaceOwner);
+            spaceRepository.save(spaceOwner);
+            roomRepository.save(room);
 
+            String id = room.getId();
+            System.out.println("id: " + id);
             return ResponseEntity.ok(id);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

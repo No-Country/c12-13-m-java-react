@@ -7,19 +7,26 @@ import { useRouter } from "next/router";
 export default function RoomCreateForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState<any>();
-  const { id } = useAppSelector((state) => state.authSession.session.current);
-
-
+  // const [form, setForm] = useState<any>();
+  // const { id } = useAppSelector((state) => state.authSession.session.current);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    // setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setForm({ ...form, userOwner: id });
+    // setForm({ ...form, userOwner: id });
+    const coverImage = e.target.coverImage.files[0];
+    const name = e.target.name.value;
+    const description = e.target.description.value;
 
+    const form = {
+      coverImage,
+      name,
+      description,
+      filename: coverImage.name,
+    };
 
     await dispatch(createRoom(form));
     // router.push(`/client/${spaceId}`);
@@ -47,7 +54,7 @@ export default function RoomCreateForm() {
         />
         <Input
           label="Imagen de portada"
-          type="text"
+          type="file"
           name="coverImage"
           onChange={handleChange}
           placeholder="Cover Image"

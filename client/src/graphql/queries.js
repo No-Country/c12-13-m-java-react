@@ -76,6 +76,20 @@ export const GET_SPACE_BY_ID = gql`
         createdAt
         updatedAt
       }
+      chat {
+        id
+        messages {
+          id
+          content
+          createdAt
+          fromUser {
+            id
+            firstName
+            lastName
+            profileImage
+          }
+        }
+      }
     }
   }
 `;
@@ -116,11 +130,8 @@ export const GET_ROOM_BY_ID = gql`
 
 export const VERIFY_SESSION = gql`
   query VerifySession($userId: ID!) {
-    verifySession(userId: $userId) 
-}
+    verifySession(userId: $userId)
+  }
 `;
-
-
-
 
 // Otras consultas GraphQL...

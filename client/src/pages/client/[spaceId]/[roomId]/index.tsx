@@ -25,22 +25,22 @@ import {
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
-  const { currentRoom } = useAppSelector((state) => state.client.spaces.rooms);
+  const { currentRoom } = useAppSelector((state) => state?.client?.spaces?.rooms);
   const [index, setIndex] = useState(0);
   const [processedData, setProcessedData] = useState<any>(currentRoom);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
 
   const { data: datachange } = useSubscription(NOTIFY_TASK_CHANGED, {
-    variables: { roomId: currentRoom.id },
+    variables: { roomId: currentRoom?.id },
   });
 
   const { data: datacreate } = useSubscription(NOTIFY_TASK_CREATED, {
-    variables: { roomId: currentRoom.id },
+    variables: { roomId: currentRoom?.id },
   });
 
   const { data: datadelete } = useSubscription(NOTIFY_TASK_DELETED, {
-    variables: { roomId: currentRoom.id },
+    variables: { roomId: currentRoom?.id },
   });
 
   useEffect(() => {

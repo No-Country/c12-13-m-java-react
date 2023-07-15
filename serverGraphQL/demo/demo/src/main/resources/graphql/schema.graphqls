@@ -205,4 +205,5 @@ type Subscription {
   notifyTaskCreated(roomId: ID!): Tasks
   notifyTaskChanged(roomId: ID!): Tasks
   notifyTaskDeleted(roomId: ID!): Tasks
+  notifyMessageCreated(chatId: ID!): Messages
 }

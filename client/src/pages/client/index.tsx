@@ -5,7 +5,7 @@ import {
   Image,
   Hr,
   ListTopArea,
-  Loader
+  Loader,
 } from "@/components";
 import Head from "next/head";
 
@@ -16,9 +16,8 @@ export default function HomeClient() {
         <title>Mis espacios | Spaces</title>
       </Head>
       <Main className="gap-[40px] ">
-     
         <Hero />
-        
+
         <Hr hasPadding={true} />
         <Spaces />
       </Main>
@@ -44,9 +43,9 @@ function Hero() {
               Todas las empresas empiezan desde un espacio
             </h1>
             <p className="bodyText max-w-[85%] ">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              ultrices nulla sed luctus volutpat. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit.{" "}
+Aprovecha todas las ventajas de nuestra suscripción
+              Premium y lleva tu negocio al siguiente nivel. Únete ahora y
+              empieza a marcar la diferencia desde tu propio espacio.
             </p>
           </div>
         </div>
