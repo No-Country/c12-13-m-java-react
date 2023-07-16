@@ -8,6 +8,7 @@ import { RootState } from "@/redux/store/store";
 import Router from "next/router";
 import { RoomsProps, TasksProps } from "@/utils/types/client/spaces";
 import axios from "axios";
+import { serverUrl } from "@/data/config";
 
 const initialState = {
   rooms: [] as RoomsProps[],
@@ -68,7 +69,7 @@ export const createRoom = createAsyncThunk(
       //   fetchPolicy: "network-only",
       // });
 
-      const res = await axios.post("http://localhost:8080/rest/rooms/create", input, {
+      const res = await axios.post(`${serverUrl}rest/rooms/create`, input, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

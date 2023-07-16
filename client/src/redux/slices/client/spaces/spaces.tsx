@@ -8,7 +8,9 @@ import {
   JOIN_SPACE,
   LEAVE_SPACE,
   SEND_MESSAGE,
+
 } from "@/graphql/mutations";
+import { serverUrl } from "@/data/config";
 
 import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
@@ -61,7 +63,7 @@ export const createSpace = createAsyncThunk(
       // });
 
       const res = await axios.post(
-        "http://localhost:8080/rest/spaces/create",
+        `${serverUrl}rest/spaces/create`,
         input,
         {
           headers: {
