@@ -6,11 +6,11 @@
 //Layouts
 @layer base {
   .layoutSpContainer {
-    @apply lg:mt-0 mt-[-97px] z-[1] flex min-h-screen w-full lg:grid lg:grid-cols-[20%,80%] lg:bg-slate-50;
+    @apply lg:mt-0  z-[1] flex min-h-screen w-full lg:grid lg:grid-cols-[20%,80%] lg:bg-slate-50;
   }
 
   .layoutSpChildren {
-    @apply flex flex-grow flex-col;
+    @apply flex flex-grow flex-col bg-slate-50;
   }
 }
 
