@@ -52,7 +52,7 @@ export default function Home() {
       </Head>
       <Main>
         <section className="relative flex h-[55vh] w-full flex-col items-center   justify-center ">
-          <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full ">
+          <div className="h-ful absolute bottom-0 left-0 top-0  w-full ">
             <ImageNext
               src="/image/hero-home.png"
               alt="hero-home"
@@ -60,16 +60,16 @@ export default function Home() {
               objectFit="cover"
             />
           </div>
-          <div className="seccion2-x z-10 ">
-            <div className="z-[10] ">
-              <h1 className="titulo-1 z-[1] text-white ">
+          <div className="seccion2-x  ">
+            <div className=" ">
+              <h1 className="titulo-1 text-white ">
                 Organiza mejor, disfruta mas con aquellos que amas.
               </h1>
-              <p className="bodyText z-[1] text-white">
+              <p className="bodyText  text-white">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
                 ultrices nulla sed luctus volutpat.
               </p>
-              <button className="primaryButton z-[1] mt-4 ">
+              <button className="primaryButton mt-4 ">
                 <Link href={"/auth/register"}>Regístrate ahora, es gratis</Link>
               </button>
             </div>

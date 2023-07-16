@@ -15,7 +15,7 @@ export default function SpaceItem({
   return (
     <div
       key={item?.id}
-      className="flex  cursor-pointer flex-col h-max overflow-hidden rounded-2xl  bg-white"
+      className="flex  cursor-pointer flex-col h-max overflow-hidden rounded-2xl shadow-sm border-none bg-white border-[0.5px] lg:border-slate-200"
       onClick={() => {
         handleClick(item?.id);
       }}

@@ -14,7 +14,7 @@ export default function VerticalNav({ items }: VerticalNavProps) {
     <div className="flex flex-col gap-2">
       {items.map((item) => (
         <Link href={item.href}>
-          <p>{item.name}</p>
+          <p className="">{item.name}</p>
         </Link>
       ))}
     </div>

@@ -6,9 +6,6 @@ import {
   EditManager,
   TaskCreateForm,
 } from "@/components";
-import { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import Head from "next/head";
 import {
   deleteRoom,
   editRoom,
@@ -16,17 +13,22 @@ import {
   deleteTask,
   editTask,
 } from "@/redux/slices/client/spaces/rooms";
-import { useSubscription } from "@apollo/client";
 import {
   NOTIFY_TASK_CHANGED,
   NOTIFY_TASK_CREATED,
   NOTIFY_TASK_DELETED,
 } from "@/graphql/subscriptions";
+import { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import Head from "next/head";
+import { useSubscription } from "@apollo/client";
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
-  const { currentRoom } = useAppSelector((state) => state?.client?.spaces?.rooms);
-  const [index, setIndex] = useState(0);
+  const { currentRoom } = useAppSelector(
+    (state) => state?.client?.spaces?.rooms
+  );
+
   const [processedData, setProcessedData] = useState<any>(currentRoom);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
@@ -45,7 +47,6 @@ export default function CurrentRoom() {
 
   useEffect(() => {
     if (datachange?.notifyTaskChanged) {
-      console.log("datachange", datachange);
       dispatch(editTask(datachange?.notifyTaskChanged));
     }
   }, [datachange]);
@@ -103,33 +104,8 @@ export default function CurrentRoom() {
         >
           <TaskCreateForm />
         </HeroSpaceArea>
-        <section className="flex flex-col gap-5">
-          <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />
-          <TasksList index={index} />
-        </section>
+        <TasksList />
       </LayoutSpaces>
     </>
-  );
-}
-
-type IndexerProps = {
-  index: number;
-  indexItems: string[];
-  setIndex: (index: number) => void;
-};
-
-function Indexer({ index, indexItems, setIndex }: IndexerProps) {
-  return (
-    <div className=" flex gap-4 rounded-2xl bg-white p-5">
-      {indexItems.map((item, i) => (
-        <button
-          key={i}
-          className={index === i ? "font-semibold" : ""}
-          onClick={() => setIndex(i)}
-        >
-          {item}
-        </button>
-      ))}
-    </div>
   );
 }

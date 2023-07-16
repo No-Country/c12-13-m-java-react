@@ -19,10 +19,18 @@ type FilesListProps = {
 
 export default function FilesList({ files }: FilesListProps) {
   return (
-    <div className="grid gap-5 grid-cols-3">
-      {Array.isArray(files) &&
-        files.map((file: FilesProps) => <FileItem file={file} />)}
-    </div>
+    <section className="listContainer ">
+      <ListTopArea
+        title="Archivos"
+        description="Administra los archivos de tu espacio"
+        buttonText="Invitar a un amigo"
+        controls={false}
+      />
+      <div className="gridContainer">
+        {Array.isArray(files) &&
+          files.map((file: FilesProps) => <FileItem file={file} />)}
+      </div>
+    </section>
   );
 }
 
@@ -41,9 +49,11 @@ function FileItem({ file }: FileItemProps) {
         width="w-[90px]"
         height="h-[90px]"
       />
-      <div className="flex flex-col items-start justify-between pb-2" >
+      <div className="flex flex-col items-start justify-between pb-2">
         <div>
-          <p className="bodyText font-medium">{file.name} | {file.type}</p>
+          <p className="bodyText font-medium">
+            {file.name} | {file.type}
+          </p>
           <p className="smalltext">{file.asignedRoom.name}</p>
         </div>
         <button className="terceryButton">Descargar</button>

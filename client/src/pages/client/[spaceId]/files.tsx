@@ -24,6 +24,7 @@ console.log(router)
 <>
     <Head>
     <title>Archivos del espacio | Spaces</title>
+    <meta name="theme-color" content="#1e40af" />
   </Head>
     <LayoutSpaces type="client" >
       <HeroSpaceArea
@@ -34,16 +35,7 @@ console.log(router)
       >
         <div>Form Subir un archivo</div>
       </HeroSpaceArea>
-      <Hr hasPadding={false} />
-      <section className=" flex flex-col gap-6">
-        <ListTopArea
-          title="Archivos"
-          description="Administra los archivos de tu espacio"
-          buttonText="Invitar a un amigo"
-          controls={false}
-        />
         <FilesList files={currentSpace.files} />
-      </section>
     </LayoutSpaces>
     </>
   );
