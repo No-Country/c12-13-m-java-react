@@ -189,6 +189,9 @@ function BottomBarItem({ data, hasLogo, title, isRooms }: BottomBarItemProps) {
 
   return (
     <>
+    {
+      data.visible && (
+    
       <div
         className="flex flex-col items-center justify-center gap-1"
         onClick={() => handleClick(data)}
@@ -209,6 +212,8 @@ function BottomBarItem({ data, hasLogo, title, isRooms }: BottomBarItemProps) {
           {data.name}
         </p>
       </div>
+      )
+    }
     </>
   );
 }

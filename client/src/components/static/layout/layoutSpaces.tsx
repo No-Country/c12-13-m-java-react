@@ -16,7 +16,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
     (state) => state.client.spaces.spaces
   );
   const { data: datachange } = useSubscription(NOTIFY_MESSAGE_CREATED, {
-    variables: { chatId: currentSpaceChat.id },
+    variables: { chatId: currentSpaceChat?.id },
   });
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
   return (
     <>
       <Main>
-        {/* {type === "client" && <Chat />} */}
+        {type === "client" && <Chat />}
         <HeaderSpaceArea />
         <div className="layoutSpContainer">
           <Sidebar type={type} />

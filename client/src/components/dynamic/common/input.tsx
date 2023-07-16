@@ -39,7 +39,7 @@ export default function Input(props: InputProps) {
         prefix={props.prefix}
         onChange={props.onChange}
         placeholder={props.placeholder}
-        className={`${props.className} smalltext rounded-2xl px-4 py-2 ${className}`}
+        className={`${props.className} min-w-0 smalltext rounded-2xl px-4 py-2 ${className}`}
         style={{ borderWidth: "1px" }}
         required={props.required}
       />
