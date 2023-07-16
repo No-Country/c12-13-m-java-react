@@ -7,17 +7,20 @@ import {
   EDIT_SPACE,
   JOIN_SPACE,
   LEAVE_SPACE,
+  SEND_MESSAGE,
 } from "@/graphql/mutations";
 
 import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
-import { SpaceProps } from "@/utils/types/client/spaces";
+import { SpaceProps, ChatProps } from "@/utils/types/client/spaces";
+import axios from "axios";
 
 const initialState = {
   spaces: [] as SpaceProps[],
   currentSpace: {} as SpaceProps,
+  currentSpaceChat: {} as ChatProps,
   userIsAdminOfCurrentSpace: false,
 };
 
@@ -34,6 +37,7 @@ export const getCurrentSpace = createAsyncThunk(
       return data.findSpaceById;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -43,21 +47,33 @@ export const createSpace = createAsyncThunk(
   async (input: any, { dispatch, getState }) => {
     try {
       const state = getState() as RootState;
-      const { data } = await client.mutate({
-        mutation: CREATE_SPACE,
-        variables: {
-          userOwner: state.authSession.session.current.id,
-          name: input.name,
-          description: input.description,
-          accessCode: input.accessCode,
-          coverImage: input.coverImage,
-        },
-        fetchPolicy: "network-only",
-      });
+      input.userOwner = state.authSession.session.current.id;
+      // const { data } = await client.mutate({
+      //   mutation: CREATE_SPACE,
+      //   variables: {
+      //     userOwner: state.authSession.session.current.id,
+      //     name: input.name,
+      //     description: input.description,
+      //     accessCode: input.accessCode,
+      //     coverImage: input.coverImage,
+      //   },
+      //   fetchPolicy: "network-only",
+      // });
 
-      return data.createSpace;
+      const res = await axios.post(
+        "http://localhost:8080/rest/spaces/create",
+        input,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return res.data;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -78,6 +94,7 @@ export const deleteSpace = createAsyncThunk(
       return data.deleteSpace;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -98,6 +115,31 @@ export const editSpace = createAsyncThunk(
       return data.editSpace;
     } catch (err) {
       console.log(err);
+      throw err;
+    }
+  }
+);
+
+//-----------------------Chat-----------------------//
+export const sendMessage = createAsyncThunk(
+  "spaces/sendMessage",
+  async (input: any, { dispatch, getState }) => {
+    try {
+      const state = getState() as RootState;
+      const { data } = await client.mutate({
+        mutation: SEND_MESSAGE,
+        variables: {
+          userId: state.authSession.session.current.id,
+          chatId: state.client.spaces.spaces.currentSpaceChat.id,
+          content: input.message,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      return data.sendMessage;
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
   }
 );
@@ -182,6 +224,10 @@ const postsSlice = createSlice({
     setIsAdminOfCurrentSpace: (state, action: PayloadAction<boolean>) => {
       state.userIsAdminOfCurrentSpace = action.payload;
     },
+    addMessage: (state, action: PayloadAction<any>) => {
+      console.log("action.payload addMessage", action.payload);
+      state.currentSpaceChat.messages.push(action.payload);
+    },
     resetReducer: (state) => {
       state.spaces = initialState.spaces;
     },
@@ -191,6 +237,8 @@ const postsSlice = createSlice({
       .addCase(getCurrentSpace.pending, (state) => {})
       .addCase(getCurrentSpace.fulfilled, (state, action) => {
         state.currentSpace = action?.payload as SpaceProps;
+        state.currentSpaceChat = action?.payload?.chat as ChatProps;
+        console.log("state.currentSpace", state.currentSpace);
       })
       .addCase(getCurrentSpace.rejected, (state) => {
         console.log("Error al obtener espacio");
@@ -199,7 +247,7 @@ const postsSlice = createSlice({
       .addCase(createSpace.pending, (state) => {})
       .addCase(createSpace.fulfilled, (state, action) => {
         state.currentSpace = action?.payload as SpaceProps;
-        Router.push(`/client/${action.payload.id}`);
+        Router.push(`/client/${action.payload}`);
         toast.success("Espacio creado correctamente", toastSuccess);
       })
       .addCase(createSpace.rejected, (state) => {
@@ -257,6 +305,12 @@ const postsSlice = createSlice({
       .addCase(expulseMember.rejected, (state) => {
         console.log("Error al expulsar miembro");
         toast.error("Error al expulsar miembro", toastError);
+      })
+      .addCase(sendMessage.pending, (state) => {})
+      .addCase(sendMessage.fulfilled, (state, action) => {})
+      .addCase(sendMessage.rejected, (state) => {
+        console.log("Error al enviar mensaje");
+        toast.error("Error al enviar mensaje", toastError);
       });
   },
 });
@@ -264,7 +318,7 @@ const postsSlice = createSlice({
 export const {
   resetReducer,
   setSpaces,
-
+  addMessage,
   setIsAdminOfCurrentSpace,
 } = postsSlice.actions;
 

@@ -17,7 +17,7 @@ export default function ConfirmationModal({
   confirmText,
   confirmParagraph,
   triggerText,
-  triggerClass = "rounded-md  px-4 py-2 text-white",
+  triggerClass = "",
   triggerColor = "bg-blue-500",
   mustConfirm = true,
   alwaysOpen = false,
@@ -33,26 +33,31 @@ export default function ConfirmationModal({
 
   const handleTrigger = () => {
     if (mustConfirm) {
-        setIsOpen(true);
+      setIsOpen(true);
     } else {
-        trueAction();
+      trueAction();
     }
-    };
+  };
 
-const handleCloseAlwaysOpen = () => {
+  const handleCloseAlwaysOpen = () => {
     setIsOpen(false);
     alwaysOpenManage(false);
-}
+  };
 
   return (
     <div>
       <button
-        className={`${triggerClass} ${triggerColor}`}
+        className={`${triggerClass} primaryButton whitespace-nowrap ${triggerColor}`}
         onClick={handleTrigger}
       >
         {triggerText}
       </button>
-      <ModalBase isOpen={isOpen} close={() => setIsOpen(false)} position="center-center" setIsOpen={setIsOpen}> 
+      <ModalBase
+        isOpen={isOpen}
+        close={() => setIsOpen(false)}
+        position="center-center"
+        setIsOpen={setIsOpen}
+      >
         <div className="flex flex-col gap-5">
           <h3 className="text-2xl font-medium">{confirmText}</h3>
           <p className="text-gray-800">{confirmParagraph}</p>

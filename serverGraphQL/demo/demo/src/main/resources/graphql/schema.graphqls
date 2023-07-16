@@ -1,3 +1,5 @@
+
+
 type Users {
   id: ID
   firstName: String
@@ -20,6 +22,7 @@ type Spaces {
   name: String
   description: String
   accessCode: String
+  # coverImage: String
   coverImage: String
   members: [Members]
   rooms: [Rooms]
@@ -90,6 +93,14 @@ type Messages {
   updatedAt: String
 }
 
+type File {
+lastModified: Int
+name: String
+size: Int
+type: String
+webkitRelativePath: String
+} 
+
 type Query {
   findAllUsers: [Users]
   findUserById(id: ID): Users
@@ -130,7 +141,8 @@ type Mutation {
     name: String!
     description: String!
     accessCode: String!
-    coverImage: String!
+    
+    coverImage: String! 
   ): Spaces
 
   deleteSpace(id: ID!): Spaces
@@ -193,4 +205,5 @@ type Subscription {
   notifyTaskCreated(roomId: ID!): Tasks
   notifyTaskChanged(roomId: ID!): Tasks
   notifyTaskDeleted(roomId: ID!): Tasks
+  notifyMessageCreated(chatId: ID!): Messages
 }

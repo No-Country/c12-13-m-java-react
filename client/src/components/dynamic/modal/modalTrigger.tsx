@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ModalBase } from "@/components";
+import { createPortal } from "react-dom";
 
 type ModalTriggerProps = {
   children: React.ReactNode;
@@ -18,15 +19,12 @@ export default function ModalTrigger({
 }: ModalTriggerProps) {
   const [isOpen, setIsOpen] = useState(alwaysOpen);
 
-  
-
-
   const handleClose = () => {
-  if (alwaysOpen) {
-    alwaysOpenCloser();
-  } else {
-    setIsOpen(false);
-  }
+    if (alwaysOpen) {
+      alwaysOpenCloser();
+    } else {
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -39,15 +37,17 @@ export default function ModalTrigger({
           {triggerText}
         </button>
       )}
-
-      <ModalBase
-        isOpen={isOpen}
-        close={handleClose}
-        position="center-center"
-        setIsOpen={setIsOpen}
-      >
-        {children}
-      </ModalBase>
+      {createPortal(
+        <ModalBase
+          isOpen={isOpen}
+          close={handleClose}
+          position="center-center"
+          setIsOpen={setIsOpen}
+        >
+          {children}
+        </ModalBase>,
+        document.body
+      )}
     </div>
   );
 }

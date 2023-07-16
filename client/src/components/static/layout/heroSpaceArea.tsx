@@ -1,17 +1,7 @@
-import {
-  Main,
-  LayoutSpaces,
-  TasksList,
-  ModalTrigger,
-  Image,
-  MembersList,
-} from "@/components";
-import {
-  MembersProps,
-  RoomsProps,
-  SpaceProps,
-} from "@/utils/types/client/spaces";
+import { ModalTrigger, MembersList, ConfirmationModal } from "@/components";
+import { RoomsProps, SpaceProps } from "@/utils/types/client/spaces";
 import { useAppSelector } from "@/redux/hooks";
+import NextImage from "next/image";
 
 type HeroSpaceAreaProps = {
   current: SpaceProps | RoomsProps;
@@ -25,6 +15,11 @@ type HeroSpaceAreaProps = {
   showMembers?: boolean;
   triggerIsAdmin?: boolean;
   secondTriggerIsAdmin?: boolean;
+  modalType?: "confirmation" | "normal";
+  confirmParagraph?: string;
+  handleTrueAction?: () => void;
+  mustConfirm?: boolean;
+  bgImageVisibleOnDesktop?: boolean;
 };
 
 export default function HeroSpaceArea({
@@ -39,6 +34,11 @@ export default function HeroSpaceArea({
   showMembers = true,
   triggerIsAdmin = false,
   secondTriggerIsAdmin = false,
+  modalType = "normal",
+  confirmParagraph = "",
+  handleTrueAction = () => {},
+  mustConfirm = false,
+  bgImageVisibleOnDesktop = false,
 }: HeroSpaceAreaProps) {
   {
     const { userIsAdminOfCurrentSpace } = useAppSelector(
@@ -46,27 +46,22 @@ export default function HeroSpaceArea({
     );
 
     return (
-      <section className="flex flex-col gap-10  ">
-        <div className="flex items-center  gap-4 ">
-          <div className="flex w-full  items-center gap-4">
-            <Image
-              src={current?.coverImage}
-              alt="SpaceCover"
-              layout="fill"
-              width="w-[90px]"
-              height="w-[90px]"
-              aspectRatio="aspect-[1/1]"
-              rounded="rounded-[20px]"
-              containerClassName="min-w-[90px] min-h-[90px] "
-            />
-            <div className="">
-              <h1 className="titulo-1 ">{current?.name}</h1>
-              <p className="bodyText">{current?.description}</p>
-            </div>
+      <section className="heroSpContainer">
+        <ImageOverlay
+          current={current}
+          bgImageVisibleOnDesktop={bgImageVisibleOnDesktop}
+        />
+        <div className="z-0  flex w-full flex-col justify-between gap-4 lg:flex-row lg:items-center">
+          <div className="w-full">
+            <h1 className="titulo-1 text-white">{current?.name}</h1>
+            <p className="bodyText font-light text-white lg:max-w-[75%]">
+              {current?.description}
+            </p>
           </div>
           {controls && (
-            <div className="flex gap-2">
-              {secondControls && ((secondTriggerIsAdmin && userIsAdminOfCurrentSpace) ||
+            <div className="flex  gap-2">
+              {secondControls &&
+                ((secondTriggerIsAdmin && userIsAdminOfCurrentSpace) ||
                   !secondTriggerIsAdmin) && (
                   <ModalTrigger
                     triggerText={triggerSecondText}
@@ -75,7 +70,7 @@ export default function HeroSpaceArea({
                     {childrenSecond}
                   </ModalTrigger>
                 )}
-              <div className="flex w-full flex-row items-center justify-end gap-5">
+              <div className="flex  w-full flex-row-reverse items-center justify-end gap-4 lg:flex-row">
                 {type === "space" && showMembers && (
                   <MembersList
                     members={current?.members}
@@ -84,19 +79,56 @@ export default function HeroSpaceArea({
                   />
                 )}
                 {((triggerIsAdmin && userIsAdminOfCurrentSpace) ||
-                  !triggerIsAdmin) && (
-                  <ModalTrigger
-                    triggerText={triggerText}
-                    buttonType="primaryButton"
-                  >
-                    {children}
-                  </ModalTrigger>
-                )}
+                  !triggerIsAdmin) &&
+                  modalType === "normal" && (
+                    <ModalTrigger
+                      triggerText={triggerText}
+                      buttonType="primaryButton"
+                    >
+                      {children}
+                    </ModalTrigger>
+                  )}
+                {((triggerIsAdmin && userIsAdminOfCurrentSpace) ||
+                  !triggerIsAdmin) &&
+                  modalType === "confirmation" && (
+                    <ConfirmationModal
+                      triggerText={triggerText}
+                      confirmText={triggerText}
+                      confirmParagraph={confirmParagraph}
+                      triggerColor="bg-red-800"
+                      trueAction={handleTrueAction}
+                      mustConfirm={mustConfirm}
+                    />
+                  )}
               </div>
             </div>
           )}
         </div>
       </section>
+    );
+  }
+
+  type ImageOverlayProps = {
+    current: SpaceProps | RoomsProps;
+    bgImageVisibleOnDesktop: boolean;
+  };
+
+  function ImageOverlay({
+    current,
+    bgImageVisibleOnDesktop,
+  }: ImageOverlayProps) {
+    return (
+      <div className=" z[-1] absolute left-0 right-0 top-0  h-full w-full">
+        <div className="absolute left-0 right-0 top-0 z-[-1]  h-full w-full backdrop-brightness-50 " />
+        <NextImage
+          src={current?.coverImage}
+          alt="SpaceCover"
+          layout="fill"
+          className={`left-0 right-0 top-0 z-[-2] h-full w-full object-cover  ${
+            !bgImageVisibleOnDesktop && "lg:hiddens"
+          } `}
+        />
+      </div>
     );
   }
 }

@@ -28,6 +28,8 @@ public class ChatController {
     private ChatRepository chatRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ChatPublisher chatPublisher;
 
     @SchemaMapping(typeName = "Mutation", field = "createMessage")
     public Message createMessage(
@@ -35,12 +37,14 @@ public class ChatController {
             @Argument String userId,
             @Argument String chatId) {
         Message message = new Message();
+        User user = userRepository.findById(userId).orElseThrow(null);
+
         message.setId(generateRandomId());
         message.setCreatedAt(new Date().toString());
         message.setUpdatedAt(new Date().toString());
         message.setContent(content);
-        User user = userRepository.findById(userId).orElseThrow(null);
         message.setFromUser(user);
+        chatPublisher.publishMessage(message, chatId, "create");
         Chat chat = chatRepository.findById(chatId).orElseThrow(null);
         chat.getMessages().add(message);
         chatRepository.save(chat);

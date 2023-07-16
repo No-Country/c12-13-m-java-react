@@ -80,3 +80,15 @@ export type FilesProps = {
   owner: MembersProps;
   asignedRoom: RoomsProps;
 };
+
+export type ChatProps = {
+  id: string;
+  messages: MessageProps[];
+}
+
+export type MessageProps = {
+  id: string;
+  content: string;
+  createdAt: string;
+  fromUser: User;
+}

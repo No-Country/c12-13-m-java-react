@@ -27,9 +27,9 @@ public class User {
     @Builder.Default
     private String loginMethod = "local";
     @Builder.Default
-    private String profileImage = "";
+    private String profileImage = "https://images.unsplash.com/photo-1593134257782-e89567b7718a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80";
     @Builder.Default
-    private String coverImage = "";
+    private String coverImage = "https://images.unsplash.com/photo-1593134257782-e89567b7718a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80";
     @Builder.Default
     private Boolean softDelete = false;
     @Builder.Default

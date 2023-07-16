@@ -1,5 +1,5 @@
 import { Image, MemberPicture } from "@/components";
-import { MembersProps, User } from "@/utils/types/client/spaces";
+import { MembersProps } from "@/utils/types/client/spaces";
 
 type MembersListProps = {
   members: MembersProps[];
@@ -12,9 +12,8 @@ export default function MembersList({
   size,
   pictureHasMargin = false,
 }: MembersListProps) {
-
   return (
-    <div className="ml-[15px] mt-2 flex ">
+    <div className="ml-[15px] mt-2 ">
       {Array.isArray(members) &&
         members.map((member: MembersProps) => (
           <MemberPicture

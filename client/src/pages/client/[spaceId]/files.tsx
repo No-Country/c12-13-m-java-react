@@ -14,14 +14,17 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function SpaceSettings() {
   const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
-
+const router = useRouter()
+console.log(router)
   return (
 <>
     <Head>
     <title>Archivos del espacio | Spaces</title>
+    <meta name="theme-color" content="#1e40af" />
   </Head>
     <LayoutSpaces type="client" >
       <HeroSpaceArea
@@ -32,16 +35,7 @@ export default function SpaceSettings() {
       >
         <div>Form Subir un archivo</div>
       </HeroSpaceArea>
-      <Hr hasPadding={false} />
-      <section className=" flex flex-col gap-6">
-        <ListTopArea
-          title="Archivos"
-          description="Administra los archivos de tu espacio"
-          buttonText="Invitar a un amigo"
-          controls={false}
-        />
         <FilesList files={currentSpace.files} />
-      </section>
     </LayoutSpaces>
     </>
   );

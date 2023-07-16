@@ -117,7 +117,7 @@ export default function Home() {
                 onChange={(e:any) => {handlePassword(e)}}
            
               />
-              <button  disabled={isValidForm}  type="submit" className="primaryButton">
+              <button  disabled={isValidForm}  type="submit" className={`primaryButton ${isValidForm ? "disabledPrimaryButton": ""}`}>
                 Registrarse
               </button>
             </div>

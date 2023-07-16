@@ -52,3 +52,9 @@ export { default as TaskEditForm } from "./static/proyect/tasks/taskEditForm";
 export { default as Loader } from "./static/layout/loader";
 
 export { default as MultiSelect } from "./dynamic/common/multiSelect";
+
+export { default as HeaderSpaceArea } from "./static/layout/headerSpaceArea";
+export { default as Chat } from "./static/layout/Chat";
+export { default as HorizontalNav } from "./dynamic/common/horizontalNav";
+export { default as ProfileAction } from "./static/layout/profileAction";
+export { default as LayoutPublic } from "./static/layout/layoutPublic";

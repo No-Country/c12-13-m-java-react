@@ -59,3 +59,19 @@ export const NOTIFY_TASK_DELETED = gql`
     }
   }
 `;
+
+export const NOTIFY_MESSAGE_CREATED = gql`
+  subscription notifyMessageCreated($chatId: ID!) {
+    notifyMessageCreated(chatId: $chatId) {
+      id
+      content
+      createdAt
+      fromUser {
+        id
+        firstName
+        lastName
+        profileImage
+      }
+    }
+  }
+`;

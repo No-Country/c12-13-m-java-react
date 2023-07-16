@@ -269,6 +269,14 @@ export const LOG_IN = gql`
   }
 `;
 
+export const SEND_MESSAGE = gql`
+  mutation createMessage($chatId: ID!, $content: String!, $userId: ID!) {
+    createMessage(chatId: $chatId, content: $content, userId: $userId) {
+      content
+    }
+  }
+`;
+
 // mutation {
 //   createUser(
 //     firstName: "John"

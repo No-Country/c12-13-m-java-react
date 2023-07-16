@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { SpaceProps } from "@/utils/types/client/spaces";
 import { useAppSelector } from "@/redux/hooks";
-import { SpaceItem } from "@/components";
+import { SpaceItem, ListTopArea, SpaceCreateForm } from "@/components";
 
 export default function SpacesList() {
   const router = useRouter();
@@ -13,14 +13,24 @@ export default function SpacesList() {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-5">
-      {Array.isArray(spaces) && spaces.map((item: SpaceProps) => (
-        <SpaceItem
-          item={item}
-          handleClick={handleClick}
-          handleClickConfig={handleClick}
-        />
-      ))}
-    </div>
+    <section className="listContainer2">
+      <ListTopArea
+        title="Mis espacios"
+        description="Organiza tus proyectos"
+        buttonText="Crear nuevo espacio"
+        triggerIsAdmin={false}
+        triggerContent={<SpaceCreateForm />}
+      />
+      <div className="gridContainer xl:grid-cols-4">
+        {Array.isArray(spaces) &&
+          spaces.map((item: SpaceProps) => (
+            <SpaceItem
+              item={item}
+              handleClick={handleClick}
+              handleClickConfig={handleClick}
+            />
+          ))}
+      </div>
+    </section>
   );
 }
