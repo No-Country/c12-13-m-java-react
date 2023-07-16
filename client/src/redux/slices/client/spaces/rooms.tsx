@@ -13,6 +13,7 @@ import { serverUrl } from "@/data/config";
 const initialState = {
   rooms: [] as RoomsProps[],
   currentRoom: {} as RoomsProps,
+  roomLoading: false,
 };
 
 export const getRooms = createAsyncThunk(
@@ -33,15 +34,18 @@ export const getRooms = createAsyncThunk(
   }
 );
 
+
 export const getCurrentRoom = createAsyncThunk(
   "rooms/getCurrentRoom",
   async (roomId: string, { dispatch, getState }) => {
     try {
       console.log("roomId", roomId);
+     
       const { data } = await client.query({
         query: GET_ROOM_BY_ID,
         variables: { id: roomId },
         fetchPolicy: "network-only",
+  
       });
       console.log("data rm enter", data.findRoomById);
       return data.findRoomById;
@@ -163,7 +167,7 @@ const postsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getRooms.pending, (state) => {})
+      .addCase(getRooms.pending, (state, action) => {})
       .addCase(getRooms.fulfilled, (state, action) => {
         console.log("data rooms", action.payload);
         state.rooms = action?.payload?.rooms as RoomsProps[] | [];
@@ -172,9 +176,17 @@ const postsSlice = createSlice({
         console.log("Error al obtener las salas");
         toast.error("Error al obtener las salas", toastError);
       })
-      .addCase(getCurrentRoom.pending, (state) => {})
+      .addCase(getCurrentRoom.pending, (state, action) => {
+        console.log("action", action);
+        if (action.meta.arg === state.currentRoom.id) {
+          state.roomLoading = false;
+        } else {
+          state.roomLoading = true;
+        }
+      })
       .addCase(getCurrentRoom.fulfilled, (state, action) => {
         state.currentRoom = action.payload as RoomsProps;
+        state.roomLoading = false;
       })
       .addCase(getCurrentRoom.rejected, (state) => {
         console.log("Error al obtener la sala actual");

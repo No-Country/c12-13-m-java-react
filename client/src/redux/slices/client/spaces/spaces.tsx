@@ -24,6 +24,7 @@ const initialState = {
   currentSpace: {} as SpaceProps,
   currentSpaceChat: {} as ChatProps,
   userIsAdminOfCurrentSpace: false,
+  spaceLoading: false,
 };
 
 export const getCurrentSpace = createAsyncThunk(
@@ -41,7 +42,7 @@ export const getCurrentSpace = createAsyncThunk(
       console.log(err);
       throw err;
     }
-  }
+  },
 );
 
 export const createSpace = createAsyncThunk(
@@ -236,10 +237,19 @@ const postsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getCurrentSpace.pending, (state) => {})
+      .addCase(getCurrentSpace.pending, (state, action) => {
+        console.log("state pendinf", action);
+        if(action.meta.arg === state.currentSpace.id){
+          state.spaceLoading = false;
+        } else {
+          state.spaceLoading = true;
+        }
+
+      })
       .addCase(getCurrentSpace.fulfilled, (state, action) => {
         state.currentSpace = action?.payload as SpaceProps;
         state.currentSpaceChat = action?.payload?.chat as ChatProps;
+        state.spaceLoading = false;
         console.log("state.currentSpace", state.currentSpace);
       })
       .addCase(getCurrentSpace.rejected, (state) => {

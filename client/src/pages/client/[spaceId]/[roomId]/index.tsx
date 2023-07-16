@@ -5,6 +5,7 @@ import {
   RoomEditForm,
   EditManager,
   TaskCreateForm,
+  CircularLoader,
 } from "@/components";
 import {
   deleteRoom,
@@ -25,7 +26,7 @@ import { useSubscription } from "@apollo/client";
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
-  const { currentRoom } = useAppSelector(
+  const { currentRoom, roomLoading } = useAppSelector(
     (state) => state?.client?.spaces?.rooms
   );
 
@@ -74,38 +75,59 @@ export default function CurrentRoom() {
       <Head>
         <title>Room | Spaces</title>
       </Head>
+
       <LayoutSpaces type="client">
-        <HeroSpaceArea
-          current={currentRoom}
-          type="room"
-          triggerText="Crear una tarea"
-          secondControls={true}
-          secondTriggerIsAdmin={true}
-          triggerIsAdmin={false}
-          triggerSecondText="Editar room"
-          childrenSecond={
-            <EditManager
-              processedData={processedData}
-              originalData={currentRoom}
-              title="Editar room"
-              deleteAction={deleteRoom}
-              nowEditing={nowEditing}
-              route={`/client`}
-              editAction={(editedData: any) => handleSave(editedData)}
+        {roomLoading ? (
+          <RoomLoader />
+        ) : (
+          <>
+            <HeroSpaceArea
+              current={currentRoom}
+              type="room"
+              triggerText="Crear una tarea"
+              secondControls={true}
+              secondTriggerIsAdmin={true}
+              triggerIsAdmin={false}
+              triggerSecondText="Editar room"
+              childrenSecond={
+                <EditManager
+                  processedData={processedData}
+                  originalData={currentRoom}
+                  title="Editar room"
+                  deleteAction={deleteRoom}
+                  nowEditing={nowEditing}
+                  route={`/client`}
+                  editAction={(editedData: any) => handleSave(editedData)}
+                >
+                  <RoomEditForm
+                    originalData={currentRoom}
+                    processedData={processedData}
+                    setProcessedData={setProcessedData}
+                    setNowEditing={setNowEditing}
+                  />
+                </EditManager>
+              }
             >
-              <RoomEditForm
-                originalData={currentRoom}
-                processedData={processedData}
-                setProcessedData={setProcessedData}
-                setNowEditing={setNowEditing}
-              />
-            </EditManager>
-          }
-        >
-          <TaskCreateForm />
-        </HeroSpaceArea>
-        <TasksList />
+              <TaskCreateForm />
+            </HeroSpaceArea>
+            <TasksList />
+          </>
+        )}
       </LayoutSpaces>
     </>
+  );
+}
+
+function RoomLoader() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="flex items-center gap-4">
+        <CircularLoader />
+        <div>
+          <p className="subtitulo">Cargando tu room</p>
+          <p className="text-sm font-light">Solo un momento mas...</p>
+        </div>
+      </div>
+    </div>
   );
 }

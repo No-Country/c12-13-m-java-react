@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ModalBase } from "@/components";
+import { createPortal } from "react-dom";
 
 type ModalTriggerProps = {
   triggerText: string;
@@ -52,6 +53,7 @@ export default function ConfirmationModal({
       >
         {triggerText}
       </button>
+      {createPortal(
       <ModalBase
         isOpen={isOpen}
         close={() => setIsOpen(false)}
@@ -78,6 +80,7 @@ export default function ConfirmationModal({
           </div>
         </div>
       </ModalBase>
+      , document.body)}
     </div>
   );
 }

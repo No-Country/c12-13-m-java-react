@@ -40,7 +40,7 @@ export default function Members() {
             type="space"
             controls={true}
             showMembers={false}
-            triggerText="Salir del espacio"
+            triggerText="Abandonar el espacio"
             confirmParagraph="Estas seguro que quieres salir de este espacio?"
             handleTrueAction={handleTrueAction}
             mustConfirm={true}
