@@ -6,8 +6,7 @@ type Props = {
 };
 
 const Main: React.FC<Props> = ({ children, className }) => {
-  return <main className={`main 
-  ${className} `}  >{children}</main>;
+  return <main>{children}</main>;
 };
 
 export default Main;
