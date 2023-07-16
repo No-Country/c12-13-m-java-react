@@ -47,7 +47,7 @@ export default function ModalChat() {
   return (
     <div className="flex flex-col  ">
       <button
-        className="bodyText fixed bottom-[40px] right-[40px] z-[20] rounded-full bg-blue-700 p-6 text-center font-semibold text-white"
+        className="bodyText fixed bottom-[110px] right-[24px]  lg:bottom-[40px] lg:right-[40px] z-[20] rounded-full bg-blue-700 p-6 text-center font-semibold text-white"
         onClick={() => setChatVisibility(!chatVisibility)}
       >
         Chat
@@ -55,7 +55,7 @@ export default function ModalChat() {
       {chatVisibility && (
         <div
           id="chat-box"
-          className="fixed bottom-[40px] right-[40px] z-[20]  flex max-h-[450px] min-h-[450px] min-w-[350px]  max-w-[350px] flex-col rounded-2xl bg-white p-4 shadow-lg"
+          className="fixed bottom-[80px] lg:bottom-[40px] right-[40px] z-[20]  flex max-h-[450px] min-h-[450px] min-w-[350px]  max-w-[350px] flex-col rounded-2xl bg-white p-4 shadow-lg"
         >
           <div className="flex items-center justify-between pb-4 gap-2">
             <h3 className="bodyText font-semibold">{currentSpace.name}</h3>
