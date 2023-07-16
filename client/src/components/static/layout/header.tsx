@@ -109,7 +109,7 @@ else return (
     <header className="header h-[97px] ">
       <div className="headerInner ">
         <Logo />
-        <div className="absolute left-[50%]  flex  w-max translate-x-[-50%]">
+        <div className="absolute left-[50%] hidden w-max translate-x-[-50%] md:flex ">
           {inPublicArea ? (
             <Nav items={itemsPublicNav} />
           ) : (

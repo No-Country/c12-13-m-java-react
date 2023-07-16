@@ -51,13 +51,13 @@ export default function Home() {
         <title>Inicio | Spaces</title>
       </Head>
       <Main>
-        <section className="relative flex h-[55vh] w-full flex-col items-center   justify-center ">
+        <section className="relative mt-20 flex h-[50vh] lg:h-[70vh]  w-full flex-col items-center  justify-center seccion2-x ">
           <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full ">
             <ImageNext
               src="/image/hero-home.png"
               alt="hero-home"
-              layout="fill"
-              objectFit="cover"
+              fill
+              
             />
           </div>
           <div className="seccion2-x z-10 ">
@@ -75,7 +75,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="relative flex w-full flex-col gap-8 bg-white  seccion2-x py-[80px] ">
+        <section className="relative flex w-full flex-col gap-32 bg-white  seccion2-x py-[80px] ">
           <div>
             <p className="bodyText font-normal text-blue-700">
               Conozcámonos mejor
@@ -90,7 +90,7 @@ export default function Home() {
               Nunc magna risus, tempor sed sem quis, eleifend pulvinar eros.
             </p>
           </div>
-          <div className=" flex flex-row justify-between gap-10">
+          <div className=" flex flex-col lg:flex-row items-start  gap-10">
             {items.map((item, index) => {
               return <ItemFeature data={item} />;
             })}
@@ -104,7 +104,7 @@ export default function Home() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
-          <div className="flex items-start justify-center gap-10">
+          <div className="w-screen flex lg:justify-center  gap-10 overflow-scroll scrollbar-hide lg:overflow-auto">
             {employees.map((item, index) => (
               <Employees data={item} />
             ))}
@@ -121,8 +121,8 @@ type EmployeesProps = {
 
 function Employees({ data }: EmployeesProps) {
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <div className="relative aspect-square w-[100%] min-w-[200px]  gap-4 overflow-hidden rounded-full">
+    <div className="flex flex-col  min-w-[200px] items-center justify-center gap-4">
+      <div className="relative aspect-square min-w-[200px]  gap-4 overflow-hidden rounded-full">
         <ImageNext
           src={data.image}
           alt="hero-home"
