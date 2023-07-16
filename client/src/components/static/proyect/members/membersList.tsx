@@ -13,7 +13,7 @@ export default function MembersList({
   pictureHasMargin = false,
 }: MembersListProps) {
   return (
-    <div className="ml-[15px] mt-2 ">
+    <div className="ml-[15px] flex mt-2 ">
       {Array.isArray(members) &&
         members.map((member: MembersProps) => (
           <MemberPicture

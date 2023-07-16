@@ -28,7 +28,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
   return (
     <>
       <Main>
-        {/* {type === "client" && <Chat />} */}
+        {type === "client" && <Chat />}
         <HeaderSpaceArea />
         <div className="layoutSpContainer">
           <Sidebar type={type} />
