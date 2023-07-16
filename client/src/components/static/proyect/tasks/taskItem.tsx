@@ -49,7 +49,7 @@ const handleEditing = () => {
   return (
     <div
       key={item.id}
-      className="relative flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-5"
+      className="relative flex h-auto shadow-sm cursor-pointer flex-col gap-2 rounded-3xl bg-white p-5"
     >
       <div className="relative flex flex-col gap-2">
         <div className="flex items-center justify-between">

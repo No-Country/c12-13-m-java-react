@@ -242,9 +242,9 @@ $line-height-titulos: 130%;
   }
 
   .listContainer2 {
-    @apply seccion1-x z-[20] rounded-3xl bg-[#F6F8FA] lg:bg-slate-50 w-full;
+    @apply seccion1-x z-[2] rounded-3xl bg-[#F6F8FA] lg:bg-slate-50 w-full;
     @apply flex flex-col gap-6;
-    @apply  py-[40px] mt-[-20px] ;
+    @apply  py-[40px] mt-[-20px] relative;
   }
 
   .gridContainer {

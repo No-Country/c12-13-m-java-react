@@ -28,7 +28,7 @@ export default function HomeClient() {
 
 function Hero() {
   return (
-    <section className="relative mt-0 flex h-[65vh]  w-full items-center justify-center  pt-[55px]  lg:mt-[-97px] ">
+    <section className="relative mt-0 flex h-[65vh]  w-full items-center justify-center  pt-[55px]   ">
       <NextImage
         src="/image/hero-client.png"
         alt="SpaceCover"
