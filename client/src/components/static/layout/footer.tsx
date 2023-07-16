@@ -5,6 +5,11 @@ import { useAppSelector } from "@/redux/hooks";
 export default function Footer() {
   const router = useRouter();
   const { auth } = useAppSelector((state) => state.authSession);
+
+
+  const isHidden = router.pathname.startsWith("/client/[spaceId]");
+
+  if (isHidden) return null;
   return (
     <footer className="footer  ">
       <div className="footerInner h-[200px] ">

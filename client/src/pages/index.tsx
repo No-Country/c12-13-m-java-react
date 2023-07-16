@@ -1,4 +1,4 @@
-import { Main, Image } from "@/components";
+import { Main, Image, LayoutPublic } from "@/components";
 import ImageNext from "next/image";
 import Link from "next/link";
 import Head from "next/head";
@@ -50,32 +50,33 @@ export default function Home() {
       <Head>
         <title>Inicio | Spaces</title>
       </Head>
-      <Main>
-        <section className="relative mt-20 flex h-[50vh] lg:h-[70vh]  w-full flex-col items-center  justify-center seccion2-x ">
+
+      <LayoutPublic>
+        <section className="seccion2-x relative  flex h-[65vh]  w-full flex-col items-center  justify-center lg:h-[70vh] ">
           <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full ">
             <ImageNext
               src="/image/hero-home.png"
               alt="hero-home"
               fill
-              
+              className="z-[0] object-cover "
             />
           </div>
-          <div className="seccion2-x z-10 ">
-            <div className="z-[10] ">
-              <h1 className="titulo-1 z-[1] text-white ">
+          <div className="z-[1] w-full ">
+            <div className=" ">
+              <h1 className="titulo-1 text-white ">
                 Organiza mejor, disfruta mas con aquellos que amas.
               </h1>
-              <p className="bodyText z-[1] text-white">
+              <p className="bodyText  text-white">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
                 ultrices nulla sed luctus volutpat.
               </p>
-              <button className="primaryButton z-[1] mt-4 ">
+              <button className="primaryButton mt-4 ">
                 <Link href={"/auth/register"}>Regístrate ahora, es gratis</Link>
               </button>
             </div>
           </div>
         </section>
-        <section className="relative flex w-full flex-col gap-32 bg-white  seccion2-x py-[80px] ">
+        <section className="seccion2-x relative flex w-full flex-col gap-10  bg-white py-[80px] ">
           <div>
             <p className="bodyText font-normal text-blue-700">
               Conozcámonos mejor
@@ -90,13 +91,13 @@ export default function Home() {
               Nunc magna risus, tempor sed sem quis, eleifend pulvinar eros.
             </p>
           </div>
-          <div className=" flex flex-col lg:flex-row items-start  gap-10">
+          <div className=" flex flex-col items-start gap-10  lg:flex-row">
             {items.map((item, index) => {
               return <ItemFeature data={item} />;
             })}
           </div>
         </section>
-        <section className="relative flex w-full flex-col items-center justify-center gap-10 seccion2-x py-[80px] ">
+        <section className="seccion2-x relative flex w-full flex-col items-center justify-center gap-10 bg-slate-100 py-[80px] ">
           <div className="flex flex-col items-center justify-center">
             <p className="bodyText font-normal text-blue-700">Quienes somos</p>
             <h1 className="titulo-1">Conoce a nuestro equipo.</h1>
@@ -104,13 +105,13 @@ export default function Home() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
-          <div className="w-screen flex lg:justify-center  gap-10 overflow-scroll scrollbar-hide lg:overflow-auto">
+          <div className="scrollbar-hide seccion2-x flex w-screen  gap-10 overflow-scroll lg:justify-center lg:overflow-auto">
             {employees.map((item, index) => (
               <Employees data={item} />
             ))}
           </div>
         </section>
-      </Main>
+      </LayoutPublic>
     </>
   );
 }
@@ -121,7 +122,7 @@ type EmployeesProps = {
 
 function Employees({ data }: EmployeesProps) {
   return (
-    <div className="flex flex-col  min-w-[200px] items-center justify-center gap-4">
+    <div className="flex min-w-[200px]  flex-col items-center justify-center gap-4">
       <div className="relative aspect-square min-w-[200px]  gap-4 overflow-hidden rounded-full">
         <ImageNext
           src={data.image}

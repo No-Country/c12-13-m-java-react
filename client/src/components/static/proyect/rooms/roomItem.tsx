@@ -10,7 +10,7 @@ export default function RoomItem({ item, handleClick }: RoomItemProps) {
   return (
     <div
       key={item.id}
-      className="flex  cursor-pointer flex-col h-max overflow-hidden rounded-2xl  bg-white"
+      className="flex  cursor-pointer flex-col shadow-sm h-max overflow-hidden rounded-2xl border-none  bg-white  "
       onClick={() => {
         handleClick(item.id);
       }}

@@ -1,4 +1,5 @@
 import "@/styles/globals.scss";
+import "@/styles/layout.scss";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
@@ -23,9 +24,9 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
             />
             <HOC>
               <Querier>
-                <Header />
+           
                 <Component {...pageProps} />
-                <Footer />
+       
               </Querier>
             </HOC>
           </PersistGate>

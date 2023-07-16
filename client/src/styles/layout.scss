@@ -1,0 +1,22 @@
+@import "./globals.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+//Layouts
+@layer base {
+  .layoutSpContainer {
+    @apply lg:mt-0 mt-[-97px] z-[1] flex min-h-screen w-full lg:grid lg:grid-cols-[20%,80%] lg:bg-slate-50;
+  }
+
+  .layoutSpChildren {
+    @apply flex flex-grow flex-col;
+  }
+}
+
+//Sections
+@layer base {
+  .heroSpContainer {
+    @apply relative  flex z-[1] h-[50vh] min-h-max w-full flex-col items-center justify-center gap-10 seccion1-x  lg:mt-0 lg:h-[45vh] ;
+  }
+}

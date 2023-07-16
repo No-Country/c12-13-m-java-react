@@ -17,11 +17,12 @@ import { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { leaveSpace } from "@/redux/slices/client/spaces/spaces";
 export default function Members() {
-  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
+  const { currentSpace } = useAppSelector(
+    (state) => state.client.spaces.spaces
+  );
   const [leaveSpaceVisibility, setLeaveSpaceVisibility] = useState(false);
-const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const handleTrueAction = () => {
-
     dispatch(leaveSpace());
   };
 
@@ -29,36 +30,23 @@ const dispatch = useAppDispatch();
     <>
       <Head>
         <title>Miembros del espacio | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <LayoutSpaces type="client">
         <div className="flex items-center justify-between">
           <HeroSpaceArea
             current={currentSpace}
+            modalType="confirmation"
             type="space"
-            controls={false}
+            controls={true}
             showMembers={false}
             triggerText="Salir del espacio"
-          />
-          <ConfirmationModal
-            triggerText="Salir del espacio"
-            confirmText="Salir del espacio"
             confirmParagraph="Estas seguro que quieres salir de este espacio?"
-            triggerColor="bg-red-800"
-            trueAction={handleTrueAction}
+            handleTrueAction={handleTrueAction}
             mustConfirm={true}
           />
         </div>
-
-        <Hr hasPadding={false} />
-        <section className=" flex flex-col gap-6">
-          <ListTopArea
-            title="Miembros"
-            description="Miembros del espacio"
-            buttonText="Invitar a un amigo"
-            controls={false}
-          />
-          <MembersSpaceList members={currentSpace.members} adminZone={false} />
-        </section>
+           <MembersSpaceList members={currentSpace.members} adminZone={false} />
       </LayoutSpaces>
     </>
   );

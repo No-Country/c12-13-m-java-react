@@ -15,36 +15,33 @@ import {
 import Head from "next/head";
 
 export default function Space() {
-  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
+  const { currentSpace } = useAppSelector(
+    (state) => state.client.spaces.spaces
+  );
 
   return (
     <>
       <Head>
         <title>Espacio | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
+      
       <LayoutSpaces type="client">
+
         <HeroSpaceArea
           current={currentSpace}
           type="space"
           triggerText="Invitar a un amigo"
           triggerIsAdmin={true}
+          bgImageVisibleOnDesktop={true}
         >
           <SpaceInvite />
         </HeroSpaceArea>
-        <Hr />
         <section className=" flex flex-col gap-10 ">
-          <div className=" flex flex-col gap-6">
-            <ListTopArea
-              title="Mis rooms"
-              triggerIsAdmin={true}
-              description="Organiza tu espacio en pequeñas salas"
-              buttonText="Crear nuevo room"
-              triggerContent={<RoomCreateForm />}
-            />
-            <RoomsList />
-          </div>
+          <RoomsList />
         </section>
       </LayoutSpaces>
     </>
   );
 }
+

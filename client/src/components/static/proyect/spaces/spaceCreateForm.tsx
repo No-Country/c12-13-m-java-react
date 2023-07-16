@@ -72,16 +72,11 @@ console.log(form);
         />
         <Input
           label="Imagen de portada"
-          type="text"
-          name="coverImage"
+          type="file"
+          name="image"
           onChange={handleChange}
           placeholder="Cover Image"
           required
-        />
-        <input
-          className="flex-grow rounded-full  py-2 text-sm font-normal text-violet-800 outline-none placeholder:text-violet-800"
-          type="file"
-          name="image"
         />
         <Input
           label="Código de acceso"

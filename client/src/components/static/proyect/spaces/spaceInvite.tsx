@@ -16,7 +16,7 @@ export default function SpaceInvite() {
   return (
     <>
       <div>
-        <h1 className="titulo-3 font-medium">Invitar a un amigo</h1>
+        <h1 className=" titulo-3 font-medium">Invitar a un amigo</h1>
         <p className="bodyText">
           Comparte este link con tus amigos para que puedan unirse a tu espacio
         </p>

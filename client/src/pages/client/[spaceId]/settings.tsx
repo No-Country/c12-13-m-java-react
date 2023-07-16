@@ -16,7 +16,9 @@ import {
 export default function SpaceSettings() {
   const dispatch = useAppDispatch();
 
-  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
+  const { currentSpace } = useAppSelector(
+    (state) => state.client.spaces.spaces
+  );
   const { id } = useAppSelector((state) => state.authSession.session.current);
 
   const [processedData, setProcessedData] = useState<any>(currentSpace);
@@ -41,6 +43,7 @@ export default function SpaceSettings() {
     <>
       <Head>
         <title>Configuracion del espacio | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <LayoutSpaces type="client">
         <HeroSpaceArea
@@ -67,16 +70,8 @@ export default function SpaceSettings() {
             </EditManager>
           </>
         </HeroSpaceArea>
-        <Hr hasPadding={false} />
-        <section className=" flex flex-col gap-6">
-          <ListTopArea
-            title="Miembros"
-            description="Administra los miembros de tu espacio"
-            buttonText="Invitar a un amigo"
-            controls={false}
-          />
-          <MembersSpaceList members={currentSpace.members} adminZone={true} />
-        </section>
+
+        <MembersSpaceList members={currentSpace.members} adminZone={true} />
       </LayoutSpaces>
     </>
   );
