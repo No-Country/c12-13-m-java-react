@@ -1,5 +1,5 @@
 import { Image } from "@/components";
-import { MembersProps, User } from "@/utils/types/client/spaces";
+import { User } from "@/utils/types/client/spaces";
 
 type MembersListProps = {
   member: User;
@@ -18,8 +18,20 @@ export default function MemberPicture({
       src={member.profileImage}
       alt="MemberProfile"
       layout="fill"
-      width={size === "small" ? "w-[30px]" : size === "medium" ? "w-[40px]" : "w-[70px]"}
-      height={size === "small" ? "h-[30px]" : size === "medium" ? "h-[40px]" : "h-[70px]"}
+      width={
+        size === "small"
+          ? "w-[30px]"
+          : size === "medium"
+          ? "w-[40px]"
+          : "w-[70px]"
+      }
+      height={
+        size === "small"
+          ? "h-[30px]"
+          : size === "medium"
+          ? "h-[40px]"
+          : "h-[70px]"
+      }
       aspectRatio="aspect-[1/1]"
       rounded="rounded-[1000px]"
       containerClassName={hasMargin ? "ml-[-15px]" : ""}

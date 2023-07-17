@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { deleteSpace, editSpace } from "@/redux/slices/client/spaces/spaces";
-import router from "next/router";
 import Head from "next/head";
+import { GeneralPermission } from "@/utils/types/client/spaces";
 import {
   LayoutSpaces,
   MembersSpaceList,
   HeroSpaceArea,
-  ListTopArea,
-  Hr,
   EditManager,
   SpaceEditForm,
 } from "@/components";
@@ -19,24 +17,11 @@ export default function SpaceSettings() {
   const { currentSpace } = useAppSelector(
     (state) => state.client.spaces.spaces
   );
-  const { id } = useAppSelector((state) => state.authSession.session.current);
 
   const [processedData, setProcessedData] = useState<any>(currentSpace);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
 
-  useEffect(() => {
-    const isAdmin = Boolean(
-      currentSpace.members.find(
-        (member: any) => member.user.id === id && member.role === "admin"
-      )
-    );
-    if (!isAdmin) {
-      router.push(`/client/${currentSpace.id}`);
-    }
-  }, [currentSpace]);
-
   const handleSave = async (editedData: any) => {
-    console.log("editedData", editedData);
     await dispatch(editSpace(editedData));
   };
 
@@ -60,6 +45,7 @@ export default function SpaceSettings() {
               deleteAction={deleteSpace}
               route={`/client`}
               nowEditing={nowEditing}
+              deletePermission={GeneralPermission.DeleteSpace}
               editAction={(editedData: any) => handleSave(editedData)}
             >
               <SpaceEditForm
@@ -71,8 +57,7 @@ export default function SpaceSettings() {
             </EditManager>
           </>
         </HeroSpaceArea>
-
-        <MembersSpaceList members={currentSpace.members} adminZone={true} />
+        <MembersSpaceList adminZone={true} />
       </LayoutSpaces>
     </>
   );

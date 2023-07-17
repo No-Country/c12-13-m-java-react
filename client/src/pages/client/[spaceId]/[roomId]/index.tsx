@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Head from "next/head";
 import { useSubscription } from "@apollo/client";
+import { GeneralPermission } from "@/utils/types/client/spaces";
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
@@ -32,7 +33,6 @@ export default function CurrentRoom() {
 
   const [processedData, setProcessedData] = useState<any>(currentRoom);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
-  const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
 
   const { data: datachange } = useSubscription(NOTIFY_TASK_CHANGED, {
     variables: { roomId: currentRoom?.id },
@@ -95,6 +95,7 @@ export default function CurrentRoom() {
                   originalData={currentRoom}
                   title="Editar room"
                   deleteAction={deleteRoom}
+                  deletePermission={GeneralPermission.DeleteRoom}
                   nowEditing={nowEditing}
                   route={`/client`}
                   editAction={(editedData: any) => handleSave(editedData)}

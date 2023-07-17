@@ -2,14 +2,7 @@ import { Input, LayoutSpaces } from "@/components";
 import Head from "next/head";
 
 export default function AccountPage() {
-
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
-
-
-  }
-
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
 
   return (
     <>

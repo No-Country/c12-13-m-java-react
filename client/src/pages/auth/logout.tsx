@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/router";
 import { resetReducer } from "@/redux/slices/authSession";
 
-
 export default function Logout() {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -21,8 +20,7 @@ export default function Logout() {
       await logOutJson();
 
       if (loginMethod === "google") {
-      //  router.push(`${serverUrl}google/logout`);
-      router.push("/");
+        router.push("/");
       } else {
         window.location.reload();
         router.push("/");

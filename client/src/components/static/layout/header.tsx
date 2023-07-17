@@ -1,11 +1,5 @@
 import { useAppSelector } from "@/redux/hooks";
-import {
-  Image,
-  Popover,
-  VerticalNav,
-  HorizontalNav,
-  ProfileAction,
-} from "@/components";
+import { HorizontalNav, ProfileAction } from "@/components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";

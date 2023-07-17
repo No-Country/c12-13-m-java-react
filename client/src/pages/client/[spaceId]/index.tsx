@@ -1,16 +1,9 @@
 import { useAppSelector } from "@/redux/hooks";
-import { SpaceProps } from "@/utils/types/client/spaces";
 import {
-  Main,
-  Image,
   LayoutSpaces,
   RoomsList,
-  ModalTrigger,
   SpaceInvite,
-  ListTopArea,
   HeroSpaceArea,
-  RoomCreateForm,
-  Hr,
 } from "@/components";
 import Head from "next/head";
 
@@ -25,9 +18,7 @@ export default function Space() {
         <title>Espacio | Spaces</title>
         <meta name="theme-color" content="#1e40af" />
       </Head>
-      
       <LayoutSpaces type="client">
-
         <HeroSpaceArea
           current={currentSpace}
           type="space"
@@ -44,4 +35,3 @@ export default function Space() {
     </>
   );
 }
-

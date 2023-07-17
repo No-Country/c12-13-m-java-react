@@ -23,7 +23,6 @@ const HOC: React.FC<Props> = ({ children }) => {
     session: sessionQy,
   } = router.query;
   const { session, auth } = useAppSelector((state) => state.authSession);
-  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
   const userId = session?.current?.id || (userIdQy ?? "");
 
   const verifySession = async (data: AuthProps) => {
@@ -39,19 +38,16 @@ const HOC: React.FC<Props> = ({ children }) => {
           userId: userId,
         },
       });
-    
+
       if (verifData.verifySession === true) {
-      
         dispatch(setAuth(data));
         await dispatch(setSession(userId as string));
       } else {
         console.log("error", verifData);
         alert("No se pudo verificar la sesión");
         dispatch(resetReducer());
-    
       }
     } else {
-  
       alert("No se pudo verificar la sesión");
     }
   };
@@ -83,7 +79,6 @@ const HOC: React.FC<Props> = ({ children }) => {
       ) {
         setAuthFn();
       } else {
-     
         alert("No se cumple ninguna condicion");
         router.push("/");
       }

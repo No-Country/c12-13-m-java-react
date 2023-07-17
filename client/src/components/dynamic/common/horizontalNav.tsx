@@ -1,8 +1,5 @@
-import { useAppSelector } from "@/redux/hooks";
-import { Image, Popover, VerticalNav } from "@/components";
-import { useRouter } from "next/router";
+import { Popover, VerticalNav } from "@/components";
 import Link from "next/link";
-import { ReactSVG } from "react-svg";
 
 type VerticalNavProps = {
   items: any[];

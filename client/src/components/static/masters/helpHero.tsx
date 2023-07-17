@@ -1,4 +1,3 @@
-import { Main, Image } from "@/components";
 import ImageNext from "next/image";
 
 type HelpHeroProps = {

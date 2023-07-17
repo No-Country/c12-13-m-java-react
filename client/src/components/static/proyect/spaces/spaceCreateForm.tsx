@@ -1,53 +1,25 @@
 import { Input } from "@/components";
-import { useState } from "react";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { createSpace } from "@/redux/slices/client/spaces/spaces";
-import { useRouter } from "next/router";
-import axios from "axios";
 
 export default function SpaceCreateForm() {
-  const router = useRouter();
   const dispatch = useAppDispatch();
-  //const [form, setForm] = useState<any>();
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //   setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const coverImage = e.target.image.files[0];
     const name = e.target.name.value;
     const description = e.target.description.value;
-    //  const coverImage = e.target.coverImage.value;
     const accessCode = e.target.accessCode.value;
     const form = {
-      //  image,
       name,
       description,
       coverImage,
       accessCode,
-
       filename: coverImage.name,
     };
-console.log(form);
-    // try {
-    // const res = await axios.post("http://localhost:8080/rest/createSpace", form, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // });
-
-    // console.log("res", res);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    // console.log(form);
-
-     await dispatch(createSpace(form));
-    // router.push(`/client/${spaceId}`);
+    await dispatch(createSpace(form));
   };
 
   return (

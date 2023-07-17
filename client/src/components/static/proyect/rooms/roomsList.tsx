@@ -1,4 +1,4 @@
-import { RoomsProps } from "@/utils/types/client/spaces";
+import { RoomsProps, GeneralPermission } from "@/utils/types/client/spaces";
 import { useAppSelector } from "@/redux/hooks";
 import { RoomItem, ListTopArea, RoomCreateForm } from "@/components";
 import { useRouter } from "next/router";

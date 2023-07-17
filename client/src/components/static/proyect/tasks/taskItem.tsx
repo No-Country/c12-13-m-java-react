@@ -1,21 +1,23 @@
-import { TasksProps } from "@/utils/types/client/spaces";
-import {
-  MembersList,
-  ModalTrigger,
-  EditManager,
-  TaskEditForm,
-} from "@/components";
-type TaskItemProps = {
-  item: TasksProps;
-};
-import Image from "next/image";
-import { useEffect, useState } from "react";
+//Redux
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import {
   editTask,
   deleteTask,
   setCurrentTask,
 } from "@/redux/slices/client/spaces/tasks";
+import {
+  MembersList,
+  ModalTrigger,
+  EditManager,
+  TaskEditForm,
+} from "@/components";
+import { TasksProps, GeneralPermission } from "@/utils/types/client/spaces";
+import { useState } from "react";
+import Image from "next/image";
+
+type TaskItemProps = {
+  item: TasksProps;
+};
 
 export default function TaskItem({ item }: TaskItemProps) {
   const dispatch = useAppDispatch();
@@ -36,20 +38,19 @@ export default function TaskItem({ item }: TaskItemProps) {
       ? inProgressClass
       : completedClass;
 
-
   const handleSave = async (editedData: any) => {
     await dispatch(editTask(editedData));
   };
 
-const handleEditing = () => {
-  dispatch(setCurrentTask(item));
-  setEditing(true)
-}
+  const handleEditing = () => {
+    dispatch(setCurrentTask(item));
+    setEditing(true);
+  };
 
   return (
     <div
       key={item.id}
-      className="relative flex h-auto shadow-sm cursor-pointer flex-col gap-2 rounded-3xl bg-white p-5"
+      className="relative flex h-auto cursor-pointer flex-col gap-2 rounded-3xl bg-white p-5 shadow-sm"
     >
       <div className="relative flex flex-col gap-2">
         <div className="flex items-center justify-between">
@@ -89,6 +90,7 @@ const handleEditing = () => {
           <>
             <EditManager
               processedData={processedData}
+              deletePermission={GeneralPermission.DeleteTask}
               originalData={currentTask}
               title="Editar tarea"
               nowEditing={nowEditing}

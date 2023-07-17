@@ -1,20 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import { useRouter } from "next/router";
 import { serverUrl } from "@/data/config";
 
-
 export default function GoogleButton() {
-
-
   const router = useRouter();
 
-  const handleLogin = async() => {
-router.push(`/client`)
-
+  const handleLogin = async () => {
+    router.push(`/client`);
   };
 
   return (

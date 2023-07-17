@@ -1,7 +1,5 @@
 import { TextToInput } from "@/components";
-import { editSpace } from "@/redux/slices/client/spaces/spaces";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type SpaceEditFormProps = {
   originalData: any;
@@ -14,12 +12,10 @@ export default function SpaceEditForm({
   originalData,
   processedData,
   setProcessedData,
-  setNowEditing
+  setNowEditing,
 }: SpaceEditFormProps) {
-  const router = useRouter();
   const [localOriginalData, setLocalOriginalData] = useState<any>(originalData);
   const handleSaveField = (data: any) => {
-    console.log(data);
     setLocalOriginalData({ ...localOriginalData, [data.key]: data.text });
     setProcessedData({ ...processedData, [data.key]: data.text });
   };
@@ -43,7 +39,7 @@ export default function SpaceEditForm({
           name="description"
           setNowEditing={(data) => setNowEditing(data)}
         />
-                <TextToInput
+        <TextToInput
           text={localOriginalData.accessCode}
           setResultText={(data) => handleSaveField(data)}
           inputTag="input"

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
 import { useAppSelector } from "@/redux/hooks";
-import { Popover, VerticalNav, ProfileAction } from "@/components";
+import { ProfileAction } from "@/components";
 
 export default function HeaderSpaceArea() {
   return (

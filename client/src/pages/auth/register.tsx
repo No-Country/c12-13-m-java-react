@@ -1,19 +1,13 @@
 import { AuthLayout } from "@/components";
 import { Input, GoogleButton } from "@/components";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
 import Head from "next/head";
 import useRegister from "@/hooks/useRegister";
-import { set } from "lodash";
 import { useAppDispatch } from "@/redux/hooks";
 import { register } from "@/redux/slices/authSession";
+
 export default function Home() {
-  const router = useRouter();
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push("/client");
-  };
   const [step, setStep] = useState<number>(1);
   const onClick = () => {
     setStep(2);
@@ -27,23 +21,16 @@ export default function Home() {
     handleUserName,
     handleEmail,
     handlePassword,
-    isValidForm
+    isValidForm,
+  } = useRegister();
 
-  } = useRegister()
+  const dispacth = useAppDispatch();
 
-  
-
-  
- 
-  const dispacth = useAppDispatch()
-
- 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-
-   // router.push("/client");
-   dispacth(register(data))
+    // router.push("/client");
+    dispacth(register(data));
   };
 
   return (
@@ -63,21 +50,22 @@ export default function Home() {
                 name="firstName"
                 label="Nombre"
                 placeholder="Nombre"
-         
                 className="w-full"
                 error={error.firstName}
-                onChange={(e:any) => {handleFirstName(e)}}
+                onChange={(e: any) => {
+                  handleFirstName(e);
+                }}
               />
               <Input
                 type="text"
                 name="lastName"
                 label="Apellidos"
-       
                 placeholder="Apellidos"
                 className="w-full"
                 error={error.lastName}
-                onChange={(e:any) => {handleLastName(e)}}
-           
+                onChange={(e: any) => {
+                  handleLastName(e);
+                }}
               />
               <button type="button" className="primaryButton" onClick={onClick}>
                 Siguiente
@@ -88,36 +76,43 @@ export default function Home() {
             <div id="step2" className="flex w-full flex-col gap-4">
               <Input
                 type="email"
-          
                 name="email"
                 label="Correo electrónico"
                 placeholder="Correo electrónico"
                 className="w-full"
                 error={error.email}
-                onChange={(e:any) => {handleEmail(e)}}
-              
+                onChange={(e: any) => {
+                  handleEmail(e);
+                }}
               />
               <Input
                 type="text"
                 name="username"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
-                onChange={(e:any) => {handleUserName(e)}}
+                onChange={(e: any) => {
+                  handleUserName(e);
+                }}
                 className="w-full"
                 error={error.username}
-         
               />
               <Input
                 type="password"
                 name="password"
-           
                 label="Contraseña"
                 placeholder="Contraseña"
                 error={error.password}
-                onChange={(e:any) => {handlePassword(e)}}
-           
+                onChange={(e: any) => {
+                  handlePassword(e);
+                }}
               />
-              <button  disabled={isValidForm}  type="submit" className={`primaryButton ${isValidForm ? "disabledPrimaryButton": ""}`}>
+              <button
+                disabled={isValidForm}
+                type="submit"
+                className={`primaryButton ${
+                  isValidForm ? "disabledPrimaryButton" : ""
+                }`}
+              >
                 Registrarse
               </button>
             </div>

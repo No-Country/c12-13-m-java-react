@@ -1,8 +1,6 @@
 import { useAppSelector } from "@/redux/hooks";
-import { Image, Popover, VerticalNav, HorizontalNav } from "@/components";
-import { useRouter } from "next/router";
+import { Image, Popover, VerticalNav } from "@/components";
 import Link from "next/link";
-import { ReactSVG } from "react-svg";
 
 export default function ProfileAction() {
   const { session, auth } = useAppSelector((state) => state.authSession);

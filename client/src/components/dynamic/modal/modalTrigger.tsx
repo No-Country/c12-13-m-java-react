@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ModalBase } from "@/components";
 import { createPortal } from "react-dom";
 
@@ -8,12 +8,14 @@ type ModalTriggerProps = {
   buttonType?: "primaryButton" | "secondaryButton" | "terceryButton";
   alwaysOpen?: boolean;
   alwaysOpenCloser?: () => void;
+  classname?: string;
 };
 
 export default function ModalTrigger({
   children,
   triggerText,
   buttonType,
+  classname,
   alwaysOpen = false,
   alwaysOpenCloser = () => {},
 }: ModalTriggerProps) {
@@ -31,7 +33,7 @@ export default function ModalTrigger({
     <div>
       {!alwaysOpen && (
         <button
-          className={`${buttonType} whitespace-nowrap`}
+          className={`${buttonType} ${classname} whitespace-nowrap`}
           onClick={() => setIsOpen(true)}
         >
           {triggerText}

@@ -2,15 +2,16 @@ import { useAppSelector } from "@/redux/hooks";
 import { frontUrl } from "@/data/config";
 import { toast } from "sonner";
 import { toastSuccess } from "@/utils/toastStyles";
+
 export default function SpaceInvite() {
-  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
-  //localhost:3000/client/joinspace?spaceName=NoCountry&spaceId=64a9cfaab7cbe175e2fc439e&accessCode=1234
+  const { currentSpace } = useAppSelector(
+    (state) => state.client.spaces.spaces
+  );
   const invitationLink = `${frontUrl}client/joinspace?spaceName=${currentSpace?.name}&spaceId=${currentSpace?.id}&accessCode=${currentSpace?.accessCode}`;
 
   const handleShare = async () => {
-    //copiamos el link al portapapeles
     await navigator.clipboard.writeText(invitationLink);
-  toast.success("Link copiado al portapapeles", toastSuccess);
+    toast.success("Link copiado al portapapeles", toastSuccess);
   };
 
   return (

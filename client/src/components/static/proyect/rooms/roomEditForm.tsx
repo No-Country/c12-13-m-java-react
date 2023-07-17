@@ -1,7 +1,6 @@
 import { TextToInput } from "@/components";
-import { editSpace } from "@/redux/slices/client/spaces/spaces";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 type SpaceEditFormProps = {
   originalData: any;
   setProcessedData: (data: any) => void;
@@ -15,11 +14,10 @@ export default function RoomEditForm({
   setProcessedData,
   setNowEditing,
 }: SpaceEditFormProps) {
-
   const [localOriginalData, setLocalOriginalData] = useState<any>(originalData);
-  const router = useRouter();
+
   const handleSaveField = (data: any) => {
-console.log("data", data);
+    console.log("data", data);
     setLocalOriginalData({ ...localOriginalData, [data.key]: data.text });
     setProcessedData({ ...processedData, [data.key]: data.text });
   };

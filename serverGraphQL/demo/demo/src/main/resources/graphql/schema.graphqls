@@ -199,6 +199,8 @@ type Mutation {
   createSession(email: String!, password: String!): Sessions
 
   createMessage(userId: ID!, chatId: ID!, content: String!): Messages
+
+  changeUserRole(userId: ID!, spaceId: ID!, role: String!): Spaces
 }
 
 type Subscription {

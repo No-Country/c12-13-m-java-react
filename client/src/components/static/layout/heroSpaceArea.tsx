@@ -41,7 +41,7 @@ export default function HeroSpaceArea({
   bgImageVisibleOnDesktop = false,
 }: HeroSpaceAreaProps) {
   {
-    const { userIsAdminOfCurrentSpace } = useAppSelector(
+    const { currentMember } = useAppSelector(
       (state) => state.client.spaces.spaces
     );
 
@@ -61,7 +61,8 @@ export default function HeroSpaceArea({
           {controls && (
             <div className="flex  gap-2">
               {secondControls &&
-                ((secondTriggerIsAdmin && userIsAdminOfCurrentSpace) ||
+                ((secondTriggerIsAdmin &&
+                  (currentMember.isAdmin() || currentMember.isOwner())) ||
                   !secondTriggerIsAdmin) && (
                   <ModalTrigger
                     triggerText={triggerSecondText}
@@ -78,7 +79,8 @@ export default function HeroSpaceArea({
                     pictureHasMargin={true}
                   />
                 )}
-                {((triggerIsAdmin && userIsAdminOfCurrentSpace) ||
+                {((triggerIsAdmin &&
+                  (currentMember.isAdmin() || currentMember.isOwner())) ||
                   !triggerIsAdmin) &&
                   modalType === "normal" && (
                     <ModalTrigger
@@ -88,7 +90,8 @@ export default function HeroSpaceArea({
                       {children}
                     </ModalTrigger>
                   )}
-                {((triggerIsAdmin && userIsAdminOfCurrentSpace) ||
+                {((triggerIsAdmin &&
+                  (currentMember.isAdmin() || currentMember.isOwner())) ||
                   !triggerIsAdmin) &&
                   modalType === "confirmation" && (
                     <ConfirmationModal

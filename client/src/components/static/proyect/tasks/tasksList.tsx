@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 export default function TasksList() {
   const [index, setIndex] = useState(0);
-  const { currentRoom } = useAppSelector((state) => state.client.spaces.rooms);
   const [tasks, setTasks] = useState<TasksProps[]>([]);
+  const { currentRoom } = useAppSelector((state) => state.client.spaces.rooms);
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
+
   useEffect(() => {
     setTasks(
       index === 0
@@ -19,7 +20,7 @@ export default function TasksList() {
   return (
     <section className="listContainer gap-0">
       <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />
-      <div className="gridContainer bg-[#F6F8FA] mt-6 rounded-3xl ">
+      <div className="gridContainer mt-6 rounded-3xl bg-[#F6F8FA] ">
         {Array.isArray(tasks) &&
           tasks.map((item: TasksProps) => (
             <TaskItem key={item.id} item={item} />

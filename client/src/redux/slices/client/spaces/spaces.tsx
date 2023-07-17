@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  current,
+} from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
 import { GET_SPACE_BY_ID } from "@/graphql/queries";
 import {
@@ -8,21 +13,28 @@ import {
   JOIN_SPACE,
   LEAVE_SPACE,
   SEND_MESSAGE,
+  CHANGE_USER_ROLE,
 } from "@/graphql/mutations";
 import { serverUrl } from "@/data/config";
-
 import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
-import { SpaceProps, ChatProps } from "@/utils/types/client/spaces";
+import {
+  SpaceProps,
+  ChatProps,
+  MembersProps,
+} from "@/utils/types/client/spaces";
 import axios from "axios";
 
 const initialState = {
   spaces: [] as SpaceProps[],
   currentSpace: {} as SpaceProps,
+  currentSpaceMembers: [] as MembersProps[],
+  currentMember: new MembersProps({} as any, ""),
   currentSpaceChat: {} as ChatProps,
-  userIsAdminOfCurrentSpace: false,
+  // userIsAdminOfCurrentSpace: false,
+  // userIsOwner: false,
   spaceLoading: false,
 };
 
@@ -30,13 +42,18 @@ export const getCurrentSpace = createAsyncThunk(
   "spaces/getCurrentSpace",
   async (spaceId: string, { dispatch, getState }) => {
     try {
+      const state = getState() as RootState;
       const { data } = await client.query({
         query: GET_SPACE_BY_ID,
         variables: { id: spaceId },
         fetchPolicy: "network-only",
       });
 
-      return data.findSpaceById;
+      return {
+        data: data.findSpaceById,
+        state: state,
+        userId: state.authSession.session.current.id,
+      };
     } catch (err) {
       console.log(err);
       throw err;
@@ -104,7 +121,7 @@ export const editSpace = createAsyncThunk(
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
       input.spaceId = state.client.spaces.spaces.currentSpace.id;
-    if( input.coverImage) input.filename = input.coverImage.name;
+      if (input.coverImage) input.filename = input.coverImage.name;
 
       const { data } = await axios.put(`${serverUrl}rest/spaces/edit`, input, {
         headers: {
@@ -176,6 +193,15 @@ export const leaveSpace = createAsyncThunk(
       const state = getState() as RootState;
       console.log("state", state.authSession.session.current.id);
       console.log("state", state.client.spaces.spaces.currentSpace.id);
+      //Si el usuario es el propietario, no puede abandonar el espacio
+      const isOwner = Boolean(
+        state.client.spaces.spaces.currentSpace.members.find(
+          (member) => member.role === "owner"
+        )
+      );
+      console.log("isOwner", isOwner);
+      console.log(state.client.spaces.spaces.currentSpace.members);
+
       const { data } = await client.mutate({
         mutation: LEAVE_SPACE,
         variables: {
@@ -188,6 +214,7 @@ export const leaveSpace = createAsyncThunk(
       return data.leaveSpace;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 );
@@ -214,6 +241,29 @@ export const expulseMember = createAsyncThunk(
   }
 );
 
+export const changeUserRole = createAsyncThunk(
+  "spaces/changeUserRole",
+  async (input: any, { dispatch, getState }) => {
+    try {
+      const state = getState() as RootState;
+      const { data } = await client.mutate({
+        mutation: CHANGE_USER_ROLE,
+        variables: {
+          userId: input.userId,
+          spaceId: state.client.spaces.spaces.currentSpace.id,
+          role: input.role,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      return data.changeUserRole;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+);
+
 //Reducers
 const postsSlice = createSlice({
   name: "spaces",
@@ -224,7 +274,10 @@ const postsSlice = createSlice({
       state.spaces = action.payload as SpaceProps[];
     },
     setIsAdminOfCurrentSpace: (state, action: PayloadAction<boolean>) => {
-      state.userIsAdminOfCurrentSpace = action.payload;
+      // state.userIsAdminOfCurrentSpace = action.payload;
+    },
+    setIsOwnerOfCurrentSpace: (state, action: PayloadAction<boolean>) => {
+      //  state.userIsOwner = action.payload;
     },
     addMessage: (state, action: PayloadAction<any>) => {
       console.log("action.payload addMessage", action.payload);
@@ -245,8 +298,32 @@ const postsSlice = createSlice({
         }
       })
       .addCase(getCurrentSpace.fulfilled, (state, action) => {
-        state.currentSpace = action?.payload as SpaceProps;
-        state.currentSpaceChat = action?.payload?.chat as ChatProps;
+        state.currentSpace = action?.payload?.data as SpaceProps;
+        state.currentSpaceChat = action?.payload?.data?.chat as ChatProps;
+        state.currentSpaceMembers = action?.payload?.data?.members?.map(
+          (memberData: any) =>
+            new MembersProps(memberData.user, memberData.role)
+        );
+        // state.userIsAdminOfCurrentSpace = Boolean(
+        //   state.currentSpaceMembers.find(
+        //     (member: MembersProps) =>
+        //       member.getId() === action?.payload?.userId &&
+        //       member.isAdmin()
+        //   )
+        // );
+
+        // state.userIsOwner = Boolean(
+        //   state.currentSpaceMembers.find(
+        //     (member: MembersProps) =>
+        //       member.getId() === action?.payload?.userId &&
+        //       member.isOwner()
+        //   )
+        // );
+
+        state.currentMember = state?.currentSpaceMembers?.find(
+          (member: MembersProps) => member.getId() === action?.payload?.userId
+        ) as MembersProps;
+
         state.spaceLoading = false;
         console.log("state.currentSpace", state.currentSpace);
       })
@@ -321,11 +398,25 @@ const postsSlice = createSlice({
       .addCase(sendMessage.rejected, (state) => {
         console.log("Error al enviar mensaje");
         toast.error("Error al enviar mensaje", toastError);
+      })
+      .addCase(changeUserRole.pending, (state) => {})
+      .addCase(changeUserRole.fulfilled, (state, action) => {
+        state.currentSpace.members = action.payload.members;
+        toast.success("Rol cambiado correctamente", toastSuccess);
+      })
+      .addCase(changeUserRole.rejected, (state) => {
+        console.log("Error al cambiar rol");
+        toast.error("Error al cambiar rol", toastError);
       });
   },
 });
 
-export const { resetReducer, setSpaces, addMessage, setIsAdminOfCurrentSpace } =
-  postsSlice.actions;
+export const {
+  resetReducer,
+  setSpaces,
+  addMessage,
+  setIsAdminOfCurrentSpace,
+  setIsOwnerOfCurrentSpace,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

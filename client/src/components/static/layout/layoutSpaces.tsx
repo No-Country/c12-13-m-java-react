@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addMessage } from "@/redux/slices/client/spaces/spaces";
 import { useSubscription } from "@apollo/client";
 import { NOTIFY_MESSAGE_CREATED } from "@/graphql/subscriptions";
+import { MembersProps } from "@/utils/types/client/spaces";
 
 type Props = {
   children: ReactNode;
@@ -18,9 +19,8 @@ type Props = {
 
 const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
   const dispatch = useAppDispatch();
-  const { currentSpaceChat, spaceLoading } = useAppSelector(
-    (state) => state.client.spaces.spaces
-  );
+  const { currentSpaceChat, spaceLoading, currentMember, currentSpaceMembers } =
+    useAppSelector((state) => state.client.spaces.spaces);
   const { data: datachange } = useSubscription(NOTIFY_MESSAGE_CREATED, {
     variables: { chatId: currentSpaceChat?.id },
   });
@@ -31,24 +31,33 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
     }
   }, [datachange]);
 
-  return (
-    <>
-      <Main>
-        {spaceLoading ? (
-          <SpaceLoader />
-        ) : (
-          <>
-            {type === "client" && <Chat />}
-            <HeaderSpaceArea />
-            <div className="layoutSpContainer">
-              <Sidebar type={type} />
-              <div className="layoutSpChildren">{children}</div>
-            </div>
-          </>
-        )}
-      </Main>
-    </>
-  );
+  try {
+    return (
+      <>
+        <Main>
+          {spaceLoading ||
+          !(
+            currentMember.role &&
+            currentSpaceMembers &&
+            currentMember instanceof MembersProps
+          ) ? (
+            <SpaceLoader />
+          ) : (
+            <>
+              {type === "client" && <Chat />}
+              <HeaderSpaceArea />
+              <div className="layoutSpContainer">
+                <Sidebar type={type} />
+                <div className="layoutSpChildren">{children}</div>
+              </div>
+            </>
+          )}
+        </Main>
+      </>
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default LayoutSpaces;

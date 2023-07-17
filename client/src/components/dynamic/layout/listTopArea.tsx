@@ -19,19 +19,23 @@ export default function ListTopArea({
   controls = true,
   triggerIsAdmin = false,
 }: ListTopAreaProps) {
-  const { userIsAdminOfCurrentSpace } = useAppSelector( (state) => state.client.spaces.spaces);
+  const { currentMember } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
+  );
   return (
     <div className="relative flex w-full items-center justify-between gap-10">
       <div className="flex flex-col items-start justify-center ">
         <h2 className="titulo-3">{title}</h2>
         <p className="bodyText ">{description}</p>
       </div>
-      {
-        controls && ((userIsAdminOfCurrentSpace && triggerIsAdmin) || !triggerIsAdmin ) && (
-          <ModalTrigger triggerText={buttonText} buttonType="terceryButton" >{triggerContent}</ModalTrigger>
-        )
-      }
-     
+      {controls &&
+        (((currentMember?.isAdmin() || currentMember?.isOwner()) &&
+          triggerIsAdmin) ||
+          !triggerIsAdmin) && (
+          <ModalTrigger triggerText={buttonText} buttonType="terceryButton">
+            {triggerContent}
+          </ModalTrigger>
+        )}
     </div>
   );
 }

@@ -1,47 +1,36 @@
 import { Input, MultiSelect } from "@/components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/client/spaces/tasks";
-import { createRoom } from "@/redux/slices/client/spaces/rooms";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 export default function TaskCreateForm() {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const [form, setForm] = useState<any>();
   const [selected, setSelected] = useState<any>([]);
-  const { id } = useAppSelector((state) => state.authSession.session.current);
-  const { currentSpace } = useAppSelector((state) => state.client.spaces.spaces);
-  
-
-
+  const { currentSpace } = useAppSelector(
+    (state) => state.client.spaces.spaces
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    //actulizamos el form con el id del usuario
-    setForm({ ...form, assignedToIds: selected.map((item: any) => item.value) });
+    setForm({
+      ...form,
+      assignedToIds: selected.map((item: any) => item.value),
+    });
   }, [selected]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-  
     dispatch(createTask(form));
-
-    //await dispatch(createRoom(form));
-    // router.push(`/client/${spaceId}`);
   };
-
-  //eliminamos "role" y traemos user al frente
 
   const multiOptions = currentSpace.members.map((member) => {
     return {
-      value: member.user.id,
-      label: `${member.user.firstName} ${member.user.lastName}`,
+      value: member.getId(),
+      label: member.getFullName(),
     };
   });
 
