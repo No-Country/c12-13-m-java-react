@@ -25,7 +25,7 @@ public class Room {
     private Space spaceOwner;
     // @DBRef
     private List<Task> tasks = new ArrayList<>();
-  
+
     private String createdAt;
     private String updatedAt;
 
@@ -130,18 +130,28 @@ public class Room {
                 break;
             }
         }
-    
+
         // Eliminar el objeto Task de la lista
         if (taskToRemove != null) {
             tasks.remove(taskToRemove);
         }
     }
-    
 
     @Override
     public String toString() {
         return "Room [id=" + id + ", name=" + name + ", description=" + description + ", coverImage=" + coverImage
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", spaceOwner=" + spaceOwner + ", tasks=" + tasks + "]";
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", spaceOwner=" + spaceOwner + ", tasks="
+                + tasks + "]";
+    }
+
+    public String toJson() { // solo nombre, descripcion y coverImage
+        return "{" +
+                "\"id\":\"" + id + "\"" +
+                ", \"name\":\"" + name + "\"" +
+                ", \"description\":\"" + description + "\"" +
+                ", \"coverImage\":\"" + coverImage + "\"" +
+                "}";
+
     }
 
 }

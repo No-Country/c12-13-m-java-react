@@ -16,6 +16,7 @@ const initialState = {
     current: {} as User,
     verification: false,
   },
+  sessionLoading: false,
 };
 
 export const setSession = createAsyncThunk(
@@ -31,7 +32,7 @@ export const setSession = createAsyncThunk(
       console.log("data", data);
       dispatch(setSpaces(data.findUserById.spaces));
       return data.findUserById;
-    } catch (err:any) {
+    } catch (err: any) {
       throw new Error("Error al loguear el usuario", err);
     }
   }
@@ -50,7 +51,7 @@ export const login = createAsyncThunk(
 
       console.log("createSession", data);
       return data.createSession;
-    } catch (err:any) {
+    } catch (err: any) {
       throw new Error("Error al loguear el usuario", err);
     }
   }
@@ -60,28 +61,27 @@ export const register = createAsyncThunk(
   "auth/register",
   async (userData: any, { dispatch, getState }) => {
     try {
-console.log("userData", userData);
+      console.log("userData", userData);
       const { data, errors } = await client.mutate({
         mutation: CREATE_USER,
-        variables: { 
+        variables: {
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
           password: userData.password,
-          username: userData.username
+          username: userData.username,
         },
         fetchPolicy: "network-only",
       });
-      if(errors) console.log("Error al crear el usuario", errors);
+      if (errors) console.log("Error al crear el usuario", errors);
       console.log("createSession", data);
       return data.createUser;
-    } catch (err:any) {
+    } catch (err: any) {
       console.log("Error al crear el usuario", err);
       throw new Error("Error al crear el usuario", err);
     }
   }
 );
-
 
 //Reducers
 const postsSlice = createSlice({
@@ -100,11 +100,17 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(setSession.pending, (state, action) => {
-        console.log("Pending setSession");
+        if(action.meta.arg === state.session.current.id) {
+          state.sessionLoading = false;
+        }
+        else {
+          state.sessionLoading = true;
+        }
       })
       .addCase(setSession.fulfilled, (state, action) => {
         state.session.current = action?.payload as User;
         console.log("Fulfilled setSession", action.payload);
+        state.sessionLoading = false;
       })
       .addCase(setSession.rejected, (state, action) => {
         console.error("Rejected setSession", action.payload);
@@ -125,7 +131,7 @@ const postsSlice = createSlice({
       })
       .addCase(register.pending, (state, action) => {
         console.log("Pending register");
-      })  
+      })
       .addCase(register.fulfilled, (state, action) => {
         console.log("Fulfilled register", action.payload);
         toast.success("Registro exitoso", toastSuccess);

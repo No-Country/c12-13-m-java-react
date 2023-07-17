@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import com.example.demo.utils.ImageUploader;
 import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.model.Member;
+import com.example.demo.model.Room;
 import com.example.demo.model.Chat;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.SpaceRepository;
@@ -31,7 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/rest/spaces") // Ruta base para todas las rutas del controlador
-@CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" }) // Origen permitido para las solicitudes CORS
+@CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" }) // Origen permitido para
+                                                                                             // las solicitudes CORS
 public class RestSpaceManager {
 
     @Autowired
@@ -49,8 +52,7 @@ public class RestSpaceManager {
             @RequestParam("accessCode") String accessCode,
             @RequestParam("coverImage") MultipartFile coverImage,
             @RequestParam("userOwner") String userOwner,
-            @RequestParam("filename") String filename
-            ) {
+            @RequestParam("filename") String filename) {
         // obtenemos el body
         try {
             Space space = new Space();
@@ -92,6 +94,43 @@ public class RestSpaceManager {
             String id = space.getId();
 
             return ResponseEntity.ok(id);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+
+    }
+
+    @PutMapping("/edit") // Ruta GE
+    public ResponseEntity<String> editRoom(@RequestParam(value = "spaceId", required = true) String roomId,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "coverImage", required = false) MultipartFile coverImage,
+            @RequestParam(value = "filename", required = false) String filename,
+            @RequestParam(value = "accessCode", required = false) String accessCode) {
+
+        // obtenemos el body
+        try {
+            Space space = spaceRepository.findById(roomId).orElseThrow(null);
+
+            if (name != null) {
+                space.setName(name);
+            }
+            if (description != null) {
+                space.setDescription(description);
+            }
+            if (accessCode != null) {
+                space.setAccessCode(accessCode);
+            }
+            if (coverImage != null) {
+                String imageUrl = imageUploader.uploadImage(coverImage.getBytes(), filename);
+                space.setCoverImage(imageUrl);
+            }
+
+            space.setUpdatedAt(new Date().toString());
+            spaceRepository.save(space);
+
+            return ResponseEntity.ok(space.toJson());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");

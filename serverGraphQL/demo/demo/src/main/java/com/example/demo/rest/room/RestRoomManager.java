@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/rest/rooms") // Ruta base para todas las rutas del controlador
-@CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" }) 
+@CrossOrigin(origins = { "http://localhost:3000", "https://nocountry-c12-13.onrender.com" })
 public class RestRoomManager {
 
     @Autowired
@@ -72,6 +72,40 @@ public class RestRoomManager {
             String id = room.getId();
             System.out.println("id: " + id);
             return ResponseEntity.ok(id);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+
+    }
+
+    // put
+    @PutMapping("/edit") // Ruta GE
+    public ResponseEntity<String> editRoom(@RequestParam(value = "roomId", required = true) String roomId,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "coverImage", required = false) MultipartFile coverImage,
+            @RequestParam(value = "filename", required = false) String filename) {
+
+        // obtenemos el body
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(null);
+
+            if (name != null) {
+                room.setName(name);
+            }
+            if (description != null) {
+                room.setDescription(description);
+            }
+            if (coverImage != null) {
+                String imageUrl = imageUploader.uploadImage(coverImage.getBytes(), filename);
+                room.setCoverImage(imageUrl);
+            }
+
+            room.setUpdatedAt(new Date().toString());
+            roomRepository.save(room);
+
+            return ResponseEntity.ok(room.toJson());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");

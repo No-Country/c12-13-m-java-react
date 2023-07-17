@@ -36,6 +36,7 @@ export default function SpaceSettings() {
   }, [currentSpace]);
 
   const handleSave = async (editedData: any) => {
+    console.log("editedData", editedData);
     await dispatch(editSpace(editedData));
   };
 
