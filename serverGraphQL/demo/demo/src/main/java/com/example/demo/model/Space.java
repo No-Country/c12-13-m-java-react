@@ -16,7 +16,6 @@ import org.hibernate.annotations.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 
-
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -154,6 +153,17 @@ public class Space {
         return "Space [id=" + id + ", name=" + name + ", accessCode=" + accessCode + ", description=" + description
                 + ", coverImage=" + coverImage + ", members=" + members + ", rooms=" + rooms + ", files=" + files
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
+
+    public String toJson() {
+        return "{" +
+                "\"id\": \"" + this.id + "\"," +
+                "\"name\": \"" + this.name + "\"," +
+                "\"accessCode\": \"" + this.accessCode + "\"," +
+                "\"description\": \"" + this.description + "\"," +
+                "\"coverImage\": \"" + this.coverImage + "\"," +
+                "\"updatedAt\": \"" + this.updatedAt + "\"" +
+                "}";
     }
 
 }

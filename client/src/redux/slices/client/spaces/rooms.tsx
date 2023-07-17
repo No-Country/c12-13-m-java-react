@@ -34,18 +34,16 @@ export const getRooms = createAsyncThunk(
   }
 );
 
-
 export const getCurrentRoom = createAsyncThunk(
   "rooms/getCurrentRoom",
   async (roomId: string, { dispatch, getState }) => {
     try {
       console.log("roomId", roomId);
-     
+
       const { data } = await client.query({
         query: GET_ROOM_BY_ID,
         variables: { id: roomId },
         fetchPolicy: "network-only",
-  
       });
       console.log("data rm enter", data.findRoomById);
       return data.findRoomById;
@@ -96,13 +94,17 @@ export const editRoom = createAsyncThunk(
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
       input.roomId = state.client.spaces.rooms.currentRoom.id;
-      const { data } = await client.mutate({
-        mutation: EDIT_ROOM,
-        variables: input,
-        fetchPolicy: "network-only",
+      input.filename = input.coverImage.name;
+
+      const { data } = await axios.put(`${serverUrl}rest/rooms/edit`, input, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      return data.editRoom;
+      console.log("res editRoom", data);
+
+      return data;
     } catch (err) {
       console.log(err);
       throw err;

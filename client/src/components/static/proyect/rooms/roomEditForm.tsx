@@ -19,7 +19,7 @@ export default function RoomEditForm({
   const [localOriginalData, setLocalOriginalData] = useState<any>(originalData);
   const router = useRouter();
   const handleSaveField = (data: any) => {
-
+console.log("data", data);
     setLocalOriginalData({ ...localOriginalData, [data.key]: data.text });
     setProcessedData({ ...processedData, [data.key]: data.text });
   };

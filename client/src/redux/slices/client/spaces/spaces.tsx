@@ -8,7 +8,6 @@ import {
   JOIN_SPACE,
   LEAVE_SPACE,
   SEND_MESSAGE,
-
 } from "@/graphql/mutations";
 import { serverUrl } from "@/data/config";
 
@@ -42,7 +41,7 @@ export const getCurrentSpace = createAsyncThunk(
       console.log(err);
       throw err;
     }
-  },
+  }
 );
 
 export const createSpace = createAsyncThunk(
@@ -63,15 +62,11 @@ export const createSpace = createAsyncThunk(
       //   fetchPolicy: "network-only",
       // });
 
-      const res = await axios.post(
-        `${serverUrl}rest/spaces/create`,
-        input,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.post(`${serverUrl}rest/spaces/create`, input, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       return res.data;
     } catch (err) {
@@ -109,13 +104,17 @@ export const editSpace = createAsyncThunk(
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
       input.spaceId = state.client.spaces.spaces.currentSpace.id;
-      const { data } = await client.mutate({
-        mutation: EDIT_SPACE,
-        variables: input,
-        fetchPolicy: "network-only",
+    if( input.coverImage) input.filename = input.coverImage.name;
+
+      const { data } = await axios.put(`${serverUrl}rest/spaces/edit`, input, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      return data.editSpace;
+      console.log("data editSpace", data);
+
+      return data;
     } catch (err) {
       console.log(err);
       throw err;
@@ -239,12 +238,11 @@ const postsSlice = createSlice({
     builder
       .addCase(getCurrentSpace.pending, (state, action) => {
         console.log("state pendinf", action);
-        if(action.meta.arg === state.currentSpace.id){
+        if (action.meta.arg === state.currentSpace.id) {
           state.spaceLoading = false;
         } else {
           state.spaceLoading = true;
         }
-
       })
       .addCase(getCurrentSpace.fulfilled, (state, action) => {
         state.currentSpace = action?.payload as SpaceProps;
@@ -327,11 +325,7 @@ const postsSlice = createSlice({
   },
 });
 
-export const {
-  resetReducer,
-  setSpaces,
-  addMessage,
-  setIsAdminOfCurrentSpace,
-} = postsSlice.actions;
+export const { resetReducer, setSpaces, addMessage, setIsAdminOfCurrentSpace } =
+  postsSlice.actions;
 
 export default postsSlice.reducer;

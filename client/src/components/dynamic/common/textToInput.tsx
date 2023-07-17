@@ -42,14 +42,21 @@ export default function TextToInput({
   const handleSave = (e: any) => {
     e.preventDefault();
     setEditing(false);
-    setResultText({
-      key: name,
-      text: e.target[name].value,
-    });
+    if (inputTag === "image") {
+      setResultText({
+        key: name,
+        text: e.target[name].files[0],
+      });
+    } else {
+      setResultText({
+        key: name,
+        text: e.target[name].value,
+      });
+    }
   };
 
   useEffect(() => {
-   setNowEditing(editing);
+    setNowEditing(editing);
   }, [editing]);
 
   return (
@@ -91,7 +98,6 @@ export default function TextToInput({
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
                     onChange={(e: SelectChangeEvent) => {
-                  
                       setSelectValue(e.target.value);
                     }}
                   >
