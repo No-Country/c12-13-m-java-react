@@ -9,6 +9,7 @@ import Router from "next/router";
 import { RoomsProps, TasksProps } from "@/utils/types/client";
 import axios from "axios";
 import { serverUrl } from "@/data/config";
+import { setCurrentRoomTasks } from "./tasks";
 
 const initialState = {
   rooms: [] as RoomsProps[],
@@ -25,7 +26,6 @@ export const getRooms = createAsyncThunk(
         variables: { id: spaceId },
         fetchPolicy: "network-only",
       });
-
       return data.findSpaceById;
     } catch (err) {
       console.log(err);
@@ -46,6 +46,7 @@ export const getCurrentRoom = createAsyncThunk(
         fetchPolicy: "network-only",
       });
       console.log("data rm enter", data.findRoomById);
+      dispatch(setCurrentRoomTasks(data.findRoomById.tasks));
       return data.findRoomById;
     } catch (err) {
       console.log(err);
@@ -138,30 +139,7 @@ const postsSlice = createSlice({
   name: "rooms",
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<TasksProps>) => {
-      state.currentRoom.tasks.push(action.payload);
-    },
-    deleteTask: (state, action: PayloadAction<TasksProps>) => {
-      console.log("deleteTask redux", action.payload);
-      state.currentRoom.tasks = state.currentRoom.tasks.filter(
-        (task) => task.id !== action.payload.id
-      );
-    },
-    editTask: (state, action: PayloadAction<TasksProps>) => {
-      state.currentRoom.tasks = state.currentRoom.tasks.map((task) => {
-        if (task.id === action.payload.id) {
-          return {
-            ...task,
-            title: action.payload.title,
-            description: action.payload.description,
-            assignedTo: action.payload.assignedTo,
-            status: action.payload.status,
-          };
-        } else {
-          return task;
-        }
-      });
-    },
+
     resetReducer: (state) => {
       state.rooms = initialState.rooms;
       state.currentRoom = initialState.currentRoom;
@@ -233,7 +211,7 @@ const postsSlice = createSlice({
   },
 });
 
-export const { resetReducer, deleteTask, addTask, editTask } =
+export const { resetReducer} =
   postsSlice.actions;
 
 export default postsSlice.reducer;

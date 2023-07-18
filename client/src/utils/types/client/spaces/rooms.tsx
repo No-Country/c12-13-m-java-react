@@ -44,6 +44,10 @@ export class RoomsProps {
     );
   }
 
+  static deserializeList(input: any[]): RoomsProps[] {
+    return input.map((room) => RoomsProps.deserialize(room));
+  }
+
   getDescription(): string {
     return this.description;
   }

@@ -71,18 +71,18 @@ export class TasksProps {
     return this.comments;
   }
 
-getFormattedStatus(): (string | number) {
-  switch (this.status) {
-    case 1:
-      return "To Do";
-    case 2:
+  getFormattedStatus(): string | number {
+    if (this.status == 1) {
+      return "To-do";
+    } else if (this.status == 2) {
       return "En progreso";
-    case 3:
+    } else if (this.status == 3) {
       return "Completado";
-    default:
-      return "To Do";
+    } else {
+      return this.status;
+    }
   }
-}
+
 
 
 }

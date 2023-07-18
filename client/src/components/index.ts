@@ -61,3 +61,6 @@ export { default as LayoutPublic } from "./static/layout/layoutPublic";
 export { default as CircularLoader } from "./static/layout/circularLoader";
 export { default as VerticalMenu } from "./static/layout/verticalMenu";
 export { default as BottomBarItem } from "./static/layout/bottomBarItem";
+export { default as HeroAccountArea } from "./static/layout/heroAccountArea";
+export { default as AccountSection } from "./static/layout/accountSection";
+

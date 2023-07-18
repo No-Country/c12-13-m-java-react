@@ -26,10 +26,11 @@ export default function TaskEditForm({
       label: member.getFullName(),
     };
   }));
-const { currentSpace:cSpace } = useAppSelector( (state) => state?.client?.spaces?.spaces );
+const { currentSpace:cSpace, currentSpaceMembers:cSpaceMembers } = useAppSelector( (state) => state?.client?.spaces?.spaces );
 const currentSpace = SpaceProps.deserialize(cSpace);
+const currentSpaceMembers = MembersProps.deserializeList(cSpaceMembers);
 
-  const multiOptions = currentSpace.members.map((memb) => {
+  const multiOptions = currentSpaceMembers.map((memb) => {
     const member = MembersProps.deserialize(memb);
     return {
       value: member.getId(),

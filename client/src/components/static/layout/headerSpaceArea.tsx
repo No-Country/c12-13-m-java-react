@@ -7,9 +7,11 @@ import { AuthClass } from "@/utils/types/client";
 
 export default function HeaderSpaceArea() {
   return (
-    <header className="fixed left-0 top-0 z-50 flex h-[97px] w-full items-center justify-center lg:hidden ">
-      <div className="seccion1-x flex w-full items-center justify-between">
+    <header className="fixed left-0 top-0 z-50 flex h-[97px] w-full items-center justify-center  ">
+      <div className="seccion1-x flex w-full items-center justify-between lg:justify-end"> 
+        <div className="lg:hidden">
         <Logo type="normal" />
+        </div>
         <ProfileAction />
       </div>
     </header>

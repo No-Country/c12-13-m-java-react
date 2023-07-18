@@ -18,7 +18,7 @@ export class ChatProps {
   }
 
   static deserialize(data: ChatProps): ChatProps {
-    return new ChatProps(data.id, MessageProps.deserializeList(data.messages));
+    return new ChatProps(data?.id, MessageProps?.deserializeList(data?.messages));
   }
 }
 
@@ -54,6 +54,6 @@ export class MessageProps {
   }
 
   static deserializeList(data: MessageProps[]): MessageProps[] {
-    return data.map((message) => MessageProps.deserialize(message));
+    return data?.map((message) => MessageProps.deserialize(message));
   }
 }

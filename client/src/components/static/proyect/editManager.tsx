@@ -45,7 +45,7 @@ export default function EditManager({
   };
 
   const handleDelete = async () => {
-    dispatch(deleteAction());
+    deleteAction();
   };
 
   return (

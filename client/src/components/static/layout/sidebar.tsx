@@ -4,6 +4,7 @@ import { ReactSVG } from "react-svg";
 import {
   GeneralPermission,
   MembersProps,
+  RoomsProps,
   SpaceProps,
 } from "@/utils/types/client";
 import { VerticalMenu, BottomBarItem } from "@/components";
@@ -13,12 +14,17 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ type }: SidebarProps) {
-  const { currentSpace:cSpace, currentMember: cMember } = useAppSelector(
+  const { currentSpace: cSpace, currentMember: cMember } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
+  );
+
+  const { rooms: sRooms } = useAppSelector(
+    (state) => state?.client?.spaces?.rooms
   );
 
   const currentMember = MembersProps.deserialize(cMember);
   const currentSpace = SpaceProps.deserialize(cSpace);
+  const rooms = RoomsProps.deserializeList(sRooms);
 
   const spaceNavData = [
     {
@@ -67,29 +73,26 @@ export default function Sidebar({ type }: SidebarProps) {
 
   const accountNavData = [
     {
+      name: "Espacios",
+      path: "/client",
+      linkPath: "/client",
+      visible: true,
+      icon: "/icon/sidebar/espacios.svg",
+    },
+    {
       name: "Personal",
       path: "/client/account",
       linkPath: "/client/account",
       visible: true,
+      icon: "/icon/sidebar/personal.svg",
     },
-    {
-      name: "Seguridad",
-      path: "/client/account/security",
-      linkPath: "/client/account/security",
-      visible: true,
-    },
-    {
-      name: "Pagos",
-      path: "/client/account/payments",
-      linkPath: "/client/account/payments",
-      visible: true,
-    },
-    {
-      name: "Sesiones",
-      path: "/client/account/sessions",
-      linkPath: "/client/account/sessions",
-      visible: true,
-    },
+    // {
+    //   name: "Seguridad",
+    //   path: "/client/account/security",
+    //   linkPath: "/client/account/security",
+    //   visible: true,
+    //   icon: "/icon/sidebar/seguridad.svg",
+    // },
   ];
 
   return (
@@ -100,9 +103,9 @@ export default function Sidebar({ type }: SidebarProps) {
 
           <div className="mt-8 flex flex-col items-start justify-start gap-8">
             <VerticalMenu
-              title={type === "client" ? "GENERAL" : "CUENTA"}
+              title={type === "client" ? "GENERAL" : "GENERAL"}
               data={
-                type === "client" ? spaceNavData.slice(0, 2) : accountNavData
+                type === "client" ? spaceNavData.slice(0, 2) : accountNavData.slice(0, 1)
               }
               hasLogo={true}
               isRooms={false}
@@ -115,14 +118,26 @@ export default function Sidebar({ type }: SidebarProps) {
                   hasLogo={true}
                   isRooms={false}
                 />
-                <VerticalMenu
-                  title="ROOMS"
-                  data={currentSpace?.getRooms()}
-                  hasLogo={false}
-                  isRooms={true}
-                />
+                {Array.isArray(rooms) && rooms.length > 0 && (
+                  <VerticalMenu
+                    title="ROOMS"
+                    data={rooms}
+                    hasLogo={false}
+                    isRooms={true}
+                  />
+                )}
               </>
             )}
+            {
+              type === "account" && (
+                <VerticalMenu
+                title="CUENTA"
+                data={accountNavData.slice(1, 6)}
+                hasLogo={true}
+                isRooms={false}
+              />
+              )
+            }
           </div>
         </div>
       </aside>

@@ -7,16 +7,30 @@ import { RoomsProps } from "@/utils/types/client";
 export default function TasksList() {
   const [index, setIndex] = useState(0);
   const [tasks, setTasks] = useState<TasksProps[]>([]);
-  const { currentRoom:cRoom } = useAppSelector((state) => state?.client?.spaces?.rooms);
+  const { currentRoom: cRoom } = useAppSelector(
+    (state) => state?.client?.spaces?.rooms
+  );
+  const { currentRoomTasks } = useAppSelector(
+    (state) => state?.client?.spaces?.tasks
+  );
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
-const currentRoom = RoomsProps.deserialize(cRoom);
+  const currentRoom = RoomsProps.deserialize(cRoom);
+
   useEffect(() => {
-    setTasks(
-      index === 0
-        ? currentRoom?.tasks
-        : currentRoom?.tasks?.filter((task) => task.status == index)
-    );
-  }, [index, currentRoom]);
+    console.log("setTasks");
+  
+    let updatedTasks = [];
+  
+    if (index === 0) {
+      updatedTasks = currentRoomTasks;
+    } else {
+      
+      updatedTasks = currentRoomTasks.filter((task) => task.status == index);
+    }
+  
+    setTasks(updatedTasks);
+  }, [index, currentRoomTasks]);
+  
 
   return (
     <section className="listContainer gap-0">

@@ -27,16 +27,17 @@ export default function TaskItem({ item }: TaskItemProps) {
 
   const currentTask = TasksProps.deserialize(cTask);
   item = TasksProps.deserialize(item);
-  const originalData = {
+
+  const originalData = currentTask instanceof TasksProps ? {
     ...currentTask,
-    assignedToIds: currentTask.getAssignedTo().map((item) => {
+    assignedToIds: !currentTask?.getAssignedTo().map((item) => {
       const member = MembersProps.deserialize(item);
       return {
-        value: member.getId(),
-        label: member.getFullName(),
+        value: member?.getId(),
+        label: member?.getFullName(),
       };
     }),
-    }
+    } : new TasksProps("", "", "", "", 0, [], []);
   
   const [processedData, setProcessedData] = useState<any>(currentTask);
   const [editing, setEditing] = useState<boolean>(false);
@@ -58,6 +59,13 @@ export default function TaskItem({ item }: TaskItemProps) {
   const handleSave = async (editedData: any) => {
     setLoading(true);
     await dispatch(editTask(editedData));
+    setEditing(false);
+    setLoading(false);
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    await dispatch(deleteTask());
     setEditing(false);
     setLoading(false);
   };
@@ -112,7 +120,7 @@ export default function TaskItem({ item }: TaskItemProps) {
               originalData={originalData}
               title="Editar tarea"
               nowEditing={nowEditing}
-              deleteAction={deleteTask}
+              deleteAction={handleDelete}
               route={`/client`}
               editAction={(editedData: any) => handleSave(editedData)}
             >

@@ -21,6 +21,10 @@ export class MembersProps {
     return new MembersProps(input.user, input.role);
   }
 
+  static deserializeList(data: any[]): MembersProps[] {
+    return data.map((member) => MembersProps.deserialize(member));
+  }
+
   getRole(): string {
     return this.role;
   }

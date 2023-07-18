@@ -37,6 +37,17 @@ export default function SpaceSettings() {
     }, 200);
   };
 
+const handleDelete = async () => {
+    setLoading(true);
+    await dispatch(deleteSpace());
+    setManualClose(true);
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
+  };
+
+
   return (
     <>
       <Head>
@@ -56,7 +67,7 @@ export default function SpaceSettings() {
               processedData={processedData}
               originalData={currentSpace}
               title="Editar espacio"
-              deleteAction={deleteSpace}
+              deleteAction={handleDelete}
               route={`/client`}
               nowEditing={nowEditing}
               deletePermission={GeneralPermission.DeleteSpace}

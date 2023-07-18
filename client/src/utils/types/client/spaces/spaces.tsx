@@ -6,8 +6,8 @@ export class SpaceProps {
   accessCode: string;
   description: string;
   coverImage: string;
-  rooms: RoomsProps[];
-  members: MembersProps[];
+  rooms?: RoomsProps[];
+  members?: MembersProps[];
 
   constructor(
     id: string,
@@ -15,8 +15,10 @@ export class SpaceProps {
     accessCode: string,
     description: string,
     coverImage: string,
-    rooms: RoomsProps[],
-    members: MembersProps[]
+    rooms?: RoomsProps[],
+    members?: MembersProps[], //Ignorar
+
+    
 
   ) {
     this.id = id;
@@ -49,10 +51,13 @@ export class SpaceProps {
   }
 
   getRooms(): RoomsProps[] {
+    if(!this.rooms) return [];
     return this.rooms;
   }
 
   getMembers(): MembersProps[] {
+    console.log("this", this);
+    if(!this.members) return [];
     return this.members;
   }
 

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -106,8 +108,11 @@ public class TasksMutations {
             @Argument List<String> assignedToIds,
             @Argument String roomId) {
         try {
+            System.out.println("buscando room");
             Room room = roomRepository.findById(roomId).orElseThrow(null);
+            System.out.println("buscando task");
             Task task = room.getTaskById(taskId);
+            System.out.println("task encontrado");
 
             if (title != null) {
                 task.setTitle(title);
@@ -122,26 +127,41 @@ public class TasksMutations {
                 task.setStatus(status);
             }
             if (assignedToIds != null) {
+                // List<Member> assignedTo = new ArrayList<>();
+                // // Verificamos la cantidad de ids que se pasaron, si son 0, entonces se
+                // borran
+                // // todos los miembros
+                // if (assignedToIds.size() == 0) {
+                // task.setAssignedTo(assignedTo);
+                // } else {
+                // for (String assignedToId : assignedToIds) {
+
+                // // Obtener el usuario correspondiente al userOwner
+                // User user = userRepository.findById(assignedToId).orElseThrow(null);
+                // // Crear el miembro
+                // System.out.println(user.getEmail());
+                // Member member = new Member(user, "");
+
+                // assignedTo.add(member);
+                // }
+                // }
+                // task.setAssignedTo(assignedTo);
+
+                Iterable<User> usersIterable = userRepository.findAllById(assignedToIds);
+                List<User> users = StreamSupport.stream(usersIterable.spliterator(), false)
+                                                .collect(Collectors.toList());
+                
                 List<Member> assignedTo = new ArrayList<>();
-                // Verificamos la cantidad de ids que se pasaron, si son 0, entonces se borran
-                // todos los miembros
-                if (assignedToIds.size() == 0) {
-                    task.setAssignedTo(assignedTo);
-                    roomRepository.save(room);
-                    return task;
-                } else {
-                    for (String assignedToId : assignedToIds) {
-
-                        // Obtener el usuario correspondiente al userOwner
-                        User user = userRepository.findById(assignedToId).orElseThrow(null);
-                        // Crear el miembro
-                        System.out.println(user.getEmail());
-                        Member member = new Member(user, "");
-
-                        assignedTo.add(member);
-                    }
+                
+                for (User user : users) {
+                    System.out.println(user.getEmail());
+                    Member member = new Member(user, "");
+                    assignedTo.add(member);
                 }
+                
                 task.setAssignedTo(assignedTo);
+                
+
             }
             task.setUpdatedAt(new Date().toString());
             roomRepository.save(room);

@@ -102,7 +102,4 @@ export class User {
     );
   }
 
-  static deserializeList(input: any): User[] {
-    return input.map((element: any) => User.deserialize(element));
-  }
 }

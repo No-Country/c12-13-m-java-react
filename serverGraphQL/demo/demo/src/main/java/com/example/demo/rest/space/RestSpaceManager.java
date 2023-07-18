@@ -62,7 +62,7 @@ public class RestSpaceManager {
             User user = userRepository.findById(userOwner).orElseThrow(null);
             System.out.println("User id: " + user.getId());
             // Crear el miembro
-            Member member = new Member(user, "admin");
+            Member member = new Member(user, "owner");
 
             // Crear el chat y establecer el espacio
             System.out.println("Creando chat...");

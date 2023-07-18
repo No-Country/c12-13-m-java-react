@@ -242,6 +242,7 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setSpaces: (state, action: PayloadAction<SpaceProps[]>) => {
+      console.log("action.payload setSpaces", action.payload);
       state.spaces = action.payload.map(
         (spaceData: SpaceProps) =>
           new SpaceProps(
@@ -250,7 +251,7 @@ const postsSlice = createSlice({
             spaceData.description,
             spaceData.accessCode,
             spaceData.coverImage,
-            spaceData.rooms as RoomsProps[],
+            [] as RoomsProps[],
             spaceData.members as MembersProps[]
           )
       );
@@ -286,8 +287,6 @@ const postsSlice = createSlice({
           action?.payload?.data?.description,
           action?.payload?.data?.accessCode,
           action?.payload?.data?.coverImage,
-          action?.payload?.data?.rooms as RoomsProps[],
-          action?.payload?.data?.members as MembersProps[]
         );
 
         state.currentSpaceChat = action?.payload?.data?.chat as ChatProps;

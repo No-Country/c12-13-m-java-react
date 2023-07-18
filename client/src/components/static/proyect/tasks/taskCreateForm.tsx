@@ -4,15 +4,24 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/client/spaces/tasks";
 import { SpaceProps, MembersProps } from "@/utils/types/client";
 
-export default function TaskCreateForm() {
+type TaskCreateFormProps = {
+  setManualClose: (value: boolean) => void;
+  setLoading: (value: boolean) => void;
+};
+
+export default function TaskCreateForm({
+  setManualClose,
+  setLoading,
+}: TaskCreateFormProps) {
   const dispatch = useAppDispatch();
   const [form, setForm] = useState<any>();
   const [selected, setSelected] = useState<any>([]);
-  const { currentSpace:cSpace } = useAppSelector(
+  const { currentSpace: cSpace, currentSpaceMembers:cSpaceMembers } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
 
   const currentSpace = SpaceProps.deserialize(cSpace);
+  const currentSpaceMembers = MembersProps.deserializeList(cSpaceMembers);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,10 +36,16 @@ export default function TaskCreateForm() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    dispatch(createTask(form));
+    setLoading(true);
+    await dispatch(createTask(form));
+    setManualClose(true);
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
 
-  const multiOptions = currentSpace.members.map((memb) => {
+  const multiOptions = currentSpaceMembers.map((memb) => {
     const member = MembersProps.deserialize(memb);
     return {
       value: member.getId(),

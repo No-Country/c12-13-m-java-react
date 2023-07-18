@@ -7,13 +7,12 @@ import {
   TaskCreateForm,
   CircularLoader,
 } from "@/components";
+import { deleteRoom, editRoom } from "@/redux/slices/client/spaces/rooms";
 import {
-  deleteRoom,
-  editRoom,
-  addTask,
-  deleteTask,
-  editTask,
-} from "@/redux/slices/client/spaces/rooms";
+  addTaskSubs,
+  deleteTaskSubs,
+  editTaskSubs,
+} from "@/redux/slices/client/spaces/tasks";
 import {
   NOTIFY_TASK_CHANGED,
   NOTIFY_TASK_CREATED,
@@ -51,20 +50,21 @@ export default function CurrentRoom() {
 
   useEffect(() => {
     if (datachange?.notifyTaskChanged) {
-      dispatch(editTask(datachange?.notifyTaskChanged));
+      dispatch(editTaskSubs(datachange?.notifyTaskChanged));
     }
   }, [datachange]);
 
   useEffect(() => {
+    console.log("createTask index", datacreate);
     if (datacreate?.notifyTaskCreated) {
-      dispatch(addTask(datacreate?.notifyTaskCreated));
+      dispatch(addTaskSubs(datacreate?.notifyTaskCreated));
     }
   }, [datacreate]);
 
   useEffect(() => {
     console.log("deleteTask index", datadelete);
     if (datadelete?.notifyTaskDeleted) {
-      dispatch(deleteTask(datadelete?.notifyTaskDeleted));
+      dispatch(deleteTaskSubs(datadelete?.notifyTaskDeleted));
     }
   }, [datadelete]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -75,6 +75,16 @@ export default function CurrentRoom() {
     await dispatch(editRoom(editedData));
     setManualClose(true);
 
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    await dispatch(deleteRoom());
+    setManualClose(true);
     setLoading(false);
     setTimeout(() => {
       setManualClose(false);
@@ -96,6 +106,8 @@ export default function CurrentRoom() {
               current={currentRoom}
               type="room"
               secondaryLoading={loading}
+              primaryLoading={loading}
+              primaryManualClose={manualClose}
               secondaryManualClose={manualClose}
               triggerText="Crear una tarea"
               secondControls={true}
@@ -107,7 +119,7 @@ export default function CurrentRoom() {
                   processedData={processedData}
                   originalData={currentRoom}
                   title="Editar room"
-                  deleteAction={deleteRoom}
+                  deleteAction={() => handleDelete()}
                   deletePermission={GeneralPermission.DeleteRoom}
                   nowEditing={nowEditing}
                   route={`/client`}
@@ -122,7 +134,10 @@ export default function CurrentRoom() {
                 </EditManager>
               }
             >
-              <TaskCreateForm />
+              <TaskCreateForm
+                setLoading={setLoading}
+                setManualClose={setManualClose}
+              />
             </HeroSpaceArea>
             <TasksList />
           </>

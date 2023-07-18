@@ -1,4 +1,4 @@
-import { Main, SpacesList, Header } from "@/components";
+import { Main, SpacesList, Header, Footer } from "@/components";
 
 import { SpaceProps } from "@/utils/types/client";
 import Head from "next/head";
@@ -15,6 +15,7 @@ export default function HomeClient() {
         <Header />
         <Hero />
         <SpacesList />
+        <Footer />
       </Main>
     </>
   );

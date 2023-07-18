@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Main: React.FC<Props> = ({ children, className }) => {
-  return <main>{children}</main>;
+  return <main className="min-h-screen bg-slate-50" >{children}</main>;
 };
 
 export default Main;
