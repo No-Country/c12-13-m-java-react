@@ -1,5 +1,5 @@
 import { MemberPicture } from "@/components";
-import { MembersProps } from "@/utils/types/client/spaces";
+import { MembersProps } from "@/utils/types/client";
 
 type MembersListProps = {
   members: MembersProps[];
@@ -17,7 +17,7 @@ export default function MembersList({
       {Array.isArray(members) &&
         members.map((member: MembersProps) => (
           <MemberPicture
-            member={member.user}
+            member={member}
             size={size}
             hasMargin={pictureHasMargin}
           />

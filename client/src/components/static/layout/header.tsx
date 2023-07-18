@@ -1,6 +1,7 @@
 import { useAppSelector } from "@/redux/hooks";
 import { HorizontalNav, ProfileAction } from "@/components";
 import { useRouter } from "next/router";
+import { AuthClass } from "@/utils/types/client";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
 
@@ -83,11 +84,12 @@ type LogoProps = {
 
 function Logo({ type }: LogoProps) {
   const router = useRouter();
-  const { auth } = useAppSelector((state) => state.authSession);
+  const { auth:sAuth } = useAppSelector((state) => state?.authSession);
+  const auth = AuthClass.deserialize(sAuth);
 
   return (
     <ReactSVG
-      onClick={() => router.push(auth.isLogged ? "/client" : "/")}
+      onClick={() => router.push(auth.getIsLogged() ? "/client" : "/")}
       src={type === "white" ? "/icon/logo-white.svg" : "/icon/logo.svg"}
       className="aspect-[98/30] h-[30px] w-[98px] cursor-pointer fill-current text-white lg:text-white"
     />

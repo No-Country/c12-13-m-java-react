@@ -2,11 +2,13 @@ import { useAppSelector } from "@/redux/hooks";
 import { frontUrl } from "@/data/config";
 import { toast } from "sonner";
 import { toastSuccess } from "@/utils/toastStyles";
+import { SpaceProps } from "@/utils/types/client";
 
 export default function SpaceInvite() {
-  const { currentSpace } = useAppSelector(
-    (state) => state.client.spaces.spaces
+  const { currentSpace:cSpace } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
+  const  currentSpace = SpaceProps.deserialize(cSpace);
   const invitationLink = `${frontUrl}client/joinspace?spaceName=${currentSpace?.name}&spaceId=${currentSpace?.id}&accessCode=${currentSpace?.accessCode}`;
 
   const handleShare = async () => {

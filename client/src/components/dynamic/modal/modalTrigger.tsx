@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ModalBase } from "@/components";
+import React, { useState, useEffect } from "react";
+import { ModalBase, CircularLoader } from "@/components";
 import { createPortal } from "react-dom";
 
 type ModalTriggerProps = {
@@ -9,6 +9,8 @@ type ModalTriggerProps = {
   alwaysOpen?: boolean;
   alwaysOpenCloser?: () => void;
   classname?: string;
+  loading?: boolean;
+  manualClose?: boolean;
 };
 
 export default function ModalTrigger({
@@ -17,9 +19,17 @@ export default function ModalTrigger({
   buttonType,
   classname,
   alwaysOpen = false,
+  loading = false,
+  manualClose = false,
   alwaysOpenCloser = () => {},
 }: ModalTriggerProps) {
   const [isOpen, setIsOpen] = useState(alwaysOpen);
+
+  useEffect(() => {
+    if (manualClose === true) {
+      setIsOpen(false);
+    }
+  }, [manualClose]);
 
   const handleClose = () => {
     if (alwaysOpen) {
@@ -46,7 +56,17 @@ export default function ModalTrigger({
           position="center-center"
           setIsOpen={setIsOpen}
         >
-          {children}
+          <>
+            <div className={`z-0 ${loading && "opacity-0"}`}>{children}</div>
+            {loading && (
+              <div className="absolute left-0 rounded-[20px] top-0 flex h-full w-full items-center justify-center gap-3 bg-white ">
+                <CircularLoader />
+                <div>
+                  <p className="subtitulo">Procesando</p>
+                </div>
+              </div>
+            )}
+          </>
         </ModalBase>,
         document.body
       )}

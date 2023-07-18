@@ -1,11 +1,9 @@
-// /client?loginMethod=google&id=1234567890&status=ok&session=12345
-// hace falta crear la ruta verify
 import { ReactNode, useEffect, useMemo } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { setAuth, setSession, resetReducer } from "@/redux/slices/authSession";
-import { AuthClass, AuthProps } from "@/utils/types/client/authSession";
+import { AuthClass, UserProps } from "@/utils/types/client";
 import { VERIFY_SESSION } from "@/graphql/queries";
 import client from "@/graphql/apollo-client";
 
@@ -17,22 +15,24 @@ const HOC: React.FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const {
+    session: { current: sSession },
+    auth: sAuth,
+  } = useAppSelector((state) => state.authSession);
+
+  const {
     loginMethod: loginMethodQy,
     id: userIdQy,
     status: statusQy,
     session: sessionQy,
   } = router.query;
-  const { session, auth } = useAppSelector((state) => state.authSession);
-  const userId = session?.current?.id || (userIdQy ?? "");
 
-  const verifySession = async (data: AuthProps) => {
-    console.log("verifySession", data);
+  const session = UserProps.deserialize(sSession);
+  const auth = AuthClass.deserialize(sAuth);
+  const userId = session?.getId() || (userIdQy ?? "");
+
+  const verifySession = async (data: AuthClass) => {
     if (data.isLogged && userId) {
-      const {
-        data: verifData,
-        error,
-        loading,
-      } = await client.query({
+      const { data: verifData } = await client.query({
         query: VERIFY_SESSION,
         variables: {
           userId: userId,
@@ -43,12 +43,11 @@ const HOC: React.FC<Props> = ({ children }) => {
         dispatch(setAuth(data));
         await dispatch(setSession(userId as string));
       } else {
-        console.log("error", verifData);
-        alert("No se pudo verificar la sesión");
+        alert("Debes iniciar sesión primero");
         dispatch(resetReducer());
       }
     } else {
-      alert("No se pudo verificar la sesión");
+      alert("Debes iniciar sesión primero");
     }
   };
 
@@ -56,11 +55,7 @@ const HOC: React.FC<Props> = ({ children }) => {
     const authObj = new AuthClass(
       statusQy === "ok" ? true : false,
       loginMethodQy as string,
-      sessionQy as string,
-      {
-        googleSessionID:
-          loginMethodQy === "google" ? (sessionQy as string) : "",
-      }
+      sessionQy as string
     );
 
     verifySession(authObj);
@@ -68,7 +63,7 @@ const HOC: React.FC<Props> = ({ children }) => {
 
   const systemHoc = () => {
     if (router.pathname.startsWith("/client")) {
-      if (auth?.isLogged) {
+      if (auth?.getIsLogged()) {
         verifySession(auth);
       } else if (
         !auth?.isLogged &&
@@ -79,11 +74,11 @@ const HOC: React.FC<Props> = ({ children }) => {
       ) {
         setAuthFn();
       } else {
-        alert("No se cumple ninguna condicion");
+        alert("Debes iniciar sesión primero");
         router.push("/");
       }
     } else if (router.pathname.startsWith("/auth")) {
-      if (auth?.isLogged) {
+      if (auth?.getIsLogged()) {
         router.push("/client");
       }
     }
@@ -94,12 +89,12 @@ const HOC: React.FC<Props> = ({ children }) => {
     [
       router.pathname,
       userId,
-      auth?.isLogged,
+      auth?.getIsLogged(),
       loginMethodQy,
       userIdQy,
       statusQy,
       router.query,
-      session?.current?.id,
+      session?.getId(),
     ]
   );
 
@@ -112,7 +107,7 @@ const HOC: React.FC<Props> = ({ children }) => {
   }, [delayedSystemStart]);
 
   // Rutas protegidas
-  if (router?.pathname.startsWith("/client") && !auth?.isLogged) {
+  if (router?.pathname.startsWith("/client") && !auth?.getIsLogged()) {
     return null;
   }
 

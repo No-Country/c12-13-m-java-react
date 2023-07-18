@@ -1,16 +1,19 @@
 import { useAppSelector } from "@/redux/hooks";
 import { LayoutSpaces, MembersSpaceList, HeroSpaceArea } from "@/components";
 import Head from "next/head";
-
+import { MembersProps, SpaceProps } from "@/utils/types/client";
 import { useAppDispatch } from "@/redux/hooks";
 import { leaveSpace } from "@/redux/slices/client/spaces/spaces";
 
 export default function Members() {
-  const { currentSpace, currentMember } = useAppSelector(
-    (state) => state.client.spaces.spaces
+  const dispatch = useAppDispatch();
+  const { currentSpace: cSpace, currentMember: cMember } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
 
-  const dispatch = useAppDispatch();
+  const currentSpace = SpaceProps.deserialize(cSpace);
+  const currentMember = MembersProps.deserialize(cMember);
+
   const handleTrueAction = () => {
     dispatch(leaveSpace());
   };

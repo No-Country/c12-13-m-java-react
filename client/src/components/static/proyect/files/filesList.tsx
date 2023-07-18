@@ -1,4 +1,4 @@
-import { FilesProps } from "@/utils/types/client/spaces";
+import { FilesProps } from "@/utils/types/client";
 import { Image, ListTopArea } from "@/components";
 
 type FilesListProps = {

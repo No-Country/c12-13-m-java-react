@@ -1,10 +1,7 @@
 package com.example.demo.resolver.space;
-
-import com.example.demo.utils.ImageUploader;
 import com.example.demo.model.Space;
 import com.example.demo.model.User;
 import com.example.demo.model.Member;
-import com.example.demo.model.Room;
 import com.example.demo.model.Chat;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.RoomRepository;
@@ -14,8 +11,6 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 import java.util.Date;
-
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
@@ -29,8 +24,6 @@ public class SpaceMutations {
     private RoomRepository roomRepository;
     @Autowired
     private ChatRepository chatRepository;
-    @Autowired
-    private ImageUploader imageUploader;
 
     @SchemaMapping(typeName = "Mutation", field = "createSpace")
     public Space createSpace(
@@ -198,11 +191,6 @@ public class SpaceMutations {
     public Space changeUserRole(@Argument String spaceId, @Argument String userId, @Argument String role) {
         try {
             Space space = spaceRepository.findById(spaceId).orElseThrow(null);
-            User user = userRepository.findById(userId).orElseThrow(null);
-
-            // Si es el creador del espacio no se puede cambiar el rol
-            // Seria el role owner
-
             // buscamos el miembro entre los miembros del espacio
             Member currentMember = space.getMember(userId);
             String currentRole = currentMember.getRole();

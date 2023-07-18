@@ -1,7 +1,11 @@
 import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
-import { GeneralPermission } from "@/utils/types/client/spaces";
+import {
+  GeneralPermission,
+  MembersProps,
+  SpaceProps,
+} from "@/utils/types/client";
 import { VerticalMenu, BottomBarItem } from "@/components";
 
 type SidebarProps = {
@@ -9,9 +13,12 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ type }: SidebarProps) {
-  const { currentSpace, currentMember } = useAppSelector(
-    (state) => state?.client?.spaces.spaces
+  const { currentSpace:cSpace, currentMember: cMember } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
+
+  const currentMember = MembersProps.deserialize(cMember);
+  const currentSpace = SpaceProps.deserialize(cSpace);
 
   const spaceNavData = [
     {
@@ -31,28 +38,28 @@ export default function Sidebar({ type }: SidebarProps) {
     {
       name: "Rooms",
       path: "/client/[spaceId]",
-      linkPath: "/client/" + currentSpace?.id,
+      linkPath: "/client/" + currentSpace?.getId(),
       visible: true,
       icon: "/icon/sidebar/rooms.svg",
     },
     {
       name: "Configuracion",
       path: "/client/[spaceId]/settings",
-      linkPath: "/client/" + currentSpace?.id + "/settings",
+      linkPath: "/client/" + currentSpace?.getId() + "/settings",
       visible: currentMember.hasPermission(GeneralPermission.EditSpace),
       icon: "/icon/sidebar/config.svg",
     },
     {
       name: "Miembros",
       path: "/client/[spaceId]/members",
-      linkPath: "/client/" + currentSpace?.id + "/members",
+      linkPath: "/client/" + currentSpace?.getId() + "/members",
       visible: true,
       icon: "/icon/sidebar/miembros.svg",
     },
     {
       name: "Archivos",
       path: "/client/[spaceId]/files",
-      linkPath: "/client/" + currentSpace?.id + "/files",
+      linkPath: "/client/" + currentSpace?.getId() + "/files",
       visible: true,
       icon: "/icon/sidebar/archivos.svg",
     },
@@ -103,14 +110,14 @@ export default function Sidebar({ type }: SidebarProps) {
             {type === "client" && (
               <>
                 <VerticalMenu
-                  title={currentSpace?.name?.toUpperCase()}
+                  title={currentSpace?.getName()?.toUpperCase()}
                   data={spaceNavData.slice(2, 6)}
                   hasLogo={true}
                   isRooms={false}
                 />
                 <VerticalMenu
                   title="ROOMS"
-                  data={currentSpace?.rooms}
+                  data={currentSpace?.getRooms()}
                   hasLogo={false}
                   isRooms={true}
                 />

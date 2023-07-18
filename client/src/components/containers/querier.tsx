@@ -1,8 +1,12 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { MembersProps, GeneralPermission } from "@/utils/types/client/spaces";
+import {
+  MembersProps,
+  GeneralPermission,
+  SpaceProps,
+} from "@/utils/types/client";
 import { debounce } from "lodash";
 import { getCurrentSpace } from "@/redux/slices/client/spaces/spaces";
 import { getCurrentRoom, getRooms } from "@/redux/slices/client/spaces/rooms";
@@ -14,10 +18,16 @@ type Props = {
 export default function Querier({ children }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   const { spaceId, roomId } = router.query;
-  const { currentSpace, currentMember, spaceLoading } = useAppSelector(
-    (state) => state?.client?.spaces?.spaces
-  );
+  const {
+    currentSpace: cSpace,
+    currentMember: cMember,
+    spaceLoading,
+  } = useAppSelector((state) => state?.client?.spaces?.spaces);
+
+  const currentSpace = SpaceProps.deserialize(cSpace);
+  const currentMember = MembersProps.deserialize(cMember);
 
   useEffect(() => {
     if (
@@ -51,7 +61,7 @@ export default function Querier({ children }: Props) {
       currentMember instanceof MembersProps
     ) {
       if (!currentMember?.hasPermission(GeneralPermission?.EditSpace)) {
-        router.push(`/client/${currentSpace.id}`);
+        router.push(`/client/${currentSpace.getId()}`);
       }
     }
   };

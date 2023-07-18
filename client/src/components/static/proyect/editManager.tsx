@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { GeneralPermission } from "@/utils/types/client/spaces";
+import { GeneralPermission, MembersProps } from "@/utils/types/client";
 
 type EditManagerProps = {
   children?: React.ReactNode;
@@ -24,9 +24,11 @@ export default function EditManager({
   nowEditing,
 }: EditManagerProps) {
   const dispatch = useAppDispatch();
-  const { currentMember } = useAppSelector(
-    (state) => state.client.spaces.spaces
+  const { currentMember:cMember } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
+
+  const currentMember = MembersProps.deserialize(cMember);
 
   const handleSave = () => {
     let editedData = {};
@@ -38,6 +40,7 @@ export default function EditManager({
         editedData = { ...editedData, [key]: processedData[key] };
       }
     }
+    console.log("editedData", editedData, processedData, originalData);
     editAction(editedData);
   };
 

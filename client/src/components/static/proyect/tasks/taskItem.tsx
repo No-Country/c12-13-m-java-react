@@ -11,7 +11,7 @@ import {
   EditManager,
   TaskEditForm,
 } from "@/components";
-import { TasksProps, GeneralPermission } from "@/utils/types/client/spaces";
+import { TasksProps, GeneralPermission, MembersProps } from "@/utils/types/client";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -21,9 +21,26 @@ type TaskItemProps = {
 
 export default function TaskItem({ item }: TaskItemProps) {
   const dispatch = useAppDispatch();
-  const { currentTask } = useAppSelector((state) => state.client.spaces.tasks);
+  const { currentTask: cTask } = useAppSelector(
+    (state) => state?.client?.spaces?.tasks
+  );
+
+  const currentTask = TasksProps.deserialize(cTask);
+  item = TasksProps.deserialize(item);
+  const originalData = {
+    ...currentTask,
+    assignedToIds: currentTask.getAssignedTo().map((item) => {
+      const member = MembersProps.deserialize(item);
+      return {
+        value: member.getId(),
+        label: member.getFullName(),
+      };
+    }),
+    }
+  
   const [processedData, setProcessedData] = useState<any>(currentTask);
   const [editing, setEditing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
   const defaultClass =
     "font-medium  smalltext font-medium rounded-full w-max px-2 py-1";
@@ -39,10 +56,14 @@ export default function TaskItem({ item }: TaskItemProps) {
       : completedClass;
 
   const handleSave = async (editedData: any) => {
+    setLoading(true);
     await dispatch(editTask(editedData));
+    setEditing(false);
+    setLoading(false);
   };
 
   const handleEditing = () => {
+    console.log("item", item);
     dispatch(setCurrentTask(item));
     setEditing(true);
   };
@@ -55,11 +76,7 @@ export default function TaskItem({ item }: TaskItemProps) {
       <div className="relative flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <p className={statusClass + defaultClass}>
-            {item.status == 1
-              ? "To-do"
-              : item.status == 2
-              ? "En progreso"
-              : "Completado"}
+            {item?.getFormattedStatus()}
           </p>
           <Image
             src="/icon/settings.svg"
@@ -71,12 +88,12 @@ export default function TaskItem({ item }: TaskItemProps) {
           />
         </div>
         <div>
-          <p className="subitulo font-medium">{item.title}</p>
-          <p className="smalltext font-light">{item.description}</p>
+          <p className="subitulo font-medium">{item?.getTitle()}</p>
+          <p className="smalltext font-light">{item?.getDescription()}</p>
         </div>
       </div>
       <MembersList
-        members={item.assignedTo}
+        members={item?.getAssignedTo()}
         size="small"
         pictureHasMargin={true}
       />
@@ -84,6 +101,7 @@ export default function TaskItem({ item }: TaskItemProps) {
         <ModalTrigger
           triggerText={""}
           buttonType="primaryButton"
+          loading={loading}
           alwaysOpen={editing}
           alwaysOpenCloser={() => setEditing(false)}
         >
@@ -91,7 +109,7 @@ export default function TaskItem({ item }: TaskItemProps) {
             <EditManager
               processedData={processedData}
               deletePermission={GeneralPermission.DeleteTask}
-              originalData={currentTask}
+              originalData={originalData}
               title="Editar tarea"
               nowEditing={nowEditing}
               deleteAction={deleteTask}

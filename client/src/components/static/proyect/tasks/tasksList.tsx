@@ -1,14 +1,15 @@
 import { TaskItem } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
-import { TasksProps } from "@/utils/types/client/spaces";
+import { TasksProps } from "@/utils/types/client";
 import { useEffect, useState } from "react";
+import { RoomsProps } from "@/utils/types/client";
 
 export default function TasksList() {
   const [index, setIndex] = useState(0);
   const [tasks, setTasks] = useState<TasksProps[]>([]);
-  const { currentRoom } = useAppSelector((state) => state.client.spaces.rooms);
+  const { currentRoom:cRoom } = useAppSelector((state) => state?.client?.spaces?.rooms);
   const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
-
+const currentRoom = RoomsProps.deserialize(cRoom);
   useEffect(() => {
     setTasks(
       index === 0

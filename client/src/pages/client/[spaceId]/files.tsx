@@ -1,11 +1,15 @@
 import { LayoutSpaces, FilesList, HeroSpaceArea } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import Head from "next/head";
+import { SpaceProps } from "@/utils/types/client";
 
 export default function SpaceSettings() {
-  const { currentSpace } = useAppSelector(
-    (state) => state.client.spaces.spaces
+  const { currentSpace: cSpace } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
+
+  const currentSpace = SpaceProps.deserialize(cSpace);
+
   return (
     <>
       <Head>
@@ -21,7 +25,7 @@ export default function SpaceSettings() {
         >
           <div>Form Subir un archivo</div>
         </HeroSpaceArea>
-        <FilesList files={currentSpace.files} />
+        {/* <FilesList files={currentSpace.files} /> */}
       </LayoutSpaces>
     </>
   );

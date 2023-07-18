@@ -1,7 +1,10 @@
 import { Main, SpacesList, Header } from "@/components";
+
+import { SpaceProps } from "@/utils/types/client";
 import Head from "next/head";
 import NextImage from "next/image";
 export default function HomeClient() {
+
   return (
     <>
       <Head>

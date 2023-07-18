@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { deleteSpace, editSpace } from "@/redux/slices/client/spaces/spaces";
 import Head from "next/head";
-import { GeneralPermission } from "@/utils/types/client/spaces";
+import { GeneralPermission } from "@/utils/types/client";
+import { SpaceProps } from "@/utils/types/client";
 import {
   LayoutSpaces,
   MembersSpaceList,
@@ -14,15 +15,26 @@ import {
 export default function SpaceSettings() {
   const dispatch = useAppDispatch();
 
-  const { currentSpace } = useAppSelector(
+  const { currentSpace: cSpace } = useAppSelector(
     (state) => state.client.spaces.spaces
   );
 
+  const currentSpace = SpaceProps.deserialize(cSpace);
+
   const [processedData, setProcessedData] = useState<any>(currentSpace);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [manualClose, setManualClose] = useState<boolean>(false);
 
   const handleSave = async (editedData: any) => {
+    setLoading(true);
     await dispatch(editSpace(editedData));
+    setManualClose(true);
+
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
 
   return (
@@ -36,6 +48,8 @@ export default function SpaceSettings() {
           current={currentSpace}
           type="space"
           triggerText="Editar espacio"
+          primaryLoading={loading}
+          primaryManualClose={manualClose}
         >
           <>
             <EditManager

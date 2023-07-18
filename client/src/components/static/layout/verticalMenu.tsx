@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useAppSelector } from "@/redux/hooks";
 import { ReactSVG } from "react-svg";
+import { SpaceProps } from "@/utils/types/client";
 
 type VerticalMenuProps = {
   data: any;
@@ -16,13 +17,15 @@ export default function VerticalMenu({
   isRooms,
 }: VerticalMenuProps) {
   const router = useRouter();
-  const { currentSpace } = useAppSelector(
+  const { currentSpace:cSpace } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
 
+  const currentSpace = SpaceProps.deserialize(cSpace);
+
   const handleClick = (item: any) => {
     if (isRooms) {
-      router.push("/client/" + currentSpace?.id + "/" + item.id);
+      router.push("/client/" + currentSpace?.getId() + "/" + item.id);
     } else {
       router.push(item.linkPath);
     }
@@ -30,7 +33,7 @@ export default function VerticalMenu({
 
   const colorChangeCondition = (item: any) => {
     if (isRooms) {
-      return router.asPath === "/client/" + currentSpace?.id + "/" + item.id;
+      return router.asPath === "/client/" + currentSpace?.getId() + "/" + item.id;
     } else {
       return router.pathname === item.path;
     }

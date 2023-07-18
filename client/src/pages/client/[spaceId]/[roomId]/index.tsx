@@ -23,13 +23,16 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Head from "next/head";
 import { useSubscription } from "@apollo/client";
-import { GeneralPermission } from "@/utils/types/client/spaces";
+import { GeneralPermission } from "@/utils/types/client";
+import { RoomsProps } from "@/utils/types/client";
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
-  const { currentRoom, roomLoading } = useAppSelector(
+  const { currentRoom: cRoom, roomLoading } = useAppSelector(
     (state) => state?.client?.spaces?.rooms
   );
+
+  const currentRoom = RoomsProps.deserialize(cRoom);
 
   const [processedData, setProcessedData] = useState<any>(currentRoom);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
@@ -64,10 +67,18 @@ export default function CurrentRoom() {
       dispatch(deleteTask(datadelete?.notifyTaskDeleted));
     }
   }, [datadelete]);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [manualClose, setManualClose] = useState<boolean>(false);
   const handleSave = async (editedData: any) => {
     console.log(editedData);
+    setLoading(true);
     await dispatch(editRoom(editedData));
+    setManualClose(true);
+
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
 
   return (
@@ -84,6 +95,8 @@ export default function CurrentRoom() {
             <HeroSpaceArea
               current={currentRoom}
               type="room"
+              secondaryLoading={loading}
+              secondaryManualClose={manualClose}
               triggerText="Crear una tarea"
               secondControls={true}
               secondTriggerIsAdmin={true}

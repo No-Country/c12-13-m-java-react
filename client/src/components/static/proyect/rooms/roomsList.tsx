@@ -1,13 +1,15 @@
-import { RoomsProps, GeneralPermission } from "@/utils/types/client/spaces";
+import { RoomsProps, GeneralPermission } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
 import { RoomItem, ListTopArea, RoomCreateForm } from "@/components";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function RoomsList() {
   const router = useRouter();
   const { spaceId } = router.query;
-  const { rooms } = useAppSelector((state) => state.client.spaces.rooms);
-
+  const { rooms } = useAppSelector((state) => state?.client?.spaces?.rooms);
+  const [loading, setLoading] = useState(false);
+  const [manualClose, setManualClose] = useState(false);
   return (
     
     <div className=" listContainer">
@@ -16,7 +18,12 @@ export default function RoomsList() {
         triggerIsAdmin={true}
         description="Organiza tu espacio en pequeñas salas"
         buttonText="Crear nuevo room"
-        triggerContent={<RoomCreateForm />}
+        triggerLoading={loading}
+        triggerManualClose={manualClose}
+        triggerContent={<RoomCreateForm 
+          setManualClose={setManualClose}
+          setLoading={setLoading}
+        />}
       />
       <div className="gridContainer">
         {Array.isArray(rooms) &&

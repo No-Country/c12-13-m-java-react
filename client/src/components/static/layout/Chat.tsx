@@ -3,15 +3,22 @@ import { useEffect, useState, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { sendMessage } from "@/redux/slices/client/spaces/spaces";
 import Image from "next/image";
+import { SpaceProps, ChatProps } from "@/utils/types/client";
 
 export default function ModalChat() {
   const dispatch = useAppDispatch();
-  const [chatVisibility, setChatVisibility] = useState(false);
-  const { currentSpace, currentSpaceChat } = useAppSelector(
-    (state) => state.client.spaces.spaces
-  );
   const containerRef = useRef<any>(null);
-  const { id } = useAppSelector((state) => state.authSession.session.current);
+  const [chatVisibility, setChatVisibility] = useState(false);
+
+  const { currentSpace: cSpace, currentSpaceChat: cSpaceChat } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
+  );
+  const { id } = useAppSelector(
+    (state) => state?.authSession?.session?.current
+  );
+
+  const currentSpace = SpaceProps.deserialize(cSpace);
+  const currentSpaceChat = ChatProps.deserialize(cSpaceChat);
 
   const handleSendMessage = (e: any) => {
     e.preventDefault();
@@ -43,7 +50,9 @@ export default function ModalChat() {
           className="fixed bottom-[80px] right-[40px] z-[20] flex  max-h-[450px] min-h-[450px] min-w-[350px] max-w-[350px]  flex-col rounded-2xl bg-white p-4 shadow-lg lg:bottom-[40px]"
         >
           <div className="flex items-center justify-between gap-2 pb-4">
-            <h3 className="bodyText font-semibold">{currentSpace.name}</h3>
+            <h3 className="bodyText font-semibold">
+              {currentSpace?.getName()}
+            </h3>
             <Image
               src="/icon/cross.svg"
               width={16}
@@ -60,18 +69,18 @@ export default function ModalChat() {
                 className=" flex max-w-full flex-col gap-3 overflow-scroll pb-3 "
                 ref={containerRef}
               >
-                {Array.isArray(currentSpaceChat.messages) &&
-                  currentSpaceChat.messages.map((message) => (
+                {Array.isArray(currentSpaceChat.getMessages()) &&
+                  currentSpaceChat.getMessages().map((message) => (
                     <div
-                      key={message.id}
+                      key={message.getId()}
                       className={`flex items-start gap-2 ${
-                        id == message.fromUser.id
+                        id == message.getUser().getId()
                           ? "flex-row"
                           : "flex-row-reverse"
                       } `}
                     >
                       <Image
-                        src={message.fromUser.profileImage}
+                        src={message.getUser().getProfileImage()}
                         width={35}
                         height={35}
                         alt="profileImage"
@@ -79,18 +88,16 @@ export default function ModalChat() {
                       />
                       <div className="flex max-w-full flex-col items-start gap-[2px] ">
                         <p className=" max-w-full  rounded-2xl bg-blue-100 px-4 py-1  text-sm text-blue-700">
-                          {message.content}
+                          {message.getContent()}
                         </p>
                         <p
                           className={`w-full text-xs text-black ${
-                            id == message.fromUser.id
+                            id == message.getUser().getId()
                               ? "text-left"
                               : "text-right"
                           }`}
                         >
-                          {message.fromUser.firstName +
-                            " " +
-                            message.fromUser.lastName}
+                          {message.getUser().getFullName()}
                         </p>
                       </div>
                     </div>

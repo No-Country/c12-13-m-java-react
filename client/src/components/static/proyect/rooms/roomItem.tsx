@@ -1,5 +1,5 @@
 import { Image } from "@/components";
-import { RoomsProps } from "@/utils/types/client/spaces";
+import { RoomsProps } from "@/utils/types/client";
 
 type RoomItemProps = {
   item: RoomsProps;

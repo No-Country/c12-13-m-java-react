@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
 import { GET_USER_BY_ID } from "@/graphql/queries";
-import { AuthProps, SessionProps } from "@/utils/types/client/authSession";
-import { User } from "@/utils/types/client/spaces";
+import { AuthClass } from "@/utils/types/client";
+import { UserProps } from "@/utils/types/client";
 import { setSpaces } from "@/redux/slices/client/spaces/spaces";
 const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 import { VERIFY_SESSION } from "@/graphql/queries";
@@ -11,12 +11,12 @@ import Router from "next/router";
 import { toast } from "sonner";
 import { toastSuccess, toastError, toastWarning } from "@/utils/toastStyles";
 const initialState = {
-  auth: {} as AuthProps,
+  auth: {} as AuthClass,
   session: {
-    current: {} as User,
-    verification: false,
+    current: {} as UserProps,
+    loading: false,
   },
-  sessionLoading: false,
+ 
 };
 
 export const setSession = createAsyncThunk(
@@ -88,7 +88,7 @@ const postsSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth: (state, action: PayloadAction<AuthProps>) => {
+    setAuth: (state, action: PayloadAction<AuthClass>) => {
       state.auth = action.payload;
       console.log("setAuth ok", action.payload);
     },
@@ -101,16 +101,16 @@ const postsSlice = createSlice({
     builder
       .addCase(setSession.pending, (state, action) => {
         if(action.meta.arg === state.session.current.id) {
-          state.sessionLoading = false;
+          state.session.loading = false;
         }
         else {
-          state.sessionLoading = true;
+          state.session.loading  = true;
         }
       })
       .addCase(setSession.fulfilled, (state, action) => {
-        state.session.current = action?.payload as User;
+        state.session.current = action?.payload as UserProps;
         console.log("Fulfilled setSession", action.payload);
-        state.sessionLoading = false;
+        state.session.loading  = false;
       })
       .addCase(setSession.rejected, (state, action) => {
         console.error("Rejected setSession", action.payload);

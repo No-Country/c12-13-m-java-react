@@ -2,14 +2,17 @@ import { Input, MultiSelect } from "@/components";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/client/spaces/tasks";
+import { SpaceProps, MembersProps } from "@/utils/types/client";
 
 export default function TaskCreateForm() {
   const dispatch = useAppDispatch();
   const [form, setForm] = useState<any>();
   const [selected, setSelected] = useState<any>([]);
-  const { currentSpace } = useAppSelector(
-    (state) => state.client.spaces.spaces
+  const { currentSpace:cSpace } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
+
+  const currentSpace = SpaceProps.deserialize(cSpace);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,7 +30,8 @@ export default function TaskCreateForm() {
     dispatch(createTask(form));
   };
 
-  const multiOptions = currentSpace.members.map((member) => {
+  const multiOptions = currentSpace.members.map((memb) => {
+    const member = MembersProps.deserialize(memb);
     return {
       value: member.getId(),
       label: member.getFullName(),

@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/redux/hooks";
+import { SpaceProps } from "@/utils/types/client";
 import {
   LayoutSpaces,
   RoomsList,
@@ -8,9 +9,11 @@ import {
 import Head from "next/head";
 
 export default function Space() {
-  const { currentSpace } = useAppSelector(
-    (state) => state.client.spaces.spaces
+  const { currentSpace:cSpace } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
   );
+
+  const currentSpace = SpaceProps.deserialize(cSpace);
 
   return (
     <>
@@ -25,6 +28,7 @@ export default function Space() {
           triggerText="Invitar a un amigo"
           triggerIsAdmin={true}
           bgImageVisibleOnDesktop={true}
+          showMembers={true}
         >
           <SpaceInvite />
         </HeroSpaceArea>

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
-import { RoomsProps, TasksProps } from "@/utils/types/client/spaces";
+import { RoomsProps, TasksProps } from "@/utils/types/client";
 import axios from "axios";
 import { serverUrl } from "@/data/config";
 
@@ -94,7 +94,7 @@ export const editRoom = createAsyncThunk(
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
       input.roomId = state.client.spaces.rooms.currentRoom.id;
-      input.filename = input.coverImage.name;
+      input.filename = input?.coverImage?.name;
 
       const { data } = await axios.put(`${serverUrl}rest/rooms/edit`, input, {
         headers: {

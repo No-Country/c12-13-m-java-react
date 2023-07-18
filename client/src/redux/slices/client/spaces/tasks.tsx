@@ -4,7 +4,7 @@ import { CREATE_TASK, EDIT_TASK, DELETE_TASK } from "@/graphql/mutations";
 import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
-import { TasksProps } from "@/utils/types/client/spaces";
+import { TasksProps } from "@/utils/types/client";
 
 const initialState = {
   currentRoomTasks: [] as TasksProps[],
@@ -62,6 +62,7 @@ export const editTask = createAsyncThunk(
     try {
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
+      console.log("input editTask", input);
       input.taskId = state.client.spaces.tasks.currentTask.id;
       input.roomId = state.client.spaces.rooms.currentRoom.id;
       const { data } = await client.mutate({

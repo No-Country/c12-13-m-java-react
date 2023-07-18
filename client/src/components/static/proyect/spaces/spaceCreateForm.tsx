@@ -2,12 +2,21 @@ import { Input } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
 import { createSpace } from "@/redux/slices/client/spaces/spaces";
 
-export default function SpaceCreateForm() {
+type SpaceCreateFormProps = {
+  setManualClose: (value: boolean) => void;
+  setLoading: (value: boolean) => void;
+};
+
+export default function SpaceCreateForm({
+  setManualClose,
+  setLoading,
+}: SpaceCreateFormProps) {
   const dispatch = useAppDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
     const coverImage = e.target.image.files[0];
     const name = e.target.name.value;
     const description = e.target.description.value;
@@ -20,6 +29,11 @@ export default function SpaceCreateForm() {
       filename: coverImage.name,
     };
     await dispatch(createSpace(form));
+    setManualClose(true);
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
 
   return (

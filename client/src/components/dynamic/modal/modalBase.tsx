@@ -26,7 +26,7 @@ export default function ModalBase({
       <>
         {isOpen && (
           <div className="base fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-[#00000096]">
-            <div className="relative h-max max-h-[85vh] w-max max-w-[80vw] rounded-[20px] bg-white p-[40px]">
+            <div className="relative  h-max max-h-[85vh] w-max max-w-[80vw] rounded-[20px] bg-white p-[40px]">
               <Image
                 src="/icon/cross.svg"
                 alt="close"
@@ -35,7 +35,8 @@ export default function ModalBase({
                 onClick={handleClose}
                 className="absolute right-4 top-4 cursor-pointer"
               />
-              {children}
+              <div className="flex rounded-[20px] justify-center overflow-visible">{children}</div>
+             
             </div>
           </div>
         )}

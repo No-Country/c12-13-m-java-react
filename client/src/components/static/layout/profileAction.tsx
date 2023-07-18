@@ -1,9 +1,12 @@
 import { useAppSelector } from "@/redux/hooks";
 import { Image, Popover, VerticalNav } from "@/components";
 import Link from "next/link";
+import { AuthClass, UserProps } from "@/utils/types/client";
 
 export default function ProfileAction() {
-  const { session, auth } = useAppSelector((state) => state.authSession);
+  const { session:{current:Ssession}, auth:sAuth } = useAppSelector((state) => state.authSession);
+  const session = UserProps.deserialize(Ssession);
+  const auth = AuthClass.deserialize(sAuth);
 
   const itemsNav = [
     {
@@ -27,7 +30,7 @@ export default function ProfileAction() {
   const childrenTrigger = (
     <>
       <Image
-        src={session?.current?.profileImage}
+        src={session?.getProfileImage()}
         alt="ProfileImage"
         layout="fill"
         width="w-[40px]"
@@ -36,14 +39,14 @@ export default function ProfileAction() {
         rounded="rounded-[20px]"
       />
       <p className="bodyText hidden font-medium text-white lg:flex">
-        {session?.current?.firstName + " " + session?.current?.lastName}
+        {session?.getFullName()}
       </p>
     </>
   );
 
   return (
     <>
-      {auth.isLogged ? (
+      {auth.getIsLogged() ? (
         <Popover childrenTrigger={childrenTrigger}>
           <VerticalNav items={itemsNav} />
         </Popover>

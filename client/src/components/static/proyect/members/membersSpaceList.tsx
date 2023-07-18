@@ -1,5 +1,5 @@
 //Redux
-import { MembersProps, GeneralPermission } from "@/utils/types/client/spaces";
+import { MembersProps, GeneralPermission } from "@/utils/types/client";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   expulseMember,
@@ -28,9 +28,11 @@ type MembersListProps = {
 
 export default function MembersSpaceList({ adminZone }: MembersListProps) {
   const dispatch = useAppDispatch();
-  const { currentSpaceMembers: members, currentMember } = useAppSelector(
+  const { currentSpaceMembers: members, currentMember:cMember } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
+
+  const currentMember = MembersProps.deserialize(cMember);
 
   const childrenTrigger = (
     <ReactSVG src="/icon/sidebar/config.svg" className="h-5 w-5" />
@@ -46,13 +48,13 @@ export default function MembersSpaceList({ adminZone }: MembersListProps) {
       />
       <div className="gridContainer">
         {Array.isArray(members) &&
-          currentMember instanceof MembersProps &&
-          members.map((member) => {
+          members.map((memb) => {
+            const member = MembersProps.deserialize(memb);
             return (
               <div className="flex w-full items-center justify-between gap-3 rounded-3xl border-[0.5px]  border-none bg-white py-5 pl-5 pr-8 shadow-sm lg:border-slate-200 lg:bg-white">
                 <div className="flex items-center gap-3">
                   <MemberPicture
-                    member={member?.getUser()}
+                    member={member}
                     size="large"
                     hasMargin={false}
                   />

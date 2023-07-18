@@ -7,9 +7,7 @@ import {
 import client from "@/graphql/apollo-client";
 import { GET_SPACE_BY_ID } from "@/graphql/queries";
 import {
-  CREATE_SPACE,
   DELETE_SPACE,
-  EDIT_SPACE,
   JOIN_SPACE,
   LEAVE_SPACE,
   SEND_MESSAGE,
@@ -23,18 +21,17 @@ import Router from "next/router";
 import {
   SpaceProps,
   ChatProps,
+  RoomsProps,
   MembersProps,
-} from "@/utils/types/client/spaces";
+} from "@/utils/types/client";
 import axios from "axios";
 
 const initialState = {
   spaces: [] as SpaceProps[],
   currentSpace: {} as SpaceProps,
   currentSpaceMembers: [] as MembersProps[],
-  currentMember: new MembersProps({} as any, ""),
+  currentMember: {} as MembersProps,
   currentSpaceChat: {} as ChatProps,
-  // userIsAdminOfCurrentSpace: false,
-  // userIsOwner: false,
   spaceLoading: false,
 };
 
@@ -67,18 +64,6 @@ export const createSpace = createAsyncThunk(
     try {
       const state = getState() as RootState;
       input.userOwner = state.authSession.session.current.id;
-      // const { data } = await client.mutate({
-      //   mutation: CREATE_SPACE,
-      //   variables: {
-      //     userOwner: state.authSession.session.current.id,
-      //     name: input.name,
-      //     description: input.description,
-      //     accessCode: input.accessCode,
-      //     coverImage: input.coverImage,
-      //   },
-      //   fetchPolicy: "network-only",
-      // });
-
       const res = await axios.post(`${serverUrl}rest/spaces/create`, input, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -119,7 +104,6 @@ export const editSpace = createAsyncThunk(
   async (input: any, { dispatch, getState }) => {
     try {
       const state = getState() as RootState;
-      //Agregamos el id del espacio a editar
       input.spaceId = state.client.spaces.spaces.currentSpace.id;
       if (input.coverImage) input.filename = input.coverImage.name;
 
@@ -128,8 +112,6 @@ export const editSpace = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("data editSpace", data);
 
       return data;
     } catch (err) {
@@ -191,16 +173,6 @@ export const leaveSpace = createAsyncThunk(
   async (data, { dispatch, getState }) => {
     try {
       const state = getState() as RootState;
-      console.log("state", state.authSession.session.current.id);
-      console.log("state", state.client.spaces.spaces.currentSpace.id);
-      //Si el usuario es el propietario, no puede abandonar el espacio
-      const isOwner = Boolean(
-        state.client.spaces.spaces.currentSpace.members.find(
-          (member) => member.role === "owner"
-        )
-      );
-      console.log("isOwner", isOwner);
-      console.log(state.client.spaces.spaces.currentSpace.members);
 
       const { data } = await client.mutate({
         mutation: LEAVE_SPACE,
@@ -270,8 +242,18 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setSpaces: (state, action: PayloadAction<SpaceProps[]>) => {
-      console.log("action.payload setspaces", action.payload);
-      state.spaces = action.payload as SpaceProps[];
+      state.spaces = action.payload.map(
+        (spaceData: SpaceProps) =>
+          new SpaceProps(
+            spaceData.id,
+            spaceData.name,
+            spaceData.description,
+            spaceData.accessCode,
+            spaceData.coverImage,
+            spaceData.rooms as RoomsProps[],
+            spaceData.members as MembersProps[]
+          )
+      );
     },
     setIsAdminOfCurrentSpace: (state, action: PayloadAction<boolean>) => {
       // state.userIsAdminOfCurrentSpace = action.payload;
@@ -298,34 +280,28 @@ const postsSlice = createSlice({
         }
       })
       .addCase(getCurrentSpace.fulfilled, (state, action) => {
-        state.currentSpace = action?.payload?.data as SpaceProps;
+        state.currentSpace = new SpaceProps(
+          action?.payload?.data?.id,
+          action?.payload?.data?.name,
+          action?.payload?.data?.description,
+          action?.payload?.data?.accessCode,
+          action?.payload?.data?.coverImage,
+          action?.payload?.data?.rooms as RoomsProps[],
+          action?.payload?.data?.members as MembersProps[]
+        );
+
         state.currentSpaceChat = action?.payload?.data?.chat as ChatProps;
         state.currentSpaceMembers = action?.payload?.data?.members?.map(
           (memberData: any) =>
             new MembersProps(memberData.user, memberData.role)
         );
-        // state.userIsAdminOfCurrentSpace = Boolean(
-        //   state.currentSpaceMembers.find(
-        //     (member: MembersProps) =>
-        //       member.getId() === action?.payload?.userId &&
-        //       member.isAdmin()
-        //   )
-        // );
 
-        // state.userIsOwner = Boolean(
-        //   state.currentSpaceMembers.find(
-        //     (member: MembersProps) =>
-        //       member.getId() === action?.payload?.userId &&
-        //       member.isOwner()
-        //   )
-        // );
-
-        state.currentMember = state?.currentSpaceMembers?.find(
+        const currentMember = state.currentSpaceMembers.find(
           (member: MembersProps) => member.getId() === action?.payload?.userId
         ) as MembersProps;
 
+        state.currentMember = currentMember as MembersProps;
         state.spaceLoading = false;
-        console.log("state.currentSpace", state.currentSpace);
       })
       .addCase(getCurrentSpace.rejected, (state) => {
         console.log("Error al obtener espacio");
@@ -401,7 +377,7 @@ const postsSlice = createSlice({
       })
       .addCase(changeUserRole.pending, (state) => {})
       .addCase(changeUserRole.fulfilled, (state, action) => {
-        state.currentSpace.members = action.payload.members;
+        state.currentSpaceMembers = action.payload.members;
         toast.success("Rol cambiado correctamente", toastSuccess);
       })
       .addCase(changeUserRole.rejected, (state) => {

@@ -10,7 +10,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addMessage } from "@/redux/slices/client/spaces/spaces";
 import { useSubscription } from "@apollo/client";
 import { NOTIFY_MESSAGE_CREATED } from "@/graphql/subscriptions";
-import { MembersProps } from "@/utils/types/client/spaces";
+import { ChatProps } from "@/utils/types/client";
+import { useState } from "react";
 
 type Props = {
   children: ReactNode;
@@ -19,10 +20,12 @@ type Props = {
 
 const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
   const dispatch = useAppDispatch();
-  const { currentSpaceChat, spaceLoading, currentMember, currentSpaceMembers } =
-    useAppSelector((state) => state.client.spaces.spaces);
+  const { currentSpaceChat: cCurrentSpaceChat, spaceLoading } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
+  );
+  const currentSpaceChat = ChatProps.deserialize(cCurrentSpaceChat);
   const { data: datachange } = useSubscription(NOTIFY_MESSAGE_CREATED, {
-    variables: { chatId: currentSpaceChat?.id },
+    variables: { chatId: currentSpaceChat?.getId() },
   });
 
   useEffect(() => {
@@ -35,12 +38,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
     return (
       <>
         <Main>
-          {spaceLoading ||
-          !(
-            currentMember.role &&
-            currentSpaceMembers &&
-            currentMember instanceof MembersProps
-          ) ? (
+          {spaceLoading ? (
             <SpaceLoader />
           ) : (
             <>
@@ -48,7 +46,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
               <HeaderSpaceArea />
               <div className="layoutSpContainer">
                 <Sidebar type={type} />
-                <div className="layoutSpChildren">{children}</div>
+                <div className="layoutSpChildren pb-[100px] lg:pb-0 ">{children}</div>
               </div>
             </>
           )}
