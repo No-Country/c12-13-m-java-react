@@ -46,7 +46,9 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
               <HeaderSpaceArea />
               <div className="layoutSpContainer">
                 <Sidebar type={type} />
-                <div className="layoutSpChildren pb-[100px] lg:pb-0 ">{children}</div>
+                <div className="layoutSpChildren pb-[100px] lg:pb-0 ">
+                  {children}
+                </div>
               </div>
             </>
           )}
