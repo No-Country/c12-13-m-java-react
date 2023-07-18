@@ -1,4 +1,4 @@
-import { Main, HelpHero } from "@/components";
+import { Main, HelpHero, LayoutPublic } from "@/components";
 import Head from "next/head";
 
 type Terms = {
@@ -57,6 +57,7 @@ export default function Terms() {
         <title>Terminos y condiciones | Spaces</title>
       </Head>
       <Main>
+      <LayoutPublic>
         <HelpHero
           title="Terminos de Spaces"
           body="Los siguientes términos y condiciones establecen el acuerdo legal entre BeatConnect y los usuarios del sitio web. Al acceder y utilizar el sitio web, usted acepta estos términos y condiciones en su totalidad. Si no está de acuerdo con estos términos condiciones, por favor no utilice este sitio web."
@@ -69,6 +70,7 @@ export default function Terms() {
                 <TermItems key={term.title} term={term} />
               ))}
         </section>
+        </LayoutPublic>
       </Main>
     </>
   );
