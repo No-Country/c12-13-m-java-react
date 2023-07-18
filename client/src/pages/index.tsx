@@ -105,7 +105,7 @@ export default function Home() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
-          <div className="scrollbar-hide seccion2-x flex w-screen  gap-10 overflow-scroll lg:justify-center lg:overflow-auto">
+          <div className="scrollbar-hide seccion2-x flex w-screen  gap-10 overflow-scroll lg:justify-center lg:overflow-visible">
             {employees.map((item, index) => (
               <Employees data={item} />
             ))}
