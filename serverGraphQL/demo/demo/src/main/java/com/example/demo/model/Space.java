@@ -102,6 +102,15 @@ public class Space {
         return this.updatedAt;
     }
 
+    public Member getMember(String userId) {
+        for (Member member : this.members) {
+            if (member.getUser().getId().equals(userId)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
     // ---------------------------------------------------------------------------------------------
     // Setters
     public void setName(String name) {
@@ -147,6 +156,8 @@ public class Space {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
+
+    
 
     @Override
     public String toString() {

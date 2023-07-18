@@ -1,22 +1,20 @@
 import { Input } from "@/components";
-import { useState } from "react";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { createRoom } from "@/redux/slices/client/spaces/rooms";
-import { useRouter } from "next/router";
 
-export default function RoomCreateForm() {
-  const router = useRouter();
+type RoomCreateFormProps = {
+  setManualClose: (value: boolean) => void;
+  setLoading: (value: boolean) => void;
+};
+
+export default function RoomCreateForm({ setManualClose, setLoading }: RoomCreateFormProps) {
   const dispatch = useAppDispatch();
-  // const [form, setForm] = useState<any>();
-  // const { id } = useAppSelector((state) => state.authSession.session.current);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // setForm({ ...form, userOwner: id });
+    setLoading(true);
     const coverImage = e.target.coverImage.files[0];
     const name = e.target.name.value;
     const description = e.target.description.value;
@@ -29,7 +27,11 @@ export default function RoomCreateForm() {
     };
 
     await dispatch(createRoom(form));
-    // router.push(`/client/${spaceId}`);
+    setManualClose(true);
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
 
   return (

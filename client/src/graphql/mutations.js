@@ -277,6 +277,27 @@ export const SEND_MESSAGE = gql`
   }
 `;
 
+export const CHANGE_USER_ROLE = gql`
+mutation changeUserRole($spaceId: ID!, $userId: ID!, $role: String!) {
+  changeUserRole(spaceId: $spaceId, userId: $userId, role: $role) {
+    id
+    name
+    description
+    accessCode
+    coverImage
+    members {
+      user {
+        id
+        firstName
+        lastName
+        profileImage
+      }
+      role
+    }
+  }
+}
+`;
+
 // mutation {
 //   createUser(
 //     firstName: "John"

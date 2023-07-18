@@ -7,7 +7,7 @@ export { default as Hr } from "./dynamic/common/hr";
 export { default as Querier } from "./containers/querier";
 export { default as Sidebar } from "./static/layout/sidebar";
 export { default as LayoutSpaces } from "./static/layout/layoutSpaces";
-export { default as SpaceInfoCard } from "./static/proyect/spaces/spaceInfoCard";
+
 export { default as FilesList } from "./static/proyect/files/filesList";
 export { default as HeroSpaceArea } from "./static/layout/heroSpaceArea";
 export { default as SpacesList } from "./static/proyect/spaces/spacesList";
@@ -59,3 +59,8 @@ export { default as HorizontalNav } from "./dynamic/common/horizontalNav";
 export { default as ProfileAction } from "./static/layout/profileAction";
 export { default as LayoutPublic } from "./static/layout/layoutPublic";
 export { default as CircularLoader } from "./static/layout/circularLoader";
+export { default as VerticalMenu } from "./static/layout/verticalMenu";
+export { default as BottomBarItem } from "./static/layout/bottomBarItem";
+export { default as HeroAccountArea } from "./static/layout/heroAccountArea";
+export { default as AccountSection } from "./static/layout/accountSection";
+

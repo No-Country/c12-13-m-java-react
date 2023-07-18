@@ -196,4 +196,14 @@ public class User {
                 + ", isSuperAdmin=" + isSuperAdmin + ", spaces=" + spaces + ", createdAt=" + createdAt + ", updatedAt="
                 + updatedAt + "]";
     }
+
+    public String toJson() {
+        return "{" + " \"id\":\"" + id + "\"" + ", \"email\":\"" + email + "\"" + ", \"username\":\"" + username + "\""
+                + ", \"firstName\":\"" + firstName + "\"" + ", \"lastName\":\"" + lastName + "\""
+                + ", \"password\":\"" + password + "\"" + ", \"loginMethod\":\"" + loginMethod + "\""
+                + ", \"profileImage\":\"" + profileImage + "\"" + ", \"coverImage\":\"" + coverImage + "\""
+                + ", \"softDelete\":\"" + softDelete + "\"" + ", \"isSuperAdmin\":\"" + isSuperAdmin + "\""
+                + ", \"createdAt\":\"" + createdAt + "\"" + ", \"updatedAt\":\""
+                + updatedAt + "\"" + "}";
+    }
 }

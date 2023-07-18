@@ -1,4 +1,5 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { GeneralPermission, MembersProps } from "@/utils/types/client";
 
 type EditManagerProps = {
   children?: React.ReactNode;
@@ -9,6 +10,7 @@ type EditManagerProps = {
   route: string;
   editAction: any;
   nowEditing: boolean;
+  deletePermission: GeneralPermission;
 };
 
 export default function EditManager({
@@ -18,10 +20,15 @@ export default function EditManager({
   title,
   deleteAction,
   editAction,
-  route,
+  deletePermission,
   nowEditing,
 }: EditManagerProps) {
   const dispatch = useAppDispatch();
+  const { currentMember:cMember } = useAppSelector(
+    (state) => state?.client?.spaces?.spaces
+  );
+
+  const currentMember = MembersProps.deserialize(cMember);
 
   const handleSave = () => {
     let editedData = {};
@@ -33,11 +40,12 @@ export default function EditManager({
         editedData = { ...editedData, [key]: processedData[key] };
       }
     }
+    console.log("editedData", editedData, processedData, originalData);
     editAction(editedData);
   };
 
   const handleDelete = async () => {
-    dispatch(deleteAction());
+    deleteAction();
   };
 
   return (
@@ -45,15 +53,19 @@ export default function EditManager({
       <h1 className="titulo-3 font-medium">{title}</h1>
       {children}
       <div className="flex gap-2">
-        <button
-          className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
-          onClick={() => handleDelete()}
-        >
-          Borrar
-        </button>
+        {currentMember.hasPermission(deletePermission) && (
+          <button
+            className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+            onClick={() => handleDelete()}
+          >
+            Borrar
+          </button>
+        )}
         <button
           onClick={() => handleSave()}
-          className={` mt-4 w-full ${nowEditing ? "disabledPrimaryButton" : "primaryButton"} `}
+          className={` mt-4 w-full ${
+            nowEditing ? "disabledPrimaryButton" : "primaryButton"
+          } `}
           disabled={nowEditing}
         >
           Guardar

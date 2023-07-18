@@ -4,17 +4,18 @@ import { CREATE_TASK, EDIT_TASK, DELETE_TASK } from "@/graphql/mutations";
 import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
-import { TasksProps } from "@/utils/types/client/spaces";
+import { TasksProps } from "@/utils/types/client";
 
 const initialState = {
   currentRoomTasks: [] as TasksProps[],
-  currentTask: {} as TasksProps,
+  currentTask: new TasksProps("", "", "", "", 0, [], []),
 };
 
 export const createTask = createAsyncThunk(
   "tasks/createTask",
   async (input: any, { dispatch, getState }) => {
     try {
+      console.log("input createTask", input);
       const state = getState() as RootState;
       const { data } = await client.mutate({
         mutation: CREATE_TASK,
@@ -62,6 +63,7 @@ export const editTask = createAsyncThunk(
     try {
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
+      console.log("input editTask", input);
       input.taskId = state.client.spaces.tasks.currentTask.id;
       input.roomId = state.client.spaces.rooms.currentRoom.id;
       const { data } = await client.mutate({
@@ -85,7 +87,47 @@ const postsSlice = createSlice({
     setCurrentTask: (state, action: PayloadAction<TasksProps>) => {
       //recibimos la tarea
       console.log("data current task", action.payload);
-      state.currentTask = action.payload as TasksProps;
+    if (action.payload instanceof TasksProps) {
+      state.currentTask = action.payload;
+    }
+  }
+    ,
+    setCurrentRoomTasks: (state, action: PayloadAction<TasksProps[]>) => {
+      //recibimos la tarea
+      console.log("data current room tasks", action.payload);
+      state.currentRoomTasks = action.payload as TasksProps[];
+    },
+    addTaskSubs: (state, action: PayloadAction<TasksProps>) => {
+      console.log("addTask redux", action.payload);
+      state.currentRoomTasks.push(action.payload);
+    },
+    deleteTaskSubs: (state, action: PayloadAction<TasksProps>) => {
+      console.log("deleteTask redux", action.payload);
+      state.currentRoomTasks = state.currentRoomTasks.filter(
+        (task) => task.id !== action.payload.id
+      );
+    },
+    editTaskSubs: (state, action: PayloadAction<TasksProps>) => {
+      console.log("editTask redux", action.payload);
+      state.currentRoomTasks = state.currentRoomTasks.map((task) => {
+        if (task.id === action.payload.id) {
+          console.log("encontrado");
+          const newTask = new TasksProps(
+            action.payload.id,
+            action.payload.title,
+            action.payload.description,
+            action.payload.deadline,
+            action.payload.status,
+            action.payload.assignedTo,
+            action.payload.comments
+          );
+          console.log("newTask", newTask);
+          return newTask;
+        } else {
+          console.log("no encontrado");
+          return task;
+        }
+      });
     },
     resetReducer: (state) => {
       state.currentRoomTasks = [];
@@ -124,6 +166,6 @@ const postsSlice = createSlice({
   },
 });
 
-export const { resetReducer, setCurrentTask } = postsSlice.actions;
+export const { resetReducer, setCurrentTask, setCurrentRoomTasks, addTaskSubs, editTaskSubs, deleteTaskSubs } = postsSlice.actions;
 
 export default postsSlice.reducer;

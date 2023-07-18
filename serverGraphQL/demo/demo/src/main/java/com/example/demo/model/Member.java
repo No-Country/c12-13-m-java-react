@@ -24,8 +24,20 @@ public class Member {
         return this.user;
     }
 
+    public String getRole() {
+        return this.role;
+    }
+
     // ---------------------------------------------------------------------------------------------
     // Setters
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public String toString() {

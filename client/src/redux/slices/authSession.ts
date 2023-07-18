@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
 import { GET_USER_BY_ID } from "@/graphql/queries";
-import { AuthProps, SessionProps } from "@/utils/types/client/authSession";
-import { User } from "@/utils/types/client/spaces";
+import { AuthClass } from "@/utils/types/client";
+import { UserProps } from "@/utils/types/client";
 import { setSpaces } from "@/redux/slices/client/spaces/spaces";
 const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 import { VERIFY_SESSION } from "@/graphql/queries";
@@ -10,13 +10,15 @@ import { LOG_IN, CREATE_USER } from "@/graphql/mutations";
 import Router from "next/router";
 import { toast } from "sonner";
 import { toastSuccess, toastError, toastWarning } from "@/utils/toastStyles";
+import { RootState } from "../store/store";
+import axios from "axios";
+import { serverUrl } from "@/data/config";
 const initialState = {
-  auth: {} as AuthProps,
+  auth: {} as AuthClass,
   session: {
-    current: {} as User,
-    verification: false,
+    current: {} as UserProps,
+    loading: false,
   },
-  sessionLoading: false,
 };
 
 export const setSession = createAsyncThunk(
@@ -83,12 +85,36 @@ export const register = createAsyncThunk(
   }
 );
 
+export const editUser = createAsyncThunk(
+  "auth/editUser",
+  async (userData: any, { dispatch, getState }) => {
+    try {
+      console.log("userData", userData);
+      const state = getState() as RootState;
+      userData.userId = state.authSession.session.current.id;
+
+      const res = await axios.put(`${serverUrl}rest/users/edit`, userData, {
+        headers: {
+          //multipart/form-data
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("res", res);
+      return res.data;
+    } catch (err: any) {
+      console.log("Error al crear el usuario", err);
+      throw new Error("Error al crear el usuario", err);
+    }
+  }
+);
+
 //Reducers
 const postsSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth: (state, action: PayloadAction<AuthProps>) => {
+    setAuth: (state, action: PayloadAction<AuthClass>) => {
       state.auth = action.payload;
       console.log("setAuth ok", action.payload);
     },
@@ -100,17 +126,16 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(setSession.pending, (state, action) => {
-        if(action.meta.arg === state.session.current.id) {
-          state.sessionLoading = false;
-        }
-        else {
-          state.sessionLoading = true;
+        if (action.meta.arg === state.session.current.id) {
+          state.session.loading = false;
+        } else {
+          state.session.loading = true;
         }
       })
       .addCase(setSession.fulfilled, (state, action) => {
-        state.session.current = action?.payload as User;
+        state.session.current = action?.payload as UserProps;
         console.log("Fulfilled setSession", action.payload);
-        state.sessionLoading = false;
+        state.session.loading = false;
       })
       .addCase(setSession.rejected, (state, action) => {
         console.error("Rejected setSession", action.payload);
@@ -139,6 +164,31 @@ const postsSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         console.error("Rejected register", action);
+        toast.error("Verifica los datos", toastError);
+      })
+      .addCase(editUser.pending, (state, action) => {
+        console.log("Pending editUser");
+        toast("Editando usuario") 
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        console.log("Fulfilled editUser", action.payload);
+        state.session.current = new UserProps(
+          action.payload.id,
+          action.payload.firstName,
+          action.payload.lastName,
+          action.payload.username,
+          action.payload.profileImage,
+          action.payload.email,
+          action.payload.isSuperAdmin,
+          action.payload.softDelete,
+          action.payload.coverImage,
+          state.session.current.spaces
+        );
+
+        toast.success("Edición exitosa", toastSuccess);
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        console.error("Rejected editUser", action);
         toast.error("Verifica los datos", toastError);
       });
   },

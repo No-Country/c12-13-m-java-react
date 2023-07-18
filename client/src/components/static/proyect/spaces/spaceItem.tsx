@@ -1,5 +1,5 @@
 import { Image, MembersList } from "@/components";
-import { SpaceProps } from "@/utils/types/client/spaces";
+import { SpaceProps } from "@/utils/types/client";
 
 type SpaceItemProps = {
   item: SpaceProps;
@@ -7,21 +7,20 @@ type SpaceItemProps = {
   handleClickConfig: (spaceId: string, config: boolean) => void;
 };
 
-export default function SpaceItem({
-  item,
-  handleClick,
-  handleClickConfig,
-}: SpaceItemProps) {
+export default function SpaceItem({ item, handleClick }: SpaceItemProps) {
+
+  item = SpaceProps.deserialize(item);
+
   return (
     <div
       key={item?.id}
-      className="flex  cursor-pointer flex-col h-max overflow-hidden rounded-2xl shadow-sm border-none bg-white border-[0.5px] lg:border-slate-200"
+      className="flex  h-max cursor-pointer flex-col overflow-hidden rounded-2xl border-[0.5px] border-none bg-white shadow-sm lg:border-slate-200"
       onClick={() => {
         handleClick(item?.id);
       }}
     >
       <Image
-        src={item?.coverImage}
+        src={item?.getCoverImage()}
         alt="SpaceCover"
         layout="fill"
         width="w-[100%]"
@@ -30,23 +29,15 @@ export default function SpaceItem({
       />
       <div className="flex flex-col items-start justify-start gap-3 p-5 ">
         <div>
-          <p className="subtitulo">{item?.name}</p>
-          <p className="smalltext">{item?.description}</p>
+          <p className="subtitulo">{item?.getName()}</p>
+          <p className="smalltext">{item?.getDescription()}</p>
         </div>
-        <MembersList members={item?.members} size="small" pictureHasMargin={true} />
+        <MembersList
+          members={item?.getMembers()}
+          size="small"
+          pictureHasMargin={true}
+        />
       </div>
     </div>
   );
-}
-
-{
-  /* <button
-className="rounded-3xl bg-blue-500 px-4 py-2 text-white"
-onClick={(e) => {
-  e.stopPropagation();
-  handleClickConfig(item.id, true);
-}}
->
-Configurar
-</button> */
 }

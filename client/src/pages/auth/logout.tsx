@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/router";
 import { resetReducer } from "@/redux/slices/authSession";
+import { AuthClass } from "@/utils/types/client";
 
 
 export default function Logout() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { auth } = useAppSelector((state) => state.authSession);
+  const { auth:sAuth } = useAppSelector((state) => state.authSession);
+const auth = AuthClass.deserialize(sAuth);
+  const loginMethod = auth?.getLoginMethod();
 
-  const loginMethod = auth?.loginMethod;
 
   const logOutJson = async () => {
     dispatch(resetReducer());
@@ -19,14 +21,7 @@ export default function Logout() {
   useEffect(() => {
     const logOut = async () => {
       await logOutJson();
-
-      if (loginMethod === "google") {
-      //  router.push(`${serverUrl}google/logout`);
       router.push("/");
-      } else {
-        window.location.reload();
-        router.push("/");
-      }
     };
 
     if (loginMethod !== "") {

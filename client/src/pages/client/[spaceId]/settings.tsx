@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { deleteSpace, editSpace } from "@/redux/slices/client/spaces/spaces";
-import router from "next/router";
 import Head from "next/head";
+import { GeneralPermission } from "@/utils/types/client";
+import { SpaceProps } from "@/utils/types/client";
 import {
   LayoutSpaces,
   MembersSpaceList,
   HeroSpaceArea,
-  ListTopArea,
-  Hr,
   EditManager,
   SpaceEditForm,
 } from "@/components";
@@ -16,29 +15,38 @@ import {
 export default function SpaceSettings() {
   const dispatch = useAppDispatch();
 
-  const { currentSpace } = useAppSelector(
+  const { currentSpace: cSpace } = useAppSelector(
     (state) => state.client.spaces.spaces
   );
-  const { id } = useAppSelector((state) => state.authSession.session.current);
+
+  const currentSpace = SpaceProps.deserialize(cSpace);
 
   const [processedData, setProcessedData] = useState<any>(currentSpace);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
-
-  useEffect(() => {
-    const isAdmin = Boolean(
-      currentSpace.members.find(
-        (member: any) => member.user.id === id && member.role === "admin"
-      )
-    );
-    if (!isAdmin) {
-      router.push(`/client/${currentSpace.id}`);
-    }
-  }, [currentSpace]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [manualClose, setManualClose] = useState<boolean>(false);
 
   const handleSave = async (editedData: any) => {
-    console.log("editedData", editedData);
+    setLoading(true);
     await dispatch(editSpace(editedData));
+    setManualClose(true);
+
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
+
+const handleDelete = async () => {
+    setLoading(true);
+    await dispatch(deleteSpace());
+    setManualClose(true);
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
+  };
+
 
   return (
     <>
@@ -51,15 +59,18 @@ export default function SpaceSettings() {
           current={currentSpace}
           type="space"
           triggerText="Editar espacio"
+          primaryLoading={loading}
+          primaryManualClose={manualClose}
         >
           <>
             <EditManager
               processedData={processedData}
               originalData={currentSpace}
               title="Editar espacio"
-              deleteAction={deleteSpace}
+              deleteAction={handleDelete}
               route={`/client`}
               nowEditing={nowEditing}
+              deletePermission={GeneralPermission.DeleteSpace}
               editAction={(editedData: any) => handleSave(editedData)}
             >
               <SpaceEditForm
@@ -71,8 +82,7 @@ export default function SpaceSettings() {
             </EditManager>
           </>
         </HeroSpaceArea>
-
-        <MembersSpaceList members={currentSpace.members} adminZone={true} />
+        <MembersSpaceList adminZone={true} />
       </LayoutSpaces>
     </>
   );

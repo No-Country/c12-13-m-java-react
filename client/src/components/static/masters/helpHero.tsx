@@ -1,4 +1,3 @@
-import { Main, Image } from "@/components";
 import ImageNext from "next/image";
 
 type HelpHeroProps = {
@@ -16,7 +15,7 @@ export default function HelpHero({
 }: HelpHeroProps) {
   return (
     <section
-      className={`relative flex ${height} w-full flex-col items-start  justify-center px-[136px]`}
+      className={`relative flex ${height} w-full flex-col items-start  justify-center seccion2-x `}
     >
       <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full">
         <ImageNext
@@ -26,8 +25,10 @@ export default function HelpHero({
           objectFit="cover"
         />
       </div>
+      <div className="w-[100%] z-[1] md:w-[60%]">
       <h1 className="titulo-1 z-[1] text-white ">{title}</h1>
       <p className="bodyText z-[1] text-white">{body}</p>
+      </div> 
     </section>
   );
 }

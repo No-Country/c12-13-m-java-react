@@ -1,14 +1,11 @@
 import { useAppSelector } from "@/redux/hooks";
-import {
-  Image,
-  Popover,
-  VerticalNav,
-  HorizontalNav,
-  ProfileAction,
-} from "@/components";
+import { HorizontalNav, ProfileAction } from "@/components";
 import { useRouter } from "next/router";
+import { AuthClass } from "@/utils/types/client";
 import Link from "next/link";
 import { ReactSVG } from "react-svg";
+import { useEffect, useState } from "react";
+import { head } from "lodash";
 
 export default function Header() {
   const router = useRouter();
@@ -20,11 +17,32 @@ export default function Header() {
 
   const inAuthArea = router.pathname.startsWith("/auth");
 
+  const [headerType, setHeaderType] = useState<"default" | "alternative">( "default");
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setHeaderType("alternative");
+      } else {
+        setHeaderType("default");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   const childrenTriggerPublic = (
-    <Link href="/help" className="text-white">
+    <Link href="/help" className={headerType === "alternative" ? "text-black" : "text-white"}>
       Ayuda
     </Link>
   );
+
+
+
 
   const itemsPublicNav = [
     {
@@ -49,10 +67,6 @@ export default function Header() {
           name: "Términos",
           href: "/help/terms",
         },
-        {
-          name: "Privacidad",
-          href: "/help/privacy",
-        },
       ],
     },
   ];
@@ -67,17 +81,22 @@ export default function Header() {
     );
   else
     return (
-      <header className="header h-[97px] ">
+      <header className="header h-[97px] "       style={
+        headerType === "alternative"
+          ? { background: "#FFFFFF", backdropFilter: "blur(5px)", top: 0 }
+          : {}
+      }
+      >
         <div className="headerInner ">
-          <Logo type="normal" />
+          <Logo type="normal" headerType={headerType} />
           <div className="absolute left-[50%]  hidden  w-max  translate-x-[-50%] lg:flex">
             {inPublicArea ? (
-              <HorizontalNav items={itemsPublicNav} />
+              <HorizontalNav items={itemsPublicNav} textColor={headerType === "alternative" ? "text-black" : "text-white"}/>
             ) : (
-              <HorizontalNav items={itemsPublicNav} />
+              <HorizontalNav items={itemsPublicNav} textColor={headerType === "alternative" ? "text-black" : "text-white"}/>
             )}
           </div>
-          <ProfileAction />
+          <ProfileAction textColor={headerType === "alternative" ? "text-black" : "text-white"}/>
         </div>
       </header>
     );
@@ -85,17 +104,21 @@ export default function Header() {
 
 type LogoProps = {
   type?: "white" | "normal";
+  headerType?: "default" | "alternative";
 };
 
-function Logo({ type }: LogoProps) {
+function Logo({ type, headerType }: LogoProps) {
   const router = useRouter();
-  const { auth } = useAppSelector((state) => state.authSession);
+  const { auth:sAuth } = useAppSelector((state) => state?.authSession);
+  const auth = AuthClass.deserialize(sAuth);
 
   return (
     <ReactSVG
-      onClick={() => router.push(auth.isLogged ? "/client" : "/")}
+      onClick={() => router.push(auth.getIsLogged() ? "/client" : "/")}
       src={type === "white" ? "/icon/logo-white.svg" : "/icon/logo.svg"}
-      className="aspect-[98/30] h-[30px] w-[98px] cursor-pointer fill-current text-white lg:text-white"
+      className={`aspect-[98/30] h-[30px] w-[98px] cursor-pointer fill-current 
+      ${headerType === "alternative" ? "text-black" : "text-white"}
+      `}
     />
   );
 }

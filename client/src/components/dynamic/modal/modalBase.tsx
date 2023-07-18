@@ -1,9 +1,6 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
 import Image from "next/image";
-import { createPortal } from "react-dom";
-import { alpha, styled } from "@mui/material/styles";
+
 type Props = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
@@ -24,29 +21,26 @@ export default function ModalBase({
     close();
   };
 
-
   return (
     <>
-      
-        <>
-          {isOpen && (
-            <div className="base fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-[#00000096]">
-        
-              <div className="relative h-max max-h-[85vh] w-max max-w-[80vw] rounded-[20px] bg-white p-[40px]">
-                <Image
-                  src="/icon/cross.svg"
-                  alt="close"
-                  width={16}
-                  height={16}
-                  onClick={handleClose}
-                  className="absolute right-4 top-4 cursor-pointer"
-                />
-                {children}
-              </div>
-
+      <>
+        {isOpen && (
+          <div className="base fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-[#00000096]">
+            <div className="relative  h-max max-h-[85vh] w-max max-w-[80vw] rounded-[20px] bg-white p-[40px]">
+              <Image
+                src="/icon/cross.svg"
+                alt="close"
+                width={16}
+                height={16}
+                onClick={handleClose}
+                className="absolute right-4 top-4 cursor-pointer"
+              />
+              <div className="flex rounded-[20px] justify-center overflow-visible">{children}</div>
+             
             </div>
-          )}
-        </>
+          </div>
+        )}
+      </>
     </>
   );
 }

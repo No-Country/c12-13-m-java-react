@@ -1,17 +1,5 @@
-import { FilesProps } from "@/utils/types/client/spaces";
-import { useAppSelector } from "@/redux/hooks";
-import {
-  Main,
-  Image,
-  LayoutSpaces,
-  ConfirmationModal,
-  ModalTrigger,
-  MembersSpaceList,
-  SpaceInfoCard,
-  HeroSpaceArea,
-  Hr,
-  ListTopArea,
-} from "@/components";
+import { FilesProps } from "@/utils/types/client";
+import { Image, ListTopArea } from "@/components";
 
 type FilesListProps = {
   files: FilesProps[];

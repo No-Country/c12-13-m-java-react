@@ -7,13 +7,12 @@ import {
   TaskCreateForm,
   CircularLoader,
 } from "@/components";
+import { deleteRoom, editRoom } from "@/redux/slices/client/spaces/rooms";
 import {
-  deleteRoom,
-  editRoom,
-  addTask,
-  deleteTask,
-  editTask,
-} from "@/redux/slices/client/spaces/rooms";
+  addTaskSubs,
+  deleteTaskSubs,
+  editTaskSubs,
+} from "@/redux/slices/client/spaces/tasks";
 import {
   NOTIFY_TASK_CHANGED,
   NOTIFY_TASK_CREATED,
@@ -23,16 +22,19 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Head from "next/head";
 import { useSubscription } from "@apollo/client";
+import { GeneralPermission } from "@/utils/types/client";
+import { RoomsProps } from "@/utils/types/client";
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
-  const { currentRoom, roomLoading } = useAppSelector(
+  const { currentRoom: cRoom, roomLoading } = useAppSelector(
     (state) => state?.client?.spaces?.rooms
   );
 
+  const currentRoom = RoomsProps.deserialize(cRoom);
+
   const [processedData, setProcessedData] = useState<any>(currentRoom);
   const [nowEditing, setNowEditing] = useState<boolean>(false);
-  const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
 
   const { data: datachange } = useSubscription(NOTIFY_TASK_CHANGED, {
     variables: { roomId: currentRoom?.id },
@@ -48,26 +50,45 @@ export default function CurrentRoom() {
 
   useEffect(() => {
     if (datachange?.notifyTaskChanged) {
-      dispatch(editTask(datachange?.notifyTaskChanged));
+      dispatch(editTaskSubs(datachange?.notifyTaskChanged));
     }
   }, [datachange]);
 
   useEffect(() => {
+    console.log("createTask index", datacreate);
     if (datacreate?.notifyTaskCreated) {
-      dispatch(addTask(datacreate?.notifyTaskCreated));
+      dispatch(addTaskSubs(datacreate?.notifyTaskCreated));
     }
   }, [datacreate]);
 
   useEffect(() => {
     console.log("deleteTask index", datadelete);
     if (datadelete?.notifyTaskDeleted) {
-      dispatch(deleteTask(datadelete?.notifyTaskDeleted));
+      dispatch(deleteTaskSubs(datadelete?.notifyTaskDeleted));
     }
   }, [datadelete]);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [manualClose, setManualClose] = useState<boolean>(false);
   const handleSave = async (editedData: any) => {
     console.log(editedData);
+    setLoading(true);
     await dispatch(editRoom(editedData));
+    setManualClose(true);
+
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    await dispatch(deleteRoom());
+    setManualClose(true);
+    setLoading(false);
+    setTimeout(() => {
+      setManualClose(false);
+    }, 200);
   };
 
   return (
@@ -84,6 +105,10 @@ export default function CurrentRoom() {
             <HeroSpaceArea
               current={currentRoom}
               type="room"
+              secondaryLoading={loading}
+              primaryLoading={loading}
+              primaryManualClose={manualClose}
+              secondaryManualClose={manualClose}
               triggerText="Crear una tarea"
               secondControls={true}
               secondTriggerIsAdmin={true}
@@ -94,7 +119,8 @@ export default function CurrentRoom() {
                   processedData={processedData}
                   originalData={currentRoom}
                   title="Editar room"
-                  deleteAction={deleteRoom}
+                  deleteAction={() => handleDelete()}
+                  deletePermission={GeneralPermission.DeleteRoom}
                   nowEditing={nowEditing}
                   route={`/client`}
                   editAction={(editedData: any) => handleSave(editedData)}
@@ -108,7 +134,10 @@ export default function CurrentRoom() {
                 </EditManager>
               }
             >
-              <TaskCreateForm />
+              <TaskCreateForm
+                setLoading={setLoading}
+                setManualClose={setManualClose}
+              />
             </HeroSpaceArea>
             <TasksList />
           </>

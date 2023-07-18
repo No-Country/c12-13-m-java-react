@@ -1,16 +1,10 @@
-import {
-  Main,
-  SpacesList,
-  SpaceCreateForm,
-  Image,
-  Hr,
-  Header,
-  ListTopArea,
-  Loader,
-} from "@/components";
+import { Main, SpacesList, Header, Footer } from "@/components";
+
+import { SpaceProps } from "@/utils/types/client";
 import Head from "next/head";
 import NextImage from "next/image";
 export default function HomeClient() {
+
   return (
     <>
       <Head>
@@ -21,6 +15,7 @@ export default function HomeClient() {
         <Header />
         <Hero />
         <SpacesList />
+        <Footer />
       </Main>
     </>
   );
@@ -35,18 +30,8 @@ function Hero() {
         layout="fill"
         className="left-0 right-0 top-0  h-full w-full object-cover object-center"
       />
-
       <div className="seccion1-x  relative flex w-full flex-grow items-center justify-between gap-10  pb-[30px] ">
         <div className="  flex h-full flex-col items-center justify-start gap-6  lg:flex-row">
-          {/* <Image
-            src="/icon/illustrationHome.svg"
-            alt="IllustrationHome"
-            width="w-[99px]"
-            height="h-[120px]"
-            layout="fill"
-            aspectRatio="aspect-[99/120] "
-            containerClassName="hidden lg:flex"
-          /> */}
           <div className=" flex h-full flex-col ">
             <div>
               <h1 className="titulo-1 text-white">
@@ -65,13 +50,5 @@ function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Spaces() {
-  return (
-    <div className="mt-[-60px]  w-full ">
-      <SpacesList />
-    </div>
   );
 }

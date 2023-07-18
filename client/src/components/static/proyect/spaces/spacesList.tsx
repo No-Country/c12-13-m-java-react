@@ -1,11 +1,15 @@
 import { useRouter } from "next/router";
-import { SpaceProps } from "@/utils/types/client/spaces";
+import { SpaceProps } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
 import { SpaceItem, ListTopArea, SpaceCreateForm } from "@/components";
+import { useState } from "react";
 
 export default function SpacesList() {
   const router = useRouter();
-  const { spaces } = useAppSelector((state) => state.client.spaces.spaces);
+  const { spaces } = useAppSelector((state) => state?.client?.spaces?.spaces);
+
+  const [loading, setLoading] = useState(false);
+  const [manualClose, setManualClose] = useState(false);
 
   const handleClick = (spaceId: string, settings = false) => {
     const path = `/client/${spaceId}${settings ? "/settings" : ""}`;
@@ -18,11 +22,19 @@ export default function SpacesList() {
         title="Mis espacios"
         description="Organiza tus proyectos"
         buttonText="Crear nuevo espacio"
+        triggerLoading={loading}
+        triggerManualClose={manualClose}
         triggerIsAdmin={false}
-        triggerContent={<SpaceCreateForm />}
+        triggerContent={
+          <SpaceCreateForm
+            setManualClose={setManualClose}
+            setLoading={setLoading}
+          />
+        }
       />
       <div className="gridContainer xl:grid-cols-4">
         {Array.isArray(spaces) &&
+          spaces[0] &&
           spaces.map((item: SpaceProps) => (
             <SpaceItem
               item={item}

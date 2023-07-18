@@ -54,33 +54,34 @@ export default function ConfirmationModal({
         {triggerText}
       </button>
       {createPortal(
-      <ModalBase
-        isOpen={isOpen}
-        close={() => setIsOpen(false)}
-        position="center-center"
-        setIsOpen={setIsOpen}
-      >
-        <div className="flex flex-col gap-5">
-          <h3 className="text-2xl font-medium">{confirmText}</h3>
-          <p className="text-gray-800">{confirmParagraph}</p>
+        <ModalBase
+          isOpen={isOpen}
+          close={() => setIsOpen(false)}
+          position="center-center"
+          setIsOpen={setIsOpen}
+        >
+          <div className="flex flex-col gap-5">
+            <h3 className="text-2xl font-medium">{confirmText}</h3>
+            <p className="text-gray-800">{confirmParagraph}</p>
 
-          <div className="flex gap-5">
-            <button
-              className="rounded-md bg-blue-500 px-4 py-2 text-white"
-              onClick={handleTrueAction}
-            >
-              Confirmar
-            </button>
-            <button
-              className="rounded-md bg-red-700 px-4 py-2 text-white"
-              onClick={() => setIsOpen(false)}
-            >
-              Cancelar
-            </button>
+            <div className="flex gap-5">
+              <button
+                className="rounded-md bg-blue-500 px-4 py-2 text-white"
+                onClick={handleTrueAction}
+              >
+                Confirmar
+              </button>
+              <button
+                className="rounded-md bg-red-700 px-4 py-2 text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
-        </div>
-      </ModalBase>
-      , document.body)}
+        </ModalBase>,
+        document.body
+      )}
     </div>
   );
 }
