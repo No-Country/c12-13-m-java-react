@@ -47,9 +47,9 @@ if(Object.keys(form).length === 0) return;
         <AccountSection title="Mi cuenta" description="Edita tu perfil">
           <form
             onSubmit={handleSubmit}
-            className=" grid  w-full grid-cols-2 gap-6"
+            className="flex flex-col lg:grid  w-full grid-cols-2 gap-6"
           >
-            <div id="col1" className="flex w-full flex-col gap-4">
+            <div id="col1" className="lg:flex w-full flex-col gap-4 hidden ">
               <Input
                 type="text"
                 name="firstName"
@@ -75,7 +75,7 @@ if(Object.keys(form).length === 0) return;
                 className="w-full"
               />
             </div>
-            <div id="col2" className="flex w-full flex-col gap-4">
+            <div id="col2" className="lg:flex w-full flex-col gap-4 hidden">
               <Input
                 type="text"
                 name="lastName"
@@ -93,6 +93,54 @@ if(Object.keys(form).length === 0) return;
                 defaultValue={current?.getUsername()}
               />
               <Input
+                type="file"
+                name="coverImage"
+                label="Foto de portada"
+                placeholder="Foto de portada"
+                className="w-full"
+              />
+            </div>
+            <div id="col3" className="flex w-full flex-col gap-4 lg:hidden ">
+              <Input
+                type="text"
+                name="firstName"
+                label="Nombre"
+                placeholder="Nombre"
+                className="w-full"
+                defaultValue={current?.getFirstName()}
+              />
+                            <Input
+                type="text"
+                name="lastName"
+                label="Apellido"
+                placeholder="Apellido"
+                className="w-full"
+                defaultValue={current?.getLastName()}
+              />
+              <Input
+                type="text"
+                name="email"
+                label="Email"
+                placeholder="Email"
+                className="w-full"
+                defaultValue={current?.getEmail()}
+              />
+                            <Input
+                type="text"
+                name="username"
+                label="Nombre de usuario"
+                placeholder="Nombre de usuario"
+                className="w-full"
+                defaultValue={current?.getUsername()}
+              />
+              <Input
+                type="file"
+                name="profileImage"
+                label="Foto de perfil"
+                placeholder="Foto de perfil"
+                className="w-full"
+              />
+                          <Input
                 type="file"
                 name="coverImage"
                 label="Foto de portada"

@@ -98,6 +98,7 @@ public class UserRestManager {
 
             user.setUpdatedAt(new Date().toString());
 
+            userRepository.save(user);
             return ResponseEntity.ok(user.toJson());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

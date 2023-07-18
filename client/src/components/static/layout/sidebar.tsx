@@ -143,7 +143,10 @@ export default function Sidebar({ type }: SidebarProps) {
       </aside>
       <div className="sidebarMobile seccion1-x fixed bottom-[0px] left-0 right-0 z-[10]  bg-white shadow-lg lg:hidden">
         <div className="flex items-center justify-between gap-2 py-3">
-          {spaceNavData.slice(2, 6).map((item: any, index: any) => (
+          {type === "client" && spaceNavData.slice(2, 6).map((item: any, index: any) => (
+            <BottomBarItem data={item} hasLogo={true} isRooms={false} />
+          ))}
+                    {type === "account" && accountNavData.slice(0, 3).map((item: any, index: any) => (
             <BottomBarItem data={item} hasLogo={true} isRooms={false} />
           ))}
         </div>
