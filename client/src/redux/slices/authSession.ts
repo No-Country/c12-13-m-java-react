@@ -133,7 +133,18 @@ const postsSlice = createSlice({
         }
       })
       .addCase(setSession.fulfilled, (state, action) => {
-        state.session.current = action?.payload as UserProps;
+        state.session.current = new UserProps(
+          action.payload.id,
+          action.payload.firstName,
+          action.payload.lastName,
+          action.payload.username,
+          action.payload.profileImage,
+          action.payload.email,
+          action.payload.isSuperAdmin,
+          action.payload.softDelete,
+          action.payload.coverImage,
+          action.payload.spaces
+        );
         console.log("Fulfilled setSession", action.payload);
         state.session.loading = false;
       })

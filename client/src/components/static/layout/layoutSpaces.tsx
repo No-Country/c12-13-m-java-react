@@ -38,7 +38,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
     return (
       <>
         <Main>
-          {spaceLoading ? (
+          {spaceLoading && type === "client" ? (
             <SpaceLoader />
           ) : (
             <>
