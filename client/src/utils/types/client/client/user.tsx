@@ -87,6 +87,14 @@ export class User {
     return this.spaces;
   }
 
+  getFirstName(): string {
+    return this.firstName;
+  }
+
+  getLastName(): string {
+    return this.lastName;
+  }
+
   static deserialize(input: any): User {
     return new User(
       input.id,

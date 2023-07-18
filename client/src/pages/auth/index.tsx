@@ -43,18 +43,18 @@ export default function Home() {
             onChange={handlePassword}
             error={error.password}
           />
-          <p className=" w-full text-center font-light">
+          {/* <p className=" w-full text-center font-light">
             ¿No recuerdas tu contraseña?{" "}
             <Link href="/auth/recover" className="font-medium text-blue-700">
               Recuperar
             </Link>
-          </p>
+          </p> */}
           <button type="submit" className="primaryButton">
             Ingresar
           </button>
         </form>
-        <hr className="my-6 w-full" />
-        <GoogleButton />
+        {/* <hr className="my-6 w-full" /> */}
+        {/* <GoogleButton /> */}
         <p className="mt-6 w-full text-center font-light">
           ¿No tienes una cuenta?{" "}
           <Link href="/auth/register" className="font-medium text-blue-700">

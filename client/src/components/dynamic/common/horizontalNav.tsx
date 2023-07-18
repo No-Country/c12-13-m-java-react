@@ -3,9 +3,10 @@ import Link from "next/link";
 
 type VerticalNavProps = {
   items: any[];
+  textColor?: string;
 };
 
-export default function HorizontalNav({ items }: VerticalNavProps) {
+export default function HorizontalNav({ items, textColor="text-white" }: VerticalNavProps) {
   return (
     <nav className="flex gap-8">
       {items.map((item, index) => (
@@ -15,7 +16,7 @@ export default function HorizontalNav({ items }: VerticalNavProps) {
               <VerticalNav items={item.itemsNav} />
             </Popover>
           ) : (
-            <Link href={item.href} className="text-white">
+            <Link href={item.href} className={`${textColor}`}>
               {item.name}
             </Link>
           )}

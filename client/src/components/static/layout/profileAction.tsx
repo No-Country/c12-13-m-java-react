@@ -3,7 +3,11 @@ import { Image, Popover, VerticalNav } from "@/components";
 import Link from "next/link";
 import { AuthClass, UserProps } from "@/utils/types/client";
 
-export default function ProfileAction() {
+type ProfileActionProps = {
+  textColor?: string;
+};
+
+export default function ProfileAction({ textColor = "text-white" }: ProfileActionProps) {
   const { session:{current:Ssession}, auth:sAuth } = useAppSelector((state) => state.authSession);
   const session = UserProps.deserialize(Ssession);
   const auth = AuthClass.deserialize(sAuth);
@@ -38,7 +42,7 @@ export default function ProfileAction() {
         aspectRatio="aspect-[1/1]"
         rounded="rounded-[20px]"
       />
-      <p className="bodyText hidden font-medium text-white lg:flex">
+      <p className={`bodyText hidden font-medium ${textColor} lg:flex`}>
         {session?.getFullName()}
       </p>
     </>

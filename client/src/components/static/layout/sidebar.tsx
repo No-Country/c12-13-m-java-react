@@ -86,19 +86,19 @@ export default function Sidebar({ type }: SidebarProps) {
       visible: true,
       icon: "/icon/sidebar/personal.svg",
     },
-    // {
-    //   name: "Seguridad",
-    //   path: "/client/account/security",
-    //   linkPath: "/client/account/security",
-    //   visible: true,
-    //   icon: "/icon/sidebar/seguridad.svg",
-    // },
+    {
+      name: "Seguridad",
+      path: "/client/account/security",
+      linkPath: "/client/account/security",
+      visible: true,
+      icon: "/icon/sidebar/seguridad.svg",
+    },
   ];
 
   return (
     <>
       <aside className="sidebar hidden bg-white lg:flex">
-        <div className="sidebarInner">
+        <div className="sidebarInner z-[50] ">
           <Logo type="normal" />
 
           <div className="mt-8 flex flex-col items-start justify-start gap-8">

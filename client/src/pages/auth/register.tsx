@@ -118,8 +118,8 @@ export default function Home() {
             </div>
           )}
         </form>
-        <hr className="my-6 w-full" />
-        <GoogleButton />
+        {/* <hr className="my-6 w-full" /> */}
+        {/* <GoogleButton /> */}
         <p className="mt-6 w-full text-center font-light">
           ¿Ya tienes una cuenta?{" "}
           <Link href="/auth" className="font-medium text-blue-700">

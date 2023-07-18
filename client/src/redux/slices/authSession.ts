@@ -10,13 +10,15 @@ import { LOG_IN, CREATE_USER } from "@/graphql/mutations";
 import Router from "next/router";
 import { toast } from "sonner";
 import { toastSuccess, toastError, toastWarning } from "@/utils/toastStyles";
+import { RootState } from "../store/store";
+import axios from "axios";
+import { serverUrl } from "@/data/config";
 const initialState = {
   auth: {} as AuthClass,
   session: {
     current: {} as UserProps,
     loading: false,
   },
- 
 };
 
 export const setSession = createAsyncThunk(
@@ -83,6 +85,30 @@ export const register = createAsyncThunk(
   }
 );
 
+export const editUser = createAsyncThunk(
+  "auth/editUser",
+  async (userData: any, { dispatch, getState }) => {
+    try {
+      console.log("userData", userData);
+      const state = getState() as RootState;
+      userData.userId = state.authSession.session.current.id;
+
+      const res = await axios.put(`${serverUrl}rest/users/edit`, userData, {
+        headers: {
+          //multipart/form-data
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("res", res);
+      return res.data;
+    } catch (err: any) {
+      console.log("Error al crear el usuario", err);
+      throw new Error("Error al crear el usuario", err);
+    }
+  }
+);
+
 //Reducers
 const postsSlice = createSlice({
   name: "auth",
@@ -100,17 +126,16 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(setSession.pending, (state, action) => {
-        if(action.meta.arg === state.session.current.id) {
+        if (action.meta.arg === state.session.current.id) {
           state.session.loading = false;
-        }
-        else {
-          state.session.loading  = true;
+        } else {
+          state.session.loading = true;
         }
       })
       .addCase(setSession.fulfilled, (state, action) => {
         state.session.current = action?.payload as UserProps;
         console.log("Fulfilled setSession", action.payload);
-        state.session.loading  = false;
+        state.session.loading = false;
       })
       .addCase(setSession.rejected, (state, action) => {
         console.error("Rejected setSession", action.payload);
@@ -139,6 +164,31 @@ const postsSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         console.error("Rejected register", action);
+        toast.error("Verifica los datos", toastError);
+      })
+      .addCase(editUser.pending, (state, action) => {
+        console.log("Pending editUser");
+        toast("Editando usuario") 
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        console.log("Fulfilled editUser", action.payload);
+        state.session.current = new UserProps(
+          action.payload.id,
+          action.payload.firstName,
+          action.payload.lastName,
+          action.payload.username,
+          action.payload.profileImage,
+          action.payload.email,
+          action.payload.isSuperAdmin,
+          action.payload.softDelete,
+          action.payload.coverImage,
+          state.session.current.spaces
+        );
+
+        toast.success("Edición exitosa", toastSuccess);
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        console.error("Rejected editUser", action);
         toast.error("Verifica los datos", toastError);
       });
   },
