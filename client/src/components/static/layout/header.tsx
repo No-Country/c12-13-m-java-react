@@ -43,10 +43,6 @@ export default function Header() {
           name: "Términos",
           href: "/help/terms",
         },
-        {
-          name: "Privacidad",
-          href: "/help/privacy",
-        },
       ],
     },
   ];
