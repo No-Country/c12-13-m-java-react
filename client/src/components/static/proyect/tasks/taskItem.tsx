@@ -5,15 +5,18 @@ import {
   deleteTask,
   setCurrentTask,
 } from "@/redux/slices/client/spaces/tasks";
+import { MembersList, ModalTrigger, TaskForm } from "@/components";
 import {
-  MembersList,
-  ModalTrigger,
-  EditManager,
-  TaskEditForm,
-} from "@/components";
-import { TasksProps, GeneralPermission, MembersProps } from "@/utils/types/client";
-import { useState } from "react";
+  TasksProps,
+  GeneralPermission,
+  MembersProps,
+} from "@/utils/types/client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import useValidate from "@/hooks/useValidate";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
 
 type TaskItemProps = {
   item: TasksProps;
@@ -21,28 +24,88 @@ type TaskItemProps = {
 
 export default function TaskItem({ item }: TaskItemProps) {
   const dispatch = useAppDispatch();
-  const { currentTask: cTask } = useAppSelector(
-    (state) => state?.client?.spaces?.tasks
-  );
-
-  const currentTask = TasksProps.deserialize(cTask);
-  item = TasksProps.deserialize(item);
-
-  const originalData = currentTask instanceof TasksProps ? {
-    ...currentTask,
-    assignedToIds: !currentTask?.getAssignedTo().map((item) => {
-      const member = MembersProps.deserialize(item);
-      return {
-        value: member?.getId(),
-        label: member?.getFullName(),
-      };
-    }),
-    } : new TasksProps("", "", "", "", 1, [], []);
-  
-  const [processedData, setProcessedData] = useState<any>(currentTask);
+  const validate = useValidate();
   const [editing, setEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [nowEditing, setNowEditing] = useState<boolean>(false);
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
+  const [selected, setSelected] = useState<any>(
+    item.assignedTo.map((item) => {
+      const member = MembersProps.deserialize(item);
+      return {
+        value: member.getId(),
+        label: member.getFullName(),
+      };
+    })
+  );
+
+  item = TasksProps.deserialize(item);
+
+  const handleEditing = () => {
+    dispatch(setCurrentTask(item));
+    setEditing(true);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
+  };
+
+  const handleSelectChange = (e: any) => {
+    console.log("e", e.target.value);
+    setFormValues({
+      ...formValues,
+      status: parseInt(e.target.value),
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
+    try {
+      setLoading(true);
+      await submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: editTask,
+        setFormValues,
+      });
+
+      console.log("formValues", formValues);
+      setLoading(false);
+
+      setEditing(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
+  };
+
+  useEffect(() => {
+    setFormValues({
+      ...formValues,
+      assignedToIds: selected.map((item: any) => item.value),
+    });
+  }, [selected]);
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      await dispatch(deleteTask());
+
+      setEditing(false);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   const defaultClass =
     "font-medium  smalltext font-medium rounded-full w-max px-2 py-1";
   const completedClass = "text-green-900  bg-green-200  font-medium ";
@@ -55,26 +118,6 @@ export default function TaskItem({ item }: TaskItemProps) {
       : item.status == 2
       ? inProgressClass
       : completedClass;
-
-  const handleSave = async (editedData: any) => {
-    setLoading(true);
-    await dispatch(editTask(editedData));
-    setEditing(false);
-    setLoading(false);
-  };
-
-  const handleDelete = async () => {
-    setLoading(true);
-    await dispatch(deleteTask());
-    setEditing(false);
-    setLoading(false);
-  };
-
-  const handleEditing = () => {
-    console.log("item", item);
-    dispatch(setCurrentTask(item));
-    setEditing(true);
-  };
 
   return (
     <div
@@ -114,23 +157,17 @@ export default function TaskItem({ item }: TaskItemProps) {
           alwaysOpenCloser={() => setEditing(false)}
         >
           <>
-            <EditManager
-              processedData={processedData}
-              deletePermission={GeneralPermission.DeleteTask}
-              originalData={originalData}
+            <TaskForm
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              errors={errors}
+              hasDefaultValues={true}
+              handleDelete={handleDelete}
               title="Editar tarea"
-              nowEditing={nowEditing}
-              deleteAction={handleDelete}
-              route={`/client`}
-              editAction={(editedData: any) => handleSave(editedData)}
-            >
-              <TaskEditForm
-                originalData={currentTask}
-                processedData={processedData}
-                setProcessedData={setProcessedData}
-                setNowEditing={(data) => setNowEditing(data)}
-              />
-            </EditManager>
+              selected={selected}
+              setSelected={setSelected}
+              handleSelectChange={handleSelectChange}
+            />
           </>
         </ModalTrigger>
       )}

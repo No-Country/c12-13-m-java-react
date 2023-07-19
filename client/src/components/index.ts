@@ -48,7 +48,7 @@ export { default as SpaceInvite } from "./static/proyect/spaces/spaceInvite";
 export { default as RoomCreate } from "./static/proyect/rooms/roomCreate";
 export { default as RoomEditForm } from "./static/proyect/rooms/roomForm";
 export { default as TaskCreateForm } from "./static/proyect/tasks/taskCreateForm";
-export { default as TaskEditForm } from "./static/proyect/tasks/taskEditForm";
+export { default as TaskForm } from "./static/proyect/tasks/taskForm";
 
 export { default as Loader } from "./static/layout/loader";
 

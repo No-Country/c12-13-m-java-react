@@ -35,9 +35,9 @@ export default function AccountPage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     try {
-    submitManager({
+    await submitManager({
       e,
       formValues,
       errors,

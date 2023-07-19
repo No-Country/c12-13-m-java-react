@@ -15,7 +15,7 @@ export const changeManager = ({
   console.log("type", type);
   const file = e.target.files ? e.target.files[0] : "";
   const { field, error, isValid } = validate(
-    type === "text" || type === "password" ? value : file,
+    type === "text" || type === "password" || type === "email" ? value : file,
     name,
     type
   );
