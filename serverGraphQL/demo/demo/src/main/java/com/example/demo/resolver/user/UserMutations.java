@@ -140,4 +140,30 @@ public class UserMutations {
         }
     }
 
+    @SchemaMapping(typeName = "Mutation", field = "changePassword")
+    public User changePassword(@Argument String userId,
+            @Argument String oldPassword,
+            @Argument String newPassword) {
+        try {
+            User user = userRepository.findById(userId).orElseThrow(null);
+
+            if (user == null) {
+                throw new IllegalArgumentException("El usuario no existe");
+            }
+
+            if (!PasswordUtils.isPasswordMatch(oldPassword, user.getPassword())) {
+                throw new IllegalArgumentException("La contraseña actual no coincide");
+            }
+
+            String encryptedPassword = PasswordUtils.encryptPassword(newPassword);
+            user.setPassword(encryptedPassword);
+            user.setUpdatedAt(new Date().toString());
+            userRepository.save(user);
+            return user;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
 }

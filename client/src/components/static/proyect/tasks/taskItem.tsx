@@ -37,7 +37,7 @@ export default function TaskItem({ item }: TaskItemProps) {
         label: member?.getFullName(),
       };
     }),
-    } : new TasksProps("", "", "", "", 0, [], []);
+    } : new TasksProps("", "", "", "", 1, [], []);
   
   const [processedData, setProcessedData] = useState<any>(currentTask);
   const [editing, setEditing] = useState<boolean>(false);

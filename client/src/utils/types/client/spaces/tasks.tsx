@@ -5,7 +5,7 @@ export class TasksProps {
   title: string;
   description: string;
   deadline: string;
-  status: number;
+  status: 1 | 2 | 3;
   assignedTo: MembersProps[];
   comments: CommentsProps[];
 
@@ -14,7 +14,7 @@ export class TasksProps {
     title: string,
     description: string,
     deadline: string,
-    status: number,
+    status: 1 | 2 | 3,
     assignedTo: MembersProps[],
     comments: CommentsProps[]
   ) {
@@ -79,7 +79,7 @@ export class TasksProps {
     } else if (this.status == 3) {
       return "Completado";
     } else {
-      return this.status;
+      return "Completado";
     }
   }
 

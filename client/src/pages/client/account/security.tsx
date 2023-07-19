@@ -6,34 +6,47 @@ import {
 } from "@/components";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { editUser } from "@/redux/slices/authSession";
+import { editUser, changePassword } from "@/redux/slices/authSession";
 import { useState } from "react";
 import { UserProps } from "@/utils/types/client";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import useValidate from "@/hooks/useValidate";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
 
 export default function AccountPage() {
   const dispatch = useAppDispatch();
-  const {current:sCurrent} = useAppSelector((state) => state.authSession.session);
-  const current =UserProps.deserialize(sCurrent);
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
+  const { current: sCurrent } = useAppSelector(
+    (state) => state.authSession.session
+  );
+  const current = UserProps.deserialize(sCurrent);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let form:any = {
-      firstName: e?.currentTarget?.firstName?.value,
-      lastName: e?.currentTarget?.lastName?.value,
-      username: e?.currentTarget?.username?.value,
-      email: e?.currentTarget?.email?.value,
-      profileImage: e?.currentTarget?.profileImage?.files[0],
-      filenamePi: e?.currentTarget?.profileImage?.files[0]?.name,
-      coverImage: e?.currentTarget?.coverImage?.files[0],
-      filenameCi: e?.currentTarget?.coverImage?.files[0]?.name,
-    };
-if(Object.keys(form).length === 0) return;
-    console.log(form, Object.keys(form).length);
-    dispatch(editUser(form));
-
-    //reset form
-    e.currentTarget.reset();
-    form = {};
-
+    try {
+      submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: editUser,
+        setFormValues,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
   };
 
   return (
@@ -47,24 +60,28 @@ if(Object.keys(form).length === 0) return;
         <AccountSection title="Seguridad" description="Edita tu contraseña">
           <form
             onSubmit={handleSubmit}
-            className=" grid  w-full grid-cols-2 gap-4"
+            className="flex w-full grid-cols-2  flex-col gap-4 lg:grid"
           >
             <div id="col1" className="flex w-full flex-col gap-4">
               <Input
                 type="password"
-                name="password"
+                name="oldPassword"
                 label="Contraseña actual"
                 placeholder="Contraseña actual"
                 className="w-full"
+                onChange={handleChange}
+                error={errors.oldPassword}
               />
             </div>
             <div id="col2" className="flex w-full flex-col gap-4">
               <Input
-             type="password"
+                type="password"
                 name="newPassword"
                 label="Nueva contraseña"
                 placeholder="Nueva contraseña"
                 className="w-full"
+                onChange={handleChange}
+                error={errors.newPassword}
               />
             </div>
             <button type="submit" className="primaryButton w-40">

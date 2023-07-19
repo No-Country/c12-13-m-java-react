@@ -4,13 +4,18 @@ import { deleteSpace, editSpace } from "@/redux/slices/client/spaces/spaces";
 import Head from "next/head";
 import { GeneralPermission } from "@/utils/types/client";
 import { SpaceProps } from "@/utils/types/client";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
 import {
   LayoutSpaces,
   MembersSpaceList,
   HeroSpaceArea,
   EditManager,
-  SpaceEditForm,
+  SpaceForm,
 } from "@/components";
+import useValidate from "@/hooks/useValidate";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+
 
 export default function SpaceSettings() {
   const dispatch = useAppDispatch();
@@ -21,23 +26,47 @@ export default function SpaceSettings() {
 
   const currentSpace = SpaceProps.deserialize(cSpace);
 
-  const [processedData, setProcessedData] = useState<any>(currentSpace);
-  const [nowEditing, setNowEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [manualClose, setManualClose] = useState<boolean>(false);
 
-  const handleSave = async (editedData: any) => {
-    setLoading(true);
-    await dispatch(editSpace(editedData));
-    setManualClose(true);
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
 
-    setLoading(false);
-    setTimeout(() => {
-      setManualClose(false);
-    }, 200);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
   };
 
-const handleDelete = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      setLoading(true);
+      await submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: editSpace,
+        setFormValues,
+      });
+      console.log("handleSubmit");
+      setManualClose(true);
+      setLoading(false);
+      setTimeout(() => {
+        setManualClose(false);
+      }, 200);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
+  };
+
+  const handleDelete = async () => {
     setLoading(true);
     await dispatch(deleteSpace());
     setManualClose(true);
@@ -46,7 +75,6 @@ const handleDelete = async () => {
       setManualClose(false);
     }, 200);
   };
-
 
   return (
     <>
@@ -62,25 +90,14 @@ const handleDelete = async () => {
           primaryLoading={loading}
           primaryManualClose={manualClose}
         >
-          <>
-            <EditManager
-              processedData={processedData}
-              originalData={currentSpace}
-              title="Editar espacio"
-              deleteAction={handleDelete}
-              route={`/client`}
-              nowEditing={nowEditing}
-              deletePermission={GeneralPermission.DeleteSpace}
-              editAction={(editedData: any) => handleSave(editedData)}
-            >
-              <SpaceEditForm
-                originalData={currentSpace}
-                processedData={processedData}
-                setProcessedData={setProcessedData}
-                setNowEditing={setNowEditing}
-              />
-            </EditManager>
-          </>
+          <SpaceForm
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            errors={errors}
+            hasDefaultValues={true}
+            handleDelete={handleDelete}
+            title="Editar espacio"
+          />
         </HeroSpaceArea>
         <MembersSpaceList adminZone={true} />
       </LayoutSpaces>

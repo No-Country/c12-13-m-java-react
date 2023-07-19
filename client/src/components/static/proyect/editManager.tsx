@@ -24,7 +24,7 @@ export default function EditManager({
   nowEditing,
 }: EditManagerProps) {
   const dispatch = useAppDispatch();
-  const { currentMember:cMember } = useAppSelector(
+  const { currentMember: cMember } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
 

@@ -6,7 +6,7 @@ import { UserProps } from "@/utils/types/client";
 import { setSpaces } from "@/redux/slices/client/spaces/spaces";
 const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 import { VERIFY_SESSION } from "@/graphql/queries";
-import { LOG_IN, CREATE_USER } from "@/graphql/mutations";
+import { LOG_IN, CREATE_USER, CHANGE_PASSWORD } from "@/graphql/mutations";
 import Router from "next/router";
 import { toast } from "sonner";
 import { toastSuccess, toastError, toastWarning } from "@/utils/toastStyles";
@@ -92,7 +92,8 @@ export const editUser = createAsyncThunk(
       console.log("userData", userData);
       const state = getState() as RootState;
       userData.userId = state.authSession.session.current.id;
-
+userData.filenamePi = userData.profileImage ? userData.profileImage.name : ""
+userData.filenameCi = userData.coverImage ? userData.coverImage.name : ""
       const res = await axios.put(`${serverUrl}rest/users/edit`, userData, {
         headers: {
           //multipart/form-data
@@ -109,6 +110,32 @@ export const editUser = createAsyncThunk(
   }
 );
 
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (userData: any, { dispatch, getState }) => {
+    try {
+      const state = getState() as RootState;
+      userData.userId = state.authSession.session.current.id;
+      console.log("userData", userData);
+      //USAMOS GRAPHQL
+      const { data, errors } = await client.mutate({
+        mutation: CHANGE_PASSWORD,
+        variables: {
+          userId: userData.userId,
+          oldPassword: userData.oldPassword,
+          newPassword: userData.newPassword,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      console.log("res", data);
+      return data;
+    } catch (err: any) {
+      console.log("Error al cambiar contraseña", err);
+      throw new Error("Error al cambiar contraseña", err);
+    }
+  }
+);
 //Reducers
 const postsSlice = createSlice({
   name: "auth",
@@ -179,7 +206,7 @@ const postsSlice = createSlice({
       })
       .addCase(editUser.pending, (state, action) => {
         console.log("Pending editUser");
-        toast("Editando usuario") 
+        toast("Editando usuario");
       })
       .addCase(editUser.fulfilled, (state, action) => {
         console.log("Fulfilled editUser", action.payload);
@@ -200,6 +227,18 @@ const postsSlice = createSlice({
       })
       .addCase(editUser.rejected, (state, action) => {
         console.error("Rejected editUser", action);
+        toast.error("Verifica los datos", toastError);
+      })
+      .addCase(changePassword.pending, (state, action) => {
+        console.log("Pending changePassword");
+        toast("Editando contraseña");
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        console.log("Fulfilled changePassword", action.payload);
+        toast.success("Edición exitosa", toastSuccess);
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        console.error("Rejected changePassword", action);
         toast.error("Verifica los datos", toastError);
       });
   },

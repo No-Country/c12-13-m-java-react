@@ -1,5 +1,21 @@
 import { gql } from "@apollo/client";
 
+export const CHANGE_PASSWORD = gql`
+  mutation ChangePassword(
+    $userId: ID!
+    $newPassword: String!
+    $oldPassword: String!
+  ) {
+    changePassword(
+      userId: $userId
+      newPassword: $newPassword
+      oldPassword: $oldPassword
+    ) {
+      id
+    }
+  }
+`;
+
 export const CREATE_USER = gql`
   mutation CreateUser(
     $firstName: String!
@@ -278,24 +294,24 @@ export const SEND_MESSAGE = gql`
 `;
 
 export const CHANGE_USER_ROLE = gql`
-mutation changeUserRole($spaceId: ID!, $userId: ID!, $role: String!) {
-  changeUserRole(spaceId: $spaceId, userId: $userId, role: $role) {
-    id
-    name
-    description
-    accessCode
-    coverImage
-    members {
-      user {
-        id
-        firstName
-        lastName
-        profileImage
+  mutation changeUserRole($spaceId: ID!, $userId: ID!, $role: String!) {
+    changeUserRole(spaceId: $spaceId, userId: $userId, role: $role) {
+      id
+      name
+      description
+      accessCode
+      coverImage
+      members {
+        user {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+        role
       }
-      role
     }
   }
-}
 `;
 
 // mutation {

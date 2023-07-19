@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { SpaceProps } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
-import { SpaceItem, ListTopArea, SpaceCreateForm } from "@/components";
+import { SpaceItem, ListTopArea, SpaceCreate } from "@/components";
 import { useState } from "react";
 
 export default function SpacesList() {
@@ -26,7 +26,7 @@ export default function SpacesList() {
         triggerManualClose={manualClose}
         triggerIsAdmin={false}
         triggerContent={
-          <SpaceCreateForm
+          <SpaceCreate
             setManualClose={setManualClose}
             setLoading={setLoading}
           />

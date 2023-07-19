@@ -8,7 +8,7 @@ import { TasksProps } from "@/utils/types/client";
 
 const initialState = {
   currentRoomTasks: [] as TasksProps[],
-  currentTask: new TasksProps("", "", "", "", 0, [], []),
+  currentTask: new TasksProps("", "", "", "", 1, [], []),
 };
 
 export const createTask = createAsyncThunk(

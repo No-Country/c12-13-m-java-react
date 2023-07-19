@@ -4,6 +4,7 @@ import java.util.Date;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import com.example.demo.repository.SpaceRepository;
 import com.example.demo.repository.ChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import com.example.demo.utils.PasswordUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -65,7 +67,7 @@ public class UserRestManager {
                 Boolean userWithEmail = userRepository.existsByEmail(email);
                 if (user.getEmail().equals(email)) {
                     user.setEmail(email);
-                } else if (userWithEmail ) {
+                } else if (userWithEmail) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
                 } else {
                     user.setEmail(email);
@@ -78,7 +80,7 @@ public class UserRestManager {
                 Boolean userWithUsername = userRepository.existsByUsername(username);
                 if (user.getUsername().equals(username)) {
                     user.setUsername(username);
-                } else if (userWithUsername ) {
+                } else if (userWithUsername) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
                 } else {
                     user.setUsername(username);
@@ -106,5 +108,6 @@ public class UserRestManager {
         }
 
     }
+
 
 }

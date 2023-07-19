@@ -3,7 +3,7 @@ import {
   TasksList,
   HeroSpaceArea,
   RoomEditForm,
-  EditManager,
+  RoomForm,
   TaskCreateForm,
   CircularLoader,
 } from "@/components";
@@ -24,6 +24,10 @@ import Head from "next/head";
 import { useSubscription } from "@apollo/client";
 import { GeneralPermission } from "@/utils/types/client";
 import { RoomsProps } from "@/utils/types/client";
+import useValidate from "@/hooks/useValidate";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
 
 export default function CurrentRoom() {
   const dispatch = useAppDispatch();
@@ -67,18 +71,45 @@ export default function CurrentRoom() {
       dispatch(deleteTaskSubs(datadelete?.notifyTaskDeleted));
     }
   }, [datadelete]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [manualClose, setManualClose] = useState<boolean>(false);
-  const handleSave = async (editedData: any) => {
-    console.log(editedData);
-    setLoading(true);
-    await dispatch(editRoom(editedData));
-    setManualClose(true);
 
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+    setLoading(true);
+    await submitManager({
+      e,
+      formValues,
+      errors,
+      dispatch,
+      actionToDispatch: editRoom,
+      setFormValues,
+    });
+    console.log("handleSubmit");
+    setManualClose(true);
     setLoading(false);
     setTimeout(() => {
       setManualClose(false);
     }, 200);
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+    toast.error("Verifica los campos del formulario", toastError);
+  }
   };
 
   const handleDelete = async () => {
@@ -115,23 +146,14 @@ export default function CurrentRoom() {
               triggerIsAdmin={false}
               triggerSecondText="Editar room"
               childrenSecond={
-                <EditManager
-                  processedData={processedData}
-                  originalData={currentRoom}
-                  title="Editar room"
-                  deleteAction={() => handleDelete()}
-                  deletePermission={GeneralPermission.DeleteRoom}
-                  nowEditing={nowEditing}
-                  route={`/client`}
-                  editAction={(editedData: any) => handleSave(editedData)}
-                >
-                  <RoomEditForm
-                    originalData={currentRoom}
-                    processedData={processedData}
-                    setProcessedData={setProcessedData}
-                    setNowEditing={setNowEditing}
-                  />
-                </EditManager>
+                <RoomForm
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  errors={errors}
+                  hasDefaultValues={true}
+                  handleDelete={handleDelete}
+                  title="Editar espacio"
+                />
               }
             >
               <TaskCreateForm

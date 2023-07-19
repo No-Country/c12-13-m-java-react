@@ -40,12 +40,13 @@ export { default as HelpHero } from "./static/masters/helpHero";
 export { default as TextToInput } from "./dynamic/common/textToInput";
 
 export { default as EditManager } from "./static/proyect/editManager";
-export { default as SpaceEditForm } from "./static/proyect/spaces/spaceEditForm";
-export { default as SpaceCreateForm } from "./static/proyect/spaces/spaceCreateForm";
+export { default as SpaceForm } from "./static/proyect/spaces/spaceForm";
+export { default as RoomForm } from "./static/proyect/rooms/roomForm";
+export { default as SpaceCreate } from "./static/proyect/spaces/spaceCreate";
 export { default as SpaceInvite } from "./static/proyect/spaces/spaceInvite";
 
-export { default as RoomCreateForm } from "./static/proyect/rooms/roomCreateForm";
-export { default as RoomEditForm } from "./static/proyect/rooms/roomEditForm";
+export { default as RoomCreate } from "./static/proyect/rooms/roomCreate";
+export { default as RoomEditForm } from "./static/proyect/rooms/roomForm";
 export { default as TaskCreateForm } from "./static/proyect/tasks/taskCreateForm";
 export { default as TaskEditForm } from "./static/proyect/tasks/taskEditForm";
 

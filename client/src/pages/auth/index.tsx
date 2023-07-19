@@ -5,15 +5,41 @@ import Head from "next/head";
 import { useAppDispatch } from "@/redux/hooks";
 import { login } from "@/redux/slices/authSession";
 import useRegister from "@/hooks/useRegister";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import useValidate from "@/hooks/useValidate";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
+import { useState } from "react";
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const { data, error, handleEmail, handlePassword } = useRegister();
-  const { email, password } = data;
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(login({ email, password }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: login,
+        setFormValues,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
   };
 
   return (
@@ -25,23 +51,23 @@ export default function Home() {
         <h1 className="titulo-3 mb-6 font-normal">
           Hey, bienvenido <span className="font-semibold">de nuevo</span>
         </h1>
-        <form onSubmit={handleLogin} className="flex w-full flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
           <Input
             type="email"
             name="email"
             label="Correo electrónico"
             placeholder="Correo electrónico"
             className="w-full"
-            onChange={handleEmail}
-            error={error.email}
+            onChange={handleChange}
+            error={errors.email}
           />
           <Input
             type="password"
             name="password"
             label="Contraseña"
             placeholder="Contraseña"
-            onChange={handlePassword}
-            error={error.password}
+            onChange={handleChange}
+            error={errors.password}
           />
           {/* <p className=" w-full text-center font-light">
             ¿No recuerdas tu contraseña?{" "}

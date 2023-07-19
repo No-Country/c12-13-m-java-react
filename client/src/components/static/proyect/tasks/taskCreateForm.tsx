@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/client/spaces/tasks";
 import { SpaceProps, MembersProps } from "@/utils/types/client";
+import useValidate from "@/hooks/useValidate";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
+
 
 type TaskCreateFormProps = {
   setManualClose: (value: boolean) => void;
@@ -14,36 +19,55 @@ export default function TaskCreateForm({
   setLoading,
 }: TaskCreateFormProps) {
   const dispatch = useAppDispatch();
-  const [form, setForm] = useState<any>();
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
   const [selected, setSelected] = useState<any>([]);
-  const { currentSpace: cSpace, currentSpaceMembers:cSpaceMembers } = useAppSelector(
-    (state) => state?.client?.spaces?.spaces
-  );
+  const { currentSpace: cSpace, currentSpaceMembers: cSpaceMembers } =
+    useAppSelector((state) => state?.client?.spaces?.spaces);
 
   const currentSpace = SpaceProps.deserialize(cSpace);
   const currentSpaceMembers = MembersProps.deserializeList(cSpaceMembers);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
   };
 
-  useEffect(() => {
-    setForm({
-      ...form,
-      assignedToIds: selected.map((item: any) => item.value),
-    });
-  }, [selected]);
-
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
+    try {
     setLoading(true);
-    await dispatch(createTask(form));
+    await submitManager({
+      e,
+      formValues,
+      errors,
+      dispatch,
+      actionToDispatch: createTask,
+      setFormValues,
+    });
     setManualClose(true);
     setLoading(false);
     setTimeout(() => {
       setManualClose(false);
     }, 200);
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+    toast.error("Verifica los campos del formulario", toastError);
+
   };
+  };
+
+  useEffect(() => {
+    setFormValues({
+      ...formValues,
+      assignedToIds: selected.map((item: any) => item.value),
+    });
+  }, [selected]);
 
   const multiOptions = currentSpaceMembers.map((memb) => {
     const member = MembersProps.deserialize(memb);
@@ -64,6 +88,7 @@ export default function TaskCreateForm({
           onChange={handleChange}
           placeholder="Name"
           required
+          error={errors.title}
         />
         <Input
           label="Descripción"
@@ -72,6 +97,7 @@ export default function TaskCreateForm({
           onChange={handleChange}
           placeholder="Description"
           required
+          error={errors.description}
         />
         <MultiSelect
           options={multiOptions}

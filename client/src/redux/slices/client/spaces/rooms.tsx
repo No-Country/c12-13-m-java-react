@@ -61,6 +61,7 @@ export const createRoom = createAsyncThunk(
     try {
       const state = getState() as RootState;
       input.spaceOwnerId = state.client.spaces.spaces.currentSpace.id;
+      input.filename=  input.coverImage ? input.coverImage.name : "";
       // const { data } = await client.mutate({
       //   mutation: CREATE_ROOM,
       //   variables: {
@@ -95,8 +96,7 @@ export const editRoom = createAsyncThunk(
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
       input.roomId = state.client.spaces.rooms.currentRoom.id;
-      input.filename = input?.coverImage?.name;
-
+      input.filename=  input.coverImage ? input.coverImage.name : "";
       const { data } = await axios.put(`${serverUrl}rest/rooms/edit`, input, {
         headers: {
           "Content-Type": "multipart/form-data",

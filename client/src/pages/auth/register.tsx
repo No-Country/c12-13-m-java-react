@@ -6,6 +6,10 @@ import Head from "next/head";
 import useRegister from "@/hooks/useRegister";
 import { useAppDispatch } from "@/redux/hooks";
 import { register } from "@/redux/slices/authSession";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import useValidate from "@/hooks/useValidate";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
 
 export default function Home() {
   const [step, setStep] = useState<number>(1);
@@ -13,24 +17,34 @@ export default function Home() {
     setStep(2);
   };
 
-  const {
-    data,
-    error,
-    handleFirstName,
-    handleLastName,
-    handleUserName,
-    handleEmail,
-    handlePassword,
-    isValidForm,
-  } = useRegister();
+  const dispatch = useAppDispatch();
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
 
-  const dispacth = useAppDispatch();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // router.push("/client");
-    dispacth(register(data));
+    try {
+      submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: register,
+        setFormValues,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
   };
 
   return (
@@ -51,10 +65,8 @@ export default function Home() {
                 label="Nombre"
                 placeholder="Nombre"
                 className="w-full"
-                error={error.firstName}
-                onChange={(e: any) => {
-                  handleFirstName(e);
-                }}
+                error={errors.firstName}
+                onChange={handleChange}
               />
               <Input
                 type="text"
@@ -62,10 +74,8 @@ export default function Home() {
                 label="Apellidos"
                 placeholder="Apellidos"
                 className="w-full"
-                error={error.lastName}
-                onChange={(e: any) => {
-                  handleLastName(e);
-                }}
+                error={errors.lastName}
+                onChange={handleChange}
               />
               <button type="button" className="primaryButton" onClick={onClick}>
                 Siguiente
@@ -80,38 +90,30 @@ export default function Home() {
                 label="Correo electrónico"
                 placeholder="Correo electrónico"
                 className="w-full"
-                error={error.email}
-                onChange={(e: any) => {
-                  handleEmail(e);
-                }}
+                error={errors.email}
+                onChange={handleChange}
               />
               <Input
                 type="text"
                 name="username"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
-                onChange={(e: any) => {
-                  handleUserName(e);
-                }}
+                onChange={handleChange}
                 className="w-full"
-                error={error.username}
+                error={errors.username}
               />
               <Input
                 type="password"
                 name="password"
                 label="Contraseña"
                 placeholder="Contraseña"
-                error={error.password}
-                onChange={(e: any) => {
-                  handlePassword(e);
-                }}
+                error={errors.password}
+                onChange={handleChange}
               />
               <button
-                disabled={isValidForm}
+
                 type="submit"
-                className={`primaryButton ${
-                  isValidForm ? "disabledPrimaryButton" : ""
-                }`}
+                className={`primaryButton `}
               >
                 Registrarse
               </button>

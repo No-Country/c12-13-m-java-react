@@ -9,31 +9,46 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { editUser } from "@/redux/slices/authSession";
 import { useState } from "react";
 import { UserProps } from "@/utils/types/client";
+import useValidate from "@/hooks/useValidate";
+import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
+import { toast } from "sonner";
+import { toastError } from "@/utils/toastStyles";
 
 export default function AccountPage() {
   const dispatch = useAppDispatch();
-  const {current:sCurrent} = useAppSelector((state) => state.authSession.session);
-  const current =UserProps.deserialize(sCurrent);
+  const validate = useValidate();
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState<any>({});
+
+  const { current: sCurrent } = useAppSelector(
+    (state) => state.authSession.session
+  );
+
+  const current = UserProps.deserialize(sCurrent);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeManager({
+      e,
+      setFormValues,
+      setErrors,
+      validate,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let form:any = {
-      firstName: e?.currentTarget?.firstName?.value,
-      lastName: e?.currentTarget?.lastName?.value,
-      username: e?.currentTarget?.username?.value,
-      email: e?.currentTarget?.email?.value,
-      profileImage: e?.currentTarget?.profileImage?.files[0],
-      filenamePi: e?.currentTarget?.profileImage?.files[0]?.name,
-      coverImage: e?.currentTarget?.coverImage?.files[0],
-      filenameCi: e?.currentTarget?.coverImage?.files[0]?.name,
-    };
-if(Object.keys(form).length === 0) return;
-    console.log(form, Object.keys(form).length);
-    dispatch(editUser(form));
-
-    //reset form
-    e.currentTarget.reset();
-    form = {};
-
+    try {
+    submitManager({
+      e,
+      formValues,
+      errors,
+      dispatch,
+      actionToDispatch: editUser,
+      setFormValues,
+    });
+  } catch (error) {
+    console.log(error);
+    toast.error("Verifica los campos del formulario", toastError);
+  }
   };
 
   return (
@@ -47,9 +62,9 @@ if(Object.keys(form).length === 0) return;
         <AccountSection title="Mi cuenta" description="Edita tu perfil">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col lg:grid  w-full grid-cols-2 gap-6"
+            className="flex w-full grid-cols-2  flex-col gap-6 lg:grid"
           >
-            <div id="col1" className="lg:flex w-full flex-col gap-4 hidden ">
+            <div id="col1" className="hidden w-full flex-col gap-4 lg:flex ">
               <Input
                 type="text"
                 name="firstName"
@@ -57,8 +72,9 @@ if(Object.keys(form).length === 0) return;
                 placeholder="Nombre"
                 className="w-full"
                 defaultValue={current?.getFirstName()}
+                onChange={handleChange}
+                error={errors.firstName}
               />
-
               <Input
                 type="text"
                 name="email"
@@ -66,6 +82,8 @@ if(Object.keys(form).length === 0) return;
                 placeholder="Email"
                 className="w-full"
                 defaultValue={current?.getEmail()}
+                onChange={handleChange}
+                error={errors.email}
               />
               <Input
                 type="file"
@@ -73,9 +91,11 @@ if(Object.keys(form).length === 0) return;
                 label="Foto de perfil"
                 placeholder="Foto de perfil"
                 className="w-full"
+                onChange={handleChange}
+                error={errors.profileImage}
               />
             </div>
-            <div id="col2" className="lg:flex w-full flex-col gap-4 hidden">
+            <div id="col2" className="hidden w-full flex-col gap-4 lg:flex">
               <Input
                 type="text"
                 name="lastName"
@@ -83,6 +103,8 @@ if(Object.keys(form).length === 0) return;
                 placeholder="Apellido"
                 className="w-full"
                 defaultValue={current?.getLastName()}
+                onChange={handleChange}
+                error={errors.lastName}
               />
               <Input
                 type="text"
@@ -91,6 +113,8 @@ if(Object.keys(form).length === 0) return;
                 placeholder="Nombre de usuario"
                 className="w-full"
                 defaultValue={current?.getUsername()}
+                onChange={handleChange}
+                error={errors.username}
               />
               <Input
                 type="file"
@@ -98,6 +122,8 @@ if(Object.keys(form).length === 0) return;
                 label="Foto de portada"
                 placeholder="Foto de portada"
                 className="w-full"
+                onChange={handleChange}
+                error={errors.coverImage}
               />
             </div>
             <div id="col3" className="flex w-full flex-col gap-4 lg:hidden ">
@@ -108,30 +134,38 @@ if(Object.keys(form).length === 0) return;
                 placeholder="Nombre"
                 className="w-full"
                 defaultValue={current?.getFirstName()}
+                onChange={handleChange}
+                error={errors.firstName}
               />
-                            <Input
+              <Input
                 type="text"
                 name="lastName"
                 label="Apellido"
                 placeholder="Apellido"
                 className="w-full"
                 defaultValue={current?.getLastName()}
+                onChange={handleChange}
+                error={errors.lastName}
               />
               <Input
                 type="text"
                 name="email"
                 label="Email"
+                onChange={handleChange}
                 placeholder="Email"
                 className="w-full"
                 defaultValue={current?.getEmail()}
+                error={errors.email}
               />
-                            <Input
+              <Input
                 type="text"
                 name="username"
                 label="Nombre de usuario"
                 placeholder="Nombre de usuario"
                 className="w-full"
                 defaultValue={current?.getUsername()}
+                onChange={handleChange}
+                error={errors.username}
               />
               <Input
                 type="file"
@@ -139,13 +173,17 @@ if(Object.keys(form).length === 0) return;
                 label="Foto de perfil"
                 placeholder="Foto de perfil"
                 className="w-full"
+                onChange={handleChange}
+                error={errors.profileImage}
               />
-                          <Input
+              <Input
                 type="file"
                 name="coverImage"
                 label="Foto de portada"
                 placeholder="Foto de portada"
                 className="w-full"
+                onChange={handleChange}
+                error={errors.coverImage}
               />
             </div>
             <button type="submit" className="primaryButton w-40">
