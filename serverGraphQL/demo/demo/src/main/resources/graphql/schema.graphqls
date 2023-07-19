@@ -201,6 +201,8 @@ type Mutation {
   createMessage(userId: ID!, chatId: ID!, content: String!): Messages
 
   changeUserRole(userId: ID!, spaceId: ID!, role: String!): Spaces
+
+  changePassword(userId: ID!, oldPassword: String!, newPassword: String!): Users
 }
 
 type Subscription {

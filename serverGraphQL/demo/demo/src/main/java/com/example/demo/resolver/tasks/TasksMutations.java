@@ -114,16 +114,16 @@ public class TasksMutations {
             Task task = room.getTaskById(taskId);
             System.out.println("task encontrado");
 
-            if (title != null) {
+            if (title != null && !title.equals("")) {
                 task.setTitle(title);
             }
-            if (description != null) {
+            if (description != null && !description.equals("")) {
                 task.setDescription(description);
             }
-            if (deadline != null) {
+            if (deadline != null && !deadline.equals("")) {
                 task.setDeadline(deadline);
             }
-            if (status != null) {
+            if (status != null && !status.equals("")) {
                 task.setStatus(status);
             }
             if (assignedToIds != null) {

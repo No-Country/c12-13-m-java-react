@@ -12,7 +12,7 @@ public class Task {
     private String description = "";
 
     private String deadline = "";
-    private Number status = 0;
+    private Number status = 1;
     private List<Member> assignedTo = new ArrayList<>();
 
     private String createdAt;

@@ -91,13 +91,13 @@ public class RestRoomManager {
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(null);
 
-            if (name != null) {
+            if (name != null && !name.isEmpty()) {
                 room.setName(name);
             }
-            if (description != null) {
+            if (description != null && !description.isEmpty()) {
                 room.setDescription(description);
             }
-            if (coverImage != null) {
+            if (coverImage != null && !coverImage.isEmpty()) {
                 String imageUrl = imageUploader.uploadImage(coverImage.getBytes(), filename);
                 room.setCoverImage(imageUrl);
             }

@@ -1,6 +1,6 @@
 import { RoomsProps, GeneralPermission } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
-import { RoomItem, ListTopArea, RoomCreateForm } from "@/components";
+import { RoomItem, ListTopArea, RoomCreate } from "@/components";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -20,7 +20,7 @@ export default function RoomsList() {
         buttonText="Crear nuevo room"
         triggerLoading={loading}
         triggerManualClose={manualClose}
-        triggerContent={<RoomCreateForm 
+        triggerContent={<RoomCreate 
           setManualClose={setManualClose}
           setLoading={setLoading}
         />}

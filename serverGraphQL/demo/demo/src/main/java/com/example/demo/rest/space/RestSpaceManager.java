@@ -104,16 +104,16 @@ public class RestSpaceManager {
         try {
             Space space = spaceRepository.findById(roomId).orElseThrow(null);
 
-            if (name != null) {
+            if (name != null && !name.equals("")) {
                 space.setName(name);
             }
-            if (description != null) {
+            if (description != null && !description.equals("")) {
                 space.setDescription(description);
             }
-            if (accessCode != null) {
+            if (accessCode != null && !accessCode.equals("")) {
                 space.setAccessCode(accessCode);
             }
-            if (coverImage != null) {
+            if (coverImage != null && !coverImage.isEmpty()) {
                 String imageUrl = imageUploader.uploadImage(coverImage.getBytes(), filename);
                 space.setCoverImage(imageUrl);
             }

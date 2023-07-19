@@ -1,26 +1,25 @@
-import { TaskForm } from "@/components";
-import { useState, useEffect } from "react";
-import {useAppDispatch } from "@/redux/hooks";
-import { createTask } from "@/redux/slices/client/spaces/tasks";
+import { Input, RoomForm } from "@/components";
+import { useAppDispatch } from "@/redux/hooks";
+import { createRoom } from "@/redux/slices/client/spaces/rooms";
+import { useState } from "react";
 import useValidate from "@/hooks/useValidate";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toastStyles";
 
-type TaskCreateFormProps = {
+type RoomCreateFormProps = {
   setManualClose: (value: boolean) => void;
   setLoading: (value: boolean) => void;
 };
 
-export default function TaskCreateForm({
+export default function RoomCreate({
   setManualClose,
   setLoading,
-}: TaskCreateFormProps) {
+}: RoomCreateFormProps) {
   const dispatch = useAppDispatch();
   const validate = useValidate();
   const [formValues, setFormValues] = useState({});
   const [errors, setErrors] = useState<any>({});
-  const [selected, setSelected] = useState<any>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     changeManager({
@@ -31,14 +30,6 @@ export default function TaskCreateForm({
     });
   };
 
-  const handleSelectChange = (e: any) => {
-    console.log("e", e.target.value);
-    setFormValues({
-      ...formValues,
-      status: parseInt(e.target.value),
-  });
-  };
-
   const handleSubmit = async (e: any) => {
     try {
       setLoading(true);
@@ -47,11 +38,10 @@ export default function TaskCreateForm({
         formValues,
         errors,
         dispatch,
-        actionToDispatch: createTask,
+        actionToDispatch: createRoom,
         setFormValues,
       });
-     setManualClose(true);
-    console.log("formValues", formValues);
+      setManualClose(true);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);
@@ -63,34 +53,14 @@ export default function TaskCreateForm({
     }
   };
 
-  // const [selected, setSelected] = useState<any>(
-  //   currentTask.assignedTo.map((item) => {
-  //     const member = MembersProps.deserialize(item);
-  //     return {
-  //       value: member.getId(),
-  //       label: member.getFullName(),
-  //     };
-  //   })
-  // );
-
-  useEffect(() => {
-    setFormValues({
-      ...formValues,
-      assignedToIds: selected.map((item: any) => item.value),
-    });
-  }, [selected]);
-
   return (
-    <TaskForm
+    <RoomForm
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       errors={errors}
-      title="Crear tarea"
-      handleDelete={() => {}}
+      title="Crear room"
       hasDefaultValues={false}
-      selected={selected}
-      setSelected={setSelected}
-      handleSelectChange={handleSelectChange}
+      handleDelete={() => {}}
     />
   );
 }
