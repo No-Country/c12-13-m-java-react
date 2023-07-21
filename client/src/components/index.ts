@@ -64,4 +64,5 @@ export { default as VerticalMenu } from "./static/layout/verticalMenu";
 export { default as BottomBarItem } from "./static/layout/bottomBarItem";
 export { default as HeroAccountArea } from "./static/layout/heroAccountArea";
 export { default as AccountSection } from "./static/layout/accountSection";
-
+export { default as FileForm } from "./static/proyect/files/fileForm";
+export { default as FileCreate } from "./static/proyect/files/fileCreate";

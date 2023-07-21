@@ -41,8 +41,8 @@ export default function MembersSpaceList({ adminZone }: MembersListProps) {
   return (
     <section className="listContainer">
       <ListTopArea
-        title="Miembros"
-        description="Miembros del espacio"
+        title={adminZone ? "Edita los miembros del espacio" : "Miembros"}
+        description={adminZone ? "Puedes editar roles o expulsar usuarios" : "Miembros del espacio"}
         buttonText="Invitar a un amigo"
         controls={false}
       />

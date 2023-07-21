@@ -92,8 +92,10 @@ export const editUser = createAsyncThunk(
       console.log("userData", userData);
       const state = getState() as RootState;
       userData.userId = state.authSession.session.current.id;
-userData.filenamePi = userData.profileImage ? userData.profileImage.name : ""
-userData.filenameCi = userData.coverImage ? userData.coverImage.name : ""
+      userData.filenamePi = userData.profileImage
+        ? userData.profileImage.name
+        : "";
+      userData.filenameCi = userData.coverImage ? userData.coverImage.name : "";
       const res = await axios.put(`${serverUrl}rest/users/edit`, userData, {
         headers: {
           //multipart/form-data
@@ -183,9 +185,16 @@ const postsSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         console.log("Fulfilled login", action.payload);
-        Router.push(
-          `/client?id=${action.payload.userId}&status=ok&session=${action.payload.id}&loginMethod=local`
-        );
+        if (Router?.query?.next) {
+          Router.push(
+            `${Router.query.next}&accessCode=${Router.query.accessCode}&spaceId=${Router.query.spaceId}&id=${action.payload.userId}&status=ok&session=${action.payload.id}&loginMethod=local`
+          );
+        } else {
+          Router.push(
+            `/client?id=${action.payload.userId}&status=ok&session=${action.payload.id}&loginMethod=local`
+          );
+        }
+
         toast("Bienvenido a Spaces");
       })
       .addCase(login.rejected, (state, action) => {
@@ -197,8 +206,9 @@ const postsSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         console.log("Fulfilled register", action.payload);
+        const query: string = Router.asPath.split("register")[1] || "";
         toast.success("Registro exitoso", toastSuccess);
-        Router.push("/auth");
+        Router.push(`/auth/${query}`);
       })
       .addCase(register.rejected, (state, action) => {
         console.error("Rejected register", action);

@@ -18,7 +18,7 @@ export class MembersProps {
   }
 
   static deserialize(input: any): MembersProps {
-    return new MembersProps(input.user, input.role);
+    return new MembersProps(input?.user, input?.role);
   }
 
   static deserializeList(data: any[]): MembersProps[] {
@@ -74,6 +74,7 @@ export enum GeneralPermission {
   EditMemberRole = "editMemberRole",
   DeleteMember = "deleteMember",
   DeleteTask = "deleteTask",
+  DeleteFile = "deleteFile",
   // Agrega más permisos según tus necesidades
 }
 
@@ -91,6 +92,7 @@ const rolePermissions: RolePermissions = {
     GeneralPermission.EditMemberRole,
     GeneralPermission.DeleteMember,
     GeneralPermission.DeleteTask,
+    GeneralPermission.DeleteFile,
   ],
   admin: [
     GeneralPermission.CreateSpace,
@@ -100,6 +102,7 @@ const rolePermissions: RolePermissions = {
     GeneralPermission.EditMemberRole,
     GeneralPermission.DeleteMember,
     GeneralPermission.DeleteTask,
+    GeneralPermission.DeleteFile,
   ],
   member: [GeneralPermission.CreateSpace, GeneralPermission.DeleteTask],
   // Asigna los permisos según tus necesidades y roles

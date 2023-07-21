@@ -10,8 +10,15 @@ import useValidate from "@/hooks/useValidate";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toastStyles";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
+
+  //quitamos todo lo que esta antes del primer signo de interrogacion
+  const query: string = router.asPath.split("auth")[1] || "";
+
+  console.log(query);
   const dispatch = useAppDispatch();
   const validate = useValidate();
   const [formValues, setFormValues] = useState({});
@@ -26,7 +33,7 @@ export default function Home() {
     });
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       await submitManager({
         e,
@@ -83,7 +90,10 @@ export default function Home() {
         {/* <GoogleButton /> */}
         <p className="mt-6 w-full text-center font-light">
           ¿No tienes una cuenta?{" "}
-          <Link href="/auth/register" className="font-medium text-blue-700">
+          <Link
+            href={`/auth/register${query}`}
+            className="font-medium text-blue-700"
+          >
             Regístrate
           </Link>
         </p>

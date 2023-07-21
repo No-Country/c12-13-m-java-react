@@ -7,8 +7,13 @@ type ProfileActionProps = {
   textColor?: string;
 };
 
-export default function ProfileAction({ textColor = "text-white" }: ProfileActionProps) {
-  const { session:{current:Ssession}, auth:sAuth } = useAppSelector((state) => state.authSession);
+export default function ProfileAction({
+  textColor = "text-white",
+}: ProfileActionProps) {
+  const {
+    session: { current: Ssession },
+    auth: sAuth,
+  } = useAppSelector((state) => state.authSession);
   const session = UserProps.deserialize(Ssession);
   const auth = AuthClass.deserialize(sAuth);
 
@@ -33,18 +38,22 @@ export default function ProfileAction({ textColor = "text-white" }: ProfileActio
 
   const childrenTrigger = (
     <>
-      <Image
-        src={session?.getProfileImage()}
-        alt="ProfileImage"
-        layout="fill"
-        width="w-[40px]"
-        height="w-[40px]"
-        aspectRatio="aspect-[1/1]"
-        rounded="rounded-[20px]"
-      />
-      <p className={`bodyText hidden font-medium ${textColor} lg:flex`}>
-        {session?.getFullName()}
-      </p>
+      {session?.getFullName().length > 2 && (
+        <>
+          <Image
+            src={session?.getProfileImage()}
+            alt="ProfileImage"
+            layout="fill"
+            width="w-[40px]"
+            height="w-[40px]"
+            aspectRatio="aspect-[1/1]"
+            rounded="rounded-[20px]"
+          />
+          <p className={`bodyText hidden font-medium ${textColor} lg:flex`}>
+            {session?.getFullName()}
+          </p>
+        </>
+      )}
     </>
   );
 

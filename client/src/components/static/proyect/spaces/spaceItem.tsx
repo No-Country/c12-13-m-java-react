@@ -1,5 +1,7 @@
 import { Image, MembersList } from "@/components";
 import { SpaceProps } from "@/utils/types/client";
+import { useAppSelector } from "@/redux/hooks";
+import { UserProps } from "@/utils/types/client";
 
 type SpaceItemProps = {
   item: SpaceProps;
@@ -9,16 +11,28 @@ type SpaceItemProps = {
 
 export default function SpaceItem({ item, handleClick }: SpaceItemProps) {
 
+  const {current: cUser} = useAppSelector((state) => state.authSession.session);
+
   item = SpaceProps.deserialize(item);
+  const currentUser = UserProps.deserialize(cUser);
 
   return (
     <div
       key={item?.id}
-      className="flex  h-max cursor-pointer flex-col overflow-hidden rounded-2xl border-[0.5px] border-none bg-white shadow-sm lg:border-slate-200"
+      className="flex relative  h-max cursor-pointer flex-col overflow-hidden rounded-2xl  bg-white shadow-sm "
       onClick={() => {
         handleClick(item?.id);
       }}
     >
+      {
+        item.isFromUser(currentUser) && (
+          <div className="absolute top-0 right-0 z-10">
+          <p className="smalltext font-medium  bg-blue-700 text-white rounded-2xl border-blue-200 rounded-br-none rounded-tl-none px-4 py-2">
+            Propio
+          </p>
+        </div>
+        )
+      }
       <Image
         src={item?.getCoverImage()}
         alt="SpaceCover"

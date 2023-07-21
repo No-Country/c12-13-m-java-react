@@ -1,4 +1,4 @@
-import { Input } from "@/components";
+import { Input, ConfirmationModal } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { GeneralPermission } from "@/utils/types/client";
 import { SpaceProps, MembersProps } from "@/utils/types/client";
@@ -75,13 +75,21 @@ export default function SpaceForm({
         <div className="flex gap-2">
           {currentMember.hasPermission(GeneralPermission.DeleteSpace) &&
             hasDefaultValues && (
-              <button
-                type="button"
-                className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
-                onClick={() => handleDelete()}
-              >
-                Borrar
-              </button>
+              // <button
+              //   type="button"
+              //   className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+              //   onClick={() => handleDelete()}
+              // >
+              //   Borrar
+              // </button>
+              <ConfirmationModal
+                confirmText="¿Estás seguro que quieres borrar este espacio?"
+                confirmParagraph="Esta acción no se puede deshacer"
+                triggerText="Borrar"
+                triggerClass="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+                triggerColor=""
+                trueAction={handleDelete}
+              />
             )}
           <button
             type="submit"

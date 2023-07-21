@@ -23,8 +23,10 @@ import {
   ChatProps,
   RoomsProps,
   MembersProps,
+  FilesProps,
 } from "@/utils/types/client";
 import axios from "axios";
+import { setCurrentSpaceFiles } from "@/redux/slices/client/spaces/files";
 
 const initialState = {
   spaces: [] as SpaceProps[],
@@ -46,6 +48,9 @@ export const getCurrentSpace = createAsyncThunk(
         fetchPolicy: "network-only",
       });
 
+      console.log("data getCurrentSpace", data);
+      dispatch(setCurrentSpaceFiles(data.findSpaceById.files));
+
       return {
         data: data.findSpaceById,
         state: state,
@@ -64,7 +69,7 @@ export const createSpace = createAsyncThunk(
     try {
       const state = getState() as RootState;
       input.userOwner = state.authSession.session.current.id;
-      input.filename=  input.coverImage ? input.coverImage.name : "";
+      input.filename = input.coverImage ? input.coverImage.name : "";
       const res = await axios.post(`${serverUrl}rest/spaces/create`, input, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -106,7 +111,7 @@ export const editSpace = createAsyncThunk(
     try {
       const state = getState() as RootState;
       input.spaceId = state.client.spaces.spaces.currentSpace.id;
-      input.filename=  input.coverImage ? input.coverImage.name : "";
+      input.filename = input.coverImage ? input.coverImage.name : "";
 
       const { data } = await axios.put(`${serverUrl}rest/spaces/edit`, input, {
         headers: {
@@ -251,8 +256,8 @@ const postsSlice = createSlice({
             spaceData.name,
             spaceData.accessCode,
             spaceData.description,
-                        spaceData.coverImage,
-            [] as RoomsProps[],
+            spaceData.coverImage,
+            spaceData.rooms as RoomsProps[],
             spaceData.members as MembersProps[]
           )
       );
@@ -287,8 +292,9 @@ const postsSlice = createSlice({
           action?.payload?.data?.name,
           action?.payload?.data?.accessCode,
           action?.payload?.data?.description,
-          
           action?.payload?.data?.coverImage,
+          [] as RoomsProps[],
+          action?.payload?.data?.members as MembersProps[]
         );
 
         state.currentSpaceChat = action?.payload?.data?.chat as ChatProps;

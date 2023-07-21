@@ -1,4 +1,4 @@
-import { MembersProps, RoomsProps, UserProps } from "@/utils/types/client";
+import { MembersProps, RoomsProps, UserProps, FilesProps } from "@/utils/types/client";
 
 export class SpaceProps {
   id: string;
@@ -8,6 +8,7 @@ export class SpaceProps {
   coverImage: string;
   rooms?: RoomsProps[];
   members?: MembersProps[];
+  files?: FilesProps[];
 
   constructor(
     id: string,
@@ -17,9 +18,7 @@ export class SpaceProps {
     coverImage: string,
     rooms?: RoomsProps[],
     members?: MembersProps[], //Ignorar
-
-    
-
+    files?: FilesProps[]
   ) {
     this.id = id;
     this.name = name;
@@ -28,6 +27,7 @@ export class SpaceProps {
     this.coverImage = coverImage;
     this.rooms = rooms;
     this.members = members;
+    this.files = files;
   }
 
   getId(): string {
@@ -51,14 +51,33 @@ export class SpaceProps {
   }
 
   getRooms(): RoomsProps[] {
-    if(!this.rooms) return [];
+    if (!this.rooms) return [];
     return this.rooms;
+  }
+
+  getFiles(): FilesProps[] {
+    if (!this.files) return [];
+    return this.files;
   }
 
   getMembers(): MembersProps[] {
     console.log("this", this);
-    if(!this.members) return [];
+    if (!this.members) return [];
     return this.members;
+  }
+
+  getOwner(): MembersProps | null {
+    const members = this.getMembers();
+    const owner = members?.find((member) => member?.role === "owner");
+    if (!owner) return null;
+    return owner;
+  }
+
+  isFromUser(user: UserProps): boolean {
+    const owner = this.getOwner();
+    const isOwner = owner?.user.id === user.id;
+    console.log("isOwner", isOwner, owner?.user, user.id);
+    return isOwner;
   }
 
   static deserialize(input: any): SpaceProps {
@@ -74,8 +93,6 @@ export class SpaceProps {
   }
 }
 
-
-
 // export type RoomsProps = {
 //   id: string;
 //   name: string;
@@ -86,12 +103,3 @@ export class SpaceProps {
 //   tasks: TasksProps[];
 //   members: MembersProps[]; //Ignorar
 // };
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-import { TextToInput, MultiSelect, Input } from "@/components";
+import { TextToInput, MultiSelect, Input, ConfirmationModal } from "@/components";
 import { useState } from "react";
 import { TasksProps } from "@/utils/types/client";
 import { MembersProps, SpaceProps } from "@/utils/types/client";
@@ -89,13 +89,21 @@ export default function TaskForm({
         />
         <div className="flex gap-2">
           {hasDefaultValues && (
-            <button
-              type="button"
-              className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
-              onClick={() => handleDelete()}
-            >
-              Borrar
-            </button>
+            // <button
+            //   type="button"
+            //   className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+            //   onClick={() => handleDelete()}
+            // >
+            //   Borrar
+            // </button>
+            <ConfirmationModal
+            confirmText="¿Estás seguro que quieres borrar esta tarea?"
+            confirmParagraph="Esta acción no se puede deshacer"
+            triggerText="Borrar"
+            triggerClass="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+            triggerColor=""
+            trueAction={handleDelete}
+          />
           )}
           <button
             type="submit"

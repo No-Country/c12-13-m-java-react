@@ -35,6 +35,8 @@ public class Space {
     @DBRef
     @Cascade(CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
+    @DBRef
+    @Cascade(CascadeType.ALL)
     private List<File> files = new ArrayList<>();
     @DBRef
     @Cascade(CascadeType.ALL)
@@ -156,8 +158,6 @@ public class Space {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
-
-    
 
     @Override
     public String toString() {

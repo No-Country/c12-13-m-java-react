@@ -7,7 +7,11 @@ import { ReactSVG } from "react-svg";
 import { useEffect, useState } from "react";
 import { head } from "lodash";
 
-export default function Header() {
+type HeaderProps = {
+  alwaysAlternative?: boolean;
+};
+
+export default function Header({ alwaysAlternative }: HeaderProps) {
   const router = useRouter();
 
   const inPublicArea =
@@ -17,7 +21,7 @@ export default function Header() {
 
   const inAuthArea = router.pathname.startsWith("/auth");
 
-  const [headerType, setHeaderType] = useState<"default" | "alternative">( "default");
+  const [headerType, setHeaderType] = useState<"default" | "alternative">( alwaysAlternative ? "alternative" : "default");
 
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export default function Header() {
       if (window.scrollY > 100) {
         setHeaderType("alternative");
       } else {
-        setHeaderType("default");
+        setHeaderType(alwaysAlternative ? "alternative" : "default");
       }
     };
     window.addEventListener("scroll", handleScroll);

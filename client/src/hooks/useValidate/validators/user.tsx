@@ -74,16 +74,19 @@ export const isValidPassword = (value: string): validResponse => {
   if (!value || value.trim() === "") {
     return {
       isValid: false,
-      error: "Password is required",
+      error: "La contraseña es requerida",
     };
   }
-  const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value);
+  const isValid =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(
+      value
+    );
 
   if (!isValid) {
     return {
       isValid: false,
       error:
-        "La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número",
+        "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un caracter especial",
     };
   } else {
     return {

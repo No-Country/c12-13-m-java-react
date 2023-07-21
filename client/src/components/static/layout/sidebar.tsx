@@ -97,58 +97,67 @@ export default function Sidebar({ type }: SidebarProps) {
 
   return (
     <>
-      <aside className="sidebar hidden bg-white lg:flex">
-        <div className="sidebarInner z-[50] ">
-          <Logo type="normal" />
-
-          <div className="mt-8 flex flex-col items-start justify-start gap-8">
-            <VerticalMenu
-              title={type === "client" ? "GENERAL" : "GENERAL"}
-              data={
-                type === "client" ? spaceNavData.slice(0, 2) : accountNavData.slice(0, 1)
-              }
-              hasLogo={true}
-              isRooms={false}
-            />
-            {type === "client" && (
-              <>
+      <aside className="sidebar sticky top-0 max-h-screen hidden overflow-hidden bg-white lg:flex ">
+        <div className="sidebarInner  z-[50] overflow-hidden  ">
+          <div className="relative w-full h-full overflow-y-scroll">
+            <div className="absolute left-0 top-0 h-full w-full  ">
+              <Logo type="normal" />
+              <div className="mt-8 flex flex-col items-start justify-start gap-8">
                 <VerticalMenu
-                  title={currentSpace?.getName()?.toUpperCase()}
-                  data={spaceNavData.slice(2, 6)}
+                  title={type === "client" ? "GENERAL" : "GENERAL"}
+                  data={
+                    type === "client"
+                      ? spaceNavData.slice(0, 2)
+                      : accountNavData.slice(0, 1)
+                  }
                   hasLogo={true}
                   isRooms={false}
                 />
-                {Array.isArray(rooms) && rooms.length > 0 && (
+                {type === "client" && (
+                  <>
+                    <VerticalMenu
+                      title={currentSpace?.getName()?.toUpperCase()}
+                      data={spaceNavData.slice(2, 6)}
+                      hasLogo={true}
+                      isRooms={false}
+                    />
+                    {Array.isArray(rooms) && rooms.length > 0 && (
+                      <VerticalMenu
+                        title="ROOMS"
+                        data={rooms}
+                        hasLogo={false}
+                        isRooms={true}
+                      />
+                    )}
+                  </>
+                )}
+                {type === "account" && (
                   <VerticalMenu
-                    title="ROOMS"
-                    data={rooms}
-                    hasLogo={false}
-                    isRooms={true}
+                    title="CUENTA"
+                    data={accountNavData.slice(1, 6)}
+                    hasLogo={true}
+                    isRooms={false}
                   />
                 )}
-              </>
-            )}
-            {
-              type === "account" && (
-                <VerticalMenu
-                title="CUENTA"
-                data={accountNavData.slice(1, 6)}
-                hasLogo={true}
-                isRooms={false}
-              />
-              )
-            }
+              </div>
+            </div>
           </div>
         </div>
       </aside>
       <div className="sidebarMobile seccion1-x fixed bottom-[0px] left-0 right-0 z-[10]  bg-white shadow-lg lg:hidden">
         <div className="flex items-center justify-between gap-2 py-3">
-          {type === "client" && spaceNavData.slice(2, 6).map((item: any, index: any) => (
-            <BottomBarItem data={item} hasLogo={true} isRooms={false} />
-          ))}
-                    {type === "account" && accountNavData.slice(0, 3).map((item: any, index: any) => (
-            <BottomBarItem data={item} hasLogo={true} isRooms={false} />
-          ))}
+          {type === "client" &&
+            spaceNavData
+              .slice(2, 6)
+              .map((item: any, index: any) => (
+                <BottomBarItem data={item} hasLogo={true} isRooms={false} />
+              ))}
+          {type === "account" &&
+            accountNavData
+              .slice(0, 3)
+              .map((item: any, index: any) => (
+                <BottomBarItem data={item} hasLogo={true} isRooms={false} />
+              ))}
         </div>
       </div>
     </>

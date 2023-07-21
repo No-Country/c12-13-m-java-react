@@ -50,6 +50,7 @@ export default function ConfirmationModal({
       <button
         className={`${triggerClass} primaryButton whitespace-nowrap ${triggerColor}`}
         onClick={handleTrigger}
+        type="button"
       >
         {triggerText}
       </button>
@@ -61,18 +62,19 @@ export default function ConfirmationModal({
           setIsOpen={setIsOpen}
         >
           <div className="flex flex-col gap-5">
+            <div className="flex gap-1 flex-col">
             <h3 className="text-2xl font-medium">{confirmText}</h3>
-            <p className="text-gray-800">{confirmParagraph}</p>
-
-            <div className="flex gap-5">
+            <p className="bodyText ">{confirmParagraph}</p>
+            </div>
+            <div className="flex gap-2">
               <button
-                className="rounded-md bg-blue-500 px-4 py-2 text-white"
+                className="primaryButton"
                 onClick={handleTrueAction}
               >
                 Confirmar
               </button>
               <button
-                className="rounded-md bg-red-700 px-4 py-2 text-white"
+                className="secondaryButton bg-red-200  text-red-700"
                 onClick={() => setIsOpen(false)}
               >
                 Cancelar
