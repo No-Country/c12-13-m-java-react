@@ -88,7 +88,7 @@ const TermItems = ({term}:props) => {
   return(
 
     <>
-      <h3 className="titulo-3 text-blue-700 mb-10">{title}</h3>
+      <h3 className="titulo-3 text-blue-700 mb-5">{title}</h3>
       <ol>
         {subParrafos.map((item,index) => (
           <li className="mb-5" key={item}><span className="text-blue-700">{id}.{index + 1}</span> {item}</li>
