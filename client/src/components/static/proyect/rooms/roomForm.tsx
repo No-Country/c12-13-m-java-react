@@ -45,6 +45,16 @@ export default function RoomForm({
           error={errors.name}
           defaultValue={hasDefaultValues ? currentRoom?.getName() : ""}
         />
+        <Input 
+          label="Descripción"
+          type="text"
+          name="description"
+          onChange={handleChange}
+          placeholder="Description"
+          required={hasDefaultValues ? false : true}
+          error={errors.description}
+          defaultValue={hasDefaultValues ? currentRoom?.getDescription() : ""}
+        />
         <Input
           label="Imagen de portada"
           type="file"
