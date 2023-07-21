@@ -26,6 +26,7 @@ export const GET_USER_BY_ID = gql`
         members {
           role
           user {
+            id
             profileImage
             firstName
             lastName
@@ -66,12 +67,12 @@ export const GET_SPACE_BY_ID = gql`
       files {
         id
         name
-        description
-        type
         src
-        asignedRoom {
-          name
-          id
+        owner {
+          id 
+          firstName
+          lastName
+          profileImage
         }
         createdAt
         updatedAt

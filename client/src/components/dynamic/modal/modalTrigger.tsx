@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 
 type ModalTriggerProps = {
   children: React.ReactNode;
-  triggerText: string;
+  triggerText: string | React.ReactNode;
   buttonType?: "primaryButton" | "secondaryButton" | "terceryButton";
   alwaysOpen?: boolean;
   alwaysOpenCloser?: () => void;

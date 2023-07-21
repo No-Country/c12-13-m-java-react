@@ -1,8 +1,13 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 type AuthLayoutProps = {
     children: React.ReactNode;
   };
   
  export default function AuthLayout({ children }: AuthLayoutProps) {
+    const router = useRouter();
+
     return (
       <section className="relative flex w-full flex-row justify-center">
         <div className="w-full items-center justify-center align-middle">

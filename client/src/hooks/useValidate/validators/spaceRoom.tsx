@@ -16,7 +16,7 @@ export const isDescriptionValid = (value: string): validResponse => {
   if (!isValid) {
     return {
       isValid: false,
-      error: "Description must be less than 40 characters",
+      error: "La descripción no puede superar los 40 caracteres",
     };
   } else {
     return {
@@ -30,7 +30,7 @@ export const isAccessCodeValid = (value: string): validResponse => {
     if (!value || value.trim() === "") {
         return {
         isValid: false,
-        error: "Access Code is required",
+        error: "El código de acceso es requerido",
         };
     }
     //regex
@@ -39,7 +39,7 @@ export const isAccessCodeValid = (value: string): validResponse => {
     if (!isValid) {
         return {
         isValid: false,
-        error: "Access Code must be less than 10 characters",
+        error: "El código de acceso debe tener entre 4 y 10 caracteres",
         };
     } else {
         return {

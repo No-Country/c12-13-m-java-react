@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Main } from "@/components";
+import { Main, Footer, Header } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
 import { joinSpace } from "@/redux/slices/client/spaces/spaces";
 
 export default function JoinSpace() {
   const router = useRouter();
   const { spaceId, spaceName, accessCode } = router.query;
-
+console.log(router.asPath);
   const dispatch = useAppDispatch();
 
   const handleJoinSpace = () => {
@@ -27,7 +27,8 @@ export default function JoinSpace() {
         <title>Unirse a un espacio</title>
       </Head>
       <Main>
-        <section className="seccion1-x flex flex-col gap-6 pb-12">
+        <Header alwaysAlternative={true} />
+        <section className="seccion1-x flex flex-col gap-6 pb-12 mt-[96px] ">
           <div className="flex h-[60vh] flex-col items-center justify-center">
             <h1 className="titulo-1">Unirse a un espacio</h1>
             <p className="bodyText">
@@ -38,6 +39,7 @@ export default function JoinSpace() {
             </button>
           </div>
         </section>
+        <Footer />
       </Main>
     </>
   );

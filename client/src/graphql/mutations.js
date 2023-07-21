@@ -314,6 +314,15 @@ export const CHANGE_USER_ROLE = gql`
   }
 `;
 
+export const DELETE_FILE = gql`
+  mutation deleteFile($fileId: ID!, $spaceId: ID!) {
+    deleteFile(fileId: $fileId, spaceId: $spaceId) {
+      id
+    }
+  }
+`;
+      
+
 // mutation {
 //   createUser(
 //     firstName: "John"

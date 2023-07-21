@@ -56,7 +56,7 @@ const nameValidation = (value: string): validResponse => {
   if (!value || value.trim() === "" || value.length <= 1) {
     return {
       isValid: false,
-      error: "Name is required",
+      error: "Campo requerido",
     };
   }
   console.log("value name", value === "");

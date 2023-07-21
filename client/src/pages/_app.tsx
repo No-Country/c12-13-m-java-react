@@ -17,6 +17,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Toaster
+            richColors
               position="bottom-left"
               toastOptions={{
                 className: "max-w-[85vw] xs:max-w-none ",

@@ -30,7 +30,7 @@ export default function Members() {
             current={currentSpace}
             modalType="confirmation"
             type="space"
-            controls={currentMember?.isAdmin() && !currentMember?.isOwner()}
+            controls={!currentMember?.isOwner()}
             showMembers={false}
             triggerText="Abandonar el espacio"
             confirmParagraph="Estas seguro que quieres salir de este espacio?"

@@ -43,11 +43,11 @@ const HOC: React.FC<Props> = ({ children }) => {
         dispatch(setAuth(data));
         await dispatch(setSession(userId as string));
       } else {
-        alert("Debes iniciar sesión primero");
+        console.log("Debes iniciar sesión primero");
         dispatch(resetReducer());
       }
     } else {
-      alert("Debes iniciar sesión primero");
+      console.log("Debes iniciar sesión primero");
     }
   };
 
@@ -74,8 +74,12 @@ const HOC: React.FC<Props> = ({ children }) => {
       ) {
         setAuthFn();
       } else {
-        alert("Debes iniciar sesión primero");
-        router.push("/");
+        if(router.pathname === "/client/joinspace") {
+          router.push(`/auth?next=${router.asPath}`);
+        }
+        else {
+          router.push("/");
+        }
       }
     } else if (router.pathname.startsWith("/auth")) {
       if (auth?.getIsLogged()) {
