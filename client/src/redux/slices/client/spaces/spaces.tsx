@@ -352,7 +352,7 @@ const postsSlice = createSlice({
 
       .addCase(joinSpace.pending, (state) => {})
       .addCase(joinSpace.fulfilled, (state, action) => {
-        Router.push(`/client/${action.payload.id}`);
+        Router.push(`/client/${action?.payload?.id}`);
         toast.success("Espacio unido correctamente", toastSuccess);
       })
       .addCase(joinSpace.rejected, (state) => {
