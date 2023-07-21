@@ -3,7 +3,7 @@ package com.example.demo.model;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Member {
-    @DBRef
+    @DBRef(lazy = true)
     private User user;
     private String role;
 

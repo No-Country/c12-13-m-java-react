@@ -34,7 +34,7 @@ public class User {
     private Boolean softDelete = false;
     @Builder.Default
     private Boolean isSuperAdmin = false;
-    @DBRef
+    @DBRef(lazy = true)
     private List<Space> spaces = new ArrayList<>();
     private String createdAt;
     private String updatedAt;
