@@ -46,7 +46,7 @@ export default function TaskItem({ item }: TaskItemProps) {
     setEditing(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: (React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>)) => {
     changeManager({
       e,
       setFormValues,
@@ -65,7 +65,8 @@ export default function TaskItem({ item }: TaskItemProps) {
 
   const handleSubmit = async (e: any) => {
     try {
-      setLoading(true);
+     setLoading(true);
+      console.log("formValues", formValues);
       await submitManager({
         e,
         formValues,
@@ -78,7 +79,7 @@ export default function TaskItem({ item }: TaskItemProps) {
       console.log("formValues", formValues);
       setLoading(false);
 
-      setEditing(false);
+     // setEditing(false);
     } catch (error) {
       console.log(error);
       setLoading(false);

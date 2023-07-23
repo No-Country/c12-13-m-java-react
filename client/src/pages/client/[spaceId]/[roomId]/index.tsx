@@ -152,7 +152,7 @@ export default function CurrentRoom() {
                   errors={errors}
                   hasDefaultValues={true}
                   handleDelete={handleDelete}
-                  title="Editar espacio"
+                  title="Editar room"
                 />
               }
             >

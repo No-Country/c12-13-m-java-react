@@ -27,7 +27,7 @@ export default function Input(props: InputProps) {
   return (
     <label
       htmlFor={props.name}
-      className={`smalltext flex min-w-0 flex-col gap-1 font-normal ${props.labelClass}`}
+      className={`w-full smalltext flex min-w-0 flex-col gap-1 font-normal ${props.labelClass}`}
     >
       {props.label}
       <input

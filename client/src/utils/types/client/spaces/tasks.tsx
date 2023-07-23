@@ -1,4 +1,4 @@
-import { MembersProps } from "@/utils/types/client";
+import { MembersProps, CommentProps } from "@/utils/types/client";
 
 export class TasksProps {
   id: string;
@@ -7,7 +7,8 @@ export class TasksProps {
   deadline: string;
   status: 1 | 2 | 3;
   assignedTo: MembersProps[];
-  comments: CommentsProps[];
+  comments: CommentProps[];
+  longDescription: string;
 
   constructor(
     id: string,
@@ -16,7 +17,8 @@ export class TasksProps {
     deadline: string,
     status: 1 | 2 | 3,
     assignedTo: MembersProps[],
-    comments: CommentsProps[]
+    comments: CommentProps[],
+    longDescription: string
   ) {
     this.id = id;
     this.title = title;
@@ -25,6 +27,7 @@ export class TasksProps {
     this.status = status;
     this.assignedTo = assignedTo;
     this.comments = comments;
+    this.longDescription = longDescription;
   }
 
   static deserialize(data: any): TasksProps {
@@ -35,7 +38,8 @@ export class TasksProps {
       data.deadline,
       data.status,
       data.assignedTo,
-      data.comments
+      data.comments,
+      data.longDescription
     );
   }
 
@@ -67,7 +71,11 @@ export class TasksProps {
     return this.assignedTo;
   }
 
-  getComments(): CommentsProps[] {
+  getLongDescription(): string {
+    return this.longDescription;
+  }
+
+  getComments(): CommentProps[] {
     return this.comments;
   }
 
@@ -87,9 +95,3 @@ export class TasksProps {
 
 }
 
-export type CommentsProps = {
-  id: string;
-  content: string;
-  createdAt: string;
-  createdBy: MembersProps;
-};

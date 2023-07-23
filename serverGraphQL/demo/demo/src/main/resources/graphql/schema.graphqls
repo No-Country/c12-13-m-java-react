@@ -15,6 +15,14 @@ type Users {
   spaces: [Spaces]
 }
 
+type Comments {
+  id: ID
+  content: String
+  fromUser: Users
+  createdAt: String
+  updatedAt: String
+}
+
 type Spaces {
   id: ID
   name: String
@@ -54,11 +62,13 @@ type Tasks {
   id: ID
   title: String
   description: String
+  longDescription: String
   status: String
   deadline: String
   assignedTo: [Members]
   createdAt: String
   updatedAt: String
+  comments: [Comments]
 }
 
 type Members {
@@ -174,6 +184,7 @@ type Mutation {
     status: Int
     deadline: String
     assignedToIds: [ID]
+    longDescription: String
   ): Tasks
 
   deleteTask(taskId: ID!, roomId: ID!): Tasks
@@ -186,6 +197,7 @@ type Mutation {
     status: Int
     deadline: String
     assignedToIds: [ID]
+    longDescription: String
   ): Tasks
 
   joinSpace(spaceId: ID!, userId: ID!): Spaces
@@ -201,6 +213,13 @@ type Mutation {
   changePassword(userId: ID!, oldPassword: String!, newPassword: String!): Users
 
   deleteFile(fileId: ID!, spaceId: ID!): Files
+
+  createComment(
+    taskId: ID!
+    roomId: ID!
+    content: String!
+    userId: ID!
+  ): Comments
 }
 
 type Subscription {

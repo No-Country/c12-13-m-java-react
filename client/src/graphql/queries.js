@@ -69,7 +69,7 @@ export const GET_SPACE_BY_ID = gql`
         name
         src
         owner {
-          id 
+          id
           firstName
           lastName
           profileImage
@@ -109,6 +109,7 @@ export const GET_ROOM_BY_ID = gql`
         id
         title
         description
+        longDescription
         deadline
         createdAt
         status
@@ -119,6 +120,17 @@ export const GET_ROOM_BY_ID = gql`
             lastName
             profileImage
             id
+          }
+        }
+        comments {
+          id
+          content
+          createdAt
+          fromUser {
+            id
+            firstName
+            lastName
+            profileImage
           }
         }
       }
