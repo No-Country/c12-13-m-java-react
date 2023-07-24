@@ -18,6 +18,7 @@ export default function SpacesList() {
 
   return (
     <section className="listContainer2">
+      <div className="containerInner listContainerInner">
       <ListTopArea
         title="Mis espacios"
         description="Organiza tus proyectos"
@@ -42,6 +43,7 @@ export default function SpacesList() {
               handleClickConfig={handleClick}
             />
           ))}
+      </div>
       </div>
     </section>
   );

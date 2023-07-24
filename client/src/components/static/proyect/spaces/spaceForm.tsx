@@ -35,7 +35,7 @@ export default function SpaceForm({
           type="text"
           name="name"
           onChange={handleChange}
-          placeholder="Name"
+          placeholder="Nombre"
           required={hasDefaultValues ? false : true}
           error={errors.name}
           defaultValue={hasDefaultValues ? currentSpace?.getName() : ""}
@@ -46,7 +46,7 @@ export default function SpaceForm({
           type="text"
           name="description"
           onChange={handleChange}
-          placeholder="Description"
+          placeholder="Descripción"
           required={hasDefaultValues ? false : true}
           error={errors.description}
           defaultValue={hasDefaultValues ? currentSpace?.getDescription() : ""}
@@ -57,7 +57,7 @@ export default function SpaceForm({
           type="file"
           name="coverImage"
           onChange={handleChange}
-          placeholder="Cover Image"
+          placeholder="Imagen de portada"
           required={hasDefaultValues ? false : true}
           error={errors.coverImage}
         />
@@ -67,7 +67,7 @@ export default function SpaceForm({
           type="text"
           name="accessCode"
           onChange={handleChange}
-          placeholder="Access Code"
+          placeholder="Código de acceso"
           required={hasDefaultValues ? false : true}
           error={errors.accessCode}
           defaultValue={hasDefaultValues ? currentSpace?.getAccessCode() : ""}

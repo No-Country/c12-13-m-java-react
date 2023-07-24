@@ -33,7 +33,7 @@ export default function FileForm({
           type="text"
           name="name"
           onChange={handleChange}
-          placeholder="Name"
+          placeholder="Nombre"
           required={hasDefaultValues ? false : true}
           error={errors.name}
           defaultValue={hasDefaultValues ? currentFile.name : ""}
@@ -43,7 +43,7 @@ export default function FileForm({
           type="file"
           name="image"
           onChange={handleChange}
-          placeholder="Cover Image"
+          placeholder="Imagen"
           required={hasDefaultValues ? false : true}
           error={errors.image}
         />

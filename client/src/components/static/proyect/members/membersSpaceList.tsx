@@ -35,7 +35,7 @@ export default function MembersSpaceList({ adminZone }: MembersListProps) {
   const currentMember = MembersProps.deserialize(cMember);
 
   const childrenTrigger = (
-    <ReactSVG src="/icon/sidebar/config.svg" className="h-5 w-5" />
+    <ReactSVG src="/icon/sidebar/config.svg" className="h-5 w-5 fill-current text-blue-700" />
   );
 
   return (

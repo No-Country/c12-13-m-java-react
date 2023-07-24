@@ -23,7 +23,7 @@ export default function HomeClient() {
 
 function Hero() {
   return (
-    <section className="relative mt-0 flex h-[65vh]  w-full items-center justify-center  pt-[55px]   ">
+    <section className="relative mt-0 flex min-h-[500px] lg:min-h-[400px] h-[65vh]  w-full items-center justify-center  pt-[55px]   ">
       <NextImage
         src="/image/hero-client.png"
         alt="SpaceCover"
@@ -31,7 +31,7 @@ function Hero() {
         className="left-0 right-0 top-0  h-full w-full object-cover object-center"
       />
       <div className="seccion1-x  relative flex w-full flex-grow items-center justify-between gap-10  pb-[30px] ">
-        <div className="  flex h-full flex-col items-center justify-start gap-6  lg:flex-row">
+        <div className="containerInner  flex h-full flex-col items-center justify-start gap-6  lg:flex-row">
           <div className=" flex h-full flex-col ">
             <div>
               <h1 className="titulo-1 text-white">
@@ -43,7 +43,7 @@ function Hero() {
                 marcar la diferencia desde tu propio espacio.
               </p>
             </div>
-            <button className="primaryButton mt-4 w-max whitespace-nowrap">
+            <button className="primaryButton mt-4 w-full sm:w-max sm:whitespace-nowrap">
               Accede sin limites con premium
             </button>
           </div>

@@ -41,7 +41,7 @@ export default function BottomBarItem({
     <>
       {data.visible && (
         <div
-          className="flex flex-col items-center justify-center gap-1 w-full"
+          className="centerInner gap-1 w-full"
           onClick={() => handleClick(data)}
         >
           <ReactSVG

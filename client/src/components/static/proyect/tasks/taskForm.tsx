@@ -62,32 +62,48 @@ export default function TaskForm({
 
   const handleComment = (e: any) => {
     e.preventDefault();
-dispatch(createComment({content: e.target.comment.value}))
+    dispatch(createComment({ content: e.target.comment.value }));
   };
 
+  const selectOptions = [
+    { value: "1", label: "To-do" },
+    { value: "2", label: "En progreso" },
+    { value: "3", label: "Completado" },
+  ];
+
   return (
-    <div className=" flex  min-w-[300px] flex-col gap-4 ">
-      <div className="flex ">
-        {hasDefaultValues && editing === false && (
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col ">
-              <p className="titulo-3">{currentTask.getTitle()}</p>
-              <p className="bodyText">{currentTask.getDescription()}</p>
-              <p className="bodyText mt-3 ">
-                {currentTask.getLongDescription()}
-              </p>
-              <MembersList
-                members={currentTask.getAssignedTo()}
-                size="small"
-                pictureHasMargin={true}
-              />
-            </div>
-            <div className="flex flex-col gap ">
-              <h2 className="titulo-4 font-medium ">Comentarios</h2>
-              <div className="overflow-y-scroll max-h-[150px] flex gap-2 flex-col mt-4">
+    <div className=" flex  h-full overflow-auto   gap-4  ">
+      {hasDefaultValues && editing === false && (
+        <div className="grid grid-cols-2 gap-8  w-full min-h-[45vh] ">
+          <div className="flex flex-col ">
+            <p className="titulo-3">{currentTask.getTitle()}</p>
+            <p className="bodyText">{currentTask.getDescription()}</p>
+            <p className="bodyText mb-3 mt-3 ">
+              {currentTask.getLongDescription()}
+            </p>
+            <MembersList
+              members={currentTask.getAssignedTo()}
+              size="medium"
+              pictureHasMargin={true}
+            />
+            <button
+              type="submit"
+              className={` primaryButton mt-4 w-max
+           `}
+              onClick={() => setEditing(true)}
+            >
+              Editar tarea
+            </button>
+          </div>
+          <div className="gap flex flex-col overflow-scroll min-h-0 flex-grow  ">
+            <h2 className="titulo-4 font-medium ">Comentarios</h2>
+            <div className="mt-4 flex min-h-0 flex-grow  flex-col gap-3 overflow-y-scroll">
               {Array.isArray(currentTaskComments) &&
                 currentTaskComments.map((message) => (
-                  <div key={message.id} className="flex-row flex justify-start items-start gap-2">
+                  <div
+                    key={message.id}
+                    className="flex flex-row items-start justify-start gap-2"
+                  >
                     <Image
                       src={message.fromUser.profileImage}
                       width={35}
@@ -107,121 +123,108 @@ dispatch(createComment({content: e.target.comment.value}))
                     </div>
                   </div>
                 ))}
-                </div>
-              <form className="flex gap-2 mt-4 items-end justify-start" onSubmit={handleComment}>
-                <Input
-                  type="text"
-      
-                  placeholder="Escribe un comentario"
-                  name="comment"
-                  label=""
-                />
-                <button
-                  type="submit"
-                  className="primaryButton smalltext px-4 py-3"
-                >
-                  Enviar
-                </button>
-              </form>
             </div>
-            <button
-              type="submit"
-              className={` primaryButton mt-4 w-full
-           `}
-           onClick = {() => setEditing(true)}
-            >
-              Editar
-            </button>
-          </div>
-        )}
-        {editing && (
-          <div className="flex flex-col gap-4 w-full">
-            <h1 className="titulo-3 font-medium">{title}</h1>
             <form
-              className="flex w-full flex-col gap-4 w-full "
-              onSubmit={handleSubmit}
+              className="mt-4 flex flex-grow items-end justify-start gap-2"
+              onSubmit={handleComment}
             >
               <Input
-                label="Titulo"
                 type="text"
-                name="title"
-                onChange={handleChange}
-                placeholder="Title"
-                required={hasDefaultValues ? false : true}
-                error={errors.title}
-                defaultValue={hasDefaultValues ? currentTask?.getTitle() : ""}
+                placeholder="Escribe un comentario"
+                name="comment"
+                label=""
               />
-              <Input
-                label="Descripción"
-                type="text"
-                name="description"
-                onChange={handleChange}
-                placeholder="Description"
-                required={hasDefaultValues ? false : true}
-                error={errors.description}
-                defaultValue={
-                  hasDefaultValues ? currentTask?.getDescription() : ""
-                }
-              />
-              <textarea
-                className="rounded-2xl px-4 py-2"
-                name="longDescription"
-                onChange={handleChange}
-                placeholder="Long Description"
-                required={hasDefaultValues ? false : true}
-                defaultValue={
-                  hasDefaultValues ? currentTask?.getLongDescription() : ""
-                }
-              />
-              <p className="text-sm font-medium">{errors.longDescription}</p>
-              <label className="text-sm font-medium">
-                Estado
-                <select
-                  className="rounded-2xl px-4 py-2"
-                  name="status"
-                  onChange={handleSelectChange}
-                  defaultValue={1}
-                >
-                  <option value="1">To-do</option>
-                  <option value="2">En progreso</option>
-                  <option value="3">Completado</option>
-                </select>
-              </label>
-              <MultiSelect
-                options={multiOptions}
-                setSelected={setSelected}
-                selected={selected}
-              />
-              <div className="flex gap-2">
-                {hasDefaultValues && (
-                  // <button
-                  //   type="button"
-                  //   className="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
-                  //   onClick={() => handleDelete()}
-                  // >
-                  //   Borrar
-                  // </button>
-                  <ConfirmationModal
-                    confirmText="¿Estás seguro que quieres borrar esta tarea?"
-                    confirmParagraph="Esta acción no se puede deshacer"
-                    triggerText="Borrar"
-                    triggerClass="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
-                    triggerColor=""
-                    trueAction={handleDelete}
-                  />
-                )}
-                <button
-                  type="submit"
-                  className={` primaryButton mt-4 w-full
-           `}
-                >
-                  Guardar
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="primaryButton smalltext px-4 py-3"
+              >
+                Enviar
+              </button>
             </form>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+      {editing && (
+        <div className="flex flex-grow flex-col gap-4 ">
+          <h1 className="titulo-3 font-medium">{title}</h1>
+          <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
+            <div className="grid grid-cols-2 gap-8 ">
+              <div className="flex flex-col gap-3">
+                <Input
+                  label="Titulo"
+                  type="text"
+                  name="title"
+                  onChange={handleChange}
+                  placeholder="Titulo"
+                  required={hasDefaultValues ? false : true}
+                  error={errors.title}
+                  defaultValue={hasDefaultValues ? currentTask?.getTitle() : ""}
+                />
+                <Input
+                  label="Descripción corta"
+                  type="text"
+                  name="description"
+                  onChange={handleChange}
+                  placeholder="Descripción"
+                  required={hasDefaultValues ? false : true}
+                  error={errors.description}
+                  defaultValue={
+                    hasDefaultValues ? currentTask?.getDescription() : ""
+                  }
+                />
+                <Input
+                  label="Estado"
+                  type="select"
+                  name="status"
+                  onChange={handleSelectChange}
+                  placeholder="Estado"
+                  required={hasDefaultValues ? false : true}
+                  error={errors.status}
+                  //defaultValue={hasDefaultValues ? currentTask?.getStatus() : ""}
+                  selectOptions={selectOptions}
+                />
+                <MultiSelect
+                  label="Asignar a"
+                  options={multiOptions}
+                  setSelected={setSelected}
+                  selected={selected}
+                />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Input
+                  label="Descripción larga"
+                  type="textarea"
+                  name="longDescription"
+                  onChange={handleChange}
+                  placeholder="Descripción larga"
+                  required={hasDefaultValues ? false : true}
+                  error={errors.longDescription}
+                  defaultValue={
+                    hasDefaultValues ? currentTask?.getLongDescription() : ""
+                  }
+                  rows={8}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              {hasDefaultValues && (
+                <ConfirmationModal
+                  confirmText="¿Estás seguro que quieres borrar esta tarea?"
+                  confirmParagraph="Esta acción no se puede deshacer"
+                  triggerText="Borrar"
+                  triggerClass="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+                  triggerColor=""
+                  trueAction={handleDelete}
+                />
+              )}
+              <button type="submit" className="primaryButton mt-4 w-full">
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

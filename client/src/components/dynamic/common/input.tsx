@@ -14,6 +14,9 @@ type InputProps = {
   error?: string | null;
   step?: string;
   required?: boolean;
+  rows?: number;
+  selectOptions?: { value: string; label: string }[];
+  handleSelectChange?: (e: any) => void;
 };
 
 export default function Input(props: InputProps) {
@@ -27,22 +30,48 @@ export default function Input(props: InputProps) {
   return (
     <label
       htmlFor={props.name}
-      className={`w-full smalltext flex min-w-0 flex-col gap-1 font-normal ${props.labelClass}`}
+      className={`smalltext flex w-full min-w-0 flex-col gap-1 font-normal ${props.labelClass}`}
     >
       {props.label}
-      <input
-        defaultValue={props.defaultValue}
-        type={props.type}
-        step={props.step}
-        name={props.name}
-        value={props.value}
-        prefix={props.prefix}
-        onChange={props.onChange}
-        placeholder={props.placeholder}
-        className={`${props.className} smalltext min-w-0 rounded-2xl px-4 py-2 ${className}`}
-        style={{ borderWidth: "1px" }}
-        required={props.required}
-      />
+      {props.type !== "textarea" && props.type !== "select" ? (
+        <input
+          defaultValue={props.defaultValue}
+          type={props.type}
+          step={props.step}
+          name={props.name}
+          value={props.value}
+          prefix={props.prefix}
+          onChange={props.onChange}
+          placeholder={props.placeholder}
+          className={`${props.className} smalltext min-w-0 rounded-2xl px-4 py-2 ${className}`}
+          style={{ borderWidth: "1px" }}
+          required={props.required}
+        />
+      ) : props.type === "select" ? (
+        <select
+          className="smalltext min-w-0 rounded-2xl px-4 py-2 bg-white "
+          name="status"
+          onChange={props.handleSelectChange}
+          defaultValue={1}
+          style={{ borderWidth: "1px" }}
+        >
+          {props?.selectOptions?.map((option) => (
+            <option value={option?.value}>{option?.label} </option>
+          ))}
+        </select>
+      ) : (
+        <textarea
+          defaultValue={props.defaultValue}
+          name={props.name}
+          value={props.value}
+          onChange={props.onChange}
+          placeholder={props.placeholder}
+          className={`${props.className} smalltext min-w-0 rounded-2xl px-4 py-2 ${className}`}
+          style={{ borderWidth: "1px" }}
+          required={props.required}
+          rows={props.rows}
+        />
+      )}
       {props.error && (
         <p className="gap-estilo4 smalltext ml-2 flex font-medium text-red-700 dark:text-red-800">
           {props.error}

@@ -77,7 +77,7 @@ export default function HeroSpaceArea({
             </p>
           </div>
           {controls && (
-            <div className="flex  gap-2">
+            <div className="flex flex-col md:flex-row  gap-2">
               {secondControls &&
                 ((secondTriggerIsAdmin &&
                   (currentMember?.isAdmin() || currentMember?.isOwner())) ||
