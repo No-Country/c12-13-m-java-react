@@ -136,6 +136,7 @@ export default function TaskForm({
                 placeholder="Escribe un comentario"
                 name="comment"
                 label=""
+                required
               />
               <button
                 type="submit"

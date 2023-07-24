@@ -56,7 +56,7 @@ public class CommentMutations {
 
             roomRepository.save(room);
 
-         //   taskPublisher.publishTask(task, roomId, "edit");
+            taskPublisher.publishTask(task, roomId, "edit");
 
             return comment;
 

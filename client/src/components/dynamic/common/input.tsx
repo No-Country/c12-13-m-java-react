@@ -21,7 +21,6 @@ type InputProps = {
 };
 
 export default function Input(props: InputProps) {
-  console.log("Input", props);
   const router = useRouter();
   const className = `${
     router.pathname.startsWith("/admin")

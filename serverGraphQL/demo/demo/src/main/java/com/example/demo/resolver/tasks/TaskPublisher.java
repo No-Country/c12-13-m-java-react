@@ -26,6 +26,7 @@ public class TaskPublisher  {
         if (action.equals("create")) {
             publishNewTask(task, roomId);
         } else if (action.equals("edit")) {
+            
             publishModifiedTask(task, roomId);
         } else if (action.equals("delete")) {
             publishDeletedTask(task, roomId);
@@ -57,6 +58,7 @@ public class TaskPublisher  {
     // Modified Task
     public void publishModifiedTask(Task task, String roomId) {
         FluxSink<Task> taskStream = editTaskStreams.get(roomId);
+        System.out.println("publishTask: " + task.getTitle() + " " + roomId);
         if (taskStream != null) {
             taskStream.next(task);
         }
