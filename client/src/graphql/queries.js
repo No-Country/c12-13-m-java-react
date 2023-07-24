@@ -67,6 +67,7 @@ export const GET_SPACE_BY_ID = gql`
       files {
         id
         name
+        description
         src
         owner {
           id

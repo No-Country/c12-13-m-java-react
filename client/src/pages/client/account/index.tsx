@@ -55,6 +55,7 @@ export default function AccountPage() {
     <>
       <Head>
         <title>Mi cuenta | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
 
       <LayoutSpaces type="account">

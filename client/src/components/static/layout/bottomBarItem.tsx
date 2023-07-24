@@ -41,19 +41,19 @@ export default function BottomBarItem({
     <>
       {data.visible && (
         <div
-          className="flex flex-col items-center justify-center gap-1 w-full"
+          className="centerInner gap-1 w-full"
           onClick={() => handleClick(data)}
         >
           <ReactSVG
             src={!hasLogo ? "/icon/default-sm.svg" : data.icon}
             className={`fill-current  ${
               colorChangeCondition(data)
-                ? "rounded-full bg-blue-50 px-5 py-2 text-blue-700"
-                : "px-5 py-2 text-black"
+                ? "rounded-full bg-blue-50 px-3 py-2 text-blue-700"
+                : "px-3 py-2 text-black"
             }`}
           />
           <p
-            className={`smalltext ${
+            className={`smalltext text-xs xs:text-sm  ${
               colorChangeCondition(data) ? "text-blue-700" : "text-black"
             }`}
           >

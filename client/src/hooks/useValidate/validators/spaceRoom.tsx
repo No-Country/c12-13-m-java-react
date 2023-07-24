@@ -57,12 +57,12 @@ export const isAccessCodeValid = (value: string): validResponse => {
             };
         }
         //regex
-        const isValid = value.length <= 200;
+        const isValid = value.length <= 300;
         
         if (!isValid) {
             return {
             isValid: false,
-            error: "La descripción no puede superar los 200 caracteres",
+            error: "La descripción no puede superar los 300 caracteres",
             };
         } else {
             return {

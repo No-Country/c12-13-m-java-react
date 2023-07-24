@@ -53,12 +53,15 @@ public class RestFileManager {
             @RequestParam("spaceId") String spaceId,
             @RequestParam("image") MultipartFile file,
             @RequestParam("userId") String userId,
-            @RequestParam("filename") String filename) {
+            @RequestParam("filename") String filename,
+            @RequestParam("description") String description
+            ) {
 
         try {
             File fileVar = new File();
             Space space = spaceRepository.findById(spaceId).get();
             fileVar.setName(name);
+            fileVar.setDescription(description);
             String imageUrl = imageUploader.uploadImage(file.getBytes(), filename);
             fileVar.setSrc(imageUrl);
             fileVar.setCreatedAt(new Date().toString());
@@ -77,12 +80,17 @@ public class RestFileManager {
     public ResponseEntity<String> createRoom(@RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "fileId", required = true) String fileId,
             @RequestParam(value = "image", required = false) MultipartFile file,
-            @RequestParam(value = "filename", required = false) String filename) {
+            @RequestParam(value = "filename", required = false) String filename,
+            @RequestParam(value = "description", required = false) String description
+            ) {
 
         try {
             File fileVar = fileRepository.findById(fileId).get();
             if (name != null && !name.equals("")) {
                 fileVar.setName(name);
+            }
+            if (description != null && !description.equals("")) {
+                fileVar.setDescription(description);
             }
             if (file != null) {
                 String imageUrl = imageUploader.uploadImage(file.getBytes(), filename);

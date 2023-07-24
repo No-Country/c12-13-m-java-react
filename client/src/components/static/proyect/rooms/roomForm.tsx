@@ -40,7 +40,7 @@ export default function RoomForm({
           type="text"
           name="name"
           onChange={handleChange}
-          placeholder="Name"
+          placeholder="Nombre"
           required={hasDefaultValues ? false : true}
           error={errors.name}
           defaultValue={hasDefaultValues ? currentRoom?.getName() : ""}
@@ -50,7 +50,7 @@ export default function RoomForm({
           type="text"
           name="description"
           onChange={handleChange}
-          placeholder="Description"
+          placeholder="Descripción"
           required={hasDefaultValues ? false : true}
           error={errors.description}
           defaultValue={hasDefaultValues ? currentRoom?.getDescription() : ""}
@@ -60,7 +60,7 @@ export default function RoomForm({
           type="file"
           name="coverImage"
           onChange={handleChange}
-          placeholder="Cover Image"
+          placeholder="Imagen de portada"
           required={hasDefaultValues ? false : true}
           error={errors.coverImage}
         />
