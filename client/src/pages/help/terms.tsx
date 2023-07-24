@@ -65,7 +65,7 @@ export default function Terms() {
           height="h-[55vh]"
         />
 
-        <section className="seccion1-y seccion2-x">
+        <section className="seccion1-y seccion2-x ">
               {terms.map(term => (
                 <TermItems key={term.title} term={term} />
               ))}

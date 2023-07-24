@@ -53,7 +53,7 @@ export default function Home() {
           image="/image/hero-home.png"
           height="h-[55vh]"
         />
-         <section className="seccion1-y seccion2-x">
+         <section className="seccion1-y seccion2-x grid md:grid-cols-2 gap-5">
             {faq.map(faq => (
               <TermItems key={faq.id} term={faq} />
             ))}
@@ -78,13 +78,14 @@ const TermItems = ({term}:props) => {
   return(
 
     <>
+    <div>
       <h3 className="titulo-3 text-blue-700 mb-5"><span className="text-blue-700">{id}.</span> {title}</h3>
       <ol>
         
           <li className="mb-5" >{subParrafos}</li>
        
       </ol>
-    
+      </div>
     </>
     
 
