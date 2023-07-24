@@ -198,7 +198,7 @@ const postsSlice = createSlice({
       .addCase(createComment.pending, (state) => {})
       .addCase(createComment.fulfilled, (state, action) => {
         console.log("data createComment", action.payload, state.currentTask);
-        const updatedComments = [...state.currentTask.comments, action.payload];
+        const updatedComments = state.currentTaskComments.concat( action.payload as CommentProps);
         console.log("updatedComments", updatedComments);
         state.currentTaskComments = updatedComments as CommentProps[];
         toast.success("Comentario creado correctamente", toastSuccess);

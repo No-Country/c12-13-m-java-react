@@ -50,7 +50,7 @@ export default function VerticalMenu({
                 <div
                   onClick={() => handleClick(item)}
                   key={index}
-                  className="flex items-start gap-2"
+                  className="flex items-start justify-center gap-2"
                 >
                   <ReactSVG
                     src={!hasLogo ? "/icon/default.svg" : item.icon}
@@ -65,7 +65,7 @@ export default function VerticalMenu({
                       colorChangeCondition(item)
                         ? "text-blue-700"
                         : "text-black"
-                    }`}
+                    } smalltext font-normal `}
                   >
                     {item.name}
                   </p>

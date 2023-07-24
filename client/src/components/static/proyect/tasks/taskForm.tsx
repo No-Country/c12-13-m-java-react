@@ -28,6 +28,7 @@ type TaskFormProps = {
   title: string;
   selected: any;
   setSelected: any;
+  formValues?: any;
 };
 
 export default function TaskForm({
@@ -40,6 +41,7 @@ export default function TaskForm({
   selected,
   setSelected,
   handleSelectChange,
+  formValues,
 }: TaskFormProps) {
   const dispatch = useAppDispatch();
   const [editing, setEditing] = useState(hasDefaultValues ? false : true);
@@ -63,6 +65,7 @@ export default function TaskForm({
   const handleComment = (e: any) => {
     e.preventDefault();
     dispatch(createComment({ content: e.target.comment.value }));
+    e.target.comment.value = "";
   };
 
   const selectOptions = [
@@ -72,9 +75,9 @@ export default function TaskForm({
   ];
 
   return (
-    <div className=" flex  h-full overflow-auto   gap-4  ">
+    <div className=" flex  h-full gap-4   overflow-auto  ">
       {hasDefaultValues && editing === false && (
-        <div className="grid grid-cols-2 gap-8  w-full min-h-[45vh] ">
+        <div className="flex min-h-[45vh] w-full grid-cols-2 flex-col  gap-8 md:grid ">
           <div className="flex flex-col ">
             <p className="titulo-3">{currentTask.getTitle()}</p>
             <p className="bodyText">{currentTask.getDescription()}</p>
@@ -95,9 +98,9 @@ export default function TaskForm({
               Editar tarea
             </button>
           </div>
-          <div className="gap flex flex-col overflow-scroll min-h-0 flex-grow  ">
+          <div className="gap flex min-h-0 flex-grow flex-col overflow-visible  ">
             <h2 className="titulo-4 font-medium ">Comentarios</h2>
-            <div className="mt-4 flex min-h-0 flex-grow  flex-col gap-3 overflow-y-scroll">
+            <div className="mt-4 flex min-h-[250px] flex-grow flex-col gap-3 overflow-y-scroll">
               {Array.isArray(currentTaskComments) &&
                 currentTaskComments.map((message) => (
                   <div
@@ -125,7 +128,7 @@ export default function TaskForm({
                 ))}
             </div>
             <form
-              className="mt-4 flex flex-grow items-end justify-start gap-2"
+              className="mt-4 flex  items-end justify-start gap-2"
               onSubmit={handleComment}
             >
               <Input
@@ -148,7 +151,7 @@ export default function TaskForm({
         <div className="flex flex-grow flex-col gap-4 ">
           <h1 className="titulo-3 font-medium">{title}</h1>
           <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-8 ">
+            <div className="flex flex-col gap-8 md:grid md:grid-cols-2 ">
               <div className="flex flex-col gap-3">
                 <Input
                   label="Titulo"
@@ -176,12 +179,13 @@ export default function TaskForm({
                   label="Estado"
                   type="select"
                   name="status"
-                  handleSelectChange={(e)=>  handleSelectChange(e)}
+                  handleSelectChange={(e) => handleSelectChange(e)}
                   placeholder="Estado"
                   required={hasDefaultValues ? false : true}
                   error={errors.status}
-                  //defaultValue={hasDefaultValues ? currentTask?.getStatus() : ""}
+                  // defaultValue={hasDefaultValues ? currentTask?.getStatus() : ""}
                   selectOptions={selectOptions}
+                  selectSelected={selectOptions[formValues?.status - 1]}
                 />
                 <MultiSelect
                   label="Asignar a"

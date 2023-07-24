@@ -67,7 +67,7 @@ export default function ModalChat() {
           <div className="relative  flex flex-grow overflow-hidden">
             <div className="flex max-w-full flex-col justify-between gap-2 w-full  ">
               <div
-                className=" flex max-w-full flex-col gap-3 overflow-scroll pb-3 "
+                className=" flex max-w-full flex-col gap-3 overflow-auto pb-3 "
                 ref={containerRef}
               >
                 {Array.isArray(currentSpaceChat.getMessages()) &&

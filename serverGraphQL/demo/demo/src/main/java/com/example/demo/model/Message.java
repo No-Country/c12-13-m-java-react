@@ -5,7 +5,7 @@ import lombok.Builder;
 
 public class Message {
     private String id;
-    @DBRef
+    @DBRef(lazy = true)
     private User fromUser;
     @Builder.Default
     private String content = "";

@@ -83,7 +83,7 @@ export default function TaskItem({ item }: TaskItemProps) {
       console.log("formValues", formValues);
       setLoading(false);
 
-      // setEditing(false);
+      setEditing(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -171,6 +171,7 @@ export default function TaskItem({ item }: TaskItemProps) {
             selected={selected}
             setSelected={setSelected}
             handleSelectChange={handleSelectChange}
+            formValues={formValues}
           />
         </ModalTrigger>
       )}

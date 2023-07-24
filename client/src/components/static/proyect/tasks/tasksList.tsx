@@ -97,8 +97,8 @@ function Indexer({
   selectedOption,
 }: IndexerProps) {
   return (
-    <div className="flex w-full  justify-between gap-4 overflow-x-scroll rounded-2xl bg-white px-10 py-5">
-     <div className="flex gap-12" >
+    <div className="flex w-full  justify-between gap-4 overflow-x-auto rounded-2xl bg-white px-10 py-5">
+     <div className="flex gap-12 justify-between w-full" >
       <div className="flex gap-4 w-max ">
         {indexItems.map((item, i) => (
           <button
