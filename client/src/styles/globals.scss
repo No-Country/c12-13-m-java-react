@@ -182,11 +182,11 @@ $line-height-titulos: 130%;
  }
 
   .sidebar {
-   @apply bg-blue-500 h-full w-full;
+   @apply bg-blue-500 h-full w-full hidden lg:flex min-w-[200px] ;
   }
 
   .sidebarInner {
-@apply sticky top-[0px] flex  h-[calc(100vh)] flex-col items-start justify-start ;
+@apply sticky top-[0px] flex  h-[calc(100vh)] min-w-[200px] flex-col items-start justify-start ;
     @extend .sidebar-padding;
   @apply sticky top-0   bg-white;
   }

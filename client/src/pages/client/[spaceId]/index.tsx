@@ -9,7 +9,7 @@ import {
 import Head from "next/head";
 
 export default function Space() {
-  const { currentSpace:cSpace } = useAppSelector(
+  const { currentSpace: cSpace } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
 
@@ -29,6 +29,7 @@ export default function Space() {
           triggerIsAdmin={true}
           bgImageVisibleOnDesktop={true}
           showMembers={true}
+          baseModalType="confirmation"
         >
           <SpaceInvite />
         </HeroSpaceArea>

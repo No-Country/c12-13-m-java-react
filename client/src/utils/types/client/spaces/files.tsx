@@ -5,4 +5,5 @@ export type FilesProps = {
     name: string;
     src: string;
     owner: UserProps;
+    description: string;
   };

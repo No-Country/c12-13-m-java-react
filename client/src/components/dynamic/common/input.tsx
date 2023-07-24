@@ -17,9 +17,11 @@ type InputProps = {
   rows?: number;
   selectOptions?: { value: string; label: string }[];
   handleSelectChange?: (e: any) => void;
+  selectSelected?: { value: string; label: string };
 };
 
 export default function Input(props: InputProps) {
+  console.log("Input", props);
   const router = useRouter();
   const className = `${
     router.pathname.startsWith("/admin")
@@ -49,11 +51,13 @@ export default function Input(props: InputProps) {
         />
       ) : props.type === "select" ? (
         <select
-          className="smalltext min-w-0 rounded-2xl px-4 py-2 bg-white "
+          className="smalltext min-w-max max-w-max rounded-2xl px-4 py-2 bg-white "
           name="status"
           onChange={props.handleSelectChange}
           defaultValue={1}
           style={{ borderWidth: "1px" }}
+          value={props.selectSelected?.value}
+          placeholder="Selecciona una opción"
         >
           {props?.selectOptions?.map((option) => (
             <option value={option?.value}>{option?.label} </option>

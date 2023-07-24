@@ -6,6 +6,7 @@ export default function Home() {
     <>
       <Head>
         <title>Sobre nosotros | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <Main>
         <h1>About</h1>

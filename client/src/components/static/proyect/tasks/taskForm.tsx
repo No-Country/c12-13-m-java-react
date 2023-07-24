@@ -176,7 +176,7 @@ export default function TaskForm({
                   label="Estado"
                   type="select"
                   name="status"
-                  onChange={handleSelectChange}
+                  handleSelectChange={(e)=>  handleSelectChange(e)}
                   placeholder="Estado"
                   required={hasDefaultValues ? false : true}
                   error={errors.status}

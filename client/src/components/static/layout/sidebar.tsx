@@ -49,7 +49,7 @@ export default function Sidebar({ type }: SidebarProps) {
       icon: "/icon/sidebar/rooms.svg",
     },
     {
-      name: "Configuracion",
+      name: "Config",
       path: "/client/[spaceId]/settings",
       linkPath: "/client/" + currentSpace?.getId() + "/settings",
       visible: currentMember.hasPermission(GeneralPermission.EditSpace),
@@ -145,10 +145,10 @@ export default function Sidebar({ type }: SidebarProps) {
         </div>
       </aside>
       <div className=" seccion1-x-padding fixed bottom-[0px] left-0 right-0 z-[10] justify-between bg-red-700  bg-white lg:hidden">
-        <div className="flex items-center justify-between gap-2 overflow-scroll py-3">
+        <div className="flex items-center justify-between gap-1 overflow-scroll py-3">
           {type === "client" &&
             spaceNavData
-              .slice(2, 6)
+              .slice(0, 1).concat(spaceNavData.slice(2, 6))
               .map((item: any, index: any) => (
                 <BottomBarItem data={item} hasLogo={true} isRooms={false} />
               ))}

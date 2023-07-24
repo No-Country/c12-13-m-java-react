@@ -52,6 +52,7 @@ type Rooms {
 type Files {
   id: ID
   name: String
+  description: String
   src: String
   owner: Users
   createdAt: String

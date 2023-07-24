@@ -7,11 +7,12 @@ export const isValidProfileImage = (value: File): validResponse => {
   //un archivo de imagen maximo 5 mb
   console.log("isValidProfileImage", value.size);
   const isValid = value.size < 5242880;
+  const isValidType = value.type === "image/png" || value.type === "image/jpeg";
 
-  if (!isValid) {
+  if (!isValid || !isValidType) {
     return {
       isValid: false,
-      error: "El archivo no puede superar los 5 mb",
+      error: "El archivo no puede superar los 5 mb y debe ser una imagen",
     };
   } else {
     return {

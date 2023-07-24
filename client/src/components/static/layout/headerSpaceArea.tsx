@@ -33,6 +33,7 @@ export default function HeaderSpaceArea() {
         <div className="lg:hidden">
         <Logo type="normal" />
         </div>
+        <ProfileAction />
        
         </div>
       </div>

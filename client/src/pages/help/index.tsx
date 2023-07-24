@@ -44,6 +44,7 @@ export default function Home() {
     <>
       <Head>
         <title>Ayuda | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <Main>
         <LayoutPublic>

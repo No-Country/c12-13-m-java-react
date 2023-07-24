@@ -55,6 +55,7 @@ export default function Terms() {
     <>
       <Head>
         <title>Terminos y condiciones | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <Main>
       <LayoutPublic>

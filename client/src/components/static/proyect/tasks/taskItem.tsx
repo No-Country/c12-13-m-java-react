@@ -60,7 +60,7 @@ export default function TaskItem({ item }: TaskItemProps) {
   };
 
   const handleSelectChange = (e: any) => {
-    console.log("e", e.target.value);
+    console.log("handleSelectChange", e.target.value);
     setFormValues({
       ...formValues,
       status: parseInt(e.target.value),

@@ -44,6 +44,7 @@ export default function Home() {
     <>
       <Head>
         <title>Inicio | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
 
       <LayoutPublic>
@@ -106,8 +107,8 @@ export default function Home() {
               <p className="bodyText font-normal text-blue-700">
                 Quienes somos
               </p>
-              <h1 className="titulo-1">Conoce a nuestro equipo.</h1>
-              <p className="bodyText mt-1">
+              <h1 className="titulo-1 text-center">Conoce a nuestro equipo.</h1>
+              <p className="bodyText mt-1 text-center">
               Nuestra misión es simplificar y mejorar tus procesos
               </p>
             </div>

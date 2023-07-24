@@ -48,12 +48,12 @@ export default function BottomBarItem({
             src={!hasLogo ? "/icon/default-sm.svg" : data.icon}
             className={`fill-current  ${
               colorChangeCondition(data)
-                ? "rounded-full bg-blue-50 px-5 py-2 text-blue-700"
-                : "px-5 py-2 text-black"
+                ? "rounded-full bg-blue-50 px-3 py-2 text-blue-700"
+                : "px-3 py-2 text-black"
             }`}
           />
           <p
-            className={`smalltext ${
+            className={`smalltext text-xs xs:text-sm  ${
               colorChangeCondition(data) ? "text-blue-700" : "text-black"
             }`}
           >

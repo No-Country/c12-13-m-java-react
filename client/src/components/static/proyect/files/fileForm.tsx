@@ -39,6 +39,17 @@ export default function FileForm({
           defaultValue={hasDefaultValues ? currentFile.name : ""}
         />
         <Input
+          label="Descripción"
+          type="text"
+          name="description"
+          onChange={handleChange}
+          placeholder="Descripción"
+          required={hasDefaultValues ? false : true}
+          error={errors.description}
+          defaultValue={hasDefaultValues ? currentFile.description : ""}
+        />
+
+        <Input
           label="Imagen"
           type="file"
           name="image"

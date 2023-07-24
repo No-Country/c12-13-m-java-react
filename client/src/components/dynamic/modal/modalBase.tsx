@@ -7,6 +7,7 @@ type Props = {
   children: React.ReactNode;
   close: () => void;
   position: "center-center" | "bottom-right";
+  type?: "default" | "confirmation";
 };
 
 export default function ModalBase({
@@ -15,6 +16,7 @@ export default function ModalBase({
   close,
   setIsOpen,
   position,
+  type = "default",
 }: Props) {
   const handleClose = () => {
     setIsOpen(false);
@@ -26,7 +28,7 @@ export default function ModalBase({
       <>
         {isOpen && (
           <div className="base fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-[#00000096]  p-[28px] sm:p-[30px]  md:p-[40px] lg:p-[60px] xl:p-[100px]">
-            <div className="relative  flex  max-h-[85vh] w-full p-[28px]   rounded-[20px] bg-white sm:p-[30px] md:p-[40px]">
+            <div className={`relative  flex  max-h-[85vh]  p-[28px]   rounded-[20px] bg-white sm:p-[30px] md:p-[40px] ${type == "confirmation" ? "" : "w-full" } `}>
               <Image
                 src="/icon/cross.svg"
                 alt="close"

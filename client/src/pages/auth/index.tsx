@@ -53,6 +53,7 @@ export default function Home() {
     <>
       <Head>
         <title>Iniciar sesion | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <AuthLayout>
         <h1 className="titulo-3 mb-6 font-normal">

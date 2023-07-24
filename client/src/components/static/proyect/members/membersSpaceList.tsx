@@ -162,7 +162,7 @@ function EditRole({ role, userId }: editRoleProps) {
           </Select>
           <button
             type="button"
-            className={` mt-2 w-full ${
+            className={` mt-4 w-full ${
               selectValue === role ? "disabledPrimaryButton" : "primaryButton"
             }`}
             disabled={selectValue === role}
