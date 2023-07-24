@@ -75,7 +75,7 @@ export default function TaskForm({
   ];
 
   return (
-    <div className=" flex  h-full gap-4   overflow-auto  ">
+    <div className=" flex  h-full gap-4   overflow-auto md:overflow-visible  ">
       {hasDefaultValues && editing === false && (
         <div className="flex min-h-[45vh] w-full grid-cols-2 flex-col  gap-8 md:grid ">
           <div className="flex flex-col ">
@@ -176,6 +176,12 @@ export default function TaskForm({
                     hasDefaultValues ? currentTask?.getDescription() : ""
                   }
                 />
+                                <MultiSelect
+                  label="Asignar a"
+                  options={multiOptions}
+                  setSelected={setSelected}
+                  selected={selected}
+                />
                 <Input
                   label="Estado"
                   type="select"
@@ -188,12 +194,7 @@ export default function TaskForm({
                   selectOptions={selectOptions}
                   selectSelected={selectOptions[formValues?.status - 1]}
                 />
-                <MultiSelect
-                  label="Asignar a"
-                  options={multiOptions}
-                  setSelected={setSelected}
-                  selected={selected}
-                />
+
               </div>
               <div className="flex flex-col gap-3">
                 <Input
@@ -202,6 +203,7 @@ export default function TaskForm({
                   name="longDescription"
                   onChange={handleChange}
                   placeholder="Descripción larga"
+                  labelClass="max-h-[250px] "
                   required={hasDefaultValues ? false : true}
                   error={errors.longDescription}
                   defaultValue={

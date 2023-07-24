@@ -19,4 +19,8 @@
   .heroSpContainer {
     @apply seccion1-x  relative z-[1] flex  h-[50vh] min-h-[500px] w-full flex-col items-center justify-center  gap-10 lg:mt-0 lg:h-[45vh] lg:min-h-[45vh];
   }
+
+  .dropdown-content {
+    @apply absolute z-[1] w-full bg-white rounded-md shadow-lg py-1 mt-1;
+  }
 }

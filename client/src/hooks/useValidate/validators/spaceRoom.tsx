@@ -11,12 +11,12 @@ export const isDescriptionValid = (value: string): validResponse => {
     };
   }
   //regex
-  const isValid = value.length <= 40;
+  const isValid = value.length <= 60;
 
   if (!isValid) {
     return {
       isValid: false,
-      error: "La descripción no puede superar los 40 caracteres",
+      error: "La descripción no puede superar los 60 caracteres",
     };
   } else {
     return {

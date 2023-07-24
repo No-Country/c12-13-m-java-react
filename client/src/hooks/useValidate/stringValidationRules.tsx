@@ -5,7 +5,7 @@ import {
   isValidUsername,
   isDescriptionValid,
   isAccessCodeValid,
-  isLongDescriptionValid
+  isLongDescriptionValid,
 } from "./validators";
 
 type ValidationFunction = (value: string) => validResponse;

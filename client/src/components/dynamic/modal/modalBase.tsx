@@ -37,7 +37,7 @@ export default function ModalBase({
                 onClick={handleClose}
                 className="absolute right-4 top-4 cursor-pointer"
               />
-              <div className="flex w-full flex-grow overflow-hidden justify-center">
+              <div className="flex w-full flex-grow overflow-auto md:overflow-visible justify-center">
                 {children}
               </div>
             </div>
