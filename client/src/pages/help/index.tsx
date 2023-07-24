@@ -69,14 +69,14 @@ export default function Home() {
       </Head>
       <Main>
         <LayoutPublic>
-          <HelpHero
-            title="Centro de ayuda"
-            body="En nuestro centro de ayuda, nos esforzamos por proporcionar una experiencia de usuario excepcional a todos nuestros clientes. Estamos aquí para responder cualquier pregunta que puedas tener y ayudarte a solucionar cualquier problema que puedas encontrar al utilizar nuestra plataforma."
-            image="/image/hero-home.png"
-            height="h-[55vh]"
-          />
-          <section className="seccion1-y seccion2-x">
-            {faq.map((faq) => (
+        <HelpHero
+          title="Centro de ayuda"
+          body="En nuestro centro de ayuda, nos esforzamos por proporcionar una experiencia de usuario excepcional a todos nuestros clientes. Estamos aquí para responder cualquier pregunta que puedas tener y ayudarte a solucionar cualquier problema que puedas encontrar al utilizar nuestra plataforma."
+          image="/image/hero-home.png"
+          height="h-[55vh]"
+        />
+         <section className="seccion1-y seccion2-x grid md:grid-cols-2 gap-5">
+            {faq.map(faq => (
               <TermItems key={faq.id} term={faq} />
             ))}
           </section>
@@ -95,12 +95,12 @@ const TermItems = ({ term }: props) => {
 
   return (
     <>
-      <h3 className="titulo-3 mb-5 text-blue-700">
-        <span className="text-blue-700">{id}.</span> {title}
-      </h3>
+    <div>
+      <h3 className="titulo-3 text-blue-700 mb-5"><span className="text-blue-700">{id}.</span> {title}</h3>
       <ol>
         <li className="mb-5">{subParrafos}</li>
       </ol>
+      </div>
     </>
   );
 };
