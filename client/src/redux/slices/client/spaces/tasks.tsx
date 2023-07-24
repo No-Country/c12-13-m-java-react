@@ -70,7 +70,6 @@ export const editTask = createAsyncThunk(
     try {
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
-      console.log("input editTask", input);
       input.taskId = state.client.spaces.tasks.currentTask.id;
       input.roomId = state.client.spaces.rooms.currentRoom.id;
       const { data } = await client.mutate({
@@ -78,7 +77,6 @@ export const editTask = createAsyncThunk(
         variables: input,
         fetchPolicy: "network-only",
       });
-
       return data.editTask;
     } catch (err) {
       console.log(err);
@@ -138,6 +136,11 @@ const postsSlice = createSlice({
         (task) => task.id !== action.payload.id
       );
     },
+    setCurrentTaskComments: (state, action: PayloadAction<CommentProps[]>) => {
+      //recibimos la tarea
+      console.log("data current task comments", action.payload);
+      state.currentTaskComments = action.payload as CommentProps[];
+    },
     editTaskSubs: (state, action: PayloadAction<TasksProps>) => {
       console.log("editTask redux", action.payload);
       state.currentRoomTasks = state.currentRoomTasks.map((task) => {
@@ -160,6 +163,12 @@ const postsSlice = createSlice({
           return task;
         }
       });
+
+      if (state.currentTask.id === action.payload.id) {
+        state.currentTaskComments = action.payload.comments as CommentProps[];
+console.log("currentTaskComments", state.currentTaskComments);
+      }
+    
     },
     resetReducer: (state) => {
       state.currentRoomTasks = [];
@@ -198,9 +207,9 @@ const postsSlice = createSlice({
       .addCase(createComment.pending, (state) => {})
       .addCase(createComment.fulfilled, (state, action) => {
         console.log("data createComment", action.payload, state.currentTask);
-        const updatedComments = state.currentTaskComments.concat( action.payload as CommentProps);
-        console.log("updatedComments", updatedComments);
-        state.currentTaskComments = updatedComments as CommentProps[];
+        //const updatedComments = state.currentTaskComments.concat( action.payload as CommentProps);
+      //  console.log("updatedComments", updatedComments);
+       // state.currentTaskComments = updatedComments as CommentProps[];
         toast.success("Comentario creado correctamente", toastSuccess);
       })
       .addCase(createComment.rejected, (state) => {
@@ -217,6 +226,7 @@ export const {
   addTaskSubs,
   editTaskSubs,
   deleteTaskSubs,
+  setCurrentTaskComments,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
