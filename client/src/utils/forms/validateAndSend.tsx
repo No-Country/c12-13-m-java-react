@@ -1,5 +1,7 @@
 type handleChangeProps = {
-  e: React.ChangeEvent<HTMLInputElement>;
+  e:
+    | React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLTextAreaElement>;
   setFormValues: (formValues: any) => void;
   setErrors: (errors: any) => void;
   validate: (value: string | File, type: string, fileType: string) => any;
@@ -11,11 +13,17 @@ export const changeManager = ({
   setErrors,
   validate,
 }: handleChangeProps) => {
-  const { name, value, type } = e.target as HTMLInputElement;
+  const { name, value, type, files } = e.target as HTMLInputElement &
+    HTMLTextAreaElement;
   console.log("type", type);
-  const file = e.target.files ? e.target.files[0] : "";
+  const file = (e.target as HTMLInputElement) && files ? files[0] : "";
   const { field, error, isValid } = validate(
-    type === "text" || type === "password" || type === "email" ? value : file,
+    type === "text" ||
+      type === "password" ||
+      type === "email" ||
+      type === "textarea"
+      ? value
+      : file,
     name,
     type
   );
@@ -74,7 +82,7 @@ export const submitManager = async ({
   ) {
     throw new Error("Formulario invalido");
   }
-  
+
   console.log("formValues", formValues);
   await dispatch(actionToDispatch(formValues));
 

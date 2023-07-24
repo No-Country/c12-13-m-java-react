@@ -10,7 +10,7 @@ export default function AccountSection({
   description,
 }: AccountSectionProps) {
   return (
-    <div className="listContainer">
+    <div className="listContainer items-start">
       <div className="flex flex-col items-start justify-center ">
         <h2 className="titulo-3">{title}</h2>
         <p className="bodyText ">{description}</p>

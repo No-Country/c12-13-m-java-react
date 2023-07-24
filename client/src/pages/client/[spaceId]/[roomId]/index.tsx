@@ -126,6 +126,7 @@ export default function CurrentRoom() {
     <>
       <Head>
         <title>Room | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
 
       <LayoutSpaces type="client">
@@ -152,7 +153,7 @@ export default function CurrentRoom() {
                   errors={errors}
                   hasDefaultValues={true}
                   handleDelete={handleDelete}
-                  title="Editar espacio"
+                  title="Editar room"
                 />
               }
             >

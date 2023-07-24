@@ -21,7 +21,7 @@ public class Room {
     private String description = "";
     @Builder.Default
     private String coverImage = "";
-    @DBRef
+    @DBRef(lazy = true)
     private Space spaceOwner;
     // @DBRef
     private List<Task> tasks = new ArrayList<>();

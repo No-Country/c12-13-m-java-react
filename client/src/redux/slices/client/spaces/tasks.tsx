@@ -1,21 +1,27 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
-import { CREATE_TASK, EDIT_TASK, DELETE_TASK } from "@/graphql/mutations";
+import {
+  CREATE_TASK,
+  EDIT_TASK,
+  DELETE_TASK,
+  CREATE_COMMENT,
+} from "@/graphql/mutations";
 import { toast } from "sonner";
 import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import { TasksProps } from "@/utils/types/client";
-
+import { CommentProps } from "@/utils/types/client";
 const initialState = {
   currentRoomTasks: [] as TasksProps[],
-  currentTask: new TasksProps("", "", "", "", 1, [], []),
+  currentTask: new TasksProps("", "", "", "", 1, [], [], ""),
+  currentTaskComments: [] as CommentProps[],
 };
 
 export const createTask = createAsyncThunk(
   "tasks/createTask",
   async (input: any, { dispatch, getState }) => {
     try {
-      console.log("input createTask", input);
+      console.log("input createTask", input.longDescription);
       const state = getState() as RootState;
       const { data } = await client.mutate({
         mutation: CREATE_TASK,
@@ -25,6 +31,7 @@ export const createTask = createAsyncThunk(
           description: input.description,
           assignedToIds: input.assignedToIds,
           status: 1,
+          longDescription: input.longDescription,
         },
         fetchPolicy: "network-only",
       });
@@ -79,6 +86,30 @@ export const editTask = createAsyncThunk(
   }
 );
 
+export const createComment = createAsyncThunk(
+  "tasks/createComment",
+  async (input: any, { dispatch, getState }) => {
+    try {
+      console.log("input createComment", input);
+      const state = getState() as RootState;
+      const { data } = await client.mutate({
+        mutation: CREATE_COMMENT,
+        variables: {
+          taskId: state.client.spaces.tasks.currentTask.id,
+          content: input.content,
+          userId: state.authSession.session.current.id,
+          roomId: state.client.spaces.rooms.currentRoom.id,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      return data.createComment;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 //Reducers
 const postsSlice = createSlice({
   name: "tasks",
@@ -87,11 +118,11 @@ const postsSlice = createSlice({
     setCurrentTask: (state, action: PayloadAction<TasksProps>) => {
       //recibimos la tarea
       console.log("data current task", action.payload);
-    if (action.payload instanceof TasksProps) {
-      state.currentTask = action.payload;
-    }
-  }
-    ,
+      if (action.payload instanceof TasksProps) {
+        state.currentTask = action.payload;
+        state.currentTaskComments = action.payload.comments as CommentProps[];
+      }
+    },
     setCurrentRoomTasks: (state, action: PayloadAction<TasksProps[]>) => {
       //recibimos la tarea
       console.log("data current room tasks", action.payload);
@@ -111,7 +142,7 @@ const postsSlice = createSlice({
       console.log("editTask redux", action.payload);
       state.currentRoomTasks = state.currentRoomTasks.map((task) => {
         if (task.id === action.payload.id) {
-          console.log("encontrado");
+          console.log("encontrado", action.payload);
           const newTask = new TasksProps(
             action.payload.id,
             action.payload.title,
@@ -119,7 +150,8 @@ const postsSlice = createSlice({
             action.payload.deadline,
             action.payload.status,
             action.payload.assignedTo,
-            action.payload.comments
+            action.payload.comments,
+            action.payload.longDescription
           );
           console.log("newTask", newTask);
           return newTask;
@@ -162,10 +194,29 @@ const postsSlice = createSlice({
       .addCase(deleteTask.rejected, (state) => {
         console.log("Error al borrar tarea");
         toast.error("Error al borrar tarea", toastError);
+      })
+      .addCase(createComment.pending, (state) => {})
+      .addCase(createComment.fulfilled, (state, action) => {
+        console.log("data createComment", action.payload, state.currentTask);
+        const updatedComments = state.currentTaskComments.concat( action.payload as CommentProps);
+        console.log("updatedComments", updatedComments);
+        state.currentTaskComments = updatedComments as CommentProps[];
+        toast.success("Comentario creado correctamente", toastSuccess);
+      })
+      .addCase(createComment.rejected, (state) => {
+        console.log("Error al crear comentario");
+        toast.error("Error al crear comentario", toastError);
       });
   },
 });
 
-export const { resetReducer, setCurrentTask, setCurrentRoomTasks, addTaskSubs, editTaskSubs, deleteTaskSubs } = postsSlice.actions;
+export const {
+  resetReducer,
+  setCurrentTask,
+  setCurrentRoomTasks,
+  addTaskSubs,
+  editTaskSubs,
+  deleteTaskSubs,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -22,7 +22,7 @@ export default function HeroAccountArea() {
     return (
       <section className="heroSpContainer">
         <ImageOverlay current={currentSession} bgImageVisibleOnDesktop={true} />
-        <div className="z-0  flex w-full  flex-row justify-center gap-3 lg:items-center">
+        <div className="z-0  flex w-full  flex-row justify-center gap-3 items-center">
           <NextImage
             src={currentSession?.getProfileImage()}
             alt="SpaceCover"

@@ -5,6 +5,7 @@ import {
   isValidUsername,
   isDescriptionValid,
   isAccessCodeValid,
+  isLongDescriptionValid
 } from "./validators";
 
 type ValidationFunction = (value: string) => validResponse;
@@ -50,6 +51,7 @@ export const validationRules: ValidationRules = {
   title: (value: string): validResponse => nameValidation(value),
   description: (value: string): validResponse => isDescriptionValid(value),
   accessCode: (value: string): validResponse => isAccessCodeValid(value),
+  longDescription: (value: string): validResponse => isLongDescriptionValid(value),
 };
 
 const nameValidation = (value: string): validResponse => {

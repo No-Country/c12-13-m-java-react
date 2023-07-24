@@ -6,17 +6,17 @@
 //Layouts
 @layer base {
   .layoutSpContainer {
-    @apply lg:mt-0  z-[1] flex min-h-screen w-full lg:grid lg:grid-cols-[20%,80%] lg:bg-slate-50;
+    @apply relative  z-[1] flex min-h-screen w-full lg:mt-0 lg:grid lg:grid-cols-[250px,auto] lg:bg-slate-50 2xl:grid-cols-[300px,auto];
   }
 
   .layoutSpChildren {
-    @apply flex flex-grow flex-col bg-slate-50;
+    @apply layoutSpContainer flex flex-grow flex-col bg-slate-50;
   }
 }
 
 //Sections
 @layer base {
   .heroSpContainer {
-    @apply relative  flex z-[1] h-[50vh] min-h-max w-full flex-col items-center justify-center gap-10 seccion1-x  lg:mt-0 lg:h-[45vh] ;
+    @apply seccion1-x  relative z-[1] flex  h-[50vh] min-h-[500px] w-full flex-col items-center justify-center  gap-10 lg:mt-0 lg:h-[45vh] lg:min-h-[45vh];
   }
 }

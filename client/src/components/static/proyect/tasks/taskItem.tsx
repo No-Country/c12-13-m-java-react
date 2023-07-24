@@ -46,7 +46,11 @@ export default function TaskItem({ item }: TaskItemProps) {
     setEditing(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     changeManager({
       e,
       setFormValues,
@@ -56,7 +60,7 @@ export default function TaskItem({ item }: TaskItemProps) {
   };
 
   const handleSelectChange = (e: any) => {
-    console.log("e", e.target.value);
+    console.log("handleSelectChange", e.target.value);
     setFormValues({
       ...formValues,
       status: parseInt(e.target.value),
@@ -66,6 +70,7 @@ export default function TaskItem({ item }: TaskItemProps) {
   const handleSubmit = async (e: any) => {
     try {
       setLoading(true);
+      console.log("formValues", formValues);
       await submitManager({
         e,
         formValues,
@@ -156,19 +161,18 @@ export default function TaskItem({ item }: TaskItemProps) {
           alwaysOpen={editing}
           alwaysOpenCloser={() => setEditing(false)}
         >
-          <>
-            <TaskForm
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-              errors={errors}
-              hasDefaultValues={true}
-              handleDelete={handleDelete}
-              title="Editar tarea"
-              selected={selected}
-              setSelected={setSelected}
-              handleSelectChange={handleSelectChange}
-            />
-          </>
+          <TaskForm
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            errors={errors}
+            hasDefaultValues={true}
+            handleDelete={handleDelete}
+            title="Editar tarea"
+            selected={selected}
+            setSelected={setSelected}
+            handleSelectChange={handleSelectChange}
+            formValues={formValues}
+          />
         </ModalTrigger>
       )}
     </div>

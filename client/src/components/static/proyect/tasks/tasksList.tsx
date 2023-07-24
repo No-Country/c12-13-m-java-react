@@ -1,40 +1,74 @@
-import { TaskItem } from "@/components";
+import { Input, TaskItem } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
-import { TasksProps } from "@/utils/types/client";
 import { useEffect, useState } from "react";
-import { RoomsProps } from "@/utils/types/client";
+import { RoomsProps, UserProps, TasksProps } from "@/utils/types/client";
 
 export default function TasksList() {
+  const selectOptions = [
+    { value: 0, label: "De todos los miembros" },
+    { value: 1, label: "Mis tareas" },
+  ];
+
+  const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
+
+  const [selectedOption, setSelectedOption] = useState(0);
   const [index, setIndex] = useState(0);
   const [tasks, setTasks] = useState<TasksProps[]>([]);
-  const { currentRoom: cRoom } = useAppSelector(
-    (state) => state?.client?.spaces?.rooms
-  );
+
   const { currentRoomTasks } = useAppSelector(
     (state) => state?.client?.spaces?.tasks
   );
-  const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
-  const currentRoom = RoomsProps.deserialize(cRoom);
+
+  const { current: cCurrent } = useAppSelector(
+    (state) => state?.authSession.session
+  );
+  const currentUser = UserProps.deserialize(cCurrent);
+
+  const handleSelectChange = (e: any) => {
+    setSelectedOption(e.target.value);
+    console.log(`Option selected:`, e.target.value);
+  };
 
   useEffect(() => {
-    console.log("setTasks");
-  
+    console.log("setTasks", selectedOption);
+
     let updatedTasks = [];
-  
-    if (index === 0) {
+
+    if (index == 0) {
       updatedTasks = currentRoomTasks;
+    } else if (index == 1) {
+      updatedTasks = currentRoomTasks.filter((task) => task.status == index);
+    } else if (index == 2) {
+      updatedTasks = currentRoomTasks.filter((task) => task.status == index);
     } else {
-      
       updatedTasks = currentRoomTasks.filter((task) => task.status == index);
     }
-  
+
+    if (selectedOption == 1) {
+      console.log("selectedOption 1", selectedOption);
+      updatedTasks = updatedTasks.filter((task) =>
+        task.assignedTo.some((user) => user.user.id === currentUser?.id)
+      );
+      console.log("updatedTasks", updatedTasks);
+    } else {
+      updatedTasks = updatedTasks;
+      console.log("updatedTasks", updatedTasks);
+    }
+
+    console.log("index", index);
     setTasks(updatedTasks);
-  }, [index, currentRoomTasks]);
-  
+  }, [index, currentRoomTasks, selectedOption]);
 
   return (
-    <section className="listContainer gap-0">
-      <Indexer index={index} indexItems={indexItems} setIndex={setIndex} />
+    <section className="listContainer  gap-0">
+      <Indexer
+        index={index}
+        indexItems={indexItems}
+        setIndex={setIndex}
+        selectOptions={selectOptions}
+        handleSelectChange={handleSelectChange}
+        selectedOption={selectedOption}
+      />
       <div className="gridContainer mt-6 rounded-3xl bg-[#F6F8FA] ">
         {Array.isArray(tasks) &&
           tasks.map((item: TasksProps) => (
@@ -49,20 +83,49 @@ type IndexerProps = {
   index: number;
   indexItems: string[];
   setIndex: (index: number) => void;
+  selectOptions: any;
+  handleSelectChange: (selectedOption: any) => void;
+  selectedOption: number;
 };
 
-function Indexer({ index, indexItems, setIndex }: IndexerProps) {
+function Indexer({
+  index,
+  indexItems,
+  setIndex,
+  selectOptions,
+  handleSelectChange,
+  selectedOption,
+}: IndexerProps) {
   return (
-    <div className=" flex gap-4 rounded-2xl bg-white p-5">
-      {indexItems.map((item, i) => (
-        <button
-          key={i}
-          className={index === i ? "font-semibold" : ""}
-          onClick={() => setIndex(i)}
-        >
-          {item}
-        </button>
-      ))}
+    <div className="flex w-full  justify-between gap-4 overflow-x-auto rounded-2xl bg-white px-10 py-5">
+     <div className="flex gap-12 justify-between w-full" >
+      <div className="flex gap-4 w-max ">
+        {indexItems.map((item, i) => (
+          <button
+            key={i}
+            className={
+              index === i
+                ? "whitespace-nowrap font-semibold"
+                : "whitespace-nowrap"
+            }
+            onClick={() => setIndex(i)}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      <Input
+        type="select"
+        name="owner"
+        selectOptions={selectOptions}
+        handleSelectChange={handleSelectChange}
+        label=""
+        placeholder="Filtrar por:"
+        className=""
+        labelClass="max-w-max"
+        selectSelected={selectOptions[selectedOption]}
+      />
+      </div>
     </div>
   );
 }

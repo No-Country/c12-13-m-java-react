@@ -3,7 +3,7 @@ package com.example.demo.model;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import lombok.Builder;
 
-public class Message {
+public class Comment {
     private String id;
     @DBRef(lazy = true)
     private User fromUser;
@@ -12,12 +12,13 @@ public class Message {
     private String createdAt;
     private String updatedAt;
 
-    public Message() {
+    public Comment() {
     }
 
     // ---------------------------------------------------------------------------------------------
     // Constructor
-    public Message(User fromUser, String content, String createdAt, String updatedAt, String id) {
+
+    public Comment(User fromUser, String content, String createdAt, String updatedAt, String id) {
         this.fromUser = fromUser;
         this.content = content;
         this.createdAt = createdAt;
@@ -27,7 +28,6 @@ public class Message {
 
     // ---------------------------------------------------------------------------------------------
     // Getters
-
     public User getFromUser() {
         return this.fromUser;
     }
@@ -70,7 +70,5 @@ public class Message {
     public void setId(String id) {
         this.id = id;
     }
-
-
 
 }

@@ -48,3 +48,26 @@ export const isAccessCodeValid = (value: string): validResponse => {
         };
     }
     };
+
+    export const isLongDescriptionValid = (value: string): validResponse => {
+        if (!value || value.trim() === "") {
+            return {
+            isValid: false,
+            error: "La descripción es requerida",
+            };
+        }
+        //regex
+        const isValid = value.length <= 300;
+        
+        if (!isValid) {
+            return {
+            isValid: false,
+            error: "La descripción no puede superar los 300 caracteres",
+            };
+        } else {
+            return {
+            isValid: true,
+            error: "",
+            };
+        }
+        };

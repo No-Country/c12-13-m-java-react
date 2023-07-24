@@ -79,7 +79,9 @@ export default function Header({ alwaysAlternative }: HeaderProps) {
     return (
       <header className="fixed left-0 top-0 flex h-[97px] items-center justify-center ">
         <div className=" seccion1-x">
+          <div className="containerInner" >
           <Logo type="white" />
+          </div>
         </div>
       </header>
     );

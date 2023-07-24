@@ -28,11 +28,14 @@ export default function HeaderSpaceArea() {
 
   return (
     <header className={`fixed left-0 top-0 z-50 h-[97px] w-full items-center justify-center ${headerType === "default" ? "flex" : "hidden" } `} >
-      <div className="seccion1-x flex w-full items-center justify-between lg:justify-end"> 
+      <div className="seccion1-x "> 
+        <div className="containerInner flex w-full items-center justify-between lg:justify-end"> 
         <div className="lg:hidden">
         <Logo type="normal" />
         </div>
         <ProfileAction />
+       
+        </div>
       </div>
     </header>
   );

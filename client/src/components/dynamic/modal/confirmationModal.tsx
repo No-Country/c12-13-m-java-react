@@ -60,6 +60,7 @@ export default function ConfirmationModal({
           close={() => setIsOpen(false)}
           position="center-center"
           setIsOpen={setIsOpen}
+          type="confirmation"
         >
           <div className="flex flex-col gap-5">
             <div className="flex gap-1 flex-col">
