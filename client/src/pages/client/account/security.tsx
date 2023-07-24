@@ -53,6 +53,7 @@ export default function AccountPage() {
     <>
       <Head>
         <title>Seguridad | Spaces</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
 
       <LayoutSpaces type="account">

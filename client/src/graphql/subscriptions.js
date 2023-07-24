@@ -8,6 +8,18 @@ export const NOTIFY_TASK_CREATED = gql`
       description
       deadline
       status
+      longDescription
+      comments {
+        id
+        content
+        createdAt
+        fromUser {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+      }
       assignedTo {
         user {
           id
@@ -28,6 +40,18 @@ export const NOTIFY_TASK_CHANGED = gql`
       description
       deadline
       status
+      longDescription
+      comments {
+        id
+        content
+        createdAt
+        fromUser {
+          id
+          firstName
+          lastName
+          profileImage
+        }
+      }
       assignedTo {
         user {
           id

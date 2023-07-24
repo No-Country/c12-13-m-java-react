@@ -3,7 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer base {
+
+
   h1,
   h2,
   h3,
@@ -144,12 +148,13 @@ $line-height-titulos: 130%;
   }
 
   .headerInner {
-    @apply flex w-screen items-center justify-between ;
-    @extend .header-padding;
+    @apply flex w-full items-center justify-between containerInner;
+  //  @extend .header-padding;
   }
 
   .header {
     //  @apply px-8 py-8 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
+    @extend .header-padding;
     @apply fixed left-0 right-0 top-0 z-[4] flex w-full items-center justify-center   border-[$gris-bordes-1];
   }
 }
@@ -171,18 +176,19 @@ $line-height-titulos: 130%;
 }
 
 @layer base {
-  .sidebar-padding {
-    @extend .seccion1-x;
+ .sidebar-padding {
+  @extend .seccion1-x;
     @apply  py-8;
-  }
+ }
 
   .sidebar {
-    @apply relative;
+   @apply bg-blue-500 h-full w-full hidden lg:flex min-w-[200px] ;
   }
 
   .sidebarInner {
-    @apply sticky top-[0px] flex  h-[calc(100vh)] flex-col items-start justify-start ;
+@apply sticky top-[0px] flex  h-[calc(100vh)] min-w-[200px] flex-col items-start justify-start ;
     @extend .sidebar-padding;
+  @apply sticky top-0   bg-white;
   }
 }
 
@@ -195,7 +201,11 @@ $line-height-titulos: 130%;
 //Seccion
 @layer base {
   .seccion1-x {
-    @apply w-full px-6 2xl:container sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
+    @apply w-full px-6 flex items-center flex-col sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
+  }
+
+  .seccion1-x-padding{
+    @apply w-full px-6 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
   }
 
   .seccion1-y {
@@ -236,24 +246,36 @@ $line-height-titulos: 130%;
   }
 
   .listContainer {
-    @apply seccion1-x relative z-[2] rounded-t-3xl rounded-r-3xl bg-slate-50 w-full;
+    @apply seccion1-x relative z-[2] rounded-t-3xl rounded-r-3xl max-w-[100vw] bg-slate-50 w-full;
     @apply flex flex-col gap-6;
     @apply py-[40px] mt-[-20px];
   }
 
+  .containerInner {
+    @apply 2xl:container;
+  }
+
   .listContainer2 {
-    @apply seccion1-x z-[2] rounded-3xl bg-slate-50 w-full;
-    @apply flex flex-col gap-6;
-    @apply  py-[40px] mt-[-20px] relative;
+    @apply  z-[2] flex justify-center rounded-3xl mt-[-20px]  bg-slate-50 w-full;
+  }
+
+.listContainerInner {
+    @apply flex seccion1-x  rounded-3xl flex-col bg-slate-50 gap-6 w-full z-[2];
+    @apply  py-[40px]  relative;
   }
 
   .gridContainer {
-    @apply flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3;
+    @apply flex w-full flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4;
   }
 
   .base {
     @apply z-50;
   }
+
+  .centerInner {
+    @apply flex flex-col w-full items-center justify-center;
+  }
+
 }
 
 

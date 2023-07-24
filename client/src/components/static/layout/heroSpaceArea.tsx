@@ -32,6 +32,7 @@ type HeroSpaceAreaProps = {
   showMembers?: boolean;
   bgImageVisibleOnDesktop?: boolean;
   modalType?: "confirmation" | "normal";
+  baseModalType?: "default" | "confirmation";
 };
 
 export default function HeroSpaceArea({
@@ -55,6 +56,8 @@ export default function HeroSpaceArea({
   primaryLoading = false,
   secondaryLoading = false,
   secondaryManualClose = false,
+  baseModalType = "default",
+
 }: HeroSpaceAreaProps) {
   {
     const { currentMember: cMember, currentSpaceMembers } = useAppSelector(
@@ -77,7 +80,7 @@ export default function HeroSpaceArea({
             </p>
           </div>
           {controls && (
-            <div className="flex  gap-2">
+            <div className="flex flex-col md:flex-row  gap-2">
               {secondControls &&
                 ((secondTriggerIsAdmin &&
                   (currentMember?.isAdmin() || currentMember?.isOwner())) ||
@@ -108,6 +111,7 @@ export default function HeroSpaceArea({
                       buttonType="primaryButton"
                       manualClose={primaryManualClose}
                       loading={primaryLoading}
+                      modalType={baseModalType}
                     >
                       {children}
                     </ModalTrigger>

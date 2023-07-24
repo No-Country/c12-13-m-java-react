@@ -40,17 +40,27 @@ export default function RoomForm({
           type="text"
           name="name"
           onChange={handleChange}
-          placeholder="Name"
+          placeholder="Nombre"
           required={hasDefaultValues ? false : true}
           error={errors.name}
           defaultValue={hasDefaultValues ? currentRoom?.getName() : ""}
+        />
+        <Input 
+          label="Descripción"
+          type="text"
+          name="description"
+          onChange={handleChange}
+          placeholder="Descripción"
+          required={hasDefaultValues ? false : true}
+          error={errors.description}
+          defaultValue={hasDefaultValues ? currentRoom?.getDescription() : ""}
         />
         <Input
           label="Imagen de portada"
           type="file"
           name="coverImage"
           onChange={handleChange}
-          placeholder="Cover Image"
+          placeholder="Imagen de portada"
           required={hasDefaultValues ? false : true}
           error={errors.coverImage}
         />

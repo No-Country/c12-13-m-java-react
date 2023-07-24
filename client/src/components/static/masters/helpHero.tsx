@@ -15,8 +15,9 @@ export default function HelpHero({
 }: HelpHeroProps) {
   return (
     <section
-      className={`relative flex ${height} w-full flex-col items-start  justify-center seccion2-x `}
+      className={`relative  ${height} w-full flex justify-start items-center `}
     >
+      <div className="seccion2-x  z-[2] flex w-full " >
       <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full">
         <ImageNext
           src={image}
@@ -29,6 +30,7 @@ export default function HelpHero({
       <h1 className="titulo-1 z-[1] text-white ">{title}</h1>
       <p className="bodyText z-[1] text-white">{body}</p>
       </div> 
+      </div>
     </section>
   );
 }

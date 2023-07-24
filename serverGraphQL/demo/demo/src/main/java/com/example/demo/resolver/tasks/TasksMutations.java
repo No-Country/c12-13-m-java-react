@@ -35,7 +35,9 @@ public class TasksMutations {
             @Argument String deadline,
             @Argument Number status,
             @Argument List<String> assignedToIds,
-            @Argument String roomOwnerId) {
+            @Argument String roomOwnerId,
+            @Argument String longDescription
+            ) {
         try {
             Room room = roomRepository.findById(roomOwnerId).orElseThrow(null);
             AtomicReference<String> taskIdRef = new AtomicReference<>(generateRandomId());
@@ -50,6 +52,8 @@ public class TasksMutations {
             task.setId(taskIdRef.get());
             task.setTitle(title);
             task.setDescription(description);
+            System.out.println("longDescription: " + longDescription);
+            task.setLongDescription(longDescription);
             if (deadline != null) {
                 task.setDeadline(deadline);
             }
@@ -106,7 +110,9 @@ public class TasksMutations {
             @Argument String deadline,
             @Argument Number status,
             @Argument List<String> assignedToIds,
-            @Argument String roomId) {
+            @Argument String roomId,
+            @Argument String longDescription
+            ) {
         try {
             System.out.println("buscando room");
             Room room = roomRepository.findById(roomId).orElseThrow(null);
@@ -126,6 +132,11 @@ public class TasksMutations {
             if (status != null && !status.equals("")) {
                 task.setStatus(status);
             }
+            if (longDescription != null && !longDescription.equals("")) {
+                task.setLongDescription(longDescription);
+            }
+
+
             if (assignedToIds != null) {
                 // List<Member> assignedTo = new ArrayList<>();
                 // // Verificamos la cantidad de ids que se pasaron, si son 0, entonces se

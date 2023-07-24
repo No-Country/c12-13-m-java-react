@@ -11,6 +11,7 @@ type ModalTriggerProps = {
   classname?: string;
   loading?: boolean;
   manualClose?: boolean;
+  modalType?: "default" | "confirmation";
 };
 
 export default function ModalTrigger({
@@ -22,6 +23,7 @@ export default function ModalTrigger({
   loading = false,
   manualClose = false,
   alwaysOpenCloser = () => {},
+  modalType = "default",
 }: ModalTriggerProps) {
   const [isOpen, setIsOpen] = useState(alwaysOpen);
 
@@ -55,9 +57,10 @@ export default function ModalTrigger({
           close={handleClose}
           position="center-center"
           setIsOpen={setIsOpen}
+          type={modalType}
         >
           <>
-            <div className={`z-0 ${loading && "opacity-0"}`}>{children}</div>
+            <div className={`z-0 w-full h-full ${loading && "opacity-0"}`}>{children}</div>
             {loading && (
               <div className="absolute left-0 rounded-[20px] top-0 flex h-full w-full items-center justify-center gap-3 bg-white ">
                 <CircularLoader />

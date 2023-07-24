@@ -22,7 +22,7 @@ export default function TaskCreateForm({
   const [errors, setErrors] = useState<any>({});
   const [selected, setSelected] = useState<any>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     changeManager({
       e,
       setFormValues,

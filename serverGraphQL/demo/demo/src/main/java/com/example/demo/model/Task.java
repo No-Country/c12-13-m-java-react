@@ -15,8 +15,12 @@ public class Task {
     private Number status = 1;
     private List<Member> assignedTo = new ArrayList<>();
 
+    @DBRef(lazy = true)
+    private List<Comment> comments = new ArrayList<>();
+
     private String createdAt;
     private String updatedAt;
+    private String longDescription = "";
 
     public Task() {
     }
@@ -25,7 +29,7 @@ public class Task {
     // Constructor
     public Task(String title, String description, String deadline, Number status, List<Member> assignedTo,
             String createdAt,
-            String updatedAt) {
+            String updatedAt, String id, List<Comment> comments) {
         this.title = title;
         this.description = description;
         this.deadline = deadline;
@@ -33,6 +37,9 @@ public class Task {
         this.assignedTo = assignedTo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.id = id;
+        this.comments = comments;
+        this.longDescription = "";
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -65,6 +72,18 @@ public class Task {
         return this.updatedAt;
     }
 
+    public List<Comment> getComments() {
+        return this.comments;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getLongDescription() {
+        return this.longDescription;
+    }
+
     // ---------------------------------------------------------------------------------------------
     // Setters
     public void setId(String id) {
@@ -75,7 +94,7 @@ public class Task {
         this.title = title;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -101,6 +120,18 @@ public class Task {
 
     public void addAssignedTo(Member member) {
         this.assignedTo.add(member);
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
     }
 
     @Override

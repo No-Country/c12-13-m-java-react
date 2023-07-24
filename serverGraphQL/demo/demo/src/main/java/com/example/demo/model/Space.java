@@ -32,13 +32,13 @@ public class Space {
     @Builder.Default
     private String coverImage = "";
     private List<Member> members = new ArrayList<>();
-    @DBRef
+    @DBRef(lazy = true)
     @Cascade(CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
-    @DBRef
+    @DBRef(lazy = true)
     @Cascade(CascadeType.ALL)
     private List<File> files = new ArrayList<>();
-    @DBRef
+    @DBRef(lazy = true)
     @Cascade(CascadeType.ALL)
     private Chat chat;
     private String createdAt;

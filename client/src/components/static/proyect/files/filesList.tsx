@@ -107,9 +107,9 @@ function FileItem({ file }: FileItemProps) {
   );
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-3xl bg-white  p-4 pr-8">
+    <div className="flex items-center justify-between h-max gap-3 rounded-3xl bg-white  p-4 pr-8">
       <div className="flex gap-2">
-        <Image
+        {/* <Image
           src={file?.src}
           alt="file"
           layout="fill"
@@ -118,13 +118,15 @@ function FileItem({ file }: FileItemProps) {
           height="h-[80px]"
           rounded="rounded-2xl"
           containerClassName="aspect-square"
-        />
+        /> */}
         <div className="flex flex-col items-start justify-between pb-2">
           <div>
-            <p className="smalltext font-medium">{file?.name}</p>
-            <p className="text-sm font-light">
-              {file.owner.firstName + " " + file.owner.lastName}
+            <p className="smalltext  font-medium">{file?.name}</p>
+            <p className="smalltext break-all ">{file?.description}</p>
+            <p className="text-sm font-medium mt-2 mb-1">
+              Por {file.owner.firstName + " " + file.owner.lastName}
             </p>
+            
           </div>
           <Link className="terceryButton text-sm" href={file.src} target="_blank" download>
             Descargar

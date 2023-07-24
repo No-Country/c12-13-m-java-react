@@ -25,6 +25,7 @@ console.log(router.asPath);
     <>
       <Head>
         <title>Unirse a un espacio</title>
+        <meta name="theme-color" content="#1e40af" />
       </Head>
       <Main>
         <Header alwaysAlternative={true} />

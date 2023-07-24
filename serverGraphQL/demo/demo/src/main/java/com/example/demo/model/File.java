@@ -18,6 +18,7 @@ public class File {
     private String id;
     @Builder.Default
     private String name = "NameLess Room";
+    private String description = "";
     private String src = "";
     private String createdAt;
     private String updatedAt;
@@ -29,12 +30,14 @@ public class File {
 
     // ---------------------------------------------------------------------------------------------
     // Constructor
-    public File(String name, String src, String createdAt, String updatedAt, User owner) {
+    public File(String name, String src, String createdAt, String updatedAt, User owner, String description) {
         this.name = name;
         this.src = src;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.owner = owner;
+        this.description = description;
+
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -45,6 +48,10 @@ public class File {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     public String getSrc() {
@@ -91,6 +98,10 @@ public class File {
         this.owner = owner;
     }
 
+    public void setDescription(@NonNull String description) {
+        this.description = description;
+    }
+
     public String toJson() {
         // return "{" +
         //         "\"id\":\"" + id + "\"" +
@@ -101,6 +112,7 @@ public class File {
         return "{" +
                 "\"id\":\"" + id + "\"" +
                 ", \"name\":\"" + name + "\"" +
+                ", \"description\":\"" + description + "\"" +
                 ", \"src\":\"" + src + "\"" +
                 ", \"createdAt\":\"" + createdAt + "\"" +
                 ", \"updatedAt\":\"" + updatedAt + "\"" +
