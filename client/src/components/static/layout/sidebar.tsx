@@ -97,8 +97,8 @@ export default function Sidebar({ type }: SidebarProps) {
 
   return (
     <>
-      <aside className="sidebar sticky top-0 max-h-screen hidden overflow-hidden bg-white lg:flex  ">
-        <div className="sidebarInner  z-[50] overflow-hidden  ">
+      <aside className="sidebar  ">
+        <div className="sidebarInner  ">
           <div className="relative h-full w-full overflow-y-scroll">
             <div className="absolute left-0 top-0 h-full w-full  ">
               <Logo type="normal" />
