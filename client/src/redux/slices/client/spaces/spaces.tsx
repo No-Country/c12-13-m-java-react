@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAsyncThunk,
-  current,
-} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
 import { GET_SPACE_BY_ID } from "@/graphql/queries";
 import {
@@ -15,7 +10,7 @@ import {
 } from "@/graphql/mutations";
 import { serverUrl } from "@/data/config";
 import { toast } from "sonner";
-import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
+import { toastError, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
 import {
@@ -23,7 +18,6 @@ import {
   ChatProps,
   RoomsProps,
   MembersProps,
-  FilesProps,
 } from "@/utils/types/client";
 import axios from "axios";
 import { setCurrentSpaceFiles } from "@/redux/slices/client/spaces/files";
@@ -48,7 +42,6 @@ export const getCurrentSpace = createAsyncThunk(
         fetchPolicy: "network-only",
       });
 
-      console.log("data getCurrentSpace", data);
       dispatch(setCurrentSpaceFiles(data.findSpaceById.files));
 
       return {
@@ -57,7 +50,7 @@ export const getCurrentSpace = createAsyncThunk(
         userId: state.authSession.session.current.id,
       };
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -78,7 +71,7 @@ export const createSpace = createAsyncThunk(
 
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -99,7 +92,7 @@ export const deleteSpace = createAsyncThunk(
 
       return data.deleteSpace;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -121,7 +114,7 @@ export const editSpace = createAsyncThunk(
 
       return data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -145,7 +138,7 @@ export const sendMessage = createAsyncThunk(
 
       return data.sendMessage;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -166,10 +159,11 @@ export const joinSpace = createAsyncThunk(
         },
         fetchPolicy: "network-only",
       });
-      console.log("data joinSpace", data);
+
       return data.joinSpace;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -191,7 +185,7 @@ export const leaveSpace = createAsyncThunk(
 
       return data.leaveSpace;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -214,7 +208,8 @@ export const expulseMember = createAsyncThunk(
 
       return data.leaveSpace;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -236,7 +231,7 @@ export const changeUserRole = createAsyncThunk(
 
       return data.changeUserRole;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -248,7 +243,6 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     setSpaces: (state, action: PayloadAction<SpaceProps[]>) => {
-      console.log("action.payload setSpaces", action.payload);
       state.spaces = action.payload.map(
         (spaceData: SpaceProps) =>
           new SpaceProps(
@@ -269,7 +263,6 @@ const postsSlice = createSlice({
       //  state.userIsOwner = action.payload;
     },
     addMessage: (state, action: PayloadAction<any>) => {
-      console.log("action.payload addMessage", action.payload);
       state.currentSpaceChat.messages.push(action.payload);
     },
     resetReducer: (state) => {
@@ -279,7 +272,6 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getCurrentSpace.pending, (state, action) => {
-        console.log("state pendinf", action);
         if (action.meta.arg === state.currentSpace.id) {
           state.spaceLoading = false;
         } else {
@@ -311,7 +303,6 @@ const postsSlice = createSlice({
         state.spaceLoading = false;
       })
       .addCase(getCurrentSpace.rejected, (state) => {
-        console.log("Error al obtener espacio");
         toast.error("Error al obtener espacio", toastError);
       })
       .addCase(createSpace.pending, (state) => {})
@@ -321,7 +312,6 @@ const postsSlice = createSlice({
         toast.success("Espacio creado correctamente", toastSuccess);
       })
       .addCase(createSpace.rejected, (state) => {
-        console.log("Error al crear espacio");
         toast.error("Error al crear espacio", toastError);
       })
       .addCase(deleteSpace.pending, (state) => {})
@@ -330,7 +320,6 @@ const postsSlice = createSlice({
         Router.push(`/client`);
       })
       .addCase(deleteSpace.rejected, (state) => {
-        console.log("Error al borrar espacio");
         toast.error("Error al borrar espacio", toastError);
       })
       .addCase(editSpace.pending, (state) => {})
@@ -346,7 +335,6 @@ const postsSlice = createSlice({
         toast.success("Espacio editado correctamente", toastSuccess);
       })
       .addCase(editSpace.rejected, (state) => {
-        console.log("Error al editar espacio");
         toast.error("Error al editar espacio", toastError);
       })
 
@@ -356,7 +344,6 @@ const postsSlice = createSlice({
         toast.success("Espacio unido correctamente", toastSuccess);
       })
       .addCase(joinSpace.rejected, (state) => {
-        console.log("Error al unirse al espacio");
         toast.error("Error al unirse al espacio", toastError);
       })
       .addCase(leaveSpace.pending, (state) => {})
@@ -365,7 +352,6 @@ const postsSlice = createSlice({
         toast.success("Espacio abandonado correctamente", toastSuccess);
       })
       .addCase(leaveSpace.rejected, (state) => {
-        console.log("Error al abandonar espacio");
         toast.error("Error al abandonar espacio", toastError);
       })
       .addCase(expulseMember.pending, (state) => {})
@@ -373,13 +359,11 @@ const postsSlice = createSlice({
         toast.success("Miembro expulsado correctamente", toastSuccess);
       })
       .addCase(expulseMember.rejected, (state) => {
-        console.log("Error al expulsar miembro");
         toast.error("Error al expulsar miembro", toastError);
       })
       .addCase(sendMessage.pending, (state) => {})
       .addCase(sendMessage.fulfilled, (state, action) => {})
       .addCase(sendMessage.rejected, (state) => {
-        console.log("Error al enviar mensaje");
         toast.error("Error al enviar mensaje", toastError);
       })
       .addCase(changeUserRole.pending, (state) => {})
@@ -388,7 +372,6 @@ const postsSlice = createSlice({
         toast.success("Rol cambiado correctamente", toastSuccess);
       })
       .addCase(changeUserRole.rejected, (state) => {
-        console.log("Error al cambiar rol");
         toast.error("Error al cambiar rol", toastError);
       });
   },

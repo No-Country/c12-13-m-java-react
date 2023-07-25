@@ -6,11 +6,14 @@ type VerticalNavProps = {
   textColor?: string;
 };
 
-export default function HorizontalNav({ items, textColor="text-white" }: VerticalNavProps) {
+export default function HorizontalNav({
+  items,
+  textColor = "text-white",
+}: VerticalNavProps) {
   return (
     <nav className="flex gap-8">
       {items.map((item, index) => (
-        <>
+        <div key={index}>
           {item.hasPopover ? (
             <Popover childrenTrigger={item.childrenTrigger}>
               <VerticalNav items={item.itemsNav} />
@@ -20,7 +23,7 @@ export default function HorizontalNav({ items, textColor="text-white" }: Vertica
               {item.name}
             </Link>
           )}
-        </>
+        </div>
       ))}
     </nav>
   );

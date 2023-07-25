@@ -4,8 +4,6 @@ import { GET_USER_BY_ID } from "@/graphql/queries";
 import { AuthClass } from "@/utils/types/client";
 import { UserProps } from "@/utils/types/client";
 import { setSpaces } from "@/redux/slices/client/spaces/spaces";
-const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
-import { VERIFY_SESSION } from "@/graphql/queries";
 import { LOG_IN, CREATE_USER, CHANGE_PASSWORD } from "@/graphql/mutations";
 import Router from "next/router";
 import { toast } from "sonner";
@@ -13,6 +11,7 @@ import { toastSuccess, toastError, toastWarning } from "@/utils/toastStyles";
 import { RootState } from "../store/store";
 import axios from "axios";
 import { serverUrl } from "@/data/config";
+
 const initialState = {
   auth: {} as AuthClass,
   session: {
@@ -25,13 +24,12 @@ export const setSession = createAsyncThunk(
   "auth/setSession",
   async (userId: string, { dispatch, getState }) => {
     try {
-      console.log("setSession", userId);
       const { data } = await client.query({
         query: GET_USER_BY_ID,
         variables: { id: userId },
         fetchPolicy: "network-only",
       });
-      console.log("data", data);
+
       dispatch(setSpaces(data.findUserById.spaces));
       return data.findUserById;
     } catch (err: any) {
@@ -44,14 +42,12 @@ export const login = createAsyncThunk(
   "auth/login",
   async (credentials: any, { dispatch, getState }) => {
     try {
-      console.log("credentials", credentials);
       const { data } = await client.mutate({
         mutation: LOG_IN,
         variables: { email: credentials.email, password: credentials.password },
         fetchPolicy: "network-only",
       });
 
-      console.log("createSession", data);
       return data.createSession;
     } catch (err: any) {
       throw new Error("Error al loguear el usuario", err);
@@ -63,7 +59,6 @@ export const register = createAsyncThunk(
   "auth/register",
   async (userData: any, { dispatch, getState }) => {
     try {
-      console.log("userData", userData);
       const { data, errors } = await client.mutate({
         mutation: CREATE_USER,
         variables: {
@@ -75,11 +70,11 @@ export const register = createAsyncThunk(
         },
         fetchPolicy: "network-only",
       });
-      if (errors) console.log("Error al crear el usuario", errors);
-      console.log("createSession", data);
+      if (errors) console.error("Error al crear el usuario", errors);
+
       return data.createUser;
     } catch (err: any) {
-      console.log("Error al crear el usuario", err);
+      console.error("Error al crear el usuario", err);
       throw new Error("Error al crear el usuario", err);
     }
   }
@@ -89,7 +84,6 @@ export const editUser = createAsyncThunk(
   "auth/editUser",
   async (userData: any, { dispatch, getState }) => {
     try {
-      console.log("userData", userData);
       const state = getState() as RootState;
       userData.userId = state.authSession.session.current.id;
       userData.filenamePi = userData.profileImage
@@ -103,10 +97,9 @@ export const editUser = createAsyncThunk(
         },
       });
 
-      console.log("res", res);
       return res.data;
     } catch (err: any) {
-      console.log("Error al crear el usuario", err);
+      console.error("Error al crear el usuario", err);
       throw new Error("Error al crear el usuario", err);
     }
   }
@@ -118,7 +111,7 @@ export const changePassword = createAsyncThunk(
     try {
       const state = getState() as RootState;
       userData.userId = state.authSession.session.current.id;
-      console.log("userData", userData);
+
       //USAMOS GRAPHQL
       const { data, errors } = await client.mutate({
         mutation: CHANGE_PASSWORD,
@@ -130,10 +123,9 @@ export const changePassword = createAsyncThunk(
         fetchPolicy: "network-only",
       });
 
-      console.log("res", data);
       return data;
     } catch (err: any) {
-      console.log("Error al cambiar contraseña", err);
+      console.error("Error al cambiar contraseña", err);
       throw new Error("Error al cambiar contraseña", err);
     }
   }
@@ -145,7 +137,6 @@ const postsSlice = createSlice({
   reducers: {
     setAuth: (state, action: PayloadAction<AuthClass>) => {
       state.auth = action.payload;
-      console.log("setAuth ok", action.payload);
     },
     resetReducer: (state) => {
       state.auth = initialState.auth;
@@ -174,17 +165,14 @@ const postsSlice = createSlice({
           action.payload.coverImage,
           action.payload.spaces
         );
-        console.log("Fulfilled setSession", action.payload);
+
         state.session.loading = false;
       })
       .addCase(setSession.rejected, (state, action) => {
         console.error("Rejected setSession", action.payload);
       })
-      .addCase(login.pending, (state, action) => {
-        console.log("Pending login");
-      })
+      .addCase(login.pending, (state, action) => {})
       .addCase(login.fulfilled, (state, action) => {
-        console.log("Fulfilled login", action.payload);
         if (Router?.query?.next) {
           Router.push(
             `${Router.query.next}&accessCode=${Router.query.accessCode}&spaceId=${Router.query.spaceId}&id=${action.payload.userId}&status=ok&session=${action.payload.id}&loginMethod=local`
@@ -201,11 +189,8 @@ const postsSlice = createSlice({
         console.error("Rejected login", action.payload);
         toast.error("Verifica las credenciales", toastError);
       })
-      .addCase(register.pending, (state, action) => {
-        console.log("Pending register");
-      })
+      .addCase(register.pending, (state, action) => {})
       .addCase(register.fulfilled, (state, action) => {
-        console.log("Fulfilled register", action.payload);
         const query: string = Router.asPath.split("register")[1] || "";
         toast.success("Registro exitoso", toastSuccess);
         Router.push(`/auth/${query}`);
@@ -215,11 +200,9 @@ const postsSlice = createSlice({
         toast.error("Verifica los datos", toastError);
       })
       .addCase(editUser.pending, (state, action) => {
-        console.log("Pending editUser");
         toast("Editando usuario");
       })
       .addCase(editUser.fulfilled, (state, action) => {
-        console.log("Fulfilled editUser", action.payload);
         state.session.current = new UserProps(
           action.payload.id,
           action.payload.firstName,
@@ -240,11 +223,9 @@ const postsSlice = createSlice({
         toast.error("Verifica los datos", toastError);
       })
       .addCase(changePassword.pending, (state, action) => {
-        console.log("Pending changePassword");
         toast("Editando contraseña");
       })
       .addCase(changePassword.fulfilled, (state, action) => {
-        console.log("Fulfilled changePassword", action.payload);
         toast.success("Edición exitosa", toastSuccess);
       })
       .addCase(changePassword.rejected, (state, action) => {

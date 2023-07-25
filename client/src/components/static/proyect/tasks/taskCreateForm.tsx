@@ -1,6 +1,6 @@
 import { TaskForm } from "@/components";
 import { useState, useEffect } from "react";
-import {useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/client/spaces/tasks";
 import useValidate from "@/hooks/useValidate";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
@@ -22,7 +22,11 @@ export default function TaskCreateForm({
   const [errors, setErrors] = useState<any>({});
   const [selected, setSelected] = useState<any>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     changeManager({
       e,
       setFormValues,
@@ -32,11 +36,10 @@ export default function TaskCreateForm({
   };
 
   const handleSelectChange = (e: any) => {
-    console.log("e", e.target.value);
     setFormValues({
       ...formValues,
       status: parseInt(e.target.value),
-  });
+    });
   };
 
   const handleSubmit = async (e: any) => {
@@ -50,14 +53,13 @@ export default function TaskCreateForm({
         actionToDispatch: createTask,
         setFormValues,
       });
-     setManualClose(true);
-    console.log("formValues", formValues);
+      setManualClose(true);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);
       }, 200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario", toastError);
     }

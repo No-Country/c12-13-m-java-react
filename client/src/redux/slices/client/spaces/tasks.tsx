@@ -7,7 +7,7 @@ import {
   CREATE_COMMENT,
 } from "@/graphql/mutations";
 import { toast } from "sonner";
-import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
+import { toastError, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import { TasksProps } from "@/utils/types/client";
 import { CommentProps } from "@/utils/types/client";
@@ -21,7 +21,6 @@ export const createTask = createAsyncThunk(
   "tasks/createTask",
   async (input: any, { dispatch, getState }) => {
     try {
-      console.log("input createTask", input.longDescription);
       const state = getState() as RootState;
       const { data } = await client.mutate({
         mutation: CREATE_TASK,
@@ -38,7 +37,8 @@ export const createTask = createAsyncThunk(
 
       return data.createTask;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -56,10 +56,11 @@ export const deleteTask = createAsyncThunk(
         },
         fetchPolicy: "network-only",
       });
-      console.log("data delete", data);
+
       return data.deleteTask;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -79,7 +80,8 @@ export const editTask = createAsyncThunk(
       });
       return data.editTask;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -88,7 +90,6 @@ export const createComment = createAsyncThunk(
   "tasks/createComment",
   async (input: any, { dispatch, getState }) => {
     try {
-      console.log("input createComment", input);
       const state = getState() as RootState;
       const { data } = await client.mutate({
         mutation: CREATE_COMMENT,
@@ -103,7 +104,8 @@ export const createComment = createAsyncThunk(
 
       return data.createComment;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 );
@@ -115,7 +117,7 @@ const postsSlice = createSlice({
   reducers: {
     setCurrentTask: (state, action: PayloadAction<TasksProps>) => {
       //recibimos la tarea
-      console.log("data current task", action.payload);
+
       if (action.payload instanceof TasksProps) {
         state.currentTask = action.payload;
         state.currentTaskComments = action.payload.comments as CommentProps[];
@@ -123,29 +125,25 @@ const postsSlice = createSlice({
     },
     setCurrentRoomTasks: (state, action: PayloadAction<TasksProps[]>) => {
       //recibimos la tarea
-      console.log("data current room tasks", action.payload);
+
       state.currentRoomTasks = action.payload as TasksProps[];
     },
     addTaskSubs: (state, action: PayloadAction<TasksProps>) => {
-      console.log("addTask redux", action.payload);
       state.currentRoomTasks.push(action.payload);
     },
     deleteTaskSubs: (state, action: PayloadAction<TasksProps>) => {
-      console.log("deleteTask redux", action.payload);
       state.currentRoomTasks = state.currentRoomTasks.filter(
         (task) => task.id !== action.payload.id
       );
     },
     setCurrentTaskComments: (state, action: PayloadAction<CommentProps[]>) => {
       //recibimos la tarea
-      console.log("data current task comments", action.payload);
+
       state.currentTaskComments = action.payload as CommentProps[];
     },
     editTaskSubs: (state, action: PayloadAction<TasksProps>) => {
-      console.log("editTask redux", action.payload);
       state.currentRoomTasks = state.currentRoomTasks.map((task) => {
         if (task.id === action.payload.id) {
-          console.log("encontrado", action.payload);
           const newTask = new TasksProps(
             action.payload.id,
             action.payload.title,
@@ -156,19 +154,16 @@ const postsSlice = createSlice({
             action.payload.comments,
             action.payload.longDescription
           );
-          console.log("newTask", newTask);
+
           return newTask;
         } else {
-          console.log("no encontrado");
           return task;
         }
       });
 
       if (state.currentTask.id === action.payload.id) {
         state.currentTaskComments = action.payload.comments as CommentProps[];
-console.log("currentTaskComments", state.currentTaskComments);
       }
-    
     },
     resetReducer: (state) => {
       state.currentRoomTasks = [];
@@ -180,11 +175,9 @@ console.log("currentTaskComments", state.currentTaskComments);
 
       .addCase(createTask.pending, (state) => {})
       .addCase(createTask.fulfilled, (state, action) => {
-        console.log("data createTask", action.payload);
         toast.success("Tarea creada correctamente", toastSuccess);
       })
       .addCase(createTask.rejected, (state) => {
-        console.log("Error al crear tarea");
         toast.error("Error al crear tarea", toastError);
       })
       .addCase(editTask.pending, (state) => {})
@@ -192,28 +185,20 @@ console.log("currentTaskComments", state.currentTaskComments);
         toast.success("Tarea editada correctamente", toastSuccess);
       })
       .addCase(editTask.rejected, (state) => {
-        console.log("Error al editar tarea");
         toast.error("Error al editar tarea", toastError);
       })
       .addCase(deleteTask.pending, (state) => {})
       .addCase(deleteTask.fulfilled, (state, action) => {
-        console.log("data rooms", action.payload);
         toast.success("Tarea borrada correctamente", toastSuccess);
       })
       .addCase(deleteTask.rejected, (state) => {
-        console.log("Error al borrar tarea");
         toast.error("Error al borrar tarea", toastError);
       })
       .addCase(createComment.pending, (state) => {})
       .addCase(createComment.fulfilled, (state, action) => {
-        console.log("data createComment", action.payload, state.currentTask);
-        //const updatedComments = state.currentTaskComments.concat( action.payload as CommentProps);
-      //  console.log("updatedComments", updatedComments);
-       // state.currentTaskComments = updatedComments as CommentProps[];
         toast.success("Comentario creado correctamente", toastSuccess);
       })
       .addCase(createComment.rejected, (state) => {
-        console.log("Error al crear comentario");
         toast.error("Error al crear comentario", toastError);
       });
   },

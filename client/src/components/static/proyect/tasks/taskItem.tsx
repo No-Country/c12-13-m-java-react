@@ -1,16 +1,12 @@
 //Redux
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import {
   editTask,
   deleteTask,
   setCurrentTask,
 } from "@/redux/slices/client/spaces/tasks";
 import { MembersList, ModalTrigger, TaskForm } from "@/components";
-import {
-  TasksProps,
-  GeneralPermission,
-  MembersProps,
-} from "@/utils/types/client";
+import { TasksProps, MembersProps } from "@/utils/types/client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import useValidate from "@/hooks/useValidate";
@@ -60,7 +56,6 @@ export default function TaskItem({ item }: TaskItemProps) {
   };
 
   const handleSelectChange = (e: any) => {
-    console.log("handleSelectChange", e.target.value);
     setFormValues({
       ...formValues,
       status: parseInt(e.target.value),
@@ -70,7 +65,6 @@ export default function TaskItem({ item }: TaskItemProps) {
   const handleSubmit = async (e: any) => {
     try {
       setLoading(true);
-      console.log("formValues", formValues);
       await submitManager({
         e,
         formValues,
@@ -80,12 +74,11 @@ export default function TaskItem({ item }: TaskItemProps) {
         setFormValues,
       });
 
-      console.log("formValues", formValues);
       setLoading(false);
 
       setEditing(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario", toastError);
     }
@@ -106,7 +99,7 @@ export default function TaskItem({ item }: TaskItemProps) {
       setEditing(false);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   };

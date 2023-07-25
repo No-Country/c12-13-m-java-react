@@ -28,21 +28,27 @@ type MembersListProps = {
 
 export default function MembersSpaceList({ adminZone }: MembersListProps) {
   const dispatch = useAppDispatch();
-  const { currentSpaceMembers: members, currentMember:cMember } = useAppSelector(
-    (state) => state?.client?.spaces?.spaces
-  );
+  const { currentSpaceMembers: members, currentMember: cMember } =
+    useAppSelector((state) => state?.client?.spaces?.spaces);
 
   const currentMember = MembersProps.deserialize(cMember);
 
   const childrenTrigger = (
-    <ReactSVG src="/icon/sidebar/config.svg" className="h-5 w-5 fill-current text-blue-700" />
+    <ReactSVG
+      src="/icon/sidebar/config.svg"
+      className="h-5 w-5 fill-current text-blue-700"
+    />
   );
 
   return (
     <section className="listContainer">
       <ListTopArea
         title={adminZone ? "Edita los miembros del espacio" : "Miembros"}
-        description={adminZone ? "Puedes editar roles o expulsar usuarios" : "Miembros del espacio"}
+        description={
+          adminZone
+            ? "Puedes editar roles o expulsar usuarios"
+            : "Miembros del espacio"
+        }
         buttonText="Invitar a un amigo"
         controls={false}
       />
@@ -127,7 +133,6 @@ function EditRole({ role, userId }: editRoleProps) {
     if (selectValue === role) {
       return;
     }
-    console.log(selectValue);
     dispatch(changeUserRole({ role: selectValue, userId: userId }));
   };
 

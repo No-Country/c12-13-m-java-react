@@ -66,3 +66,5 @@ export { default as HeroAccountArea } from "./static/layout/heroAccountArea";
 export { default as AccountSection } from "./static/layout/accountSection";
 export { default as FileForm } from "./static/proyect/files/fileForm";
 export { default as FileCreate } from "./static/proyect/files/fileCreate";
+
+export { default as Members } from "./static/proyect/public/members";

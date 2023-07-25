@@ -28,7 +28,11 @@ export default function ModalBase({
       <>
         {isOpen && (
           <div className="base fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-[#00000096]  p-[28px] sm:p-[30px]  md:p-[40px] lg:p-[60px] xl:p-[100px]">
-            <div className={`relative  flex  max-h-[85vh]  p-[28px]   rounded-[20px] bg-white sm:p-[30px] md:p-[40px] ${type == "confirmation" ? "" : "w-full" } `}>
+            <div
+              className={`relative  flex  max-h-[85vh]  rounded-[20px]   bg-white p-[28px] sm:p-[30px] md:p-[40px] ${
+                type == "confirmation" ? "" : "w-full"
+              } `}
+            >
               <Image
                 src="/icon/cross.svg"
                 alt="close"
@@ -37,7 +41,7 @@ export default function ModalBase({
                 onClick={handleClose}
                 className="absolute right-4 top-4 cursor-pointer"
               />
-              <div className="flex w-full flex-grow overflow-hidden justify-center">
+              <div className="flex w-full flex-grow justify-center overflow-auto md:overflow-visible">
                 {children}
               </div>
             </div>

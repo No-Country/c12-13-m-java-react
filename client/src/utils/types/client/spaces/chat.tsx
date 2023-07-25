@@ -18,7 +18,10 @@ export class ChatProps {
   }
 
   static deserialize(data: ChatProps): ChatProps {
-    return new ChatProps(data?.id, MessageProps?.deserializeList(data?.messages));
+    return new ChatProps(
+      data?.id,
+      MessageProps?.deserializeList(data?.messages)
+    );
   }
 }
 

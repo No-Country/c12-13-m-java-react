@@ -18,6 +18,7 @@ type InputProps = {
   selectOptions?: { value: string; label: string }[];
   handleSelectChange?: (e: any) => void;
   selectSelected?: { value: string; label: string };
+  autoComplete?: "on" | "off";
 };
 
 export default function Input(props: InputProps) {
@@ -47,10 +48,11 @@ export default function Input(props: InputProps) {
           className={`${props.className} smalltext min-w-0 rounded-2xl px-4 py-2 ${className}`}
           style={{ borderWidth: "1px" }}
           required={props.required}
+          autoComplete={props.autoComplete || "off"}
         />
       ) : props.type === "select" ? (
         <select
-          className="smalltext min-w-max max-w-max rounded-2xl px-4 py-2 bg-white "
+          className="smalltext min-w-max max-w-max rounded-2xl bg-white px-4 py-2 "
           name="status"
           onChange={props.handleSelectChange}
           defaultValue={1}
@@ -59,7 +61,9 @@ export default function Input(props: InputProps) {
           placeholder="Selecciona una opción"
         >
           {props?.selectOptions?.map((option) => (
-            <option value={option?.value}>{option?.label} </option>
+            <option value={option?.value} key={option?.value}>
+              {option?.label}{" "}
+            </option>
           ))}
         </select>
       ) : (

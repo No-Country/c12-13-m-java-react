@@ -17,7 +17,7 @@ export default function VerticalMenu({
   isRooms,
 }: VerticalMenuProps) {
   const router = useRouter();
-  const { currentSpace:cSpace } = useAppSelector(
+  const { currentSpace: cSpace } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
 
@@ -33,7 +33,9 @@ export default function VerticalMenu({
 
   const colorChangeCondition = (item: any) => {
     if (isRooms) {
-      return router.asPath === "/client/" + currentSpace?.getId() + "/" + item.id;
+      return (
+        router.asPath === "/client/" + currentSpace?.getId() + "/" + item.id
+      );
     } else {
       return router.pathname === item.path;
     }
@@ -50,7 +52,7 @@ export default function VerticalMenu({
                 <div
                   onClick={() => handleClick(item)}
                   key={index}
-                  className="flex items-start justify-center gap-2"
+                  className="flex items-center justify-start gap-2"
                 >
                   <ReactSVG
                     src={!hasLogo ? "/icon/default.svg" : item.icon}

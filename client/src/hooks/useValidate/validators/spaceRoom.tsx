@@ -11,12 +11,12 @@ export const isDescriptionValid = (value: string): validResponse => {
     };
   }
   //regex
-  const isValid = value.length <= 40;
+  const isValid = value.length <= 60;
 
   if (!isValid) {
     return {
       isValid: false,
-      error: "La descripción no puede superar los 40 caracteres",
+      error: "La descripción no puede superar los 60 caracteres",
     };
   } else {
     return {
@@ -27,47 +27,47 @@ export const isDescriptionValid = (value: string): validResponse => {
 };
 
 export const isAccessCodeValid = (value: string): validResponse => {
-    if (!value || value.trim() === "") {
-        return {
-        isValid: false,
-        error: "El código de acceso es requerido",
-        };
-    }
-    //regex
-    const isValid = value.length <= 10 && value.length >= 4;
-    
-    if (!isValid) {
-        return {
-        isValid: false,
-        error: "El código de acceso debe tener entre 4 y 10 caracteres",
-        };
-    } else {
-        return {
-        isValid: true,
-        error: "",
-        };
-    }
+  if (!value || value.trim() === "") {
+    return {
+      isValid: false,
+      error: "El código de acceso es requerido",
     };
+  }
+  //regex
+  const isValid = value.length <= 10 && value.length >= 4;
 
-    export const isLongDescriptionValid = (value: string): validResponse => {
-        if (!value || value.trim() === "") {
-            return {
-            isValid: false,
-            error: "La descripción es requerida",
-            };
-        }
-        //regex
-        const isValid = value.length <= 300;
-        
-        if (!isValid) {
-            return {
-            isValid: false,
-            error: "La descripción no puede superar los 300 caracteres",
-            };
-        } else {
-            return {
-            isValid: true,
-            error: "",
-            };
-        }
-        };
+  if (!isValid) {
+    return {
+      isValid: false,
+      error: "El código de acceso debe tener entre 4 y 10 caracteres",
+    };
+  } else {
+    return {
+      isValid: true,
+      error: "",
+    };
+  }
+};
+
+export const isLongDescriptionValid = (value: string): validResponse => {
+  if (!value || value.trim() === "") {
+    return {
+      isValid: false,
+      error: "La descripción es requerida",
+    };
+  }
+  //regex
+  const isValid = value.length <= 300;
+
+  if (!isValid) {
+    return {
+      isValid: false,
+      error: "La descripción no puede superar los 300 caracteres",
+    };
+  } else {
+    return {
+      isValid: true,
+      error: "",
+    };
+  }
+};

@@ -3,11 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
-
-
   h1,
   h2,
   h3,
@@ -73,12 +69,7 @@
 
 * {
   box-sizing: border-box;
-  
 }
-
-
-
-
 
 //color
 $gris-bordes-1: #dddfe1;
@@ -144,12 +135,12 @@ $line-height-titulos: 130%;
 @layer base {
   .header-padding {
     @extend .seccion1-x;
-    @apply  lg:py-7 px-6;
+    @apply px-6 lg:py-7;
   }
 
   .headerInner {
-    @apply flex w-full items-center justify-between containerInner;
-  //  @extend .header-padding;
+    @apply containerInner flex w-full items-center justify-between;
+    //  @extend .header-padding;
   }
 
   .header {
@@ -176,19 +167,19 @@ $line-height-titulos: 130%;
 }
 
 @layer base {
- .sidebar-padding {
-  @extend .seccion1-x;
-    @apply  py-8;
- }
+  .sidebar-padding {
+    @extend .seccion1-x;
+    @apply py-8;
+  }
 
   .sidebar {
-   @apply bg-blue-500 h-full w-full hidden lg:flex min-w-[200px] ;
+    @apply hidden h-full w-full min-w-[200px] bg-blue-500 lg:flex;
   }
 
   .sidebarInner {
-@apply sticky top-[0px] flex  h-[calc(100vh)] min-w-[200px] flex-col items-start justify-start ;
+    @apply sticky top-[0px] flex  h-[calc(100vh)] min-w-[200px] flex-col items-start justify-start;
     @extend .sidebar-padding;
-  @apply sticky top-0   bg-white;
+    @apply sticky top-0   bg-white;
   }
 }
 
@@ -201,10 +192,10 @@ $line-height-titulos: 130%;
 //Seccion
 @layer base {
   .seccion1-x {
-    @apply w-full px-6 flex items-center flex-col sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
+    @apply flex w-full flex-col items-center px-6 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
   }
 
-  .seccion1-x-padding{
+  .seccion1-x-padding {
     @apply w-full px-6 sm:px-10 md:px-12 lg:px-12 xl:px-12 2xl:px-12;
   }
 
@@ -230,11 +221,11 @@ $line-height-titulos: 130%;
   }
 
   .primaryButton {
-    @apply rounded-3xl border-none bg-[#1D4ED8] px-8 py-4 leading-[100%] font-semibold text-white;
+    @apply rounded-3xl border-none bg-[#1D4ED8] px-8 py-4 font-semibold leading-[100%] text-white;
   }
 
   .secondaryButton {
-    @apply rounded-3xl  bg-blue-200 px-8 py-4 leading-[100%] font-semibold text-[#1D4ED8];
+    @apply rounded-3xl  bg-blue-200 px-8 py-4 font-semibold leading-[100%] text-[#1D4ED8];
   }
 
   .terceryButton {
@@ -242,13 +233,13 @@ $line-height-titulos: 130%;
   }
 
   .disabledPrimaryButton {
-    @apply rounded-3xl border-none bg-gray-500 px-8 py-4 leading-[100%] font-semibold text-white ;
+    @apply rounded-3xl border-none bg-gray-500 px-8 py-4 font-semibold leading-[100%] text-white;
   }
 
   .listContainer {
-    @apply seccion1-x relative z-[2] rounded-t-3xl rounded-r-3xl max-w-[100vw] bg-slate-50 w-full;
+    @apply seccion1-x relative z-[2] w-full max-w-[100vw] rounded-r-3xl rounded-t-3xl bg-slate-50;
     @apply flex flex-col gap-6;
-    @apply py-[40px] mt-[-20px];
+    @apply mt-[-20px] py-[40px];
   }
 
   .containerInner {
@@ -256,12 +247,12 @@ $line-height-titulos: 130%;
   }
 
   .listContainer2 {
-    @apply  z-[2] flex justify-center rounded-3xl mt-[-20px]  bg-slate-50 w-full;
+    @apply z-[2] mt-[-20px] flex w-full justify-center  rounded-3xl bg-slate-50;
   }
 
-.listContainerInner {
-    @apply flex seccion1-x  rounded-3xl flex-col bg-slate-50 gap-6 w-full z-[2];
-    @apply  py-[40px]  relative;
+  .listContainerInner {
+    @apply seccion1-x z-[2]  flex w-full flex-col gap-6 rounded-3xl bg-slate-50;
+    @apply relative  py-[40px];
   }
 
   .gridContainer {
@@ -273,29 +264,22 @@ $line-height-titulos: 130%;
   }
 
   .centerInner {
-    @apply flex flex-col w-full items-center justify-center;
+    @apply flex w-full flex-col items-center justify-center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
+  /* Estilo del pulgar del desplazamiento */
+  .scrollbar-hide::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  /* Estilo del fondo del desplazamiento */
+  .scrollbar-hide::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 }
-
-
-@media (max-width: 1024px){
-
-  
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Estilo del pulgar del desplazamiento */
-.scrollbar-hide::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-
-/* Estilo del fondo del desplazamiento */
-.scrollbar-hide::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-}
-
-

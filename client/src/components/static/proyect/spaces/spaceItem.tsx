@@ -10,8 +10,9 @@ type SpaceItemProps = {
 };
 
 export default function SpaceItem({ item, handleClick }: SpaceItemProps) {
-
-  const {current: cUser} = useAppSelector((state) => state.authSession.session);
+  const { current: cUser } = useAppSelector(
+    (state) => state.authSession.session
+  );
 
   item = SpaceProps.deserialize(item);
   const currentUser = UserProps.deserialize(cUser);
@@ -19,20 +20,18 @@ export default function SpaceItem({ item, handleClick }: SpaceItemProps) {
   return (
     <div
       key={item?.id}
-      className="flex relative  h-max cursor-pointer flex-col overflow-hidden rounded-2xl  bg-white shadow-sm "
+      className="relative flex  h-max cursor-pointer flex-col overflow-hidden rounded-2xl  bg-white shadow-sm "
       onClick={() => {
         handleClick(item?.id);
       }}
     >
-      {
-        item.isFromUser(currentUser) && (
-          <div className="absolute top-0 right-0 z-10">
-          <p className="smalltext font-medium  bg-blue-700 text-white rounded-2xl border-blue-200 rounded-br-none rounded-tl-none px-4 py-2">
+      {item.isFromUser(currentUser) && (
+        <div className="absolute right-0 top-0 z-10">
+          <p className="smalltext rounded-2xl  rounded-br-none rounded-tl-none border-blue-200 bg-blue-700 px-4 py-2 font-medium text-white">
             Propio
           </p>
         </div>
-        )
-      }
+      )}
       <Image
         src={item?.getCoverImage()}
         alt="SpaceCover"

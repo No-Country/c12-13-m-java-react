@@ -60,12 +60,12 @@ export default function Terms() {
         <LayoutPublic>
           <HelpHero
             title="Terminos de Spaces"
-            body="Los siguientes términos y condiciones establecen el acuerdo legal entre BeatConnect y los usuarios del sitio web. Al acceder y utilizar el sitio web, usted acepta estos términos y condiciones en su totalidad. Si no está de acuerdo con estos términos condiciones, por favor no utilice este sitio web."
+            body="Los siguientes términos y condiciones establecen el acuerdo legal entre Spaces y los usuarios del sitio web. Al acceder y utilizar el sitio web, usted acepta estos términos y condiciones en su totalidad."
             image="/image/hero-home.png"
             height="h-[55vh]"
           />
 
-          <section className="seccion1-y seccion2-x">
+          <section className="seccion1-y seccion2-x ">
             {terms.map((term) => (
               <TermItems key={term.title} term={term} />
             ))}

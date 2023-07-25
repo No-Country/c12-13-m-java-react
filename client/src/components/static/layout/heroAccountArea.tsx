@@ -1,10 +1,4 @@
-import { ModalTrigger, MembersList, ConfirmationModal } from "@/components";
-import {
-  RoomsProps,
-  SpaceProps,
-  MembersProps,
-  UserProps,
-} from "@/utils/types/client";
+import { UserProps } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
 import NextImage from "next/image";
 
@@ -22,7 +16,7 @@ export default function HeroAccountArea() {
     return (
       <section className="heroSpContainer">
         <ImageOverlay current={currentSession} bgImageVisibleOnDesktop={true} />
-        <div className="z-0  flex w-full  flex-row justify-center gap-3 items-center">
+        <div className="z-0  flex w-full  flex-row items-center justify-center gap-3">
           <NextImage
             src={currentSession?.getProfileImage()}
             alt="SpaceCover"

@@ -71,14 +71,22 @@ export default function Home() {
         <LayoutPublic>
           <HelpHero
             title="Centro de ayuda"
-            body="En nuestro centro de ayuda, nos esforzamos por proporcionar una experiencia de usuario excepcional a todos nuestros clientes. Estamos aquí para responder cualquier pregunta que puedas tener y ayudarte a solucionar cualquier problema que puedas encontrar al utilizar nuestra plataforma."
+            body="En nuestro centro de ayuda, nos esforzamos por proporcionar una experiencia de usuario excepcional a todos nuestros clientes. "
             image="/image/hero-home.png"
             height="h-[55vh]"
           />
-          <section className="seccion1-y seccion2-x">
-            {faq.map((faq) => (
-              <TermItems key={faq.id} term={faq} />
-            ))}
+          <section className="seccion1-y seccion2-x flex flex-col gap-[40px] ">
+            <div>
+              <p className="bodyText font-normal text-blue-700">
+                Resuelve tus dudas
+              </p>
+              <h2 className="titulo-3 font-medium">Preguntas frecuentes</h2>
+            </div>
+            <div className=" grid gap-[40px] md:grid-cols-2 ">
+              {faq.map((faq) => (
+                <TermItems key={faq.id} term={faq} />
+              ))}
+            </div>
           </section>
         </LayoutPublic>
       </Main>
@@ -95,12 +103,14 @@ const TermItems = ({ term }: props) => {
 
   return (
     <>
-      <h3 className="titulo-3 mb-5 text-blue-700">
-        <span className="text-blue-700">{id}.</span> {title}
-      </h3>
-      <ol>
-        <li className="mb-5">{subParrafos}</li>
-      </ol>
+      <div className=" flex flex-col gap-3  ">
+        <h3 className="subtitulo font-medium  ">
+          <span className="">{id}.</span> {title}
+        </h3>
+        <ol>
+          <li className=" bodyText">{subParrafos}</li>
+        </ol>
+      </div>
     </>
   );
 };

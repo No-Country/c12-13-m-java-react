@@ -15,7 +15,7 @@ export const changeManager = ({
 }: handleChangeProps) => {
   const { name, value, type, files } = e.target as HTMLInputElement &
     HTMLTextAreaElement;
-  console.log("type", type);
+
   const file = (e.target as HTMLInputElement) && files ? files[0] : "";
   const { field, error, isValid } = validate(
     type === "text" ||
@@ -27,8 +27,6 @@ export const changeManager = ({
     name,
     type
   );
-
-  console.log("field", field, "error", error, "isValid", isValid, value, type);
 
   if (e.target.type === "file") {
     setFormValues((prevValues: any) => ({
@@ -74,7 +72,7 @@ export const submitManager = async ({
   setFormValues,
 }: handleSubmitProps) => {
   e.preventDefault();
-  console.log("errors", errors, formValues);
+
   //si errors tiene alguna propiedad diferente de null, no se envia el formulario
   if (
     !Object.values(errors).every((error) => error === null) ||
@@ -83,7 +81,6 @@ export const submitManager = async ({
     throw new Error("Formulario invalido");
   }
 
-  console.log("formValues", formValues);
   await dispatch(actionToDispatch(formValues));
 
   //reset form

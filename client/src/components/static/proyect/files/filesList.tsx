@@ -1,6 +1,6 @@
 import { FilesProps } from "@/utils/types/client";
-import { FileForm, Image, ListTopArea } from "@/components";
-import { Popover, ModalTrigger, ConfirmationModal } from "@/components";
+import { FileForm, ListTopArea } from "@/components";
+import { ModalTrigger } from "@/components";
 import { GeneralPermission } from "@/utils/types/client/spaces/members";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { MembersProps } from "@/utils/types/client/spaces/members";
@@ -10,10 +10,8 @@ import {
   setCurrentFile,
   editFile,
 } from "@/redux/slices/client/spaces/files";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { toastSuccess } from "@/utils/toastStyles";
-import { debounce } from "lodash";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
 import useValidate from "@/hooks/useValidate";
 import Link from "next/link";
@@ -62,21 +60,19 @@ function FileItem({ file }: FileItemProps) {
         actionToDispatch: editFile,
         setFormValues,
       });
-      console.log("handleSubmit");
       setManualClose(true);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);
       }, 200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario");
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange");
     changeManager({
       e,
       setFormValues,
@@ -107,7 +103,7 @@ function FileItem({ file }: FileItemProps) {
   );
 
   return (
-    <div className="flex items-center justify-between h-max gap-3 rounded-3xl bg-white  p-4 pr-8">
+    <div className="flex h-max items-center justify-between gap-3 rounded-3xl bg-white  p-4 pr-8">
       <div className="flex gap-2">
         {/* <Image
           src={file?.src}
@@ -123,12 +119,16 @@ function FileItem({ file }: FileItemProps) {
           <div>
             <p className="smalltext  font-medium">{file?.name}</p>
             <p className="smalltext break-all ">{file?.description}</p>
-            <p className="text-sm font-medium mt-2 mb-1">
+            <p className="mb-1 mt-2 text-sm font-medium">
               Por {file.owner.firstName + " " + file.owner.lastName}
             </p>
-            
           </div>
-          <Link className="terceryButton text-sm" href={file.src} target="_blank" download>
+          <Link
+            className="terceryButton text-sm"
+            href={file.src}
+            target="_blank"
+            download
+          >
             Descargar
           </Link>
         </div>

@@ -1,10 +1,8 @@
 import { Main, SpacesList, Header, Footer } from "@/components";
-
-import { SpaceProps } from "@/utils/types/client";
 import Head from "next/head";
 import NextImage from "next/image";
-export default function HomeClient() {
 
+export default function HomeClient() {
   return (
     <>
       <Head>
@@ -23,7 +21,7 @@ export default function HomeClient() {
 
 function Hero() {
   return (
-    <section className="relative mt-0 flex min-h-[500px] lg:min-h-[400px] h-[65vh]  w-full items-center justify-center  pt-[55px]   ">
+    <section className="relative mt-0 flex h-[65vh] min-h-[500px] w-full  items-center justify-center pt-[55px]  lg:min-h-[400px]   ">
       <NextImage
         src="/image/hero-client.png"
         alt="SpaceCover"

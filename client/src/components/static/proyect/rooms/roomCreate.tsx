@@ -1,4 +1,4 @@
-import { Input, RoomForm } from "@/components";
+import { RoomForm } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
 import { createRoom } from "@/redux/slices/client/spaces/rooms";
 import { useState } from "react";
@@ -47,7 +47,7 @@ export default function RoomCreate({
         setManualClose(false);
       }, 200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario", toastError);
     }

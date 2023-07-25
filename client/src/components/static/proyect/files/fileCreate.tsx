@@ -1,4 +1,4 @@
-import { Input, FileForm } from "@/components";
+import { FileForm } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
 import { createFile } from "@/redux/slices/client/spaces/files";
 import { useState } from "react";
@@ -47,7 +47,7 @@ export default function FileCreate({
         setManualClose(false);
       }, 200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario", toastError);
     }

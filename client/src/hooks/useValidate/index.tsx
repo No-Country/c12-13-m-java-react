@@ -29,19 +29,16 @@ const useValidate = (): ((
     let error: ValidationErrors = {};
     let isValid = false;
 
-    console.log("value", value, "type", type, "fileType", fileType);
-    console.log("received");
     if (!value || !type || !fileType)
       return {
         field: type,
         error: { [type]: "Campo requerido" },
         isValid: false,
       };
-    console.log("validating");
 
     const validateString = (): void => {
       const newErrors: ValidationErrors = {};
-      console.log("validationRules[type]", type, value);
+
       const rules: validResponse = validationRules[type](value as string);
 
       isValid = rules.isValid;
@@ -60,7 +57,6 @@ const useValidate = (): ((
     };
 
     if (typeof value === "string") {
-      console.log("validateString");
       validateString();
     } else {
       validateImage();

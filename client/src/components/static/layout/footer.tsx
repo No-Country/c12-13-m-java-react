@@ -11,7 +11,7 @@ export default function Footer() {
   if (isHidden) return null;
   return (
     <footer className="footer  ">
-      <div className="footerInner h-[200px] justify-center items-start ">
+      <div className="footerInner h-[200px] items-start justify-center ">
         <Image
           onClick={() => router.push(auth.isLogged ? "/client" : "/")}
           src="/icon/logo.svg"
