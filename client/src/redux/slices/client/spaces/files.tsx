@@ -50,7 +50,7 @@ export const createFile = createAsyncThunk(
 
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -73,7 +73,7 @@ export const deleteFile = createAsyncThunk(
 
       return res.data.deleteFile;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -94,7 +94,7 @@ export const editFile = createAsyncThunk(
 
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -123,7 +123,7 @@ const postsSlice = createSlice({
       state.fileLoading = false;
     });
     builder.addCase(deleteFile.pending, (state, action) => {
-      console.log("pending", action, deleteFile.pending);
+
       state.fileLoading = true;
       toast("Eliminando archivo...", toastWarning)
     });

@@ -127,7 +127,6 @@ function EditRole({ role, userId }: editRoleProps) {
     if (selectValue === role) {
       return;
     }
-    console.log(selectValue);
     dispatch(changeUserRole({ role: selectValue, userId: userId }));
   };
 

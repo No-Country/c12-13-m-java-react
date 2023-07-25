@@ -32,7 +32,6 @@ export default function TaskCreateForm({
   };
 
   const handleSelectChange = (e: any) => {
-    console.log("e", e.target.value);
     setFormValues({
       ...formValues,
       status: parseInt(e.target.value),
@@ -51,13 +50,12 @@ export default function TaskCreateForm({
         setFormValues,
       });
      setManualClose(true);
-    console.log("formValues", formValues);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);
       }, 200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario", toastError);
     }

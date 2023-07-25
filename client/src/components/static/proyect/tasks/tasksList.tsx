@@ -26,11 +26,11 @@ export default function TasksList() {
 
   const handleSelectChange = (e: any) => {
     setSelectedOption(e.target.value);
-    console.log(`Option selected:`, e.target.value);
+
   };
 
   useEffect(() => {
-    console.log("setTasks", selectedOption);
+
 
     let updatedTasks = [];
 
@@ -45,17 +45,17 @@ export default function TasksList() {
     }
 
     if (selectedOption == 1) {
-      console.log("selectedOption 1", selectedOption);
+
       updatedTasks = updatedTasks.filter((task) =>
         task.assignedTo.some((user) => user.user.id === currentUser?.id)
       );
-      console.log("updatedTasks", updatedTasks);
+
     } else {
       updatedTasks = updatedTasks;
-      console.log("updatedTasks", updatedTasks);
+   
     }
 
-    console.log("index", index);
+
     setTasks(updatedTasks);
   }, [index, currentRoomTasks, selectedOption]);
 

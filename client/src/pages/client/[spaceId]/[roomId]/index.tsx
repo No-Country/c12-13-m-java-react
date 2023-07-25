@@ -59,14 +59,14 @@ export default function CurrentRoom() {
   }, [datachange]);
 
   useEffect(() => {
-    console.log("createTask index", datacreate);
+
     if (datacreate?.notifyTaskCreated) {
       dispatch(addTaskSubs(datacreate?.notifyTaskCreated));
     }
   }, [datacreate]);
 
   useEffect(() => {
-    console.log("deleteTask index", datadelete);
+
     if (datadelete?.notifyTaskDeleted) {
       dispatch(deleteTaskSubs(datadelete?.notifyTaskDeleted));
     }
@@ -99,14 +99,14 @@ export default function CurrentRoom() {
       actionToDispatch: editRoom,
       setFormValues,
     });
-    console.log("handleSubmit");
+
     setManualClose(true);
     setLoading(false);
     setTimeout(() => {
       setManualClose(false);
     }, 200);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     setLoading(false);
     toast.error("Verifica los campos del formulario", toastError);
   }

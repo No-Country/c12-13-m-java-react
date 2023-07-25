@@ -1,4 +1,9 @@
-import { MembersProps, RoomsProps, UserProps, FilesProps } from "@/utils/types/client";
+import {
+  MembersProps,
+  RoomsProps,
+  UserProps,
+  FilesProps,
+} from "@/utils/types/client";
 
 export class SpaceProps {
   id: string;
@@ -61,7 +66,6 @@ export class SpaceProps {
   }
 
   getMembers(): MembersProps[] {
-    console.log("this", this);
     if (!this.members) return [];
     return this.members;
   }
@@ -76,7 +80,7 @@ export class SpaceProps {
   isFromUser(user: UserProps): boolean {
     const owner = this.getOwner();
     const isOwner = owner?.user.id === user.id;
-    console.log("isOwner", isOwner, owner?.user, user.id);
+
     return isOwner;
   }
 

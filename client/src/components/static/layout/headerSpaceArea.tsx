@@ -14,7 +14,7 @@ export default function HeaderSpaceArea() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 45) {
-        console.log("entro");
+
         setHeaderType("alternative");
       } else {
         setHeaderType("default");

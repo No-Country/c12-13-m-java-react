@@ -28,7 +28,7 @@ export const getRooms = createAsyncThunk(
       });
       return data.findSpaceById;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -38,18 +38,17 @@ export const getCurrentRoom = createAsyncThunk(
   "rooms/getCurrentRoom",
   async (roomId: string, { dispatch, getState }) => {
     try {
-      console.log("roomId", roomId);
-
+    
       const { data } = await client.query({
         query: GET_ROOM_BY_ID,
         variables: { id: roomId },
         fetchPolicy: "network-only",
       });
-      console.log("data rm enter", data.findRoomById);
+
       dispatch(setCurrentRoomTasks(data.findRoomById.tasks));
       return data.findRoomById;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -79,7 +78,7 @@ export const createRoom = createAsyncThunk(
         },
       });
 
-      console.log("res", res);
+   
 
       return { data: res.data, state: state.client.spaces };
     } catch (err) {
@@ -103,11 +102,11 @@ export const editRoom = createAsyncThunk(
         },
       });
 
-      console.log("res editRoom", data);
+  
 
       return data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -128,7 +127,7 @@ export const deleteRoom = createAsyncThunk(
 
       return { data: data.deleteRoom, state: state.client.spaces };
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw err;
     }
   }
@@ -149,15 +148,15 @@ const postsSlice = createSlice({
     builder
       .addCase(getRooms.pending, (state, action) => {})
       .addCase(getRooms.fulfilled, (state, action) => {
-        console.log("data rooms", action.payload);
+
         state.rooms = action?.payload?.rooms as RoomsProps[] | [];
       })
       .addCase(getRooms.rejected, (state) => {
-        console.log("Error al obtener las salas");
+        console.error("Error al obtener las salas");
         toast.error("Error al obtener las salas", toastError);
       })
       .addCase(getCurrentRoom.pending, (state, action) => {
-        console.log("action", action);
+  
         if (action.meta.arg === state.currentRoom.id) {
           state.roomLoading = false;
         } else {
@@ -169,7 +168,7 @@ const postsSlice = createSlice({
         state.roomLoading = false;
       })
       .addCase(getCurrentRoom.rejected, (state) => {
-        console.log("Error al obtener la sala actual");
+        console.error("Error al obtener la sala actual");
         toast.error("Error al obtener la sala actual", toastError);
       })
       .addCase(createRoom.pending, (state) => {})
@@ -180,7 +179,7 @@ const postsSlice = createSlice({
         toast.success("Sala creada correctamente", toastSuccess);
       })
       .addCase(createRoom.rejected, (state) => {
-        console.log("Error al crear la sala");
+        console.error("Error al crear la sala");
         toast.error("Error al crear la sala", toastError);
       })
       .addCase(editRoom.pending, (state) => {})
@@ -195,17 +194,17 @@ const postsSlice = createSlice({
         toast.success("Sala editada correctamente", toastSuccess);
       })
       .addCase(editRoom.rejected, (state) => {
-        console.log("Error al editar la sala");
+        console.error("Error al editar la sala");
         toast.error("Error al editar la sala", toastError);
       })
       .addCase(deleteRoom.pending, (state) => {})
       .addCase(deleteRoom.fulfilled, (state, action) => {
-        console.log("data rooms", action.payload);
+   
         toast.success("Sala borrada correctamente", toastSuccess);
         Router.push(`/client/${action?.payload?.state.spaces.currentSpace.id}`);
       })
       .addCase(deleteRoom.rejected, (state) => {
-        console.log("Error al borrar la sala");
+        console.error("Error al borrar la sala");
         toast.error("Error al borrar la sala", toastError);
       });
   },

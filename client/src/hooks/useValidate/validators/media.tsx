@@ -5,7 +5,7 @@ type validResponse = {
 
 export const isValidProfileImage = (value: File): validResponse => {
   //un archivo de imagen maximo 5 mb
-  console.log("isValidProfileImage", value.size);
+
   const isValid = value.size < 5242880;
   const isValidType = value.type === "image/png" || value.type === "image/jpeg";
 
@@ -24,7 +24,7 @@ export const isValidProfileImage = (value: File): validResponse => {
 
 export const isValidCoverImage = (value: File): validResponse => {
   //un archivo de imagen maximo 5 mb
-  console.log("isValidCoverImage", value.size);
+ 
   const isValid = value.size < 5242880;
 
   if (!isValid) {

@@ -42,7 +42,7 @@ export default function Home() {
         setFormValues,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Verifica los campos del formulario", toastError);
     }
   };

@@ -37,7 +37,6 @@ const useRegister = () => {
 
 
   const errorForm = Object.values(error).some(e => e != null)
-  console.log(errorForm) 
 
   const EmptyForm = Object.values(data).some(e => e.trim() == "")
 

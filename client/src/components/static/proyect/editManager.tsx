@@ -40,7 +40,6 @@ export default function EditManager({
         editedData = { ...editedData, [key]: processedData[key] };
       }
     }
-    console.log("editedData", editedData, processedData, originalData);
     editAction(editedData);
   };
 

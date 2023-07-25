@@ -61,7 +61,7 @@ const nameValidation = (value: string): validResponse => {
       error: "Campo requerido",
     };
   }
-  console.log("value name", value === "");
+
   const isValid = isValidFirstName(value);
   return isValid;
 };

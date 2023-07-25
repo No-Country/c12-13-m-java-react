@@ -53,14 +53,14 @@ export default function SpaceSettings() {
         actionToDispatch: editSpace,
         setFormValues,
       });
-      console.log("handleSubmit");
+    
       setManualClose(true);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);
       }, 200);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setLoading(false);
       toast.error("Verifica los campos del formulario", toastError);
     }

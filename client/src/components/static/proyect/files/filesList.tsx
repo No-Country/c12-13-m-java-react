@@ -62,21 +62,19 @@ function FileItem({ file }: FileItemProps) {
         actionToDispatch: editFile,
         setFormValues,
       });
-      console.log("handleSubmit");
       setManualClose(true);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);
       }, 200);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
       toast.error("Verifica los campos del formulario");
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange");
     changeManager({
       e,
       setFormValues,

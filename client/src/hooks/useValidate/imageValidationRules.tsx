@@ -18,7 +18,7 @@ export const validationRules: ValidationRules = {
 };
 
 const imageValidation = (value: File): validResponse => {
-  console.log("value image", value);
+
   const isValid = isValidImage(value);
   return isValid;
 }

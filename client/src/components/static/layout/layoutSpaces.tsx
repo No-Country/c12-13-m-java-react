@@ -56,7 +56,7 @@ const LayoutSpaces: React.FC<Props> = ({ children, type = "client" }) => {
       </>
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

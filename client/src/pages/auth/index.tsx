@@ -18,7 +18,7 @@ export default function Home() {
   //quitamos todo lo que esta antes del primer signo de interrogacion
   const query: string = router.asPath.split("auth")[1] || "";
 
-  console.log(query);
+
   const dispatch = useAppDispatch();
   const validate = useValidate();
   const [formValues, setFormValues] = useState({});
@@ -44,7 +44,7 @@ export default function Home() {
         setFormValues,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Verifica los campos del formulario", toastError);
     }
   };

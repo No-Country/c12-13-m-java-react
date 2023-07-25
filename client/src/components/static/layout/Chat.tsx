@@ -30,7 +30,7 @@ export default function ModalChat() {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      console.log("scroll", container);
+  
       container.scrollTop = container.scrollHeight;
       container.scrollTop = container.scrollHeight;
     }

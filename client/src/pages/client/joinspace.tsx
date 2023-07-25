@@ -7,7 +7,7 @@ import { joinSpace } from "@/redux/slices/client/spaces/spaces";
 export default function JoinSpace() {
   const router = useRouter();
   const { spaceId, spaceName, accessCode } = router.query;
-console.log(router.asPath);
+
   const dispatch = useAppDispatch();
 
   const handleJoinSpace = () => {
