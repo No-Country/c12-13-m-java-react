@@ -109,5 +109,4 @@ export class User {
       input.spaces
     );
   }
-
 }

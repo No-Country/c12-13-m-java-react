@@ -93,14 +93,13 @@ type ItemFeatureProps = {
 
 function ItemFeature({ data }: ItemFeatureProps) {
   return (
-    <div className="flex items-center justify-center gap-3">
+    <div className="flex items-center justify-center gap-3" key={data.title}>
       <div className="relative min-h-[80px] min-w-[80px] ">
         <ImageNext
           src={data.image}
           alt="hero-home"
           layout="fill"
-          objectFit="cover"
-          className="aspect-square"
+          className="aspect-square object-cover"
         />
       </div>
       <div className="flex flex-col items-start justify-center">

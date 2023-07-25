@@ -23,7 +23,7 @@ export default function HelpHero({
             src={image}
             alt="hero-help"
             layout="fill"
-            objectFit="cover"
+            className="object-cover"
           />
         </div>
         <div className="z-[1] w-[100%] md:w-[60%]">

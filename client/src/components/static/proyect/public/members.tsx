@@ -45,14 +45,13 @@ type EmployeesProps = {
 
 function Employees({ data }: EmployeesProps) {
   return (
-    <div className=" centerInner w-max max-w-[100vw]  gap-4">
+    <div className=" centerInner w-max max-w-[100vw]  gap-4" key={data.title}>
       <div className="relative aspect-square  min-w-[250px]  gap-4 overflow-hidden rounded-full">
         <ImageNext
           src={data.image}
           alt="hero-home"
-          layout="fill"
-          objectFit="cover"
-          className="aspect-square"
+          fill={true}
+          className="aspect-square object-cover"
         />
       </div>
       <div className="centerInner">

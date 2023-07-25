@@ -28,8 +28,6 @@ export const changeManager = ({
     type
   );
 
-
-
   if (e.target.type === "file") {
     setFormValues((prevValues: any) => ({
       ...prevValues,
@@ -82,7 +80,6 @@ export const submitManager = async ({
   ) {
     throw new Error("Formulario invalido");
   }
-
 
   await dispatch(actionToDispatch(formValues));
 

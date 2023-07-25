@@ -43,6 +43,7 @@ export default function BottomBarItem({
     <>
       {data.visible && (
         <div
+          key={data.name}
           className="centerInner w-full gap-1"
           onClick={() => handleClick(data)}
         >

@@ -99,8 +99,10 @@ export default function TextToInput({
                       setSelectValue(e.target.value);
                     }}
                   >
-                    {selectOptions.map((option: any) => (
-                      <MenuItem value={option.value}>{option.label}</MenuItem>
+                    {selectOptions.map((option: any, index: any) => (
+                      <MenuItem value={option.value} key={index}>
+                        {option.label}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>

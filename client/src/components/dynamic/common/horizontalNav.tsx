@@ -13,7 +13,7 @@ export default function HorizontalNav({
   return (
     <nav className="flex gap-8">
       {items.map((item, index) => (
-        <>
+        <div key={index}>
           {item.hasPopover ? (
             <Popover childrenTrigger={item.childrenTrigger}>
               <VerticalNav items={item.itemsNav} />
@@ -23,7 +23,7 @@ export default function HorizontalNav({
               {item.name}
             </Link>
           )}
-        </>
+        </div>
       ))}
     </nav>
   );

@@ -173,12 +173,13 @@ function HamburgerMenu({ childrenTrigger, auth }: HamburgerMenuProps) {
                 <div className="flex w-full flex-col gap-2">
                   <p className="smalltext text-blue-700">MENU</p>
                   <div className=" flex w-full flex-col gap-2">
-                    {itemsNav.map((item) => (
+                    {itemsNav.map((item, index) => (
                       <>
                         {item.visible && (
                           <Link
                             href={item.href}
                             onClick={() => setIsOpen(false)}
+                            key={index}
                           >
                             <p className="subtitulo font-normal">{item.name}</p>
                           </Link>

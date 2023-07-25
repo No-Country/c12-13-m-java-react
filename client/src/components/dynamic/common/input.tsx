@@ -61,7 +61,9 @@ export default function Input(props: InputProps) {
           placeholder="Selecciona una opción"
         >
           {props?.selectOptions?.map((option) => (
-            <option value={option?.value}>{option?.label} </option>
+            <option value={option?.value} key={option?.value}>
+              {option?.label}{" "}
+            </option>
           ))}
         </select>
       ) : (

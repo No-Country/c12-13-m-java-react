@@ -33,7 +33,8 @@ export default function Image({
         src={src}
         alt={alt}
         className={`object-cover ${rounded}`}
-        layout={layout}
+        // layout={layout}
+        fill={layout === "fill"}
       />
     </div>
   );
