@@ -5,7 +5,7 @@ type validResponse = {
 
 export const isValidFirstName = (value: string): validResponse => {
   //const isValid = /^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(value);
-//Permitimos numeros
+  //Permitimos numeros
   const isValid = /^[a-zA-ZÀ-ÿ0-9\s]{1,40}$/.test(value);
   if (!isValid) {
     return {

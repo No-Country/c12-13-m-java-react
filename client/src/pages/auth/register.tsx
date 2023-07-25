@@ -31,7 +31,7 @@ export default function Home() {
     });
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       await submitManager({
         e,
@@ -111,11 +111,7 @@ export default function Home() {
                 error={errors.password}
                 onChange={handleChange}
               />
-              <button
-
-                type="submit"
-                className={`primaryButton `}
-              >
+              <button type="submit" className={`primaryButton `}>
                 Registrarse
               </button>
             </div>

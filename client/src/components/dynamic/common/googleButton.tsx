@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { serverUrl } from "@/data/config";
 
 export default function GoogleButton() {
   const router = useRouter();

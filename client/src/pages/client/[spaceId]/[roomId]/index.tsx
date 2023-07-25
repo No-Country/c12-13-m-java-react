@@ -2,7 +2,6 @@ import {
   LayoutSpaces,
   TasksList,
   HeroSpaceArea,
-  RoomEditForm,
   RoomForm,
   TaskCreateForm,
   CircularLoader,
@@ -22,7 +21,6 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Head from "next/head";
 import { useSubscription } from "@apollo/client";
-import { GeneralPermission } from "@/utils/types/client";
 import { RoomsProps } from "@/utils/types/client";
 import useValidate from "@/hooks/useValidate";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
@@ -36,9 +34,6 @@ export default function CurrentRoom() {
   );
 
   const currentRoom = RoomsProps.deserialize(cRoom);
-
-  const [processedData, setProcessedData] = useState<any>(currentRoom);
-  const [nowEditing, setNowEditing] = useState<boolean>(false);
 
   const { data: datachange } = useSubscription(NOTIFY_TASK_CHANGED, {
     variables: { roomId: currentRoom?.id },
@@ -59,14 +54,12 @@ export default function CurrentRoom() {
   }, [datachange]);
 
   useEffect(() => {
-
     if (datacreate?.notifyTaskCreated) {
       dispatch(addTaskSubs(datacreate?.notifyTaskCreated));
     }
   }, [datacreate]);
 
   useEffect(() => {
-
     if (datadelete?.notifyTaskDeleted) {
       dispatch(deleteTaskSubs(datadelete?.notifyTaskDeleted));
     }
@@ -90,26 +83,26 @@ export default function CurrentRoom() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-    setLoading(true);
-    await submitManager({
-      e,
-      formValues,
-      errors,
-      dispatch,
-      actionToDispatch: editRoom,
-      setFormValues,
-    });
+      setLoading(true);
+      await submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: editRoom,
+        setFormValues,
+      });
 
-    setManualClose(true);
-    setLoading(false);
-    setTimeout(() => {
-      setManualClose(false);
-    }, 200);
-  } catch (error) {
-    console.error(error);
-    setLoading(false);
-    toast.error("Verifica los campos del formulario", toastError);
-  }
+      setManualClose(true);
+      setLoading(false);
+      setTimeout(() => {
+        setManualClose(false);
+      }, 200);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
   };
 
   const handleDelete = async () => {

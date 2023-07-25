@@ -6,7 +6,10 @@ type VerticalNavProps = {
   textColor?: string;
 };
 
-export default function HorizontalNav({ items, textColor="text-white" }: VerticalNavProps) {
+export default function HorizontalNav({
+  items,
+  textColor = "text-white",
+}: VerticalNavProps) {
   return (
     <nav className="flex gap-8">
       {items.map((item, index) => (

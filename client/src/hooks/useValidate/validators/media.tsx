@@ -24,7 +24,7 @@ export const isValidProfileImage = (value: File): validResponse => {
 
 export const isValidCoverImage = (value: File): validResponse => {
   //un archivo de imagen maximo 5 mb
- 
+
   const isValid = value.size < 5242880;
 
   if (!isValid) {

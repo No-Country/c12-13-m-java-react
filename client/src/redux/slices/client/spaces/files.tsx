@@ -1,31 +1,11 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAsyncThunk,
-  current,
-} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
-import { GET_SPACE_BY_ID } from "@/graphql/queries";
-import {
-  DELETE_SPACE,
-  JOIN_SPACE,
-  LEAVE_SPACE,
-  SEND_MESSAGE,
-  CHANGE_USER_ROLE,
-  DELETE_FILE,
-} from "@/graphql/mutations";
+import { DELETE_FILE } from "@/graphql/mutations";
 import { serverUrl } from "@/data/config";
 import { toast } from "sonner";
-import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
+import { toastWarning, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
-import Router from "next/router";
-import {
-  SpaceProps,
-  ChatProps,
-  RoomsProps,
-  MembersProps,
-  FilesProps,
-} from "@/utils/types/client";
+import { FilesProps } from "@/utils/types/client";
 import axios from "axios";
 
 const initialState = {
@@ -107,9 +87,9 @@ const postsSlice = createSlice({
     setCurrentSpaceFiles: (state, action: PayloadAction<FilesProps[]>) => {
       state.currentSpaceFiles = action.payload as FilesProps[];
     },
-    setCurrentFile : (state, action: PayloadAction<FilesProps>) => {
+    setCurrentFile: (state, action: PayloadAction<FilesProps>) => {
       state.currentFile = action.payload as FilesProps;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createFile.pending, (state, action) => {
@@ -123,9 +103,8 @@ const postsSlice = createSlice({
       state.fileLoading = false;
     });
     builder.addCase(deleteFile.pending, (state, action) => {
-
       state.fileLoading = true;
-      toast("Eliminando archivo...", toastWarning)
+      toast("Eliminando archivo...", toastWarning);
     });
     builder.addCase(deleteFile.fulfilled, (state, action) => {
       state.fileLoading = false;
@@ -150,7 +129,6 @@ const postsSlice = createSlice({
     builder.addCase(editFile.rejected, (state, action) => {
       state.fileLoading = false;
     });
-
   },
 });
 

@@ -15,7 +15,7 @@ export default function BottomBarItem({
   isRooms,
 }: BottomBarItemProps) {
   const router = useRouter();
-  const { currentSpace:cSpace } = useAppSelector(
+  const { currentSpace: cSpace } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
 
@@ -31,7 +31,9 @@ export default function BottomBarItem({
 
   const colorChangeCondition = (item: any) => {
     if (isRooms) {
-      return router.asPath === "/client/" + currentSpace?.getId() + "/" + item.id;
+      return (
+        router.asPath === "/client/" + currentSpace?.getId() + "/" + item.id
+      );
     } else {
       return router.pathname === item.path;
     }
@@ -41,7 +43,7 @@ export default function BottomBarItem({
     <>
       {data.visible && (
         <div
-          className="centerInner gap-1 w-full"
+          className="centerInner w-full gap-1"
           onClick={() => handleClick(data)}
         >
           <ReactSVG

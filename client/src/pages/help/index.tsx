@@ -69,23 +69,23 @@ export default function Home() {
       </Head>
       <Main>
         <LayoutPublic>
-        <HelpHero
-          title="Centro de ayuda"
-          body="En nuestro centro de ayuda, nos esforzamos por proporcionar una experiencia de usuario excepcional a todos nuestros clientes. "
-          image="/image/hero-home.png"
-          height="h-[55vh]"
-        />
-         <section className="seccion1-y seccion2-x flex flex-col gap-[40px] ">
-          <div>
-         <p className="bodyText font-normal text-blue-700">
+          <HelpHero
+            title="Centro de ayuda"
+            body="En nuestro centro de ayuda, nos esforzamos por proporcionar una experiencia de usuario excepcional a todos nuestros clientes. "
+            image="/image/hero-home.png"
+            height="h-[55vh]"
+          />
+          <section className="seccion1-y seccion2-x flex flex-col gap-[40px] ">
+            <div>
+              <p className="bodyText font-normal text-blue-700">
                 Resuelve tus dudas
               </p>
-          <h2 className="titulo-3 font-medium">Preguntas frecuentes</h2>
-          </div>
-          <div className=" grid md:grid-cols-2 gap-[40px] ">
-            {faq.map(faq => (
-              <TermItems key={faq.id} term={faq} />
-            ))}
+              <h2 className="titulo-3 font-medium">Preguntas frecuentes</h2>
+            </div>
+            <div className=" grid gap-[40px] md:grid-cols-2 ">
+              {faq.map((faq) => (
+                <TermItems key={faq.id} term={faq} />
+              ))}
             </div>
           </section>
         </LayoutPublic>
@@ -103,11 +103,13 @@ const TermItems = ({ term }: props) => {
 
   return (
     <>
-    <div className=" flex gap-3 flex-col  ">
-      <h3 className="subtitulo font-medium  "><span className="">{id}.</span> {title}</h3>
-      <ol>
-        <li className=" bodyText">{subParrafos}</li>
-      </ol>
+      <div className=" flex flex-col gap-3  ">
+        <h3 className="subtitulo font-medium  ">
+          <span className="">{id}.</span> {title}
+        </h3>
+        <ol>
+          <li className=" bodyText">{subParrafos}</li>
+        </ol>
       </div>
     </>
   );

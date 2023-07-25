@@ -52,7 +52,7 @@ export default function Input(props: InputProps) {
         />
       ) : props.type === "select" ? (
         <select
-          className="smalltext min-w-max max-w-max rounded-2xl px-4 py-2 bg-white "
+          className="smalltext min-w-max max-w-max rounded-2xl bg-white px-4 py-2 "
           name="status"
           onChange={props.handleSelectChange}
           defaultValue={1}

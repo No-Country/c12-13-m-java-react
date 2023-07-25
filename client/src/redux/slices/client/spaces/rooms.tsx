@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "@/graphql/apollo-client";
 import { GET_SPACE_BY_ID, GET_ROOM_BY_ID } from "@/graphql/queries";
-import { CREATE_ROOM, EDIT_ROOM, DELETE_ROOM } from "@/graphql/mutations";
+import { DELETE_ROOM } from "@/graphql/mutations";
 import { toast } from "sonner";
-import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
+import { toastError, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import Router from "next/router";
-import { RoomsProps, TasksProps } from "@/utils/types/client";
+import { RoomsProps } from "@/utils/types/client";
 import axios from "axios";
 import { serverUrl } from "@/data/config";
 import { setCurrentRoomTasks } from "./tasks";
@@ -38,7 +38,6 @@ export const getCurrentRoom = createAsyncThunk(
   "rooms/getCurrentRoom",
   async (roomId: string, { dispatch, getState }) => {
     try {
-    
       const { data } = await client.query({
         query: GET_ROOM_BY_ID,
         variables: { id: roomId },
@@ -60,7 +59,7 @@ export const createRoom = createAsyncThunk(
     try {
       const state = getState() as RootState;
       input.spaceOwnerId = state.client.spaces.spaces.currentSpace.id;
-      input.filename=  input.coverImage ? input.coverImage.name : "";
+      input.filename = input.coverImage ? input.coverImage.name : "";
       // const { data } = await client.mutate({
       //   mutation: CREATE_ROOM,
       //   variables: {
@@ -78,8 +77,6 @@ export const createRoom = createAsyncThunk(
         },
       });
 
-   
-
       return { data: res.data, state: state.client.spaces };
     } catch (err) {
       console.error(err);
@@ -95,14 +92,12 @@ export const editRoom = createAsyncThunk(
       const state = getState() as RootState;
       //Agregamos el id del espacio a editar
       input.roomId = state.client.spaces.rooms.currentRoom.id;
-      input.filename=  input.coverImage ? input.coverImage.name : "";
+      input.filename = input.coverImage ? input.coverImage.name : "";
       const { data } = await axios.put(`${serverUrl}rest/rooms/edit`, input, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-  
 
       return data;
     } catch (err) {
@@ -138,7 +133,6 @@ const postsSlice = createSlice({
   name: "rooms",
   initialState,
   reducers: {
-
     resetReducer: (state) => {
       state.rooms = initialState.rooms;
       state.currentRoom = initialState.currentRoom;
@@ -148,7 +142,6 @@ const postsSlice = createSlice({
     builder
       .addCase(getRooms.pending, (state, action) => {})
       .addCase(getRooms.fulfilled, (state, action) => {
-
         state.rooms = action?.payload?.rooms as RoomsProps[] | [];
       })
       .addCase(getRooms.rejected, (state) => {
@@ -156,7 +149,6 @@ const postsSlice = createSlice({
         toast.error("Error al obtener las salas", toastError);
       })
       .addCase(getCurrentRoom.pending, (state, action) => {
-  
         if (action.meta.arg === state.currentRoom.id) {
           state.roomLoading = false;
         } else {
@@ -199,7 +191,6 @@ const postsSlice = createSlice({
       })
       .addCase(deleteRoom.pending, (state) => {})
       .addCase(deleteRoom.fulfilled, (state, action) => {
-   
         toast.success("Sala borrada correctamente", toastSuccess);
         Router.push(`/client/${action?.payload?.state.spaces.currentSpace.id}`);
       })
@@ -210,7 +201,6 @@ const postsSlice = createSlice({
   },
 });
 
-export const { resetReducer} =
-  postsSlice.actions;
+export const { resetReducer } = postsSlice.actions;
 
 export default postsSlice.reducer;

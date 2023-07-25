@@ -74,10 +74,9 @@ const HOC: React.FC<Props> = ({ children }) => {
       ) {
         setAuthFn();
       } else {
-        if(router.pathname === "/client/joinspace") {
+        if (router.pathname === "/client/joinspace") {
           router.push(`/auth?next=${router.asPath}`);
-        }
-        else {
+        } else {
           router.push("/");
         }
       }

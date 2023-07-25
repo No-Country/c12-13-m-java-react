@@ -1,5 +1,4 @@
 import {
-  TextToInput,
   MultiSelect,
   Input,
   ConfirmationModal,
@@ -7,9 +6,8 @@ import {
 } from "@/components";
 import { useState } from "react";
 import { TasksProps } from "@/utils/types/client";
-import { MembersProps, SpaceProps } from "@/utils/types/client";
+import { MembersProps } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
-import { useEffect } from "react";
 import Image from "next/image";
 import { useAppDispatch } from "@/redux/hooks";
 import { createComment } from "@/redux/slices/client/spaces/tasks";
@@ -176,7 +174,7 @@ export default function TaskForm({
                     hasDefaultValues ? currentTask?.getDescription() : ""
                   }
                 />
-                                <MultiSelect
+                <MultiSelect
                   label="Asignar a"
                   options={multiOptions}
                   setSelected={setSelected}
@@ -194,7 +192,6 @@ export default function TaskForm({
                   selectOptions={selectOptions}
                   selectSelected={selectOptions[formValues?.status - 1]}
                 />
-
               </div>
               <div className="flex flex-col gap-3">
                 <Input

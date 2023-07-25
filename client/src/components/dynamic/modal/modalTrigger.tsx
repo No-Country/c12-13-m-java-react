@@ -60,9 +60,11 @@ export default function ModalTrigger({
           type={modalType}
         >
           <>
-            <div className={`z-0 w-full h-full ${loading && "opacity-0"}`}>{children}</div>
+            <div className={`z-0 h-full w-full ${loading && "opacity-0"}`}>
+              {children}
+            </div>
             {loading && (
-              <div className="absolute left-0 rounded-[20px] top-0 flex h-full w-full items-center justify-center gap-3 bg-white ">
+              <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center gap-3 rounded-[20px] bg-white ">
                 <CircularLoader />
                 <div>
                   <p className="subtitulo">Procesando</p>

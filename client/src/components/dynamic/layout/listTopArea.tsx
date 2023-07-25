@@ -31,7 +31,7 @@ export default function ListTopArea({
   const currentMember = MembersProps.deserialize(cMember);
 
   return (
-    <div className="relative flex flex-col md:flex-row md:items-center  w-full items-start justify-between gap-3 lg:gap-10">
+    <div className="relative flex w-full flex-col items-start  justify-between gap-3 md:flex-row md:items-center lg:gap-10">
       <div className="flex flex-col items-start justify-center ">
         <h2 className="titulo-3">{title}</h2>
         <p className="bodyText ">{description}</p>

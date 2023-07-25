@@ -45,7 +45,7 @@ export default function RoomForm({
           error={errors.name}
           defaultValue={hasDefaultValues ? currentRoom?.getName() : ""}
         />
-        <Input 
+        <Input
           label="Descripción"
           type="text"
           name="description"
@@ -75,13 +75,13 @@ export default function RoomForm({
               //   Borrar
               // </button>
               <ConfirmationModal
-              confirmText="¿Estás seguro que quieres borrar este room?"
-              confirmParagraph="Esta acción no se puede deshacer"
-              triggerText="Borrar"
-              triggerClass="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
-              triggerColor=""
-              trueAction={handleDelete}
-            />
+                confirmText="¿Estás seguro que quieres borrar este room?"
+                confirmParagraph="Esta acción no se puede deshacer"
+                triggerText="Borrar"
+                triggerClass="secondaryButton mt-4 whitespace-nowrap bg-red-200  text-red-800"
+                triggerColor=""
+                trueAction={handleDelete}
+              />
             )}
           <button
             type="submit"

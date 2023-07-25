@@ -1,8 +1,4 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import client from "@/graphql/apollo-client";
-import { AuthClass, UserProps } from "@/utils/types/client";
-import { setSpaces } from "@/redux/slices/client/spaces/spaces";
-const urlServer = process.env.NEXT_PUBLIC_SERVER_URL;
 
 type PaginationProps = {
   currentPage: {

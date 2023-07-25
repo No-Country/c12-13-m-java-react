@@ -29,7 +29,6 @@ const useValidate = (): ((
     let error: ValidationErrors = {};
     let isValid = false;
 
-
     if (!value || !type || !fileType)
       return {
         field: type,
@@ -37,10 +36,9 @@ const useValidate = (): ((
         isValid: false,
       };
 
-
     const validateString = (): void => {
       const newErrors: ValidationErrors = {};
-    
+
       const rules: validResponse = validationRules[type](value as string);
 
       isValid = rules.isValid;
@@ -59,7 +57,6 @@ const useValidate = (): ((
     };
 
     if (typeof value === "string") {
-    
       validateString();
     } else {
       validateImage();

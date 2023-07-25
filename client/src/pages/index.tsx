@@ -1,4 +1,4 @@
-import { Main, Image, LayoutPublic, Members } from "@/components";
+import { LayoutPublic, Members } from "@/components";
 import ImageNext from "next/image";
 import Link from "next/link";
 import Head from "next/head";

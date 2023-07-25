@@ -7,7 +7,7 @@ import {
   CREATE_COMMENT,
 } from "@/graphql/mutations";
 import { toast } from "sonner";
-import { toastError, toastWarning, toastSuccess } from "@/utils/toastStyles";
+import { toastError, toastSuccess } from "@/utils/toastStyles";
 import { RootState } from "@/redux/store/store";
 import { TasksProps } from "@/utils/types/client";
 import { CommentProps } from "@/utils/types/client";
@@ -21,7 +21,6 @@ export const createTask = createAsyncThunk(
   "tasks/createTask",
   async (input: any, { dispatch, getState }) => {
     try {
-
       const state = getState() as RootState;
       const { data } = await client.mutate({
         mutation: CREATE_TASK,
@@ -91,7 +90,6 @@ export const createComment = createAsyncThunk(
   "tasks/createComment",
   async (input: any, { dispatch, getState }) => {
     try {
-
       const state = getState() as RootState;
       const { data } = await client.mutate({
         mutation: CREATE_COMMENT,
@@ -119,7 +117,7 @@ const postsSlice = createSlice({
   reducers: {
     setCurrentTask: (state, action: PayloadAction<TasksProps>) => {
       //recibimos la tarea
- 
+
       if (action.payload instanceof TasksProps) {
         state.currentTask = action.payload;
         state.currentTaskComments = action.payload.comments as CommentProps[];
@@ -131,25 +129,21 @@ const postsSlice = createSlice({
       state.currentRoomTasks = action.payload as TasksProps[];
     },
     addTaskSubs: (state, action: PayloadAction<TasksProps>) => {
-  
       state.currentRoomTasks.push(action.payload);
     },
     deleteTaskSubs: (state, action: PayloadAction<TasksProps>) => {
-   
       state.currentRoomTasks = state.currentRoomTasks.filter(
         (task) => task.id !== action.payload.id
       );
     },
     setCurrentTaskComments: (state, action: PayloadAction<CommentProps[]>) => {
       //recibimos la tarea
-  
+
       state.currentTaskComments = action.payload as CommentProps[];
     },
     editTaskSubs: (state, action: PayloadAction<TasksProps>) => {
-
       state.currentRoomTasks = state.currentRoomTasks.map((task) => {
         if (task.id === action.payload.id) {
-      
           const newTask = new TasksProps(
             action.payload.id,
             action.payload.title,
@@ -160,19 +154,16 @@ const postsSlice = createSlice({
             action.payload.comments,
             action.payload.longDescription
           );
-      
+
           return newTask;
         } else {
-       
           return task;
         }
       });
 
       if (state.currentTask.id === action.payload.id) {
         state.currentTaskComments = action.payload.comments as CommentProps[];
-
       }
-    
     },
     resetReducer: (state) => {
       state.currentRoomTasks = [];
@@ -184,11 +175,9 @@ const postsSlice = createSlice({
 
       .addCase(createTask.pending, (state) => {})
       .addCase(createTask.fulfilled, (state, action) => {
-
         toast.success("Tarea creada correctamente", toastSuccess);
       })
       .addCase(createTask.rejected, (state) => {
-
         toast.error("Error al crear tarea", toastError);
       })
       .addCase(editTask.pending, (state) => {})
@@ -196,16 +185,13 @@ const postsSlice = createSlice({
         toast.success("Tarea editada correctamente", toastSuccess);
       })
       .addCase(editTask.rejected, (state) => {
-   
         toast.error("Error al editar tarea", toastError);
       })
       .addCase(deleteTask.pending, (state) => {})
       .addCase(deleteTask.fulfilled, (state, action) => {
-      
         toast.success("Tarea borrada correctamente", toastSuccess);
       })
       .addCase(deleteTask.rejected, (state) => {
-      
         toast.error("Error al borrar tarea", toastError);
       })
       .addCase(createComment.pending, (state) => {})
@@ -213,7 +199,6 @@ const postsSlice = createSlice({
         toast.success("Comentario creado correctamente", toastSuccess);
       })
       .addCase(createComment.rejected, (state) => {
-   
         toast.error("Error al crear comentario", toastError);
       });
   },

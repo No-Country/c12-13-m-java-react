@@ -63,15 +63,12 @@ export default function ConfirmationModal({
           type="confirmation"
         >
           <div className="flex flex-col gap-5">
-            <div className="flex gap-1 flex-col">
-            <h3 className="text-2xl font-medium">{confirmText}</h3>
-            <p className="bodyText ">{confirmParagraph}</p>
+            <div className="flex flex-col gap-1">
+              <h3 className="text-2xl font-medium">{confirmText}</h3>
+              <p className="bodyText ">{confirmParagraph}</p>
             </div>
             <div className="flex gap-2">
-              <button
-                className="primaryButton"
-                onClick={handleTrueAction}
-              >
+              <button className="primaryButton" onClick={handleTrueAction}>
                 Confirmar
               </button>
               <button

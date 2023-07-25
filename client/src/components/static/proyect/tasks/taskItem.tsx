@@ -1,16 +1,12 @@
 //Redux
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import {
   editTask,
   deleteTask,
   setCurrentTask,
 } from "@/redux/slices/client/spaces/tasks";
 import { MembersList, ModalTrigger, TaskForm } from "@/components";
-import {
-  TasksProps,
-  GeneralPermission,
-  MembersProps,
-} from "@/utils/types/client";
+import { TasksProps, MembersProps } from "@/utils/types/client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import useValidate from "@/hooks/useValidate";
@@ -77,7 +73,6 @@ export default function TaskItem({ item }: TaskItemProps) {
         actionToDispatch: editTask,
         setFormValues,
       });
-
 
       setLoading(false);
 

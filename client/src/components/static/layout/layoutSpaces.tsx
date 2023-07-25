@@ -11,7 +11,6 @@ import { addMessage } from "@/redux/slices/client/spaces/spaces";
 import { useSubscription } from "@apollo/client";
 import { NOTIFY_MESSAGE_CREATED } from "@/graphql/subscriptions";
 import { ChatProps } from "@/utils/types/client";
-import { useState } from "react";
 
 type Props = {
   children: ReactNode;

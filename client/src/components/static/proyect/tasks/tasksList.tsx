@@ -1,7 +1,7 @@
 import { Input, TaskItem } from "@/components";
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
-import { RoomsProps, UserProps, TasksProps } from "@/utils/types/client";
+import { UserProps, TasksProps } from "@/utils/types/client";
 
 export default function TasksList() {
   const selectOptions = [
@@ -26,12 +26,9 @@ export default function TasksList() {
 
   const handleSelectChange = (e: any) => {
     setSelectedOption(e.target.value);
-
   };
 
   useEffect(() => {
-
-
     let updatedTasks = [];
 
     if (index == 0) {
@@ -45,16 +42,12 @@ export default function TasksList() {
     }
 
     if (selectedOption == 1) {
-
       updatedTasks = updatedTasks.filter((task) =>
         task.assignedTo.some((user) => user.user.id === currentUser?.id)
       );
-
     } else {
       updatedTasks = updatedTasks;
-   
     }
-
 
     setTasks(updatedTasks);
   }, [index, currentRoomTasks, selectedOption]);
@@ -98,33 +91,33 @@ function Indexer({
 }: IndexerProps) {
   return (
     <div className="flex w-full  justify-between gap-4 overflow-x-auto rounded-2xl bg-white px-10 py-5">
-     <div className="flex gap-12 justify-between w-full" >
-      <div className="flex gap-4 w-max ">
-        {indexItems.map((item, i) => (
-          <button
-            key={i}
-            className={
-              index === i
-                ? "whitespace-nowrap font-semibold"
-                : "whitespace-nowrap"
-            }
-            onClick={() => setIndex(i)}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-      <Input
-        type="select"
-        name="owner"
-        selectOptions={selectOptions}
-        handleSelectChange={handleSelectChange}
-        label=""
-        placeholder="Filtrar por:"
-        className=""
-        labelClass="max-w-max"
-        selectSelected={selectOptions[selectedOption]}
-      />
+      <div className="flex w-full justify-between gap-12">
+        <div className="flex w-max gap-4 ">
+          {indexItems.map((item, i) => (
+            <button
+              key={i}
+              className={
+                index === i
+                  ? "whitespace-nowrap font-semibold"
+                  : "whitespace-nowrap"
+              }
+              onClick={() => setIndex(i)}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <Input
+          type="select"
+          name="owner"
+          selectOptions={selectOptions}
+          handleSelectChange={handleSelectChange}
+          label=""
+          placeholder="Filtrar por:"
+          className=""
+          labelClass="max-w-max"
+          selectSelected={selectOptions[selectedOption]}
+        />
       </div>
     </div>
   );

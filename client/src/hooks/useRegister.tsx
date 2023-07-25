@@ -35,15 +35,11 @@ const useRegister = () => {
     password: "",
   });
 
+  const errorForm = Object.values(error).some((e) => e != null);
 
-  const errorForm = Object.values(error).some(e => e != null)
+  const EmptyForm = Object.values(data).some((e) => e.trim() == "");
 
-  const EmptyForm = Object.values(data).some(e => e.trim() == "")
-
-
-  const isValidForm = errorForm || EmptyForm
-
-
+  const isValidForm = errorForm || EmptyForm;
 
   const handleFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfo(e);
@@ -84,9 +80,8 @@ const useRegister = () => {
     handlePasswordError(e);
   };
 
-
   const handleEmailError = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isValidEmail:boolean = !/^\S+@\S+\.\S+$/.test(e.target.value);
+    const isValidEmail: boolean = !/^\S+@\S+\.\S+$/.test(e.target.value);
     setError({
       ...error,
       email: isValidEmail ? "Ingresa un correo electrónico válido" : null,
@@ -94,18 +89,15 @@ const useRegister = () => {
   };
 
   const handlePasswordError = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { password, } = data;
-     const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{7,}$/.test(e.target.value);//.test(e.target.value);
-    
+    const { password } = data;
+    const isValidPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{7,}$/.test(e.target.value); //.test(e.target.value);
 
-   
-    
     setError({
       ...error,
-      password:!isValidPassword 
+      password: !isValidPassword
         ? "la contraseñase debe tener al menos 8 caracteres"
-        : null
-       
+        : null,
     });
   };
 
@@ -125,7 +117,7 @@ const useRegister = () => {
     handleEmail,
     handlePassword,
     isValidForm,
-    errorForm
+    errorForm,
   };
 };
 

@@ -1,6 +1,6 @@
 import { TaskForm } from "@/components";
 import { useState, useEffect } from "react";
-import {useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/client/spaces/tasks";
 import useValidate from "@/hooks/useValidate";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
@@ -22,7 +22,11 @@ export default function TaskCreateForm({
   const [errors, setErrors] = useState<any>({});
   const [selected, setSelected] = useState<any>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     changeManager({
       e,
       setFormValues,
@@ -35,7 +39,7 @@ export default function TaskCreateForm({
     setFormValues({
       ...formValues,
       status: parseInt(e.target.value),
-  });
+    });
   };
 
   const handleSubmit = async (e: any) => {
@@ -49,7 +53,7 @@ export default function TaskCreateForm({
         actionToDispatch: createTask,
         setFormValues,
       });
-     setManualClose(true);
+      setManualClose(true);
       setLoading(false);
       setTimeout(() => {
         setManualClose(false);

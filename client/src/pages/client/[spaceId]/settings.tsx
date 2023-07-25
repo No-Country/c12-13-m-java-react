@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { deleteSpace, editSpace } from "@/redux/slices/client/spaces/spaces";
 import Head from "next/head";
-import { GeneralPermission } from "@/utils/types/client";
 import { SpaceProps } from "@/utils/types/client";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toastStyles";
@@ -10,12 +9,10 @@ import {
   LayoutSpaces,
   MembersSpaceList,
   HeroSpaceArea,
-  EditManager,
   SpaceForm,
 } from "@/components";
 import useValidate from "@/hooks/useValidate";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
-
 
 export default function SpaceSettings() {
   const dispatch = useAppDispatch();
@@ -53,7 +50,7 @@ export default function SpaceSettings() {
         actionToDispatch: editSpace,
         setFormValues,
       });
-    
+
       setManualClose(true);
       setLoading(false);
       setTimeout(() => {

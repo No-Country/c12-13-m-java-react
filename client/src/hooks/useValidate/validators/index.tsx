@@ -8,4 +8,3 @@ export { isValidCoverImage as isValidCoverImage } from "./media";
 export { isDescriptionValid as isDescriptionValid } from "./spaceRoom";
 export { isAccessCodeValid as isAccessCodeValid } from "./spaceRoom";
 export { isLongDescriptionValid as isLongDescriptionValid } from "./spaceRoom";
-

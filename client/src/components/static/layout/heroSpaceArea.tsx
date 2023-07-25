@@ -1,9 +1,5 @@
 import { ModalTrigger, MembersList, ConfirmationModal } from "@/components";
-import {
-  RoomsProps,
-  SpaceProps,
-  MembersProps,
-} from "@/utils/types/client";
+import { RoomsProps, SpaceProps, MembersProps } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
 import NextImage from "next/image";
 
@@ -57,7 +53,6 @@ export default function HeroSpaceArea({
   secondaryLoading = false,
   secondaryManualClose = false,
   baseModalType = "default",
-
 }: HeroSpaceAreaProps) {
   {
     const { currentMember: cMember, currentSpaceMembers } = useAppSelector(
@@ -80,7 +75,7 @@ export default function HeroSpaceArea({
             </p>
           </div>
           {controls && (
-            <div className="flex flex-col md:flex-row  gap-2">
+            <div className="flex flex-col gap-2  md:flex-row">
               {secondControls &&
                 ((secondTriggerIsAdmin &&
                   (currentMember?.isAdmin() || currentMember?.isOwner())) ||
@@ -88,7 +83,7 @@ export default function HeroSpaceArea({
                   <ModalTrigger
                     triggerText={triggerSecondText}
                     buttonType="secondaryButton"
-                    manualClose={ secondaryManualClose}
+                    manualClose={secondaryManualClose}
                     loading={secondaryLoading}
                   >
                     {childrenSecond}

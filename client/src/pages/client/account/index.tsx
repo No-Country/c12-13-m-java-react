@@ -35,20 +35,20 @@ export default function AccountPage() {
     });
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-    await submitManager({
-      e,
-      formValues,
-      errors,
-      dispatch,
-      actionToDispatch: editUser,
-      setFormValues,
-    });
-  } catch (error) {
-    console.error(error);
-    toast.error("Verifica los campos del formulario", toastError);
-  }
+      await submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: editUser,
+        setFormValues,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
   };
 
   return (

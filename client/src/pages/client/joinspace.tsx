@@ -29,7 +29,7 @@ export default function JoinSpace() {
       </Head>
       <Main>
         <Header alwaysAlternative={true} />
-        <section className="seccion1-x flex flex-col gap-6 pb-12 mt-[96px] ">
+        <section className="seccion1-x mt-[96px] flex flex-col gap-6 pb-12 ">
           <div className="flex h-[60vh] flex-col items-center justify-center">
             <h1 className="titulo-1">Unirse a un espacio</h1>
             <p className="bodyText">

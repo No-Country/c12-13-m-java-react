@@ -1,7 +1,6 @@
-import { Main, LayoutPublic, Members } from "@/components";
+import { LayoutPublic, Members } from "@/components";
 import Head from "next/head";
 import ImageNext from "next/image";
-import Link from "next/link";
 
 export default function Home() {
   return (
@@ -50,12 +49,11 @@ export default function Home() {
               </p>
             </div>
           </div>
-          
         </section>
         <Members />
         <section className="centerInner bg-white">
           <div className="seccion2-x centerInner gap-10 py-[80px]">
-          <div className="w-full" >
+            <div className="w-full">
               <p className="bodyText font-normal text-blue-700">
                 ¿Como funciona?
               </p>
@@ -63,8 +61,8 @@ export default function Home() {
             </div>
             <div className="lg:gap-estilo1 grid grid-cols-1 gap-10 md:grid-cols-2">
               {tecnologias.map((tecnologia) => (
-                <div className="gap-3 flex flex-col" key={tecnologia.id}>
-                  <div className="gap-3 flex flex-row items-center justify-start align-middle">
+                <div className="flex flex-col gap-3" key={tecnologia.id}>
+                  <div className="flex flex-row items-center justify-start gap-3 align-middle">
                     <div className="relative h-[50px] max-h-[50px]  w-[50px] max-w-[50px] ">
                       <ImageNext
                         src={tecnologia.image}
@@ -77,15 +75,12 @@ export default function Home() {
                       {tecnologia.title}
                     </h3>
                   </div>
-                  <p className="bodyText">
-                    {tecnologia.description}
-                  </p>
+                  <p className="bodyText">{tecnologia.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
-
       </LayoutPublic>
     </>
   );

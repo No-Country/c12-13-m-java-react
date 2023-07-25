@@ -21,6 +21,6 @@
   }
 
   .dropdown-content {
-    @apply absolute z-[1] w-full bg-white rounded-md shadow-lg py-1 mt-1;
+    @apply absolute z-[1] mt-1 w-full rounded-md bg-white py-1 shadow-lg;
   }
 }

@@ -1,4 +1,4 @@
-import { Input, FileForm } from "@/components";
+import { FileForm } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
 import { createFile } from "@/redux/slices/client/spaces/files";
 import { useState } from "react";

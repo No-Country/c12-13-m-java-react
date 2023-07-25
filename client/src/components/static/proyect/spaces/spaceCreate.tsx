@@ -1,4 +1,4 @@
-import { Input, SpaceForm } from "@/components";
+import { SpaceForm } from "@/components";
 import { useAppDispatch } from "@/redux/hooks";
 import { createSpace } from "@/redux/slices/client/spaces/spaces";
 import { useState } from "react";
@@ -10,7 +10,6 @@ import { toastError } from "@/utils/toastStyles";
 type SpaceCreateFormProps = {
   setManualClose: (value: boolean) => void;
   setLoading: (value: boolean) => void;
-
 };
 
 export default function SpaceCreateForm({
@@ -32,27 +31,26 @@ export default function SpaceCreateForm({
   };
 
   const handleSubmit = async (e: any) => {
-    try{
-    setLoading(true);
-    await submitManager({
-      e,
-      formValues,
-      errors,
-      dispatch,
-      actionToDispatch: createSpace,
-      setFormValues,
-    });
-    setManualClose(true);
-    setLoading(false);
-    setTimeout(() => {
-      setManualClose(false);
-    }, 200);
-  } catch (error) {
-    console.error(error);
-    setLoading(false);
-    toast.error("Verifica los campos del formulario", toastError);
-
-  };
+    try {
+      setLoading(true);
+      await submitManager({
+        e,
+        formValues,
+        errors,
+        dispatch,
+        actionToDispatch: createSpace,
+        setFormValues,
+      });
+      setManualClose(true);
+      setLoading(false);
+      setTimeout(() => {
+        setManualClose(false);
+      }, 200);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      toast.error("Verifica los campos del formulario", toastError);
+    }
   };
 
   return (

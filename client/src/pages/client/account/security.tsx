@@ -6,7 +6,7 @@ import {
 } from "@/components";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { editUser, changePassword } from "@/redux/slices/authSession";
+import { editUser } from "@/redux/slices/authSession";
 import { useState } from "react";
 import { UserProps } from "@/utils/types/client";
 import { changeManager, submitManager } from "@/utils/forms/validateAndSend";
@@ -19,10 +19,6 @@ export default function AccountPage() {
   const validate = useValidate();
   const [formValues, setFormValues] = useState({});
   const [errors, setErrors] = useState<any>({});
-  const { current: sCurrent } = useAppSelector(
-    (state) => state.authSession.session
-  );
-  const current = UserProps.deserialize(sCurrent);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     changeManager({
@@ -33,7 +29,7 @@ export default function AccountPage() {
     });
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       await submitManager({
         e,

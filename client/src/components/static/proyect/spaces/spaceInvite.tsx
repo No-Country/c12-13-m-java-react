@@ -5,10 +5,10 @@ import { toastSuccess } from "@/utils/toastStyles";
 import { SpaceProps } from "@/utils/types/client";
 
 export default function SpaceInvite() {
-  const { currentSpace:cSpace } = useAppSelector(
+  const { currentSpace: cSpace } = useAppSelector(
     (state) => state?.client?.spaces?.spaces
   );
-  const  currentSpace = SpaceProps.deserialize(cSpace);
+  const currentSpace = SpaceProps.deserialize(cSpace);
   const invitationLink = `${frontUrl}client/joinspace?spaceName=${currentSpace?.name}&spaceId=${currentSpace?.id}&accessCode=${currentSpace?.accessCode}`;
 
   const handleShare = async () => {

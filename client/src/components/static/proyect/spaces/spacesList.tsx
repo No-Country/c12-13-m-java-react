@@ -19,31 +19,31 @@ export default function SpacesList() {
   return (
     <section className="listContainer2">
       <div className="containerInner listContainerInner">
-      <ListTopArea
-        title="Mis espacios"
-        description="Organiza tus proyectos"
-        buttonText="Crear nuevo espacio"
-        triggerLoading={loading}
-        triggerManualClose={manualClose}
-        triggerIsAdmin={false}
-        triggerContent={
-          <SpaceCreate
-            setManualClose={setManualClose}
-            setLoading={setLoading}
-          />
-        }
-      />
-      <div className="gridContainer xl:grid-cols-4">
-        {Array.isArray(spaces) &&
-          spaces[0] &&
-          spaces.map((item: SpaceProps) => (
-            <SpaceItem
-              item={item}
-              handleClick={handleClick}
-              handleClickConfig={handleClick}
+        <ListTopArea
+          title="Mis espacios"
+          description="Organiza tus proyectos"
+          buttonText="Crear nuevo espacio"
+          triggerLoading={loading}
+          triggerManualClose={manualClose}
+          triggerIsAdmin={false}
+          triggerContent={
+            <SpaceCreate
+              setManualClose={setManualClose}
+              setLoading={setLoading}
             />
-          ))}
-      </div>
+          }
+        />
+        <div className="gridContainer xl:grid-cols-4">
+          {Array.isArray(spaces) &&
+            spaces[0] &&
+            spaces.map((item: SpaceProps) => (
+              <SpaceItem
+                item={item}
+                handleClick={handleClick}
+                handleClickConfig={handleClick}
+              />
+            ))}
+        </div>
       </div>
     </section>
   );

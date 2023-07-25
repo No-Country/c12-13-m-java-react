@@ -75,7 +75,7 @@ export default function ProfileAction({
         </div>
       ) : (
         <div className="">
-          <button className="button hidden lg:flex terceryButton">
+          <button className="button terceryButton hidden lg:flex">
             <Link href={"/auth"}>Iniciar sesión</Link>
           </button>
           <HamburgerMenu />
@@ -175,14 +175,14 @@ function HamburgerMenu({ childrenTrigger, auth }: HamburgerMenuProps) {
                   <div className=" flex w-full flex-col gap-2">
                     {itemsNav.map((item) => (
                       <>
-                      {
-                        item.visible && (
-                          <Link href={item.href} onClick={() => setIsOpen(false)}>
-                          <p className="subtitulo font-normal">{item.name}</p>
-                        </Link>
-                        )
-                      }
-           
+                        {item.visible && (
+                          <Link
+                            href={item.href}
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <p className="subtitulo font-normal">{item.name}</p>
+                          </Link>
+                        )}
                       </>
                     ))}
                   </div>

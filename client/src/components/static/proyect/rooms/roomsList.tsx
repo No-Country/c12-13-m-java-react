@@ -1,4 +1,4 @@
-import { RoomsProps, GeneralPermission } from "@/utils/types/client";
+import { RoomsProps } from "@/utils/types/client";
 import { useAppSelector } from "@/redux/hooks";
 import { RoomItem, ListTopArea, RoomCreate } from "@/components";
 import { useRouter } from "next/router";
@@ -11,7 +11,6 @@ export default function RoomsList() {
   const [loading, setLoading] = useState(false);
   const [manualClose, setManualClose] = useState(false);
   return (
-    
     <div className=" listContainer">
       <ListTopArea
         title="Mis rooms"
@@ -20,10 +19,9 @@ export default function RoomsList() {
         buttonText="Crear nuevo room"
         triggerLoading={loading}
         triggerManualClose={manualClose}
-        triggerContent={<RoomCreate 
-          setManualClose={setManualClose}
-          setLoading={setLoading}
-        />}
+        triggerContent={
+          <RoomCreate setManualClose={setManualClose} setLoading={setLoading} />
+        }
       />
       <div className="gridContainer">
         {Array.isArray(rooms) &&
@@ -36,7 +34,6 @@ export default function RoomsList() {
             />
           ))}
       </div>
-
     </div>
   );
 }

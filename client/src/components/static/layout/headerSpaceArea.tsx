@@ -5,16 +5,16 @@ import { ProfileAction } from "@/components";
 import { AuthClass } from "@/utils/types/client";
 import { useEffect, useState } from "react";
 
-
 export default function HeaderSpaceArea() {
   const router = useRouter();
 
-  const [headerType, setHeaderType] = useState<"default" | "alternative">( "default");
+  const [headerType, setHeaderType] = useState<"default" | "alternative">(
+    "default"
+  );
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 45) {
-
         setHeaderType("alternative");
       } else {
         setHeaderType("default");
@@ -27,14 +27,17 @@ export default function HeaderSpaceArea() {
   }, []);
 
   return (
-    <header className={`fixed left-0 top-0 z-50 h-[97px] w-full items-center justify-center ${headerType === "default" ? "flex" : "hidden" } `} >
-      <div className="seccion1-x "> 
-        <div className="containerInner flex w-full items-center justify-between lg:justify-end"> 
-        <div className="lg:hidden">
-        <Logo type="normal" />
-        </div>
-        <ProfileAction />
-       
+    <header
+      className={`fixed left-0 top-0 z-50 h-[97px] w-full items-center justify-center ${
+        headerType === "default" ? "flex" : "hidden"
+      } `}
+    >
+      <div className="seccion1-x ">
+        <div className="containerInner flex w-full items-center justify-between lg:justify-end">
+          <div className="lg:hidden">
+            <Logo type="normal" />
+          </div>
+          <ProfileAction />
         </div>
       </div>
     </header>
@@ -43,7 +46,7 @@ export default function HeaderSpaceArea() {
 
 function Logo({ type }: any) {
   const router = useRouter();
-  const { auth:sAuth } = useAppSelector((state) => state?.authSession);
+  const { auth: sAuth } = useAppSelector((state) => state?.authSession);
   const auth = AuthClass.deserialize(sAuth);
 
   return (
