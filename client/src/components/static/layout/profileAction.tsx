@@ -41,7 +41,7 @@ export default function ProfileAction({
 
   const childrenTrigger = (
     <>
-      {session?.getFullName().length > 2 && (
+      {session?.getFullName().length > 2 && session?.getProfileImage() && (
         <>
           <Image
             src={session?.getProfileImage()}
@@ -74,8 +74,8 @@ export default function ProfileAction({
           </div>
         </div>
       ) : (
-        <div>
-          <button className="button terceryButton">
+        <div className="">
+          <button className="button hidden lg:flex terceryButton">
             <Link href={"/auth"}>Iniciar sesión</Link>
           </button>
           <HamburgerMenu />
@@ -101,37 +101,37 @@ function HamburgerMenu({ childrenTrigger, auth }: HamburgerMenuProps) {
     {
       name: "Home",
       href: "/",
-      visible: true
+      visible: true,
     },
     {
       name: "Sobre nosotros",
       href: "/about",
-      visible: true
+      visible: true,
     },
     {
       name: "Cuenta",
       href: "/client/account",
-      visible: auth?.getIsLogged()
+      visible: auth?.getIsLogged(),
     },
     {
       name: "Espacios",
       href: "/client",
-      visible: auth?.getIsLogged()
+      visible: auth?.getIsLogged(),
     },
     {
       name: "FAQs",
       href: "/help",
-      visible: true
+      visible: true,
     },
     {
       name: "Politicas de privacidad",
       href: "/help/terms",
-      visible: true
+      visible: true,
     },
     {
       name: `${auth?.getIsLogged() ? "Cerrar sesión" : "Iniciar sesión"}`,
-      href: "/auth/logout",
-      visible: auth?.getIsLogged()
+      href: `${auth?.getIsLogged() ? "/auth/logout" : "/auth"}`,
+      visible: true,
     },
   ];
 
@@ -139,9 +139,23 @@ function HamburgerMenu({ childrenTrigger, auth }: HamburgerMenuProps) {
     <>
       {!isOpen ? (
         <>
-          <div className="flex items-center gap-2" onClick={handleClick}>
-            {childrenTrigger}
-          </div>
+          {!auth?.getIsLogged() ? (
+            <div className="lg:hidden" onClick={handleClick}>
+              <Image
+                src="/icon/hamburger.svg"
+                alt="hamburger"
+                layout="fill"
+                width="w-[30px]"
+                height="w-[30px]"
+                aspectRatio="aspect-[1/1]"
+                rounded=" "
+              />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2" onClick={handleClick}>
+              {childrenTrigger}
+            </div>
+          )}
         </>
       ) : (
         <>
@@ -156,15 +170,22 @@ function HamburgerMenu({ childrenTrigger, auth }: HamburgerMenuProps) {
                 className="absolute right-4 top-4 cursor-pointer"
               />
               <div className="seccion1-x-padding flex w-full flex-col gap-5">
-              <div className="flex w-full flex-col gap-2">
-                <p className="smalltext text-blue-700">MENU</p>
-                <div className=" flex w-full flex-col gap-2">
-                  {itemsNav.map((item) => (
-                    <Link href={item.href} onClick = {() => setIsOpen(false)} >
-                      <p className="subtitulo font-normal">{item.name}</p>
-                    </Link>
-                  ))}
-                </div>
+                <div className="flex w-full flex-col gap-2">
+                  <p className="smalltext text-blue-700">MENU</p>
+                  <div className=" flex w-full flex-col gap-2">
+                    {itemsNav.map((item) => (
+                      <>
+                      {
+                        item.visible && (
+                          <Link href={item.href} onClick={() => setIsOpen(false)}>
+                          <p className="subtitulo font-normal">{item.name}</p>
+                        </Link>
+                        )
+                      }
+           
+                      </>
+                    ))}
+                  </div>
                 </div>
                 <div>
                   <p className="smalltext text-blue-700">CONTACTO</p>

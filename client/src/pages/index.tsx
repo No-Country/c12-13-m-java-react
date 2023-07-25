@@ -21,7 +21,6 @@ const items = [
   },
 ];
 
-
 export default function Home() {
   return (
     <>
@@ -31,7 +30,7 @@ export default function Home() {
       </Head>
 
       <LayoutPublic>
-        <section className=" relative flex h-[65vh]  min-h-[450px] w-full  flex-col items-center justify-center  lg:h-[70vh] lg:min-h-[350px] ">
+        <section className=" relative flex h-[70vh]  min-h-[500px] w-full  flex-col items-center justify-center  lg:h-[70vh] lg:min-h-[350px] ">
           <div className="h-ful absolute bottom-0 left-0 top-0 z-0 w-full ">
             <ImageNext
               src="/image/hero-home.png"
@@ -48,9 +47,7 @@ export default function Home() {
               <p className="bodyText  text-white">
                 Con herramientas poderosas y fáciles de usar, podrás gestionar
                 tus proyectos de manera eficiente, liberando tiempo para
-                compartir momentos especiales con tu familia y amigos. Deja
-                atrás el estrés y el desorden, y comienza a disfrutar plenamente
-                de cada día.
+                compartir momentos especiales con tu familia y amigos.
               </p>
               <button className="primaryButton mt-4 ">
                 <Link href={"/auth/register"}>Regístrate ahora, es gratis</Link>
@@ -84,13 +81,11 @@ export default function Home() {
             </div>
           </div>
         </section>
-<Members />
+        <Members />
       </LayoutPublic>
     </>
   );
 }
-
-
 
 type ItemFeatureProps = {
   data: any;

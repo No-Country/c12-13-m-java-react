@@ -18,6 +18,7 @@ type InputProps = {
   selectOptions?: { value: string; label: string }[];
   handleSelectChange?: (e: any) => void;
   selectSelected?: { value: string; label: string };
+  autoComplete?: "on" | "off";
 };
 
 export default function Input(props: InputProps) {
@@ -47,6 +48,7 @@ export default function Input(props: InputProps) {
           className={`${props.className} smalltext min-w-0 rounded-2xl px-4 py-2 ${className}`}
           style={{ borderWidth: "1px" }}
           required={props.required}
+          autoComplete={props.autoComplete || "off"}
         />
       ) : props.type === "select" ? (
         <select
