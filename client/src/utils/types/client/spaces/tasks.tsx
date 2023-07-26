@@ -81,7 +81,7 @@ export class TasksProps {
 
   getFormattedStatus(): string | number {
     if (this.status == 1) {
-      return "To-do";
+      return "Pendiente";
     } else if (this.status == 2) {
       return "En progreso";
     } else if (this.status == 3) {
