@@ -52,7 +52,7 @@ export default function VerticalMenu({
                 <div
                   onClick={() => handleClick(item)}
                   key={index}
-                  className="flex items-center justify-start gap-2"
+                  className="flex items-center justify-start gap-2 cursor-pointer"
                 >
                   <ReactSVG
                     src={!hasLogo ? "/icon/default.svg" : item.icon}

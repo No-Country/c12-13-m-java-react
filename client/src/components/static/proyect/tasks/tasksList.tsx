@@ -9,7 +9,7 @@ export default function TasksList() {
     { value: 1, label: "Mis tareas" },
   ];
 
-  const indexItems = ["Todas", "To-do", "En progreso", "Completado"];
+  const indexItems = ["Todas", "Pendiente", "En progreso", "Completado"];
 
   const [selectedOption, setSelectedOption] = useState(0);
   const [index, setIndex] = useState(0);

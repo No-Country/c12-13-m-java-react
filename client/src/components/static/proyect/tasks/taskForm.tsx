@@ -67,7 +67,7 @@ export default function TaskForm({
   };
 
   const selectOptions = [
-    { value: "1", label: "To-do" },
+    { value: "1", label: "Pendiente" },
     { value: "2", label: "En progreso" },
     { value: "3", label: "Completado" },
   ];
